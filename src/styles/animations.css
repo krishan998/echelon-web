@@ -1,0 +1,25 @@
+@keyframes orbit-1 {
+  from {
+    transform: rotate(0deg) translateX(2rem) rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg) translateX(2rem) rotate(-360deg);
+  }
+}
+
+@keyframes orbit-2 {
+  from {
+    transform: rotate(0deg) translateX(1.5rem) rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg) translateX(1.5rem) rotate(360deg);
+  }
+}
+
+.animate-orbit-1 {
+  animation: orbit-1 2s linear infinite;
+}
+
+.animate-orbit-2 {
+  animation: orbit-2 3s linear infinite;
+}
