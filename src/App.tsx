@@ -34,7 +34,7 @@ export default function App() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          file: base64Data,
+          base64Source: base64Data,
           fileName: selectedFile.name,
           fileType: selectedFile.type,
         }),
