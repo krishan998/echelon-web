@@ -28,7 +28,7 @@ export default function App() {
       storeFileData(selectedFile, base64Data);
 
       // Replace with your actual API endpoint
-      const response = await fetch('YOUR_API_ENDPOINT', {
+      const response = await fetch('https://doc-intelligence-backend.onrender.com/v1/doc/parse?modelID=prebuilt-layout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
