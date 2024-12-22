@@ -3,13 +3,12 @@ import { FileUpload } from './components/FileUpload';
 import { ResultsView } from './components/ResultsView';
 import { LoadingModal } from './components/LoadingModal';
 import { convertFileToBase64, storeFileData } from './utils/fileUtils';
-import { ExtractionResponse } from './types';
-import { sampleInvoiceData } from './mocks/sampleData';
+import { sampleResponse } from './mocks/sampleResponse';
 
 export default function App() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [extractedData, setExtractedData] = useState<ExtractionResponse | null>(null);
+  const [extractedData, setExtractedData] = useState<typeof sampleResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleFileSelect = (file: File) => {
@@ -27,7 +26,6 @@ export default function App() {
       const base64Data = await convertFileToBase64(selectedFile);
       storeFileData(selectedFile, base64Data);
 
-      // Replace with your actual API endpoint
       const response = await fetch('https://doc-intelligence-backend.onrender.com/v1/doc/parse?modelID=prebuilt-layout', {
         method: 'POST',
         headers: {
@@ -49,35 +47,14 @@ export default function App() {
     } catch (error) {
       console.error('Error during extraction:', error);
       setError('API call failed. Showing sample data instead.');
-      // Using the sample response structure for the error case
-      setExtractedData({
-        status: "succeeded",
-        createdDateTime: new Date().toISOString(),
-        lastUpdatedDateTime: new Date().toISOString(),
-        analyzeResult: {
-          apiVersion: "2024-02-29-preview",
-          modelId: "prebuilt-layout",
-          content: "Sample content",
-          tables: [
-            {
-              rowCount: 3,
-              columnCount: 5,
-              cells: [
-                // ... sample cells from the provided response
-              ],
-              boundingRegions: []
-            }
-          ],
-          paragraphs: []
-        }
-      });
+      setExtractedData(sampleResponse);
     } finally {
       setIsLoading(false);
     }
   };
 
   if (extractedData) {
-    return <ResultsView extractedData={extractedData} error={error} />;
+    return <ResultsView data={extractedData} error={error} />;
   }
 
   return (

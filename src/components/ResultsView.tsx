@@ -1,20 +1,31 @@
 import React from 'react';
 import { Download } from 'lucide-react';
-import { ExtractionResponse } from '../types';
+import { Table } from './Table';
 import { generateExcelFile } from '../utils/excelUtils';
 
 interface ResultsViewProps {
-  extractedData: ExtractionResponse;
+  data: {
+    response: {
+      tables: {
+        headers: string[];
+        rows: Record<string, string>[];
+        meta: {
+          columnCount: number;
+          rowCount: number;
+        };
+      }[];
+      paragraphs: any[];
+    };
+  };
   error?: string;
 }
 
-export function ResultsView({ extractedData, error }: ResultsViewProps) {
-  const { analyzeResult } = extractedData;
-  const tables = analyzeResult.tables;
+export function ResultsView({ data, error }: ResultsViewProps) {
+  const { tables } = data.response;
   const storedFile = JSON.parse(sessionStorage.getItem('originalFile') || '{}');
 
   const handleDownload = () => {
-    generateExcelFile(extractedData);
+    generateExcelFile(tables);
   };
 
   return (
@@ -42,45 +53,10 @@ export function ResultsView({ extractedData, error }: ResultsViewProps) {
             {/* Left side - Extracted Tables */}
             <div>
               <div className="space-y-6">
-                {tables.map((table, tableIndex) => (
-                  <div key={tableIndex} className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          {Array.from({ length: table.columnCount }).map((_, colIndex) => {
-                            const headerCell = table.cells.find(
-                              cell => cell.kind === 'columnHeader' && cell.columnIndex === colIndex
-                            );
-                            return (
-                              <th
-                                key={colIndex}
-                                className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                              >
-                                {headerCell?.content || ''}
-                              </th>
-                            );
-                          })}
-                        </tr>
-                      </thead>
-                      <tbody className="bg-white divide-y divide-gray-200">
-                        {Array.from({ length: table.rowCount - 1 }).map((_, rowIndex) => (
-                          <tr key={rowIndex}>
-                            {Array.from({ length: table.columnCount }).map((_, colIndex) => {
-                              const cell = table.cells.find(
-                                c => c.kind !== 'columnHeader' && 
-                                    c.rowIndex === rowIndex + 1 && 
-                                    c.columnIndex === colIndex
-                              );
-                              return (
-                                <td key={colIndex} className="px-4 py-3 whitespace-nowrap text-sm">
-                                  {cell?.content || ''}
-                                </td>
-                              );
-                            })}
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                {tables.map((table, index) => (
+                  <div key={index} className="border rounded-lg p-4">
+                    <h3 className="text-lg font-semibold mb-4">Table {index + 1}</h3>
+                    <Table headers={table.headers} rows={table.rows} />
                   </div>
                 ))}
               </div>
