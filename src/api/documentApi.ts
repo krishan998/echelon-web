@@ -9,7 +9,7 @@ interface ExtractRequest {
 }
 
 export async function extractDocument(request: ExtractRequest): Promise<ExtractedData> {
-  const response = await fetch(`${API_URL}?modelID=prebuilt-layout`, {
+  const response = await fetch(`${API_URL}?modelID=prebuilt-invoice`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
