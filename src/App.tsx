@@ -3,52 +3,38 @@ import { FileUpload } from './components/FileUpload';
 import { ResultsView } from './components/ResultsView';
 import { LoadingModal } from './components/LoadingModal';
 import { convertFileToBase64, storeFileData } from './utils/fileUtils';
-import { extractDocument } from './api/documentApi';
-import { sampleResponse } from './mocks/sampleResponse';
-import type { ExtractedData } from './types';
+import { useDocumentExtraction } from './hooks/useDocumentExtraction';
 
 export default function App() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [extractedData, setExtractedData] = useState<ExtractedData | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [base64Data, setBase64Data] = useState<string>('');
+
+  const { data, error, isLoading } = useDocumentExtraction({
+    file: selectedFile,
+    base64Data
+  });
 
   const handleFileSelect = (file: File) => {
     setSelectedFile(file);
-    setError(null);
   };
 
   const handleExtraction = async () => {
     if (!selectedFile) return;
-
-    setIsLoading(true);
-    setError(null);
     
     try {
-      const base64Data = await convertFileToBase64(selectedFile);
-      storeFileData(selectedFile, base64Data);
-
-      const data = await extractDocument({
-        base64Source: base64Data,
-        fileName: selectedFile.name,
-        fileType: selectedFile.type,
-      });
-
-      setExtractedData(data);
-    } catch (error) {
-      console.error('Error during extraction:', error);
-      setError('Failed to process document. Using sample data instead.');
-      setExtractedData(sampleResponse);
-    } finally {
-      setIsLoading(false);
+      const base64 = await convertFileToBase64(selectedFile);
+      storeFileData(selectedFile, base64);
+      setBase64Data(base64);
+    } catch (err) {
+      console.error('Error converting file:', err);
     }
   };
 
   return (
     <div className="min-h-screen bg-white">
       {isLoading && <LoadingModal />}
-      {extractedData ? (
-        <ResultsView data={extractedData} error={error} />
+      {data ? (
+        <ResultsView data={data} error={error} />
       ) : (
         <div className="max-w-3xl mx-auto px-4 py-12">
           <h1 className="text-4xl font-bold mb-8">

@@ -1,4 +1,4 @@
-import { ExtractedData } from '../types';
+import { InvoiceResponse } from '../types';
 
 const API_URL = 'https://doc-intelligence-backend.onrender.com/v1/doc/parse';
 
@@ -8,13 +8,17 @@ interface ExtractRequest {
   fileType: string;
 }
 
-export async function extractDocument(request: ExtractRequest): Promise<ExtractedData> {
+export async function extractDocument(
+  request: ExtractRequest, 
+  signal?: AbortSignal
+): Promise<InvoiceResponse> {
   const response = await fetch(`${API_URL}?modelID=prebuilt-invoice`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(request),
+    signal,
   });
 
   if (!response.ok) {
@@ -22,9 +26,5 @@ export async function extractDocument(request: ExtractRequest): Promise<Extracte
   }
 
   const data = await response.json();
-  if (!data?.response) {
-    throw new Error('Invalid response format');
-  }
-
   return data;
 }

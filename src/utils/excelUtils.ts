@@ -1,31 +1,25 @@
 import * as XLSX from 'xlsx';
+import { LineItem } from '../types';
 
-interface Table {
-  headers: string[];
-  rows: Record<string, string>[];
-  meta: {
-    columnCount: number;
-    rowCount: number;
-  };
-}
-
-export function generateExcelFile(tables: Table[]): void {
+export function generateExcelFile(items: LineItem[]): void {
   const workbook = XLSX.utils.book_new();
 
-  tables.forEach((table, index) => {
-    // Create worksheet data with headers and rows
-    const wsData = [
-      table.headers,
-      ...table.rows.map(row => table.headers.map(header => row[header] || ''))
-    ];
+  // Convert items to rows
+  const rows = items.map(item => ({
+    Description: item.valueObject.Description.content,
+    Quantity: item.valueObject.Quantity.content,
+    Unit: item.valueObject.Unit.content,
+    'Unit Price': item.valueObject.UnitPrice.content,
+    Amount: item.valueObject.Amount.content,
+    'Product Code': item.valueObject.ProductCode.content
+  }));
 
-    // Create worksheet
-    const worksheet = XLSX.utils.aoa_to_sheet(wsData);
+  // Create worksheet
+  const worksheet = XLSX.utils.json_to_sheet(rows);
 
-    // Add worksheet to workbook
-    XLSX.utils.book_append_sheet(workbook, worksheet, `Table ${index + 1}`);
-  });
+  // Add worksheet to workbook
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Invoice Items');
 
   // Generate and download file
-  XLSX.writeFile(workbook, 'extracted_data.xlsx');
+  XLSX.writeFile(workbook, 'invoice_details.xlsx');
 }
