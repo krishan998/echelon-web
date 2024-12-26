@@ -56,7 +56,7 @@ export default function App() {
           </h1>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">Document Upload</h2>
+            <h2 className="text-2xl font-semibold mb-4">Upload Document</h2>
             <FileUpload
               onFileSelect={handleFileSelect}
               selectedFile={selectedFile}
