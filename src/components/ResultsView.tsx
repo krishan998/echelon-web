@@ -27,12 +27,13 @@ export function ResultsView({ data, error }: ResultsViewProps) {
     );
   }
 
-  const { headers, rows } = extractTableData(data);
+  const tables = extractTableData(data);
   const invoiceDetails = extractInvoiceDetails(data);
   const taxDetails = extractTaxDetails(data);
 
   const handleDownload = () => {
-    if (rows.length > 0 && invoiceDetails && taxDetails) {
+    if (tables.length > 0 && invoiceDetails && taxDetails) {
+      const rows = tables.flatMap(table => table.rows);
       generateExcelFile(rows, invoiceDetails, taxDetails);
     }
   };
@@ -50,7 +51,7 @@ export function ResultsView({ data, error }: ResultsViewProps) {
           <h2 className="text-2xl font-semibold">Invoice Details</h2>
           <button
             onClick={handleDownload}
-            disabled={rows.length === 0 || !invoiceDetails}
+            disabled={tables.length === 0 || !invoiceDetails || !taxDetails}
             className="inline-flex items-center px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors disabled:bg-gray-400"
           >
             <Download className="w-4 h-4 mr-2" />
@@ -65,17 +66,18 @@ export function ResultsView({ data, error }: ResultsViewProps) {
               taxDetails={null}
             />
             
-            {rows.length > 0 && (
-              <div className="bg-white rounded-lg shadow p-6">
-                <h3 className="text-lg font-semibold mb-4">Items Table</h3>
+            {tables.map((table, index) => (
+              <div key={index} className="bg-white rounded-lg shadow p-6">
+                <h3 className="text-lg font-semibold mb-4">Items Table {index + 1}</h3>
                 <div className="overflow-x-auto">
-                  <LineItems headers={headers} rows={rows} />
-                </div>
-                <div className="mt-6">
-                  <TaxDetails taxDetails={taxDetails} />
+                  <LineItems headers={table.headers} rows={table.rows} />
                 </div>
               </div>
-            )}
+            ))}
+
+            <div className="mt-6">
+              <TaxDetails taxDetails={taxDetails} />
+            </div>
           </div>
 
           {storedFile.base64 && (

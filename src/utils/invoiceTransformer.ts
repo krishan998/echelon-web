@@ -1,23 +1,30 @@
 import { ApiResponse } from '../types';
 
-export function extractTableData(response: ApiResponse) {
-  const itemsTable = response.response.tables[1]; // Assuming the second table contains line items
+interface TableData {
+  headers: string[];
+  rows: Record<string, string>[];
+}
 
-  if (!itemsTable) return { headers: [], rows: [] };
+export function extractTableData(response: ApiResponse): TableData[] {
+  const tables = response.response.tables;
 
-  const headers = itemsTable.headers.map(header => header.title);
-  const rows = itemsTable.rows.map(row => {
-    const rowData: Record<string, string> = {};
-    Object.keys(row.values).forEach(key => {
-      const columnIndex = parseInt(key.replace('col_', ''));
-      if (headers[columnIndex]) {
-        rowData[headers[columnIndex]] = row.values[key].value;
-      }
+  if (!tables || tables.length === 0) return [];
+
+  return tables.map(table => {
+    const headers = table.headers.map(header => header.title);
+    const rows = table.rows.map(row => {
+      const rowData: Record<string, string> = {};
+      Object.keys(row.values).forEach(key => {
+        const columnIndex = parseInt(key.replace('col_', ''));
+        if (headers[columnIndex]) {
+          rowData[headers[columnIndex]] = row.values[key].value;
+        }
+      });
+      return rowData;
     });
-    return rowData;
-  });
 
-  return { headers, rows };
+    return { headers, rows };
+  });
 }
 
 export function validateApiResponse(data: any): data is ApiResponse {
