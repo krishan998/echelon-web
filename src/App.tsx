@@ -4,13 +4,13 @@ import { ResultsView } from './components/ResultsView';
 import { LoadingModal } from './components/LoadingModal';
 import { convertFileToBase64, storeFileData } from './utils/fileUtils';
 import { extractDocument } from './api/documentApi';
-import { sampleResponse } from './mocks/sampleResponse';
-import type { ExtractedData } from './types';
+import { sampleInvoiceResponse } from './mocks/sampleInvoiceResponse';
+import type { ApiResponse } from './types';
 
 export default function App() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [extractedData, setExtractedData] = useState<ExtractedData | null>(null);
+  const [extractedData, setExtractedData] = useState<ApiResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleFileSelect = (file: File) => {
@@ -38,7 +38,7 @@ export default function App() {
     } catch (error) {
       console.error('Error during extraction:', error);
       setError('Failed to process document. Using sample data instead.');
-      setExtractedData(sampleResponse);
+      setExtractedData(sampleInvoiceResponse as any);
     } finally {
       setIsLoading(false);
     }
