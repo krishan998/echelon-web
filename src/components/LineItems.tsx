@@ -1,71 +1,29 @@
 import React from 'react';
-import { formatCurrency } from '../utils/formatters';
-
-interface LineItem {
-  description: string;
-  quantity: string;
-  unitPrice: number;
-  amount: number;
-  productCode: string;
-  unit: string;
-  tax?: number;
-}
 
 interface LineItemsProps {
-  items: LineItem[];
+  headers: string[];
+  rows: Record<string, string>[];
 }
 
-export function LineItems({ items }: LineItemsProps) {
-  if (!items || items.length === 0) {
-    return (
-      <div className="text-center py-4 text-gray-500">
-        No items found
-      </div>
-    );
-  }
-
+export function LineItems({ headers, rows }: LineItemsProps) {
   return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
-          <tr>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unit</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unit Price</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-            {items.some(item => item.tax !== undefined) && (
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tax</th>
-            )}
-          </tr>
-        </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
-          {items.map((item, index) => (
-            <tr key={index}>
-              <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                {item.description}
-              </td>
-              <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                {item.quantity}
-              </td>
-              <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                {item.unit}
-              </td>
-              <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                {formatCurrency(item.unitPrice)}
-              </td>
-              <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                {formatCurrency(item.amount)}
-              </td>
-              {items.some(item => item.tax !== undefined) && (
-                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                  {item.tax ? formatCurrency(item.tax) : '-'}
-                </td>
-              )}
-            </tr>
+    <table className="min-w-full bg-white border border-gray-200">
+      <thead>
+        <tr>
+          {headers.map((header, index) => (
+            <th key={index} className="py-2 px-4 border-b border-gray-200">{header}</th>
           ))}
-        </tbody>
-      </table>
-    </div>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row, rowIndex) => (
+          <tr key={rowIndex} className="border-b border-gray-200">
+            {headers.map((header, colIndex) => (
+              <td key={colIndex} className="py-2 px-4 border-r border-gray-200">{row[header]}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }

@@ -27,19 +27,19 @@ export function ResultsView({ data, error }: ResultsViewProps) {
     );
   }
 
-  const items = extractTableData(data);
+  const { headers, rows } = extractTableData(data);
   const invoiceDetails = extractInvoiceDetails(data);
   const taxDetails = extractTaxDetails(data);
 
   const handleDownload = () => {
-    if (items.length > 0 && invoiceDetails && taxDetails) {
-      generateExcelFile(items, invoiceDetails, taxDetails);
+    if (rows.length > 0 && invoiceDetails && taxDetails) {
+      generateExcelFile(rows, invoiceDetails, taxDetails);
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="w-full px-4 py-8">
         {error && (
           <div className="mb-6 bg-yellow-50 border-l-4 border-yellow-400 p-4">
             <p className="text-sm text-yellow-700">{error}</p>
@@ -50,7 +50,7 @@ export function ResultsView({ data, error }: ResultsViewProps) {
           <h2 className="text-2xl font-semibold">Invoice Details</h2>
           <button
             onClick={handleDownload}
-            disabled={items.length === 0 || !invoiceDetails || !taxDetails}
+            disabled={rows.length === 0 || !invoiceDetails}
             className="inline-flex items-center px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors disabled:bg-gray-400"
           >
             <Download className="w-4 h-4 mr-2" />
@@ -65,10 +65,12 @@ export function ResultsView({ data, error }: ResultsViewProps) {
               taxDetails={null}
             />
             
-            {items.length > 0 && (
+            {rows.length > 0 && (
               <div className="bg-white rounded-lg shadow p-6">
                 <h3 className="text-lg font-semibold mb-4">Items Table</h3>
-                <LineItems items={items} />
+                <div className="overflow-x-auto">
+                  <LineItems headers={headers} rows={rows} />
+                </div>
                 <div className="mt-6">
                   <TaxDetails taxDetails={taxDetails} />
                 </div>

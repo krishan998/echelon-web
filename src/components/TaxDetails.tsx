@@ -13,6 +13,8 @@ interface TaxDetailsProps {
 export function TaxDetails({ taxDetails }: TaxDetailsProps) {
   if (!taxDetails) return null;
 
+  console.log(taxDetails);
+
   const detailRows = [
     { label: 'Taxable Value', value: formatCurrency(taxDetails.taxableValue) },
     { label: 'Tax Rate', value: taxDetails.taxRate },

@@ -1,28 +1,23 @@
-import { ApiResponse, Document, LineItem } from '../types';
-
-export interface NormalizedLineItem {
-  description: string;
-  quantity: string;
-  unitPrice: number;
-  amount: number;
-  productCode: string;
-  unit: string;
-  tax?: number;
-}
+import { ApiResponse } from '../types';
 
 export function extractTableData(response: ApiResponse) {
   const itemsTable = response.response.tables[1]; // Assuming the second table contains line items
 
-  if (!itemsTable) return [];
+  if (!itemsTable) return { headers: [], rows: [] };
 
-  return itemsTable.rows.map(row => ({
-    description: row.values.col_1?.value || '',
-    quantity: row.values.col_3?.value || '',
-    unitPrice: parseFloat(row.values.col_4?.value?.replace(/,/g, '') || '0'),
-    amount: parseFloat(row.values.col_6?.value?.replace(/,/g, '') || '0'),
-    productCode: row.values.col_2?.value || '',
-    unit: row.values.col_5?.value || ''
-  }));
+  const headers = itemsTable.headers.map(header => header.title);
+  const rows = itemsTable.rows.map(row => {
+    const rowData: Record<string, string> = {};
+    Object.keys(row.values).forEach(key => {
+      const columnIndex = parseInt(key.replace('col_', ''));
+      if (headers[columnIndex]) {
+        rowData[headers[columnIndex]] = row.values[key].value;
+      }
+    });
+    return rowData;
+  });
+
+  return { headers, rows };
 }
 
 export function validateApiResponse(data: any): data is ApiResponse {
@@ -33,7 +28,7 @@ export function validateApiResponse(data: any): data is ApiResponse {
   );
 }
 
-export function extractDocument(data?: ApiResponse): Document | null {
+export function extractDocument(data?: ApiResponse) {
   if (!validateApiResponse(data)) {
     return null;
   }
@@ -65,14 +60,14 @@ export function extractInvoiceDetails(data?: ApiResponse) {
 export function extractTaxDetails(data?: ApiResponse) {
   if (!validateApiResponse(data)) return null;
 
-  const taxTable = data.response.tables[2];
+  const taxTable = data.response.tables[2]; // Assuming the third table contains tax details
   if (!taxTable) return null;
 
-  const taxRow = taxTable.rows[0];
+  const taxRow = taxTable.rows.find(row => row.isTotal);
   return {
-    taxableValue: parseFloat(taxRow.values.col_1?.value?.replace(/,/g, '') || '0'),
-    taxRate: taxRow.values.col_2?.value || '0%',
-    taxAmount: parseFloat(taxRow.values.col_3?.value?.replace(/,/g, '') || '0'),
-    totalTaxAmount: parseFloat(taxRow.values.col_4?.value?.replace(/,/g, '') || '0')
+    taxableValue: parseFloat(taxRow?.values.col_1?.value?.replace(/,/g, '') || '0'),
+    taxRate: taxRow?.values.col_2?.value || '0%',
+    taxAmount: parseFloat(taxRow?.values.col_3?.value?.replace(/,/g, '') || '0'),
+    totalTaxAmount: parseFloat(taxRow?.values.col_4?.value?.replace(/,/g, '') || '0')
   };
 }
