@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { InvoiceResponse } from '../types';
+import { ApiResponse } from '../types';
 import { extractDocument } from '../api/documentApi';
-import { sampleInvoiceResponse } from '../mocks/sampleInvoiceResponse';
+import { sampleInvoiceData } from '../mocks/sampleData';
 
 interface ExtractDocumentProps {
   file: File | null;
@@ -9,7 +9,7 @@ interface ExtractDocumentProps {
 }
 
 export function useDocumentExtraction({ file, base64Data }: ExtractDocumentProps) {
-  const [data, setData] = useState<InvoiceResponse | null>(null);
+  const [data, setData] = useState<ApiResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -25,26 +25,41 @@ export function useDocumentExtraction({ file, base64Data }: ExtractDocumentProps
 
       try {
         // Set timeout for 30 seconds
-        timeoutId = setTimeout(() => {
-          controller.abort();
-          setData(sampleInvoiceResponse);
-          setError('API request taking too long to process. Showing sample response instead.');
-        }, 30000);
+        const timeoutPromise = new Promise<ApiResponse>((_, reject) => {
+          timeoutId = setTimeout(() => {
+            controller.abort();
+            reject(new Error('Request timeout'));
+          }, 30000);
+        });
 
-        const response = await extractDocument({
+        // API request promise
+        const apiPromise = extractDocument({
           base64Source: base64Data,
           fileName: file.name,
           fileType: file.type,
         }, controller.signal);
 
+        const response = await Promise.race([apiPromise, timeoutPromise]);
+
         clearTimeout(timeoutId);
+
+        // Validate response structure
+        if (!response || !response.documents || response.documents.length === 0) {
+          throw new Error('Invalid response format');
+        }
+
         setData(response);
       } catch (err) {
-        if (err.name === 'AbortError') return;
-        
         console.error('Error during extraction:', err);
-        setData(sampleInvoiceResponse);
-        setError('Failed to process document. Using sample data instead.');
+        
+        // Handle different error cases
+        if (err instanceof Error && (err.name === 'AbortError' || err.message === 'Request timeout')) {
+          setData(null);
+          setError('API request taking too long to process. Showing sample response instead.');
+        } else {
+          setData(sampleInvoiceData as any);
+          setError('Failed to process document. Using sample data instead.');
+        }
       } finally {
         setIsLoading(false);
       }

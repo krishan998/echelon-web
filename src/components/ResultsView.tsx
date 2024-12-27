@@ -1,20 +1,25 @@
 import React from 'react';
 import { Download } from 'lucide-react';
-import { InvoiceResponse } from '../types';
+import { ApiResponse } from '../types';
 import { InvoiceDetails } from './InvoiceDetails';
 import { LineItems } from './LineItems';
+import { TaxDetails } from './TaxDetails';
 import { generateExcelFile } from '../utils/excelUtils';
+import { 
+  extractTableData, 
+  extractInvoiceDetails,
+  extractTaxDetails 
+} from '../utils/invoiceTransformer';
 
 interface ResultsViewProps {
-  data?: InvoiceResponse;
+  data?: ApiResponse;
   error?: string | null;
 }
 
 export function ResultsView({ data, error }: ResultsViewProps) {
   const storedFile = JSON.parse(sessionStorage.getItem('originalFile') || '{}');
-
-  // Handle loading/error states
-  if (!data?.documents) {
+  
+  if (!data) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <p className="text-gray-500">No invoice data available</p>
@@ -22,11 +27,13 @@ export function ResultsView({ data, error }: ResultsViewProps) {
     );
   }
 
-  const invoice = data.documents[0];
-  
+  const items = extractTableData(data);
+  const invoiceDetails = extractInvoiceDetails(data);
+  const taxDetails = extractTaxDetails(data);
+
   const handleDownload = () => {
-    if (invoice?.fields?.Items?.valueArray) {
-      generateExcelFile(invoice.fields.Items.valueArray);
+    if (items.length > 0 && invoiceDetails && taxDetails) {
+      generateExcelFile(items, invoiceDetails, taxDetails);
     }
   };
 
@@ -43,22 +50,31 @@ export function ResultsView({ data, error }: ResultsViewProps) {
           <h2 className="text-2xl font-semibold">Invoice Details</h2>
           <button
             onClick={handleDownload}
-            className="inline-flex items-center px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+            disabled={items.length === 0 || !invoiceDetails || !taxDetails}
+            className="inline-flex items-center px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors disabled:bg-gray-400"
           >
             <Download className="w-4 h-4 mr-2" />
             Download Excel
           </button>
         </div>
 
-        <div className="space-y-6">
-          <InvoiceDetails invoice={invoice} />
-          
-          {invoice.fields.Items?.valueArray && (
-            <div className="bg-white rounded-lg shadow p-6">
-              <h3 className="text-lg font-semibold mb-4">Line Items</h3>
-              <LineItems items={invoice.fields.Items.valueArray} />
-            </div>
-          )}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="space-y-6">
+            <InvoiceDetails 
+              invoiceDetails={invoiceDetails} 
+              taxDetails={null}
+            />
+            
+            {items.length > 0 && (
+              <div className="bg-white rounded-lg shadow p-6">
+                <h3 className="text-lg font-semibold mb-4">Items Table</h3>
+                <LineItems items={items} />
+                <div className="mt-6">
+                  <TaxDetails taxDetails={taxDetails} />
+                </div>
+              </div>
+            )}
+          </div>
 
           {storedFile.base64 && (
             <div className="bg-white rounded-lg shadow p-6">
@@ -67,12 +83,12 @@ export function ResultsView({ data, error }: ResultsViewProps) {
                 <img
                   src={`data:${storedFile.type};base64,${storedFile.base64}`}
                   alt="Original document"
-                  className="w-full rounded-lg border border-gray-200"
+                  className="w-full rounded-lg border border-gray-200 mt-4"
                 />
               ) : (
                 <iframe
                   src={`data:${storedFile.type};base64,${storedFile.base64}`}
-                  className="w-full h-[800px] rounded-lg border border-gray-200"
+                  className="w-full h-[800px] rounded-lg border border-gray-200 mt-4"
                   title="Original document"
                 />
               )}

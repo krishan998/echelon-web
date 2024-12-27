@@ -1,52 +1,42 @@
 import React from 'react';
-import { InvoiceDocument } from '../types';
+import { formatCurrency } from '../utils/formatters';
 
 interface InvoiceDetailsProps {
-  invoice: InvoiceDocument;
+  invoiceDetails: {
+    invoiceNumber: string;
+    invoiceDate: string;
+    eWayBillNumber: string;
+    vendorName: string;
+    vendorAddress: string;
+    customerName: string;
+    customerAddress: string;
+  } | null;
 }
 
-export function InvoiceDetails({ invoice }: InvoiceDetailsProps) {
-  const { fields } = invoice;
+export function InvoiceDetails({ invoiceDetails }: InvoiceDetailsProps) {
+  if (!invoiceDetails) return null;
+
+  const detailRows = [
+    { label: 'Vendor Name', value: invoiceDetails.vendorName },
+    { label: 'Vendor Address', value: invoiceDetails.vendorAddress },
+    { label: 'Customer Name', value: invoiceDetails.customerName },
+    { label: 'Customer Address', value: invoiceDetails.customerAddress },
+    { label: 'Invoice Number', value: invoiceDetails.invoiceNumber },
+    { label: 'Invoice Date', value: invoiceDetails.invoiceDate },
+    { label: 'e-Way Bill Number', value: invoiceDetails.eWayBillNumber },
+  ];
 
   return (
-    <div className="bg-white rounded-lg shadow p-6 mb-6">
-      <div className="grid grid-cols-2 gap-6">
-        <div>
-          <h3 className="text-lg font-semibold mb-4">Invoice Information</h3>
-          <dl className="space-y-2">
-            <div>
-              <dt className="text-sm text-gray-600">Invoice Number</dt>
-              <dd className="font-medium">{fields.InvoiceId.content}</dd>
-            </div>
-            <div>
-              <dt className="text-sm text-gray-600">Date</dt>
-              <dd className="font-medium">{fields.InvoiceDate.content}</dd>
-            </div>
-            <div>
-              <dt className="text-sm text-gray-600">Total Amount</dt>
-              <dd className="font-medium">{fields.InvoiceTotal.content}</dd>
-            </div>
-          </dl>
-        </div>
-
-        <div>
-          <h3 className="text-lg font-semibold mb-4">Customer Details</h3>
-          <dl className="space-y-2">
-            <div>
-              <dt className="text-sm text-gray-600">Customer Name</dt>
-              <dd className="font-medium">{fields.CustomerName.content}</dd>
-            </div>
-            <div>
-              <dt className="text-sm text-gray-600">Billing Address</dt>
-              <dd className="font-medium">{fields.BillingAddress.content}</dd>
-            </div>
-            <div>
-              <dt className="text-sm text-gray-600">Shipping Address</dt>
-              <dd className="font-medium">{fields.ShippingAddress.content}</dd>
-            </div>
-          </dl>
-        </div>
-      </div>
+    <div className="bg-white rounded-lg shadow p-6">
+      <h3 className="text-lg font-semibold mb-4">Invoice Details</h3>
+      <dl className="space-y-4">
+        {detailRows.map((row, index) => (
+          <div key={index} className="grid grid-cols-3 gap-4">
+            <dt className="text-sm font-medium text-gray-500">{row.label}</dt>
+            <dd className="text-sm text-gray-900 col-span-2">{row.value}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   );
 }
