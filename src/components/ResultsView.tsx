@@ -11,7 +11,6 @@ import {
   extractTaxDetails 
 } from '../utils/invoiceTransformer';
 
-
 interface ResultsViewProps {
   data?: ApiResponse;
   error?: string | null;
