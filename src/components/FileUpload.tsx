@@ -27,16 +27,16 @@ export function FileUpload({ onFileSelect, selectedFile }: FileUploadProps) {
         htmlFor="file-upload"
         className={`flex items-center justify-center gap-2 p-4 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
           selectedFile
-            ? 'border-black bg-gray-50'
-            : 'border-gray-300 hover:border-gray-400'
+            ? 'border-blue-600 bg-blue-50'
+            : 'border-blue-300 hover:border-blue-400'
         }`}
       >
-        <Upload className="w-5 h-5" />
-        <span className="text-gray-600">
+        <Upload className="w-5 h-5 text-blue-600" />
+        <span className="text-blue-600">
           {selectedFile ? selectedFile.name : 'Upload a file'}
         </span>
       </label>
-      <p className="mt-2 text-sm text-gray-500">
+      <p className="mt-2 text-sm text-blue-600">
         Trial limit 15 pages
       </p>
     </div>

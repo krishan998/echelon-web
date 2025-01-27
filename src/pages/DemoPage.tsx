@@ -8,6 +8,7 @@ import { sampleInvoiceResponse } from '../mocks/sampleInvoiceResponse';
 import type { ApiResponse } from '../types';
 import { Ship } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Footer } from '../components/layout/Footer';
 
 export function DemoPage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -47,15 +48,15 @@ export function DemoPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-blue-50">
       {/* Navbar */}
-      <nav className="border-b">
+      <nav className="bg-blue-900 border-b border-blue-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
               <Link to="/" className="flex items-center">
-                <Ship className="h-8 w-8 text-orange-500" />
-                <span className="ml-2 text-xl font-bold">Nexbit</span>
+                <Ship className="h-8 w-8 text-blue-300" />
+                <span className="ml-2 text-xl font-bold text-white">Nexbit</span>
               </Link>
             </div>
           </div>
@@ -67,35 +68,38 @@ export function DemoPage() {
         <ResultsView data={extractedData} error={error} />
       ) : (
         <div className="max-w-3xl mx-auto px-4 py-12">
-          <h1 className="text-4xl font-bold mb-8">
-            Transform PDFs & Images into Structured Data
-          </h1>
+          <div className="bg-white rounded-2xl p-8 shadow-lg">
+            <h1 className="text-4xl font-bold text-blue-900 mb-8">
+              Transform Documents into Structured Data
+            </h1>
 
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">Upload Document</h2>
-            <FileUpload
-              onFileSelect={handleFileSelect}
-              selectedFile={selectedFile}
-            />
-          </section>
+            <section className="mb-8">
+              <h2 className="text-2xl font-semibold text-blue-800 mb-4">Upload Document</h2>
+              <FileUpload
+                onFileSelect={handleFileSelect}
+                selectedFile={selectedFile}
+              />
+            </section>
 
-          <button
-            onClick={handleExtraction}
-            disabled={!selectedFile}
-            className={`w-full py-3 px-4 rounded-lg text-white text-lg font-medium transition-colors ${
-              selectedFile
-                ? 'bg-black hover:bg-gray-800'
-                : 'bg-gray-300 cursor-not-allowed'
-            }`}
-          >
-            Begin Extraction
-          </button>
+            <button
+              onClick={handleExtraction}
+              disabled={!selectedFile}
+              className={`w-full py-3 px-4 rounded-lg text-white text-lg font-medium transition-colors ${
+                selectedFile
+                  ? 'bg-blue-600 hover:bg-blue-700'
+                  : 'bg-blue-300 cursor-not-allowed'
+              }`}
+            >
+              Begin Extraction
+            </button>
 
-          <p className="mt-4 text-gray-600">
-            We accept PDF and Image files. For the demo we limit it to 1 doc per extraction.
-          </p>
+            <p className="mt-4 text-blue-600">
+              We accept PDF and Image files. For the demo we limit it to 1 doc per extraction.
+            </p>
+          </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 }
