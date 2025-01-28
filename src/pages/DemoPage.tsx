@@ -48,14 +48,14 @@ export function DemoPage() {
   };
 
   return (
-    <div className="min-h-screen bg-blue-50">
+    <div className="min-h-screen bg-dark-900">
       {/* Navbar */}
-      <nav className="bg-blue-900 border-b border-blue-800">
+      <nav className="bg-dark-950 border-b border-dark-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
               <Link to="/" className="flex items-center">
-                <Ship className="h-8 w-8 text-blue-300" />
+                <Ship className="h-8 w-8 text-primary-400" />
                 <span className="ml-2 text-xl font-bold text-white">Nexbit</span>
               </Link>
             </div>
@@ -68,13 +68,13 @@ export function DemoPage() {
         <ResultsView data={extractedData} error={error} />
       ) : (
         <div className="max-w-3xl mx-auto px-4 py-12">
-          <div className="bg-white rounded-2xl p-8 shadow-lg">
-            <h1 className="text-4xl font-bold text-blue-900 mb-8">
+          <div className="bg-dark-800 rounded-2xl p-8 shadow-lg border border-dark-700">
+            <h1 className="text-4xl font-bold text-white mb-8">
               Transform Documents into Structured Data
             </h1>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-blue-800 mb-4">Upload Document</h2>
+              <h2 className="text-2xl font-semibold text-gray-200 mb-4">Upload Document</h2>
               <FileUpload
                 onFileSelect={handleFileSelect}
                 selectedFile={selectedFile}
@@ -84,16 +84,16 @@ export function DemoPage() {
             <button
               onClick={handleExtraction}
               disabled={!selectedFile}
-              className={`w-full py-3 px-4 rounded-lg text-white text-lg font-medium transition-colors ${
+              className={`w-full py-3 px-4 rounded-lg text-dark-900 text-lg font-medium transition-colors ${
                 selectedFile
-                  ? 'bg-blue-600 hover:bg-blue-700'
-                  : 'bg-blue-300 cursor-not-allowed'
+                  ? 'bg-primary-400 hover:bg-primary-500'
+                  : 'bg-dark-600 cursor-not-allowed text-dark-400'
               }`}
             >
               Begin Extraction
             </button>
 
-            <p className="mt-4 text-blue-600">
+            <p className="mt-4 text-sm text-primary-400">
               We accept PDF and Image files. For the demo we limit it to 1 doc per extraction.
             </p>
           </div>

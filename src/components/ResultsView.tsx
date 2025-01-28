@@ -21,8 +21,8 @@ export function ResultsView({ data, error }: ResultsViewProps) {
   
   if (!data) {
     return (
-      <div className="min-h-screen bg-blue-50 flex items-center justify-center">
-        <p className="text-blue-600">No invoice data available</p>
+      <div className="min-h-screen bg-dark-900 flex items-center justify-center">
+        <p className="text-primary-400">No invoice data available</p>
       </div>
     );
   }
@@ -39,20 +39,20 @@ export function ResultsView({ data, error }: ResultsViewProps) {
   };
 
   return (
-    <div className="min-h-screen bg-blue-50">
+    <div className="min-h-screen bg-dark-900">
       <div className="w-full px-4 py-8">
         {error && (
-          <div className="mb-6 bg-yellow-50 border-l-4 border-yellow-400 p-4">
-            <p className="text-sm text-yellow-700">{error}</p>
+          <div className="mb-6 bg-dark-800 border-l-4 border-primary-400 p-4">
+            <p className="text-sm text-primary-400">{error}</p>
           </div>
         )}
 
         <div className="mb-6 flex justify-between items-center">
-          <h2 className="text-2xl font-semibold text-blue-900">Invoice Details</h2>
+          <h2 className="text-2xl font-semibold text-white">Invoice Details</h2>
           <button
             onClick={handleDownload}
             disabled={tables.length === 0 || !invoiceDetails || !taxDetails}
-            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-blue-300"
+            className="inline-flex items-center px-4 py-2 bg-primary-400 text-dark-900 rounded-lg hover:bg-primary-500 transition-colors disabled:bg-dark-600 disabled:text-dark-400"
           >
             <Download className="w-4 h-4 mr-2" />
             Download Excel
@@ -67,8 +67,8 @@ export function ResultsView({ data, error }: ResultsViewProps) {
             />
             
             {tables.map((table, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-lg p-6">
-                <h3 className="text-lg font-semibold text-blue-800 mb-4">Items Table {index + 1}</h3>
+              <div key={index} className="bg-dark-800 rounded-lg shadow-lg p-6 border border-dark-700">
+                <h3 className="text-lg font-semibold text-white mb-4">Items Table {index + 1}</h3>
                 <div className="overflow-x-auto">
                   <LineItems headers={table.headers} rows={table.rows} />
                 </div>
@@ -81,18 +81,18 @@ export function ResultsView({ data, error }: ResultsViewProps) {
           </div>
 
           {storedFile.base64 && (
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <h3 className="text-lg font-semibold text-blue-800 mb-4">Original Document</h3>
+            <div className="bg-dark-800 rounded-lg shadow-lg p-6 border border-dark-700">
+              <h3 className="text-lg font-semibold text-white mb-4">Original Document</h3>
               {storedFile.type?.startsWith('image/') ? (
                 <img
                   src={`data:${storedFile.type};base64,${storedFile.base64}`}
                   alt="Original document"
-                  className="w-full rounded-lg border border-blue-100 mt-4"
+                  className="w-full rounded-lg border border-dark-600 mt-4"
                 />
               ) : (
                 <iframe
                   src={`data:${storedFile.type};base64,${storedFile.base64}`}
-                  className="w-full h-[800px] rounded-lg border border-blue-100 mt-4"
+                  className="w-full h-[800px] rounded-lg border border-dark-600 mt-4"
                   title="Original document"
                 />
               )}
