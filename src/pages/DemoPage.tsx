@@ -9,6 +9,7 @@ import type { ApiResponse } from '../types';
 import { Ship } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Footer } from '../components/layout/Footer';
+import { Analytics } from '@vercel/analytics/next';
 
 export function DemoPage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -49,6 +50,7 @@ export function DemoPage() {
 
   return (
     <div className="min-h-screen bg-dark-900">
+      <Analytics />
       {/* Navbar */}
       <nav className="bg-dark-950 border-b border-dark-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -68,6 +70,7 @@ export function DemoPage() {
         <ResultsView data={extractedData} error={error} />
       ) : (
         <div className="max-w-3xl mx-auto px-4 py-12">
+          <Analytics />
           <div className="bg-dark-800 rounded-2xl p-8 shadow-lg border border-dark-700">
             <h1 className="text-4xl font-bold text-white mb-8">
               Transform Documents into Structured Data
