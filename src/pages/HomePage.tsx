@@ -10,11 +10,11 @@ export function HomePage() {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
+      <Analytics />
       <Hero />
       <Features />
       <DocumentUnderstanding />
       <Footer />
-      <Analytics />
     </div>
   );
 }
