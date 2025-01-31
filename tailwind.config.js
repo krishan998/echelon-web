@@ -5,31 +5,59 @@ export default {
     extend: {
       colors: {
         primary: {
-          50: '#fefce8',
-          100: '#fef9c3',
-          200: '#fef08a',
-          300: '#fde047',
-          400: '#facc15',
-          500: '#eab308',
-          600: '#ca8a04',
-          700: '#a16207',
-          800: '#854d0e',
-          900: '#713f12',
+          50: '#f5f7ff',
+          100: '#ebf0ff',
+          200: '#d6e0ff',
+          300: '#adc1ff',
+          400: '#819dff',
+          500: '#547bff',
+          600: '#2b58ff',
+          700: '#0037ff',
+          800: '#002ed6',
+          900: '#0025ad',
         },
-        dark: {
-          50: '#f6f6f6',
-          100: '#e7e7e7',
-          200: '#d1d1d1',
-          300: '#b0b0b0',
-          400: '#888888',
-          500: '#6d6d6d',
-          600: '#5d5d5d',
-          700: '#4f4f4f',
-          800: '#454545',
-          900: '#1a1a1a',
-          950: '#111111',
+        light: {
+          50: '#ffffff',
+          100: '#fafafa',
+          200: '#f5f5f5',
+          300: '#f0f0f0',
+          400: '#dedede',
+          500: '#c2c2c2',
+          600: '#979797',
+          700: '#818181',
+          800: '#606060',
+          900: '#3c3c3c',
         }
       },
+      animation: {
+        'fade-up': 'fadeUp 0.5s ease-out forwards',
+        'fade-in': 'fadeIn 0.5s ease-out forwards',
+        'slide-in': 'slideIn 0.5s ease-out forwards',
+        'scale-up': 'scaleUp 0.3s ease-out forwards',
+        'text-slide': 'textSlide 0.5s ease-out forwards',
+      },
+      keyframes: {
+        fadeUp: {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' }
+        },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' }
+        },
+        slideIn: {
+          '0%': { transform: 'translateX(-20px)', opacity: '0' },
+          '100%': { transform: 'translateX(0)', opacity: '1' }
+        },
+        scaleUp: {
+          '0%': { transform: 'scale(0.95)', opacity: '0' },
+          '100%': { transform: 'scale(1)', opacity: '1' }
+        },
+        textSlide: {
+          '0%': { transform: 'translateY(20px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' }
+        }
+      }
     },
   },
   plugins: [],

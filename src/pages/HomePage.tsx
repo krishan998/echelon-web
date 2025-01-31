@@ -4,13 +4,11 @@ import { Hero } from '../components/home/Hero';
 import { Features } from '../components/home/Features';
 import { DocumentUnderstanding } from '../components/home/DocumentUnderstanding';
 import { Footer } from '../components/layout/Footer';
-import { Analytics } from '@vercel/analytics/next';
 
 export function HomePage() {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
-      <Analytics />
       <Hero />
       <Features />
       <DocumentUnderstanding />
