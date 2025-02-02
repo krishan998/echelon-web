@@ -12,7 +12,7 @@ export function Hero() {
   ];
 
   const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
-  const intervalTime = 4000; // Interval time in milliseconds
+  const intervalTime = 4000;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -23,11 +23,11 @@ export function Hero() {
   }, []);
 
   return (
-    <div className="bg-light-50 pt-20 pb-16 overflow-hidden">
+    <div className="bg-white pt-20 pb-16 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative">
           <div className="text-center">
-            <h1 className="text-5xl font-bold tracking-tight text-light-900 mb-8 animate-fade-up">
+            <h1 className="text-5xl font-bold tracking-tight text-black mb-8 animate-fade-up">
               Revolutionizing&nbsp;
               <span className="relative inline-block align-middle" style={{ height: '1.2em' }}>
                 <span
@@ -47,9 +47,10 @@ export function Hero() {
                 </span>
                 <span className="invisible text-5xl">{tasks[0]}</span>
               </span>
-              <br />one workflow at a time.
+              <br />
+              one workflow at a time.
             </h1>
-            <p className="text-xl text-light-700 mb-12 max-w-3xl mx-auto animate-fade-up" style={{ animationDelay: '0.2s' }}>
+            <p className="text-xl text-black mb-12 max-w-3xl mx-auto animate-fade-up" style={{ animationDelay: '0.2s' }}>
               Extract and process any document with AI that understands your business. Built for enterprise security and scale.
             </p>
             <div className="flex gap-4 justify-center animate-fade-up" style={{ animationDelay: '0.4s' }}>
@@ -71,39 +72,6 @@ export function Hero() {
           </div>
         </div>
       </div>
-
-      <style>
-        {`
-          @keyframes fadeLeftToRight {
-            from {
-              opacity: 0;
-              transform: translateX(-20px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
-          }
-
-          .scanner-line {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 2px;
-            height: 100%;
-            background: linear-gradient(to bottom, transparent, #2563eb, transparent);
-          }
-
-          @keyframes scan {
-            0% {
-              left: 0;
-            }
-            100% {
-              left: 100%;
-            }
-          }
-        `}
-      </style>
     </div>
   );
 }

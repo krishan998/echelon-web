@@ -44,32 +44,32 @@ export function FeaturesPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-dark-900">
+    <div className="min-h-screen bg-white">
       <Navbar />
       
       <main className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h1 className="text-5xl font-bold text-white mb-6">
+            <h1 className="text-5xl font-bold text-black mb-6">
               Powerful Features for Modern Businesses
             </h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <p className="text-xl text-black max-w-3xl mx-auto">
               Transform your document processing with our comprehensive suite of intelligent features
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <div key={index} className="bg-dark-800 rounded-lg p-8 border border-dark-700">
-                <div className="inline-block p-3 bg-dark-700 rounded-lg mb-6">
-                  <feature.icon className="h-8 w-8 text-primary-400" />
+              <div key={index} className="bg-light-50 rounded-lg p-8 border border-light-200">
+                <div className="inline-block p-3 bg-light-100 rounded-lg mb-6">
+                  <feature.icon className="h-8 w-8 text-primary-600" />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-4">{feature.title}</h3>
-                <p className="text-gray-300 mb-6">{feature.description}</p>
+                <h3 className="text-2xl font-bold text-black mb-4">{feature.title}</h3>
+                <p className="text-black mb-6">{feature.description}</p>
                 <ul className="space-y-2">
                   {feature.details.map((detail, idx) => (
-                    <li key={idx} className="flex items-center text-gray-400">
-                      <span className="mr-2 text-primary-400">•</span>
+                    <li key={idx} className="flex items-center text-black">
+                      <span className="mr-2 text-primary-600">•</span>
                       {detail}
                     </li>
                   ))}

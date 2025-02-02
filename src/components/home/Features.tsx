@@ -58,7 +58,7 @@ export function Features() {
   return (
     <div className="bg-white py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" ref={featuresRef}>
-        <h2 className="text-3xl font-bold text-center mb-12 text-light-900 animate-fade-up">
+        <h2 className="text-3xl font-bold text-center mb-12 text-black animate-fade-up">
           Powerful Features for Modern Businesses
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -72,9 +72,9 @@ export function Features() {
                 <div className="p-2 bg-primary-100 rounded-lg">
                   <feature.icon className="h-6 w-6 text-primary-600" />
                 </div>
-                <h3 className="text-xl font-semibold text-light-900">{feature.title}</h3>
+                <h3 className="text-xl font-semibold text-black">{feature.title}</h3>
               </div>
-              <p className="text-light-700">{feature.description}</p>
+              <p className="text-black">{feature.description}</p>
             </div>
           ))}
         </div>

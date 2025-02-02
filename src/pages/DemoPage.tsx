@@ -6,9 +6,9 @@ import { convertFileToBase64, storeFileData } from '../utils/fileUtils';
 import { extractDocument } from '../api/documentApi';
 import { sampleInvoiceResponse } from '../mocks/sampleInvoiceResponse';
 import type { ApiResponse } from '../types';
-import { Ship } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Footer } from '../components/layout/Footer';
+import logo from '../assets/logo.png';
 
 export function DemoPage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -55,7 +55,7 @@ export function DemoPage() {
           <div className="flex justify-between h-16">
             <div className="flex items-center">
               <Link to="/" className="flex items-center">
-                <Ship className="h-8 w-8 text-primary-400" />
+                <img src={logo} alt="Nexbit Logo" className="h-8 w-8" />
                 <span className="ml-2 text-xl font-bold text-white">Nexbit</span>
               </Link>
             </div>
@@ -69,12 +69,12 @@ export function DemoPage() {
       ) : (
         <div className="max-w-3xl mx-auto px-4 py-12">
           <div className="bg-dark-800 rounded-2xl p-8 shadow-lg border border-dark-700">
-            <h1 className="text-4xl font-bold text-white mb-8">
+            <h1 className="text-4xl font-bold text-black mb-6">
               Transform Documents into Structured Data
             </h1>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-200 mb-4">Upload Document</h2>
+              <h2 className="text-xl font-semibold text-gray-800 mb-4">Upload Document</h2>
               <FileUpload
                 onFileSelect={handleFileSelect}
                 selectedFile={selectedFile}
