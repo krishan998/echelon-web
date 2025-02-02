@@ -8,7 +8,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <div className="flex items-center gap-2 mb-4">
+            <div className="flex items-center gap-1 mb-4">
             <img src={logo} alt="Nexbit Logo" className="h-8 w-8" />
               <span className="text-xl font-bold text-black">Nexbit</span>
             </div>
