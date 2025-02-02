@@ -16,6 +16,7 @@ export function DemoPage() {
   const [extractedData, setExtractedData] = useState<ApiResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  
   const handleFileSelect = (file: File) => {
     setSelectedFile(file);
     setError(null);
