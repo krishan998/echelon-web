@@ -1,6 +1,6 @@
 import { ApiResponse } from '../types';
 
-const API_URL = 'http://localhost:3000/v1/doc/parse';
+const API_URL = 'https://doc-intelligence-backend.onrender.com/v1/doc/parse';
 
 interface ExtractRequest {
   base64Source: string;
@@ -13,7 +13,7 @@ export async function extractDocument(
   signal?: AbortSignal
 ): Promise<ApiResponse> {
   try {
-    const response = await fetch(`${API_URL}?modelID=prebuilt-invoice`, {
+    const response = await fetch(`${API_URL}?modelID=prebuilt-layout`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
