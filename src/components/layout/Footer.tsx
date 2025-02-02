@@ -1,5 +1,5 @@
 import React from 'react';
-import { Ship } from 'lucide-react';
+import logo from '../../assets/logo.png';
 import { Link } from 'react-router-dom';
 
 export function Footer() {
@@ -9,7 +9,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <Ship className="h-8 w-8 text-primary-600" />
+            <img src={logo} alt="Nexbit Logo" className="h-8 w-8" />
               <span className="text-xl font-bold text-black">Nexbit</span>
             </div>
             <p className="text-black">
