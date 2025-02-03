@@ -2,7 +2,6 @@ import React from 'react';
 
 export function DocumentUnderstanding() {
   return (
-    <div className="bg-white py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-center mb-12 text-black">
           Transform How You Handle Documents
@@ -80,6 +79,5 @@ export function DocumentUnderstanding() {
           </div>
         </div>
       </div>
-    </div>
   );
 }
