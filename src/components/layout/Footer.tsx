@@ -42,7 +42,7 @@ export function Footer() {
             <a href="https://twitter.com/nexbit" className="text-black hover:text-primary-600">
               Twitter
             </a>
-            <a href="https://linkedin.com/company/nexbit" className="text-black hover:text-primary-600">
+            <a href="https://linkedin.com/company/nexbit-ai" className="text-black hover:text-primary-600">
               LinkedIn
             </a>
           </div>
