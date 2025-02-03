@@ -47,17 +47,17 @@ export function ResultsView({ data, error }: ResultsViewProps) {
           </div>
         )}
 
-        <div className="mb-6 flex justify-between items-center">
+        {/* <div className="mb-6 flex justify-between items-center">
           <h2 className="text-2xl font-semibold text-white">Invoice Details</h2>
           <button
             onClick={handleDownload}
-            // disabled={tables.length === 0 || !invoiceDetails || !taxDetails}
+            disabled={tables.length === 0 || !invoiceDetails || !taxDetails}
             className="inline-flex items-center px-4 py-2 bg-primary-400 text-dark-900 rounded-lg hover:bg-primary-500 transition-colors disabled:bg-dark-600 disabled:text-dark-400"
           >
             <Download className="w-4 h-4 mr-2" />
             Download Excel
           </button>
-        </div>
+        </div> */}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="space-y-6">
