@@ -13,7 +13,7 @@ export async function extractDocument(
   signal?: AbortSignal
 ): Promise<ApiResponse> {
   try {
-    const response = await fetch(`${API_URL}?modelID=prebuilt-layout`, {
+    const response = await fetch(`${API_URL}?modelID=prebuilt-invoice`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
