@@ -37,7 +37,7 @@ export function Footer() {
         </div>
         
         <div className="border-t border-light-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-black">© 2024 Nexbit. All rights reserved.</p>
+          <p className="text-black">© 2025 Nexbit. All rights reserved.</p>
           <div className="flex gap-6 mt-4 md:mt-0">
             <a href="https://twitter.com/nexbit" className="text-black hover:text-primary-600">
               Twitter

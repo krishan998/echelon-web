@@ -74,7 +74,7 @@ export function DemoPage() {
             </h1>
 
             <section className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">Upload Document</h2>
+              <h2 className="text-xl font-semibold text-gray-800 mb-4">Upload Any Invoice</h2>
               <FileUpload
                 onFileSelect={handleFileSelect}
                 selectedFile={selectedFile}
