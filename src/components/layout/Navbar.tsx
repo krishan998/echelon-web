@@ -16,9 +16,9 @@ export function Navbar() {
               <Link to="/features" className="text-black hover:text-primary-600 transition-colors">
                 Features
               </Link>
-              <Link to="/security" className="text-black hover:text-primary-600 transition-colors">
+              {/* <Link to="/security" className="text-black hover:text-primary-600 transition-colors">
                 Security
-              </Link>
+              </Link> */}
               <Link to="/about" className="text-black hover:text-primary-600 transition-colors">
                 About
               </Link>

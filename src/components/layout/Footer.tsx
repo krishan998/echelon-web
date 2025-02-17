@@ -21,7 +21,7 @@ export function Footer() {
             <h3 className="text-lg font-semibold text-black mb-4">Product</h3>
             <ul className="space-y-2">
               <li><Link to="/features" className="text-black hover:text-primary-600">Features</Link></li>
-              <li><Link to="/security" className="text-black hover:text-primary-600">Security</Link></li>
+              {/* <li><Link to="/security" className="text-black hover:text-primary-600">Security</Link></li> */}
               <li><a href="https://cal.com/shubh.r/discuss" target="_blank" rel="noopener noreferrer" className="text-black hover:text-primary-600">Contact Sales</a></li>
             </ul>
           </div>
@@ -31,7 +31,7 @@ export function Footer() {
             <ul className="space-y-2">
               <li><Link to="/privacy" className="text-black hover:text-primary-600">Privacy Policy</Link></li>
               <li><Link to="/terms" className="text-black hover:text-primary-600">Terms of Service</Link></li>
-              <li><Link to="/security" className="text-black hover:text-primary-600">Security</Link></li>
+              {/* <li><Link to="/security" className="text-black hover:text-primary-600">Security</Link></li> */}
             </ul>
           </div>
         </div>
