@@ -62,12 +62,12 @@ export function Hero() {
               >
                 Get Started
               </a>
-              <Link
+              {/* <Link
                 to="/demo"
                 className="inline-flex items-center px-6 py-3 border border-primary-600 text-base font-medium rounded-lg text-primary-600 hover:bg-primary-50 transition-colors"
               >
                 Try Extraction Demo
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>
