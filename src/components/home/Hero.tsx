@@ -5,10 +5,10 @@ export function Hero() {
   const tasks = [
     "Paperwork,",
     "Data Entry,",
-    "Fraud Detection,",
-    "Policy Checks,",
-    "Claim Reviews,",
-    "Manual Approvals,"
+    "Compliance Checks,",
+    "Reconciliations,",
+    "Ledger Matching,",
+    "Tax Filings,"
   ];
 
   const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
