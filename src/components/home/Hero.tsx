@@ -5,7 +5,6 @@ export function Hero() {
   const tasks = [
     "Auditing,",
     "Data Entry,",
-    "Compliance Checks,",
     "Reconciliations,",
     "Ledger Matching,",
     "Tax Filings,",
