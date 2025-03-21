@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom';
 
 export function Hero() {
   const tasks = [
-    "Paperwork,",
+    "Auditing,",
     "Data Entry,",
     "Compliance Checks,",
     "Reconciliations,",
     "Ledger Matching,",
-    "Tax Filings,"
+    "Tax Filings,",
+    "Vouching,"
   ];
 
   const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
