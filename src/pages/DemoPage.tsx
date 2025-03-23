@@ -56,7 +56,7 @@ export function DemoPage() {
             <div className="flex items-center">
               <Link to="/" className="flex items-center">
                 <img src={logo} alt="Nexbit Logo" className="h-8 w-8" />
-                <span className="ml-2 text-xl font-bold text-black">Nexbit</span>
+                <span className="ml-2 text-xl font-bold text-black">Nexbit AI</span>
               </Link>
             </div>
           </div>

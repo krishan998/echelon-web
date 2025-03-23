@@ -2,53 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export function Hero() {
-  const tasks = [
-    "Auditing,",
-    "Data Entry,",
-    "Reconciliations,",
-    "Ledger Matching,",
-    "Tax Filings,",
-    "Vouching,"
-  ];
-
-  const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
-  const intervalTime = 4000;
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTaskIndex((prevIndex) => (prevIndex + 1) % tasks.length);
-    }, intervalTime);
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <div className="bg-white pt-20 pb-16 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative">
           <div className="text-center">
-            <h1 className="text-5xl font-bold tracking-tight text-black mb-8 animate-fade-up">
-              Revolutionizing&nbsp;
-              <span className="relative inline-block align-middle" style={{ height: '1.2em' }}>
-                <span
-                  className="scanner-line"
-                  style={{
-                    animation: `scan ${intervalTime}ms linear infinite`
-                  }}
-                ></span>
-                <span
-                  className="absolute left-0 top-0 text-5xl italic text-primary-600"
-                  style={{
-                    animation: `fadeLeftToRight ${intervalTime / 2}ms ease-out forwards`,
-                    whiteSpace: 'nowrap'
-                  }}
-                >
-                  {tasks[currentTaskIndex]}
-                </span>
-                <span className="invisible text-5xl">{tasks[0]}</span>
-              </span>
-              <br />
-              one workflow at a time.
+            <h1 className="text-5xl font-bold tracking-tight text-black mb-8 animate-fade-up" style={{ fontFamily: 'Georgia, serif', letterSpacing: '0.02em' }}>
+              Do More <span className="italic text-primary-600">Audits</span> with Less <span className="italic text-primary-600">Caffeine</span>
             </h1>
             <p className="text-xl text-black mb-12 max-w-3xl mx-auto animate-fade-up" style={{ animationDelay: '0.2s' }}>
               Extract and process any document with AI that understands your business. Built for enterprise security and scale.
@@ -60,7 +20,7 @@ export function Hero() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-6 py-3 text-base font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 transition-colors"
               >
-                Get Started
+                Book Your Demo
               </a>
               {/* <Link
                 to="/demo"

@@ -9,8 +9,14 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <div className="flex items-center gap-1 mb-4">
-            <img src={logo} alt="Nexbit Logo" className="h-8 w-8" />
-              <span className="text-xl font-bold text-black">Nexbit</span>
+              <img src={logo} alt="Nexbit Logo" className="h-8 w-8" />
+              <span className="text-xl font-bold text-black" style={{ 
+                fontFamily: "'Red Hat Display', sans-serif", 
+                letterSpacing: '0.02em',
+                fontSize: '1.4rem'
+              }}>
+                Nexbit AI
+              </span>
             </div>
             <p className="text-black">
               Transforming document processing with AI-powered intelligence.
