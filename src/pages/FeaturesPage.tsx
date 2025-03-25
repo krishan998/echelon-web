@@ -44,7 +44,7 @@ export function FeaturesPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen checkered-bg">
       <Navbar />
       
       <main className="py-20">
