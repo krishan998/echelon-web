@@ -11,24 +11,26 @@ export function Navbar() {
             <Link to="/" className="flex items-center">
               <img src={logo} alt="Nexbit Logo" className="h-8 w-8" />
               <span className="ml-1 text-xl font-bold text-black" style={{ 
-                fontFamily: "'Red Hat Display', sans-serif", 
+                fontFamily: 'Share Tech Mono, serif',
                 letterSpacing: '0.02em',
                 fontSize: '1.4rem'
               }}>
                 Nexbit AI
               </span>
             </Link>
-            <div className="hidden md:flex ml-10 space-x-8">
-              <Link to="/features" className="text-black hover:text-primary-600 transition-colors">
+          </div>
+          <div className="hidden md:flex flex-1 items-center justify-center">
+            <div className="flex space-x-8" style={{ fontFamily: 'Share Tech Mono, serif' }}>
+              <Link to="/features" className="text-black hover:text-primary-600 transition-colors text-lg">
                 Features
               </Link>
               {/* <Link to="/security" className="text-black hover:text-primary-600 transition-colors">
                 Security
               </Link> */}
-              <Link to="/about" className="text-black hover:text-primary-600 transition-colors">
+              <Link to="/about" className="text-black hover:text-primary-600 transition-colors text-lg">
                 About
               </Link>
-              <a href="https://blog.nexbit.ai" className="text-black hover:text-primary-600 transition-colors">
+              <a href="https://blog.nexbit.ai" className="text-black hover:text-primary-600 transition-colors text-lg">
                 Blog
               </a>
             </div>
@@ -39,6 +41,7 @@ export function Navbar() {
               target="_blank" 
               rel="noopener noreferrer"
               className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 transition-colors"
+              style={{ fontFamily: 'Share Tech Mono, serif' }}
             >
               Get Started
             </a>
