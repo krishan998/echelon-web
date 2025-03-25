@@ -72,7 +72,7 @@ export function Features() {
   ];
 
   return (
-    <div className="bg-white py-20">
+    <div className="checkered-bg py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" ref={featuresRef}>
         <h2 className="text-3xl font-bold tracking-tight text-black mb-8 text-center animate-fade-up" style={{ fontFamily: 'Georgia, serif', letterSpacing: '0.02em' }}>
           Powerful Features for Modern Practices
@@ -93,7 +93,7 @@ export function Features() {
                   <div className="p-4 bg-primary-100 rounded-lg mb-6">
                     <feature.icon className="h-10 w-10 text-primary-600" />
                   </div>
-                  <h3 className="text-3xl font-semibold text-black" style={{ fontFamily: 'Georgia, serif', letterSpacing: '0.02em' }}>{feature.title}</h3>
+                  <h3 className="text-3xl font-semibold text-black mb-2">{feature.title}</h3>
                 </div>
                 
                 {/* Back of card */}
@@ -124,7 +124,7 @@ export function Features() {
                     <div className="p-4 bg-primary-100 rounded-lg mb-6">
                       {React.createElement(features[2].icon, { className: "h-10 w-10 text-primary-600" })}
                     </div>
-                    <h3 className="text-3xl font-semibold text-black" style={{ fontFamily: 'Georgia, serif', letterSpacing: '0.02em' }}>{features[2].title}</h3>
+                    <h3 className="text-3xl font-semibold text-black mb-2">{features[2].title}</h3>
                   </div>
                   
                   {/* Back of card */}
