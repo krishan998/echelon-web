@@ -31,21 +31,21 @@ export function Hero() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative">
           <div className="text-center">
-            <h1 className="text-5xl font-bold tracking-tight text-black mb-8 animate-fade-up" style={{ fontFamily: 'Georgia, serif', letterSpacing: '0.02em' }}>
+            <h1 className="text-5xl font-bold tracking-tight text-black mb-8 animate-fade-up" style={{ fontFamily: 'Share Tech Mono, serif', letterSpacing: '0.02em' }}>
               Do More Audits With
               <br />
               <div className="word-animation-container mt-2">
                 <span 
                   className={`animated-word text-primary-600 italic ${isAnimating ? 'slide-out' : 'slide-in'}`}
                   style={{ 
-                    fontFamily: 'Georgia, serif',
+                    fontFamily: 'Share Tech Mono, serif',
                   }}
                 >
                   {rotatingWords[currentWordIndex]}
                 </span>
               </div>
             </h1>
-            <p className="text-xl text-black mb-12 max-w-3xl mx-auto animate-fade-up" style={{ fontFamily: 'Georgia, serif', letterSpacing: '0.02em', animationDelay: '0.2s' }}>
+            <p className="text-xl text-black mb-12 max-w-3xl mx-auto animate-fade-up" style={{ fontFamily: 'Share Tech Mono, serif', letterSpacing: '0.02em', animationDelay: '0.2s' }}>
               Reimagine your audit process with AI that understands your business. Built for enterprise security and scale.
             </p>
             <div className="flex gap-4 justify-center animate-fade-up" style={{ animationDelay: '0.4s' }}>

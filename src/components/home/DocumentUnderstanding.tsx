@@ -2,8 +2,9 @@ import React from 'react';
 
 export function DocumentUnderstanding() {
   return (
+    <div className="pt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-center mb-12 text-black">
+        <h2 className="text-3xl font-bold tracking-tight text-black mb-8 text-center animate-fade-up" style={{ fontFamily: 'Share Tech Mono, serif', letterSpacing: '0.02em' }}>
           Transform How You Handle Documents
         </h2>
 
@@ -79,5 +80,6 @@ export function DocumentUnderstanding() {
           </div>
         </div>
       </div>
+    </div>
   );
 }

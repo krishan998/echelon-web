@@ -11,7 +11,7 @@ export function Footer() {
             <div className="flex items-center gap-1 mb-4">
               <img src={logo} alt="Nexbit Logo" className="h-8 w-8" />
               <span className="text-xl font-bold text-black" style={{ 
-                fontFamily: "'Red Hat Display', sans-serif", 
+                fontFamily: "'Share Tech Mono', sans-serif", 
                 letterSpacing: '0.02em',
                 fontSize: '1.4rem'
               }}>

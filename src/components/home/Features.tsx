@@ -74,7 +74,7 @@ export function Features() {
   return (
     <div className="checkered-bg py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" ref={featuresRef}>
-        <h2 className="text-3xl font-bold tracking-tight text-black mb-8 text-center animate-fade-up" style={{ fontFamily: 'Georgia, serif', letterSpacing: '0.02em' }}>
+        <h2 className="text-3xl font-bold tracking-tight text-black mb-8 text-center animate-fade-up" style={{ fontFamily: 'Share Tech Mono, serif', letterSpacing: '0.02em' }}>
           Powerful Features for Modern Practices
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -93,14 +93,14 @@ export function Features() {
                   <div className="p-4 bg-primary-100 rounded-lg mb-6">
                     <feature.icon className="h-10 w-10 text-primary-600" />
                   </div>
-                  <h3 className="text-3xl font-semibold text-black mb-2">{feature.title}</h3>
+                  <h3 className="text-3xl font-semibold text-black mb-2" style={{ fontFamily: 'Share Tech Mono, serif' }}>{feature.title}</h3>
                 </div>
                 
                 {/* Back of card */}
                 <div className="absolute w-full h-full bg-primary-600 text-white p-8 rounded-lg shadow-sm border border-primary-500 backface-hidden rotate-y-180 flex flex-col items-center justify-center text-center">
                   <ul className="text-left list-disc pl-5 space-y-2">
                     {feature.description.map((point, i) => (
-                      <li key={i} className="text-base font-medium">{point}</li>
+                      <li key={i} className="text-base font-medium" style={{ fontFamily: 'Share Tech Mono, serif' }}>{point}</li>
                     ))}
                   </ul>
                 </div>
@@ -124,14 +124,14 @@ export function Features() {
                     <div className="p-4 bg-primary-100 rounded-lg mb-6">
                       {React.createElement(features[2].icon, { className: "h-10 w-10 text-primary-600" })}
                     </div>
-                    <h3 className="text-3xl font-semibold text-black mb-2">{features[2].title}</h3>
+                    <h3 className="text-3xl font-semibold text-black mb-2" style={{ fontFamily: 'Share Tech Mono, serif' }}>{features[2].title}</h3>
                   </div>
                   
                   {/* Back of card */}
                   <div className="absolute w-full h-full bg-primary-600 text-white p-8 rounded-lg shadow-sm border border-primary-500 backface-hidden rotate-y-180 flex flex-col items-center justify-center">
                     <ul className="text-left list-disc pl-5 space-y-2">
                       {features[2].description.map((point, i) => (
-                        <li key={i} className="text-base font-medium">{point}</li>
+                        <li key={i} className="text-base font-medium" style={{ fontFamily: 'Share Tech Mono, serif' }}>{point}</li>
                       ))}
                     </ul>
                   </div>
