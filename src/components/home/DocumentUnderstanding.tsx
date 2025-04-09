@@ -1,15 +1,38 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 export function DocumentUnderstanding() {
+  const cardsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-card');
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    const cards = cardsRef.current?.querySelectorAll('.feature-card');
+    cards?.forEach((card, index) => {
+      (card as HTMLElement).style.animationDelay = `${index * 200}ms`;
+      observer.observe(card);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="pt-20">
+    <div className="pt-48">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold tracking-tight text-black mb-8 text-center animate-fade-up" style={{ fontFamily: 'Share Tech Mono, serif', letterSpacing: '0.02em' }}>
+        <h2 className="text-4xl font-bold tracking-tight text-black mb-8 text-center animate-fade-up" style={{ fontFamily: 'Rubik, sans-serif', letterSpacing: '0.02em', fontSize: '2.2rem' }}>
           Transform How You Handle Documents
         </h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-          <div className="bg-light-50 p-6 rounded-lg shadow-lg border border-light-200 hover:bg-light-100 transition-colors">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16" ref={cardsRef}>
+          <div className="feature-card opacity-0 bg-light-50 p-6 rounded-lg shadow-lg border border-light-200 hover:bg-light-100 transition-all duration-300 hover:scale-[1.02]">
             <div className="aspect-video mb-6 overflow-hidden rounded-lg bg-light-100">
               <img 
                 src="https://cdn.prod.website-files.com/5aa7081220a301f2a3644f3b/60a43b7699c64c1c6e19e476_shutterstock_122573227.jpg" 
@@ -21,7 +44,7 @@ export function DocumentUnderstanding() {
             <p className="text-black">Our AI automatically identifies and extracts key information from any document format.</p>
           </div>
 
-          <div className="bg-light-50 p-6 rounded-lg shadow-lg border border-light-200 hover:bg-light-100 transition-colors">
+          <div className="feature-card opacity-0 bg-light-50 p-6 rounded-lg shadow-lg border border-light-200 hover:bg-light-100 transition-all duration-300 hover:scale-[1.02]">
             <div className="aspect-video mb-6 overflow-hidden rounded-lg bg-light-100">
               <img 
                 src="https://images.unsplash.com/photo-1639322537228-f710d846310a?auto=format&fit=crop&q=80&w=800&h=600" 
@@ -33,7 +56,7 @@ export function DocumentUnderstanding() {
             <p className="text-black">Process thousands of documents simultaneously with our powerful cloud infrastructure.</p>
           </div>
 
-          <div className="bg-light-50 p-6 rounded-lg shadow-lg border border-light-200 hover:bg-light-100 transition-colors">
+          <div className="feature-card opacity-0 bg-light-50 p-6 rounded-lg shadow-lg border border-light-200 hover:bg-light-100 transition-all duration-300 hover:scale-[1.02]">
             <div className="aspect-video mb-6 overflow-hidden rounded-lg bg-light-100">
               <img 
                 src="https://images.unsplash.com/photo-1617791160505-6f00504e3519?auto=format&fit=crop&q=80&w=800&h=600" 
