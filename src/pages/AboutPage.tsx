@@ -22,7 +22,7 @@ export function AboutPage() {
             <div>
               <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Story</h2>
               <p className="text-lg text-gray-700 leading-relaxed">
-                Nexbit AI was founded in 2024 with a simple goal: to eliminate the inefficiencies of manual document processing. We saw businesses struggling with paperwork, spending hours on tasks that should take seconds. So, we built a solution that streamlines the process, giving businesses the power to extract insights and automate actions effortlessly.
+                Nexbit AI was found in 2024 with a simple goal: to eliminate the inefficiencies of manual document processing. We saw businesses struggling with paperwork, spending hours on tasks that should take seconds. So, we built a solution that streamlines the process, giving businesses the power to extract insights and automate actions effortlessly.
               </p>
             </div>
             <div>
