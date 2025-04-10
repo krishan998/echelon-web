@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import './Hero.css'; // We'll create this file
 
 export function Hero() {
@@ -32,7 +33,13 @@ export function Hero() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8" style={{ maxWidth: '1152px' }}>
         <div className="flex items-center justify-center min-h-[calc(100vh-6rem)]">
           <div className="text-center w-full -mt-[270px]">
-            <h1 className="text-6xl font-bold tracking-tight text-black mb-8 animate-fade-up" style={{ fontFamily: 'Rubik, sans-serif', letterSpacing: '0.02em', fontSize: '4.125rem' }}>
+            <motion.h1 
+              className="text-6xl font-bold tracking-tight text-black mb-8" 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              style={{ fontFamily: 'Rubik, sans-serif', letterSpacing: '0.02em', fontSize: '4.125rem' }}
+            >
               More Audits With
               <br />
               <div className="word-animation-container mt-2">
@@ -40,18 +47,28 @@ export function Hero() {
                   className={`animated-word text-blue-600 italic ${isAnimating ? 'slide-out' : 'slide-in'}`}
                   style={{ 
                     fontFamily: 'Share Tech Mono, serif',
-                    fontSize: '2.8rem' // Reduced from 3rem by 20%
+                    fontSize: '2.8rem'
                   }}
                 >
                   {rotatingWords[currentWordIndex]}
                 </span>
               </div>
-            </h1>
-            <p className="text-2xl text-black mb-12 max-w-3xl mx-auto animate-fade-up" style={{ letterSpacing: '0.02em', animationDelay: '0.2s', fontSize: '1.35rem' }}>
+            </motion.h1>
+            <motion.p 
+              className="text-2xl text-black mb-12 max-w-3xl mx-auto" 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              style={{ letterSpacing: '0.02em', fontSize: '1.35rem' }}
+            >
               Reimagine your audit process with AI that understands your business. Built for enterprise security and scale.
-            </p>
-            <div className="flex gap-4 justify-center animate-fade-up" style={{ animationDelay: '0.4s' }}>
-              <a
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              <a 
                 href="https://cal.com/shubh.r/discuss"
                 target="_blank" 
                 rel="noopener noreferrer"
@@ -80,7 +97,7 @@ export function Hero() {
               >
                 Try Extraction Demo
               </Link> */}
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
