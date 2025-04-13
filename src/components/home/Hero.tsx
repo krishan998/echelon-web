@@ -16,23 +16,23 @@ export function Hero() {
         <div className="flex items-center justify-center min-h-[calc(100vh-6rem)]">
           <div className="text-center w-full -mt-[230px]">
             <motion.div 
-              className="flex flex-wrap justify-center gap-4 mb-8 mt-4"
+              className="flex flex-wrap justify-center gap-4 mb-8 mt-4 md:mt-4 mt-[90px]"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
               <div className="announcement-bar-wrapper">
-                <a href="#" className="group inline-flex items-center px-5 py-2 rounded-full bg-white/90 shadow-sm hover:shadow-lg hover:-translate-y-0.5 hover:bg-white transform transition-all duration-300 ease-out border-2 border-blue-200/60 backdrop-blur-sm">
-                  <span className="bg-gradient-to-r from-blue-600 to-blue-700 text-white text-xs px-2.5 py-0.5 rounded-full mr-3 font-medium group-hover:from-blue-700 group-hover:to-blue-800 transition-all duration-300">NEW</span>
-                  <span className="text-sm font-medium text-gray-800 group-hover:text-gray-900">We've launched AI-powered PBC!</span>
+                <a href="#" className="group inline-flex items-center px-5 py-2 md:px-5 md:py-2 px-3 py-1 rounded-full bg-white/90 shadow-sm hover:shadow-lg hover:-translate-y-0.5 hover:bg-white transform transition-all duration-300 ease-out border-2 border-blue-200/60 backdrop-blur-sm">
+                  <span className="bg-gradient-to-r from-blue-600 to-blue-700 text-white text-xs md:text-xs text-[8px] px-2 py-0.5 rounded-full mr-2 font-medium group-hover:from-blue-700 group-hover:to-blue-800 transition-all duration-300">NEW</span>
+                  <span className="text-sm md:text-sm text-[11px] font-medium text-gray-800 group-hover:text-gray-900">We've launched AI-powered PBC!</span>
                 </a>
               </div>
               <div className="announcement-bar-wrapper">
-                <a href="#" className="group inline-flex items-center px-5 py-2 rounded-full bg-white/90 shadow-sm hover:shadow-lg hover:-translate-y-0.5 hover:bg-white transform transition-all duration-300 ease-out border-2 border-amber-200/60 backdrop-blur-sm">
-                  <span className="flex items-center justify-center w-6 h-6 mr-3">
-                    <Zap className="w-4 h-4 text-amber-400 animate-pulse" strokeWidth={2.5} />
+                <a href="#" className="group inline-flex items-center px-5 py-2 md:px-5 md:py-2 px-3 py-1 rounded-full bg-white/90 shadow-sm hover:shadow-lg hover:-translate-y-0.5 hover:bg-white transform transition-all duration-300 ease-out border-2 border-amber-200/60 backdrop-blur-sm">
+                  <span className="flex items-center justify-center w-6 h-6 md:w-6 md:h-6 w-4 h-4 mr-2">
+                    <Zap className="w-4 h-4 md:w-4 md:h-4 w-3 h-3 text-amber-400 animate-pulse" strokeWidth={2.5} />
                   </span>
-                  <span className="text-sm font-medium text-gray-800 group-hover:text-gray-900">AI Document analysis is live</span>
+                  <span className="text-sm md:text-sm text-[11px] font-medium text-gray-800 group-hover:text-gray-900">AI Document analysis is live</span>
                 </a>
               </div>
             </motion.div>

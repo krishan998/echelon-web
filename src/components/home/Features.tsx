@@ -120,9 +120,9 @@ export function Features() {
                       
                       {/* Expandable content */}
                       <div className={`transition-all duration-500 overflow-hidden ${
-                        activeFeature === index ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'
+                        activeFeature === index ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'
                       }`}>
-                        <ul className="space-y-3 text-gray-600 ml-12">
+                        <ul className="space-y-3 text-gray-600 ml-12 mb-4">
                           {feature.description.map((point, i) => (
                             <motion.li
                               key={i}
@@ -135,6 +135,29 @@ export function Features() {
                             </motion.li>
                           ))}
                         </ul>
+                        
+                        {/* Mobile Video - Only shown on mobile when expanded */}
+                        <div className="md:hidden w-full rounded-xl overflow-hidden bg-gray-50 mt-4">
+                          <div className="aspect-video w-full h-full relative rounded-xl overflow-hidden shadow-lg">
+                            <motion.div
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              transition={{ duration: 0.5 }}
+                              className="absolute inset-0"
+                            >
+                              <video 
+                                className="w-full h-full object-cover"
+                                autoPlay 
+                                loop 
+                                muted 
+                                playsInline
+                              >
+                                <source src={feature.video} type="video/mp4" />
+                                Your browser does not support the video tag.
+                              </video>
+                            </motion.div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -143,9 +166,9 @@ export function Features() {
             </div>
           </div>
 
-          {/* Right side - Video */}
+          {/* Right side - Video (Desktop Only) */}
           <motion.div 
-            className="w-full md:w-1/2 rounded-2xl overflow-hidden bg-gray-50 mt-[20px]"
+            className="hidden md:block w-full md:w-1/2 rounded-2xl overflow-hidden bg-gray-50"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}

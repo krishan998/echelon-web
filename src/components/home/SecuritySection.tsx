@@ -76,12 +76,12 @@ export function SecuritySection() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex justify-center lg:justify-end"
+            className="flex justify-center lg:justify-end -ml-[-9px]"
           >
             <img
               src="/images/soc.jpg"
               alt="AICPA SOC 2 Type 2 Compliance"
-              className="w-[400px] h-[400px] object-contain"
+              className="w-[350px] h-[350px] object-contain"
             />
           </motion.div>
         </div>
