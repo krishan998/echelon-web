@@ -17,4 +17,88 @@
 /* Fix - the hover should apply to the feature-card class */
 .feature-card-container:hover .feature-card {
   transform: rotateY(180deg);
+}
+
+.features-section {
+  position: relative;
+  background: transparent;
+  padding-top: 140px;
+  padding-bottom: 80px;
+  margin-top: -20px;
+}
+
+.features-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 160px;
+  background: linear-gradient(180deg, 
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.features-background {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.features-content {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border-radius: 24px;
+  padding: 2rem;
+}
+
+.feature-shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.1;
+  mix-blend-mode: multiply;
+  will-change: transform;
+}
+
+.feature-shape-1 {
+  width: 600px;
+  height: 600px;
+  top: 10%;
+  left: -10%;
+  background: linear-gradient(135deg, #60A5FA, #93C5FD);
+  animation: featureFloat1 35s ease-in-out infinite;
+}
+
+.feature-shape-2 {
+  width: 500px;
+  height: 500px;
+  bottom: 20%;
+  right: -5%;
+  background: linear-gradient(135deg, #93C5FD, #60A5FA);
+  animation: featureFloat2 40s ease-in-out infinite;
+}
+
+@keyframes featureFloat1 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(30px, 30px) scale(1.05);
+  }
+}
+
+@keyframes featureFloat2 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-30px, -20px) scale(1.05);
+  }
 } 
