@@ -39,7 +39,7 @@ export function Navbar() {
               />
               <span className="ml-3 text-xl md:text-xl text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-600 relative" 
                 style={{ 
-                  fontFamily: 'rubrik, sans-serif',
+                  fontFamily: 'Montserrat, sans-serif',
                   letterSpacing: '-0.01em',
                 }}>
                 Nexbit
