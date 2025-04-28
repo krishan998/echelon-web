@@ -58,7 +58,7 @@ export function Hero() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center px-6 py-3 text-base font-medium rounded-full text-white bg-black hover:bg-gray-800 transition-all duration-300 hover:scale-105 hover:shadow-lg"
-                  style={{ fontFamily: 'Share Tech Mono, serif' }}
+                  style={{ fontFamily: 'Montserrat, serif' }}
                 >
                   Book a demo
                 </a>
