@@ -17,7 +17,7 @@
 /* Fix - the hover should apply to the feature-card class */
 .feature-card-container:hover .feature-card {
   transform: rotateY(180deg);
-}
+} 
 
 .features-section {
   position: relative;

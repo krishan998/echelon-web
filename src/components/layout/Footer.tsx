@@ -10,9 +10,9 @@ export function Footer() {
           style={{ fontFamily: 'Share Tech Mono, monospace' }}
         >
           NEXBIT
+          </div>
         </div>
-      </div>
-
+        
       {/* Bottom section with copyright and social icons */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-4 md:pb-8 md:-mt-40 mt-0">
         <div className="flex flex-col md:flex-row justify-between items-center md:space-y-0">

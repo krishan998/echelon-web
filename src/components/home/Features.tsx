@@ -81,8 +81,8 @@ export function Features() {
         <ScrollAnimation animation="fadeIn" className="text-center mb-16">
           <h2 className="text-4xl font-bold tracking-tight text-black mb-6" 
               style={{ fontFamily: 'Rubik, sans-serif', letterSpacing: '0.02em', fontSize: '2.5rem' }}>
-            Powerful Features for Modern Practices
-          </h2>
+          Powerful Features for Modern Practices
+        </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Experience a new way of working with our innovative features designed for modern audit practices.
           </p>
@@ -99,7 +99,7 @@ export function Features() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.2 }}
-                >
+            >
                   <div
                     className={`cursor-pointer transition-all duration-500 rounded-2xl hover:shadow-lg ${
                       activeFeature === index 
@@ -116,14 +116,14 @@ export function Features() {
                         <h3 className="text-xl font-semibold text-black">
                           {feature.title}
                         </h3>
-                      </div>
-                      
+                </div>
+                
                       {/* Expandable content */}
                       <div className={`transition-all duration-500 overflow-hidden ${
                         activeFeature === index ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'
                       }`}>
                         <ul className="space-y-3 text-gray-600 ml-12 mb-4">
-                          {feature.description.map((point, i) => (
+                    {feature.description.map((point, i) => (
                             <motion.li
                               key={i}
                               initial={{ opacity: 0, x: -10 }}
@@ -133,8 +133,8 @@ export function Features() {
                             >
                               {point}
                             </motion.li>
-                          ))}
-                        </ul>
+                    ))}
+                  </ul>
                         
                         {/* Mobile Video - Only shown on mobile when expanded */}
                         <div className="md:hidden w-full rounded-xl overflow-hidden bg-gray-50 mt-4">
@@ -156,15 +156,15 @@ export function Features() {
                                 Your browser does not support the video tag.
                               </video>
                             </motion.div>
-                          </div>
-                        </div>
-                      </div>
+                </div>
+              </div>
+            </div>
                     </div>
                   </div>
                 </motion.div>
-              ))}
-            </div>
-          </div>
+                      ))}
+                  </div>
+                </div>
 
           {/* Right side - Video (Desktop Only) */}
           <motion.div 
