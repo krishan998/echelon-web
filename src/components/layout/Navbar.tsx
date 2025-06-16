@@ -28,7 +28,9 @@ export function Navbar() {
           {/* Right side: Contact and SOC2 logo */}
           <div className="flex items-center gap-6">
             <a
-              href="mailto:contact@nexbit.ai"
+              href="https://calendly.com/kp-nexbit/30min"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center px-5 py-2 text-base font-semibold text-white rounded-full transition-all duration-300"
               style={{ background: 'none', boxShadow: 'none' }}
             >
