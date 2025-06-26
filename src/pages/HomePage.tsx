@@ -10,7 +10,7 @@ import emailjs from 'emailjs-com';
 
 export function HomePage() {
   const [modalOpen, setModalOpen] = useState(false);
-  const [form, setForm] = useState({ company: '', email: '', teamsize: '' });
+  const [form, setForm] = useState({ company: '', email: '' });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
@@ -33,13 +33,12 @@ export function HomePage() {
         {
           name: form.company,
           email: form.email,
-          teamsize: form.teamsize,
         },
         'UtIAElvH3Ul0d3cZE'
       );
       setSuccess(true);
       setDone(true);
-      setForm({ company: '', email: '', teamsize: '' });
+      setForm({ company: '', email: '' });
       setTimeout(() => {
         setModalOpen(false);
         setSuccess(false);
@@ -127,19 +126,6 @@ export function HomePage() {
                       value={form.email}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-2 rounded-lg bg-[#18181b] text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-gray-300 mb-2" htmlFor="teamsize">Team Size</label>
-                    <input
-                      type="number"
-                      id="teamsize"
-                      name="teamsize"
-                      value={form.teamsize}
-                      onChange={handleChange}
-                      required
-                      min="1"
                       className="w-full px-4 py-2 rounded-lg bg-[#18181b] text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
                     />
                   </div>
