@@ -72,20 +72,20 @@ export function HomePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-lg md:text-xl text-gray-300 max-w-2xl text-left leading-relaxed mt-6 mb-8"
-            style={{ fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight: 300 }}
+            style={{ fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight: 300, letterSpacing: '0.05em' }}
           >
-            Accounting began over 7,000 years ago. <br/><br/>Mesopotamian traders carved tallies into clay to track livestock and grain. Ledgers evolved with empires from Roman wax tablets to Venetian double-entry bookkeeping. Every civilization left ruins and records. <br/><br/>Accounting is humanity's oldest language of <strong><em>trust</em></strong>, telling stories of ambition, risk, and survival through precision. Empires ran on it. Wars were funded by it. Revolutions were audited before they were remembered.
+            Accounting began over 7,000 years ago. <br/><br/>Mesopotamian traders carved tallies into clay to track livestock and grain. Ledgers evolved with empires from Roman wax tablets to Venetian double-entry bookkeeping. Every civilization left ruins and records. <br/><br/>Accounting is humanity's <strong><em>oldest</em></strong> language of trust, telling stories of risk and survival through precision. Empires ran on it. Wars were funded by it. Revolutions were audited before they were remembered.
 
             <br/><br/>Yet, accounting remains stubbornly <strong><em>analog</em></strong> in spirit. <br/><br/>Behind digital dashboards, teams wrestle with PDFs, emails, and Excel exports, losing hours to reconciliation. Knowledge stays trapped in files, not shared across minds.
 
-Finance isn’t just numbers. It’s the living memory of a business’s journey. Miscategorized expenses are tiny lies repeated endlessly. Late reconciliations are businesses flying blind. Month-end closes trade speed for truth.
+Finance isn’t just numbers. It’s the living memory of a business’s journey. Miscategorized expenses are tiny lies repeated endlessly. Late reconciliations make businesses fly blind. Month-end closes trade speed for truth.
 
-But <strong><em>change</em></strong> is here. Intelligent systems are emerging. Not mere automation, but tools that think like your best analyst, remember like your sharpest CA. They don’t just process data; they understand it, spotting risks, explaining trends, and learning from every close.
+<br/>But <strong><em>change</em></strong> is here. Intelligent systems are emerging. Not mere automation, but tools that think like your best analyst, remember like your sharpest CA. They don’t just process data; they understand it, spotting risks, explaining trends, and learning from every close.
 
-<br/>AI won’t replace accountants, but it will make <strong><em>mediocre</em></strong> accounting obsolete. Finance teams will converse with systems that anticipate, illuminate, and refine, freeing them from drudgery to focus on judgment.
+<br/>AI won’t replace accountants, but it will make mediocre accounting <strong><em>obsolete</em></strong>. Finance teams will converse with systems that anticipate and refine, freeing them from drudgery to focus on judgement.
 
 <br/><br/>
-Accounting was born in clay, evolved in ink, scaled with spreadsheets. Now, it learns.
+Accounting was born in clay, evolved in ink, scaled with spreadsheets. Now, it <strong><em>learns</em></strong>.
           </motion.p>
           
           {/* Join Waitlist Button */}
