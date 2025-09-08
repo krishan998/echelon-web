@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { GradientText } from '../components/common/AnimatedText';
+import logoSrc from '../assets/logo.png';
+import ctaImage from '../assets/ctaction.png';
 import { GeometricBackground } from '../components/backgrounds/GeometricBackground';
 
 // Typewriter component
@@ -107,7 +109,7 @@ export function TeaserPage() {
         {/* Logo and Name */}
         <div className="flex items-center gap-1">
           <img 
-            src="/src/assets/logo.png" 
+            src={logoSrc} 
             alt="Nexbit Logo" 
             className="w-8 h-8"
             style={{ filter: 'brightness(0) saturate(100%) invert(8%) sepia(3%) saturate(0%) hue-rotate(0deg) brightness(95%) contrast(90%)' }}
@@ -153,9 +155,9 @@ export function TeaserPage() {
 
             {/* Right Side - Vintage Typewriter Interface */}
             <div className="relative overflow-visible">
-              <div className="bg-[#FFFDF6] p-8 overflow-visible">
+              <div className="bg-[#FFFDF6] p-2 md:p-8 overflow-visible">
                 {/* Vintage Typewriter Machine */}
-                <div className="relative">
+                <div className="relative scale-75 md:scale-100 origin-center">
                   {/* Authentic Vintage Typewriter Body */}
                   <div className="relative overflow-visible z-20" style={{ 
                     background: `
@@ -165,7 +167,7 @@ export function TeaserPage() {
                       linear-gradient(0deg, rgba(0,0,0,0.1) 0%, transparent 20%, transparent 80%, rgba(255,255,255,0.1) 100%)
                     `,
                     borderRadius: '12px 12px 8px 8px',
-                    padding: '28px 32px 24px 32px',
+                    padding: '20px 24px 18px 24px',
                     transform: 'perspective(1000px) rotateX(12deg) rotateY(-3deg)',
                     transformStyle: 'preserve-3d',
                     border: '2px solid rgba(0,0,0,0.2)',
@@ -313,10 +315,10 @@ export function TeaserPage() {
                       >
                         
                         {/* Content - grows with paper */}
-                        <div className="text-black font-mono leading-relaxed p-4 text-sm">
+                        <div className="text-black font-mono leading-relaxed p-2 md:p-4 text-xs md:text-sm">
                           {/* User Message 1 - Right aligned */}
                           <div className="mb-3 text-right">
-                            <span className="text-black text-sm">Hey</span>
+                            <span className="text-black text-xs md:text-sm">Hey</span>
                           </div>
                           
                           {chatStep >= 2 && (
@@ -324,7 +326,7 @@ export function TeaserPage() {
                               <TypewriterText 
                                 text="How can I help you today?" 
                                 speed={200}
-                                className="text-black text-sm"
+                                className="text-black text-xs md:text-sm"
                               />
                             </div>
                           )}
@@ -338,7 +340,7 @@ export function TeaserPage() {
                               <TypewriterText 
                                 text="make my brand AI native" 
                                 speed={200}
-                                className="text-black text-sm"
+                                className="text-black text-xs md:text-sm"
                               />
                             </div>
                           )}
@@ -347,7 +349,7 @@ export function TeaserPage() {
                               <TypewriterText 
                                 text="Processing...... Done" 
                                 speed={200}
-                                className="text-black text-sm"
+                                className="text-black text-xs md:text-sm"
                               />
                             </div>
                           )}
@@ -589,7 +591,7 @@ export function TeaserPage() {
           {/* Right: Image */}
           <div className="w-full md:w-[26rem] h-60 md:h-72 rounded-lg overflow-hidden">
             <img
-              src="/src/assets/ctaction.png"
+              src={ctaImage}
               alt="Contact illustration"
               className="w-full h-full object-cover"
             />
