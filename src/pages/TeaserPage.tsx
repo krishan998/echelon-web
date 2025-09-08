@@ -131,12 +131,12 @@ export function TeaserPage() {
       </motion.header>
       
       {/* Hero Section */}
-      <section className="relative z-10 min-h-screen flex items-center px-6 sm:px-12 lg:px-40 xl:px-56 2xl:px-72 3xl:px-88">
+      <section className="relative z-10 min-h-screen flex items-center px-6 sm:px-12 lg:px-40 xl:px-56 2xl:px-72 3xl:px-88 -mt-16">
         <div className="max-w-7xl mx-auto w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
             {/* Left Side - Text Content */}
-            <div className="text-center lg:text-left flex flex-col justify-center items-center lg:items-start">
+            <div className="text-center lg:text-left flex flex-col justify-center items-center lg:items-start -mt-8 lg:mt-0">
               
               {/* Main Heading */}
               <div className="mb-6">
@@ -154,7 +154,7 @@ export function TeaserPage() {
             </div>
 
             {/* Right Side - Vintage Typewriter Interface */}
-            <div className="relative overflow-visible">
+            <div className="relative overflow-visible mt-12 lg:mt-0">
               <div className="bg-[#FFFDF6] p-2 md:p-8 overflow-visible">
                 {/* Vintage Typewriter Machine */}
                 <div className="relative">
