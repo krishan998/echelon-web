@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
 import { HomePage } from './pages/HomePage';
@@ -8,19 +7,24 @@ import { SecurityPage } from './pages/SecurityPage';
 import { AboutPage } from './pages/AboutPage';
 import { PrivacyPage } from './pages/PrivacyPage';
 import { TermsPage } from './pages/TermsPage';
+import { WorkPage } from './pages/WorkPage';
+import { TeaserPage } from './pages/TeaserPage';
 
 export default function App() {
   return (
     <Router>
       <Analytics />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<TeaserPage />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/demo" element={<DemoPage />} />
         <Route path="/features" element={<FeaturesPage />} />
         <Route path="/security" element={<SecurityPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/terms" element={<TermsPage />} />
+        <Route path="/work" element={<WorkPage />} />
+        <Route path="/teaser" element={<TeaserPage />} />
         
         {/* Redirect all external link fallbacks to home */}
         <Route path="/pricing" element={<Navigate to="/" replace />} />
