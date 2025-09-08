@@ -136,7 +136,7 @@ export function TeaserPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
             {/* Left Side - Text Content */}
-            <div className="text-center lg:text-left flex flex-col justify-center items-center lg:items-start mt-12 lg:mt-0">
+            <div className="text-center lg:text-left flex flex-col justify-center items-center lg:items-start mt-20 lg:mt-0">
               
               {/* Main Heading */}
               <div className="mb-6">
@@ -154,7 +154,7 @@ export function TeaserPage() {
             </div>
 
             {/* Right Side - Vintage Typewriter Interface */}
-            <div className="relative overflow-visible mt-20 lg:mt-0">
+            <div className="relative overflow-visible mt-28 lg:mt-0">
               <div className="bg-[#FFFDF6] p-2 md:p-8 overflow-visible">
                 {/* Vintage Typewriter Machine */}
                 <div className="relative">
