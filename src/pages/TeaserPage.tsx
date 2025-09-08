@@ -157,7 +157,7 @@ export function TeaserPage() {
             <div className="relative overflow-visible">
               <div className="bg-[#FFFDF6] p-2 md:p-8 overflow-visible">
                 {/* Vintage Typewriter Machine */}
-                <div className="relative scale-75 md:scale-100 origin-center">
+                <div className="relative">
                   {/* Authentic Vintage Typewriter Body */}
                   <div className="relative overflow-visible z-20" style={{ 
                     background: `
@@ -365,7 +365,7 @@ export function TeaserPage() {
                     {/* Authentic Vintage Typewriter Keys */}
                     <div className="relative z-10 mt-4">
                       {/* Number Row */}
-                      <div className="flex justify-center gap-1 mb-1">
+                      <div className="flex justify-center gap-0.5 sm:gap-0.5 md:gap-1 mb-1">
                         {['1','2','3','4','5','6','7','8','9','0'].map((key) => (
                           <div 
                             key={key} 
@@ -375,10 +375,10 @@ export function TeaserPage() {
                             }}
                           >
                             {/* Key Stem */}
-                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-1 h-3 bg-gradient-to-b from-gray-600 to-gray-800 rounded-sm"></div>
+                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0.5 sm:w-0.5 md:w-1 h-2 sm:h-2 md:h-3 bg-gradient-to-b from-gray-600 to-gray-800 rounded-sm"></div>
                             {/* Key Top */}
                             <div 
-                              className={`w-7 h-7 rounded-full flex items-center justify-center text-black font-bold text-xs shadow-lg border transition-all duration-100`}
+                              className={`w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-full flex items-center justify-center text-black font-bold text-xs shadow-lg border transition-all duration-100`}
                               style={{
                                 background: pressedKeys.includes(key) 
                                   ? 'radial-gradient(circle at 30% 30%, #e8e8e8, #d0d0d0, #b8b8b8)'
@@ -396,7 +396,7 @@ export function TeaserPage() {
                       </div>
                       
                       {/* QWERTY Row */}
-                      <div className="flex justify-center gap-1 mb-1">
+                      <div className="flex justify-center gap-0.5 sm:gap-0.5 md:gap-1 mb-1">
                         {['Q','W','E','R','T','Y','U','I','O','P'].map((key) => (
                           <div 
                             key={key} 
@@ -405,9 +405,9 @@ export function TeaserPage() {
                               transform: pressedKeys.includes(key) ? 'translateY(2px) translateZ(-1px)' : 'translateZ(2px)'
                             }}
                           >
-                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-1 h-3 bg-gradient-to-b from-gray-600 to-gray-800 rounded-sm"></div>
+                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0.5 sm:w-0.5 md:w-1 h-2 sm:h-2 md:h-3 bg-gradient-to-b from-gray-600 to-gray-800 rounded-sm"></div>
                             <div 
-                              className={`w-7 h-7 rounded-full flex items-center justify-center text-black font-bold text-xs shadow-lg border transition-all duration-100`}
+                              className={`w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-full flex items-center justify-center text-black font-bold text-xs shadow-lg border transition-all duration-100`}
                               style={{
                                 background: pressedKeys.includes(key) 
                                   ? 'radial-gradient(circle at 30% 30%, #e8e8e8, #d0d0d0, #b8b8b8)'
@@ -425,7 +425,7 @@ export function TeaserPage() {
                       </div>
                       
                       {/* ASDF Row */}
-                      <div className="flex justify-center gap-1 mb-1 ml-3">
+                      <div className="flex justify-center gap-0.5 sm:gap-0.5 md:gap-1 mb-1 ml-2 sm:ml-2 md:ml-3">
                         {['A','S','D','F','G','H','J','K','L'].map((key) => (
                           <div 
                             key={key} 
@@ -434,9 +434,9 @@ export function TeaserPage() {
                               transform: pressedKeys.includes(key) ? 'translateY(2px) translateZ(-1px)' : 'translateZ(2px)'
                             }}
                           >
-                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-1 h-3 bg-gradient-to-b from-gray-600 to-gray-800 rounded-sm"></div>
+                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0.5 sm:w-0.5 md:w-1 h-2 sm:h-2 md:h-3 bg-gradient-to-b from-gray-600 to-gray-800 rounded-sm"></div>
                             <div 
-                              className={`w-7 h-7 rounded-full flex items-center justify-center text-black font-bold text-xs shadow-lg border transition-all duration-100`}
+                              className={`w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-full flex items-center justify-center text-black font-bold text-xs shadow-lg border transition-all duration-100`}
                               style={{
                                 background: pressedKeys.includes(key) 
                                   ? 'radial-gradient(circle at 30% 30%, #e8e8e8, #d0d0d0, #b8b8b8)'
@@ -454,7 +454,7 @@ export function TeaserPage() {
                       </div>
                       
                       {/* ZXCV Row */}
-                      <div className="flex justify-center gap-1 mb-2 ml-6">
+                      <div className="flex justify-center gap-0.5 sm:gap-0.5 md:gap-1 mb-2 ml-3 sm:ml-4 md:ml-6">
                         {['Z','X','C','V','B','N','M'].map((key) => (
                           <div 
                             key={key} 
@@ -463,9 +463,9 @@ export function TeaserPage() {
                               transform: pressedKeys.includes(key) ? 'translateY(2px) translateZ(-1px)' : 'translateZ(2px)'
                             }}
                           >
-                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-1 h-3 bg-gradient-to-b from-gray-600 to-gray-800 rounded-sm"></div>
+                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0.5 sm:w-0.5 md:w-1 h-2 sm:h-2 md:h-3 bg-gradient-to-b from-gray-600 to-gray-800 rounded-sm"></div>
                             <div 
-                              className={`w-7 h-7 rounded-full flex items-center justify-center text-black font-bold text-xs shadow-lg border transition-all duration-100`}
+                              className={`w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-full flex items-center justify-center text-black font-bold text-xs shadow-lg border transition-all duration-100`}
                               style={{
                                 background: pressedKeys.includes(key) 
                                   ? 'radial-gradient(circle at 30% 30%, #e8e8e8, #d0d0d0, #b8b8b8)'
@@ -485,9 +485,9 @@ export function TeaserPage() {
                       {/* Space Bar */}
                       <div className="flex justify-center">
                         <div className="relative">
-                          <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-3 bg-gradient-to-b from-gray-600 to-gray-800 rounded-sm"></div>
+                          <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-1 sm:w-1.5 md:w-2 h-2 sm:h-2.5 md:h-3 bg-gradient-to-b from-gray-600 to-gray-800 rounded-sm"></div>
                           <div 
-                            className={`w-24 h-6 rounded-full flex items-center justify-center text-black font-bold text-xs shadow-lg border transition-all duration-100`}
+                            className={`w-16 h-4 sm:w-20 sm:h-5 md:w-24 md:h-6 rounded-full flex items-center justify-center text-black font-bold text-xs shadow-lg border transition-all duration-100`}
                             style={{
                               background: pressedKeys.includes('SPACE') 
                                 ? 'radial-gradient(ellipse at 50% 30%, #e8e8e8, #d0d0d0, #b8b8b8)'
