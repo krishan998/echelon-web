@@ -104,7 +104,7 @@ export function TeaserPage() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="relative z-20 flex items-center justify-between px-20 sm:px-28 lg:px-40 xl:px-56 2xl:px-72 3xl:px-88 py-6"
+        className="relative z-20 flex items-center justify-between px-6 sm:px-12 lg:px-40 xl:px-56 2xl:px-72 3xl:px-88 py-6"
       >
         {/* Logo and Name */}
         <div className="flex items-center gap-1">
@@ -131,7 +131,7 @@ export function TeaserPage() {
       </motion.header>
       
       {/* Hero Section */}
-      <section className="relative z-10 min-h-screen flex items-center px-20 sm:px-28 lg:px-40 xl:px-56 2xl:px-72 3xl:px-88">
+      <section className="relative z-10 min-h-screen flex items-center px-6 sm:px-12 lg:px-40 xl:px-56 2xl:px-72 3xl:px-88">
         <div className="max-w-7xl mx-auto w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
@@ -574,7 +574,7 @@ export function TeaserPage() {
       </section>
 
       {/* CTA Above Footer */}
-      <section className="px-20 sm:px-28 lg:px-40 xl:px-56 2xl:px-72 3xl:px-88 py-12">
+      <section className="px-6 sm:px-12 lg:px-40 xl:px-56 2xl:px-72 3xl:px-88 py-12">
         <div className="bg-[#FFF7D9] rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-7 md:gap-9 shadow-sm">
           {/* Left: Headings and Button */}
           <div className="flex-1">
@@ -603,7 +603,7 @@ export function TeaserPage() {
       <footer className="bg-[#FFFDF6] border-t border-gray-100">
 
         {/* Main Footer Content */}
-        <div className="px-6 sm:px-20 lg:px-40 xl:px-56 2xl:px-72 3xl:px-88 py-8 md:py-12">
+        <div className="px-6 sm:px-12 lg:px-40 xl:px-56 2xl:px-72 3xl:px-88 py-8 md:py-12">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
             {/* Left Column - Brand Information */}
             <div className="text-center sm:text-left">
@@ -625,7 +625,7 @@ export function TeaserPage() {
         </div>
 
         {/* Bottom Footer Section */}
-        <div className="border-t border-gray-200 px-6 sm:px-20 lg:px-40 xl:px-56 2xl:px-72 3xl:px-88 py-4 md:py-6">
+        <div className="border-t border-gray-200 px-6 sm:px-12 lg:px-40 xl:px-56 2xl:px-72 3xl:px-88 py-4 md:py-6">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-3 md:gap-4 text-sm text-gray-500">
             <div className="text-center sm:text-left">Nexbit 2025</div>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 text-center">
