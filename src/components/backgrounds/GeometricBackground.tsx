@@ -34,28 +34,6 @@ export function GeometricBackground() {
           }}
         />
       ))}
-      
-      {/* Floating Lines */}
-      {[...Array(5)].map((_, i) => (
-        <motion.div
-          key={`line-${i}`}
-          className="absolute w-px h-32 bg-gradient-to-b from-black/30 to-transparent"
-          style={{
-            left: `${20 + i * 20}%`,
-            top: `${30 + i * 10}%`,
-          }}
-          animate={{
-            height: [32, 64, 32],
-            opacity: [0.3, 0.8, 0.3],
-          }}
-          transition={{
-            duration: 6,
-            delay: i * 0.5,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
     </div>
   );
 }
