@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Font loading verification - Montserrat should be distinctly different from default fonts */
+.font-montserrat {
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif !important;
+  /* Temporary debugging - Montserrat has distinctive letter spacing and weight */
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
 .scanner-line {
   position: absolute;
   width: 2px;

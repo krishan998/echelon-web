@@ -5,6 +5,8 @@ export default {
     extend: {
       fontFamily: {
         'sf-pro': ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        'space-grotesk': ['Space Grotesk', 'sans-serif'],
+        'montserrat': ['Montserrat', 'sans-serif'],
       },
       colors: {
         background: '#FFFDF6',
