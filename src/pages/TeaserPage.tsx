@@ -143,7 +143,9 @@ export function TeaserPage() {
                 <GradientText
                   text="Make Your Brand AI-Native in Minutes"
                   gradient="from-gray-900 via-black to-gray-800"
-                  className="text-2xl md:text-4xl lg:text-4xl tracking-tight leading-tight"
+                  className="text-4xl md:text-4xl lg:text-4xl font-light tracking-tight leading-tight"
+                  highlightText="AI-Native"
+                  highlightClassName="font-ibm-plex-serif italic text-2xl md:text-2xl lg:text-4xl"
                 />
               </div>
 

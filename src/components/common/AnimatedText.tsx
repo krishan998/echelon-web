@@ -96,14 +96,35 @@ interface GradientTextProps {
   gradient?: string;
   className?: string;
   delay?: number;
+  highlightText?: string;
+  highlightClassName?: string;
 }
 
 export function GradientText({ 
   text, 
   gradient = 'from-blue-600 to-purple-600',
   className = '',
-  delay = 0
+  delay = 0,
+  highlightText,
+  highlightClassName
 }: GradientTextProps) {
+  // If no highlight text is specified, render as before
+  if (!highlightText) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay, duration: 0.8 }}
+        className={`bg-gradient-to-r ${gradient} bg-clip-text text-transparent ${className}`}
+      >
+        {text}
+      </motion.div>
+    );
+  }
+
+  // Split the text around the highlight text
+  const parts = text.split(highlightText);
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -111,7 +132,16 @@ export function GradientText({
       transition={{ delay, duration: 0.8 }}
       className={`bg-gradient-to-r ${gradient} bg-clip-text text-transparent ${className}`}
     >
-      {text}
+      {parts.map((part, index) => (
+        <React.Fragment key={index}>
+          {part}
+          {index < parts.length - 1 && (
+            <span className={highlightClassName}>
+              {highlightText}
+            </span>
+          )}
+        </React.Fragment>
+      ))}
     </motion.div>
   );
 }

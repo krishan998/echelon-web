@@ -7,6 +7,7 @@ export default {
         'sf-pro': ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
         'space-grotesk': ['Space Grotesk', 'sans-serif'],
         'montserrat': ['Montserrat', 'sans-serif'],
+        'ibm-plex-serif': ['IBM Plex Serif', 'serif'],
       },
       colors: {
         background: '#FFFDF6',
