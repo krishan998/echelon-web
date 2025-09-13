@@ -614,9 +614,9 @@ export function TeaserPage() {
 
             {/* Middle Column - Navigation/Social Links */}
             <div className="text-center sm:text-left space-y-3">
-              <a href="#" className="block text-gray-600 hover:text-black transition-colors">Get in touch</a>
-              <a href="https://www.linkedin.com/company/nexbit-ai/?viewAsMember=true" target="_blank" rel="noopener noreferrer" className="block text-gray-600 hover:text-black transition-colors">LinkedIn</a>
-              <a href="#" className="block text-gray-600 hover:text-black transition-colors">X</a>
+              <a href="https://calendly.com/kp-nexbit/30min" className="block text-gray-600 hover:text-black transition-colors">Get in touch</a>
+              <a href="https://www.linkedin.com/company/nexbit-ai/" target="_blank" rel="noopener noreferrer" className="block text-gray-600 hover:text-black transition-colors">LinkedIn</a>
+              <a href="https://x.com/NexbitAi" className="block text-gray-600 hover:text-black transition-colors">X</a>
             </div>
 
             {/* Right Column - Back to Top */}
@@ -629,10 +629,10 @@ export function TeaserPage() {
         {/* Bottom Footer Section */}
         <div className="border-t border-gray-200 px-6 sm:px-12 lg:px-40 xl:px-56 2xl:px-72 3xl:px-88 py-4 md:py-6">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-3 md:gap-4 text-sm text-gray-500">
-            <div className="text-center sm:text-left">Nexbit 2025</div>
+            <div className="text-center sm:text-left">© Logikeon Labs Private Limited 2025</div>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 text-center">
-              <a href="#" className="hover:text-gray-700 transition-colors">Terms of use</a>
-              <a href="#" className="hover:text-gray-700 transition-colors">Privacy Policy</a>
+              {/* <a href="#" className="hover:text-gray-700 transition-colors">Terms of use</a>
+              <a href="#" className="hover:text-gray-700 transition-colors">Privacy Policy</a> */}
             </div>
           </div>
         </div>
