@@ -226,7 +226,7 @@ export function TeaserPage() {
       {/* Fixed base background so it never moves */}
       <div className="fixed inset-0 bg-[#E9E8E1] -z-10"></div>
       {/* Two-layer background wrapper */}
-      <motion.div animate={containerControls} className="relative z-10 mt-1 sm:mt-3 lg:mt-6 mb-4 sm:mb-8 lg:mb-16 mx-4 sm:mx-8 lg:mx-20 xl:mx-28 2xl:mx-36 bg-[#F6F5F2] rounded-[4rem] overflow-hidden will-change-transform">
+      <motion.div animate={containerControls} className="relative z-10 mt-1 sm:mt-3 lg:mt-6 mb-4 sm:mb-8 lg:mb-16 mx-4 sm:mx-8 lg:mx-20 xl:mx-28 2xl:mx-36 bg-[#F6F5F2] rounded-[3rem] overflow-hidden will-change-transform">
       
       {/* Header */}
       <motion.header
@@ -697,7 +697,7 @@ export function TeaserPage() {
                       initial={{ opacity: 0, x: 8 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.35, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-                      className="w-full max-w-[1280px] sm:max-w-[1440px] lg:max-w-[1600px] bg-white rounded-full border border-gray-200 shadow-[0_4px_22px_rgba(0,0,0,0.06)] pl-14 pr-28 py-5 relative"
+                      className="w-full max-w-[1280px] sm:max-w-[1440px] lg:max-w-[1600px] bg-white rounded-full border border-gray-200 shadow-[0_4px_22px_rgba(0,0,0,0.06)] pl-12 pr-20 py-4 md:pl-14 md:pr-28 md:py-5 relative"
                     >
                       {/* Sparkle icon on the left (multi-sparkles) */}
                       <div className="absolute left-4 top-1/2 -translate-y-1/2" style={{ color: '#D4AF37' }}>
@@ -725,7 +725,7 @@ export function TeaserPage() {
                         initial={{ opacity: 0, scale: 0.85 }}
                         animate={{ opacity: 1, scale: [1, 1.03, 1] }}
                         transition={{ duration: 0.5, delay: 0.08, ease: [0.22,1,0.36,1] }}
-                        className="absolute right-2 inset-y-0 my-auto w-11 h-11 rounded-full bg-[#E5DBEB] hover:bg-[#d9cfe3] shadow-[0_6px_18px_rgba(229,219,235,0.5)] grid place-items-center z-10"
+                        className="absolute right-2 inset-y-0 my-auto w-10 h-10 md:w-11 md:h-11 rounded-full bg-[#E5DBEB] hover:bg-[#d9cfe3] shadow-[0_6px_18px_rgba(229,219,235,0.5)] grid place-items-center z-10"
                       >
                         <svg className="w-6 h-6 text-gray-900 transform" viewBox="0 0 24 24" fill="currentColor"><path d="M2.5 12.5l18-9-7 17-2.5-6-6.5-2z"/></svg>
                       </motion.button>
@@ -742,7 +742,7 @@ export function TeaserPage() {
       {/* How it works Section - Avelis Style */}
       <section className="relative py-16 md:py-24">
         {/* Background Design - Two Layer System */}
-        <div className="relative z-10 bg-white rounded-[5rem] shadow-sm">
+        <div className="relative z-10 bg-white rounded-[3rem] shadow-sm">
           <div className="px-2 sm:px-4 lg:px-12 xl:px-16 2xl:px-20 3xl:px-24 py-14 md:py-20">
             <div className="max-w-7xl mx-auto">
               {/* Section Header */}
