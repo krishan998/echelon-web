@@ -1,10 +1,53 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { motion, useAnimation } from 'framer-motion';
 import { GradientText } from '../components/common/AnimatedText';
 import logoSrc from '../assets/logo.png';
 import ctaImage from '../assets/ctaction.png';
-import { GeometricBackground } from '../components/backgrounds/GeometricBackground';
+import card1Img from '../assets/card1.jpg';
+import card2Img from '../assets/card2.png';
+import card3Img from '../assets/card3.png';
+
+// Simple Horizontal Cards
+const ScrollStackCards = () => {
+  return (
+    <div className="py-16">
+      <div className="max-w-7xl mx-auto px-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          {/* Card 1 - Discovery & Research */}
+          <div className="bg-[#F4F2EF] rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200">
+            <img src={card1Img} alt="Discovery & Research" className="w-full aspect-[4/3] object-cover rounded-xl mb-6 shadow-sm" />
+            <h3 className="text-gray-900 text-xl font-semibold mb-2">Discovery & Research</h3>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              Shoppers don’t always know where to start. Whether they have a rough idea or need inspiration, your agent engages them in a guided conversation—asking the right questions to point them in the right direction.
+            </p>
+          </div>
+
+          {/* Card 2 - Consideration */}
+          <div className="bg-[#D2E8C8] rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200">
+            <img src={card2Img} alt="Consideration" className="w-full aspect-[4/3] object-cover rounded-xl mb-6 shadow-sm bg-[#D2E8C8]" />
+            <h3 className="text-gray-900 text-xl font-semibold mb-2">Consideration</h3>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              If they leave to research, they probably won’t come back. Keep them engaged with instant answers, side-by-side comparisons, and quick review summaries—helping them decide without ever leaving your site.
+            </p>
+          </div>
+
+          {/* Card 3 - Insights from Every Query */}
+          <div className="bg-[#E5DBEB] rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200">
+            <img src={card3Img} alt="Insights" className="w-full aspect-[4/3] object-cover rounded-xl mb-6 shadow-sm bg-[#E5DBEB]" />
+            <h3 className="text-gray-900 text-xl font-semibold mb-2">Insights from Every Query</h3>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              Your users speak. You see the patterns. Track every interaction to understand intent, remove friction, and reveal opportunities that drive better outcomes.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+};
+
+ 
 
 // Typewriter component
 const TypewriterText = ({ text, speed = 50, onComplete, className }: { text: string; speed?: number; onComplete?: () => void; className?: string }) => {
@@ -30,6 +73,22 @@ export function TeaserPage() {
   const [chatStep, setChatStep] = useState(1); // 1: user "Hey", 2: bot response, 3: typing, 4: user response, 5: bot final
   const [pressedKeys, setPressedKeys] = useState<string[]>([]);
   const [paperHeight, setPaperHeight] = useState(50); // Dynamic height based on content
+  const [inputPlaceholder, setInputPlaceholder] = useState('');
+  const [placeholderIndex, setPlaceholderIndex] = useState(0);
+  const [placeholderTextIndex, setPlaceholderTextIndex] = useState(0);
+  const [showInput, setShowInput] = useState(true);
+  // Typing measurement state removed (caret hidden)
+  const containerControls = useAnimation();
+
+  // Animated placeholder text for input
+  const placeholderTexts = [
+    "Design my new kitchen",
+    "How can I make my brand AI-native?",
+    "What's the best way to implement AI?",
+    "Show me AI solutions for my business",
+    "How do I get started with AI?",
+    "What AI tools should I use?"
+  ];
 
   // Auto-start chat animation with key press effects and dynamic paper growth
   useEffect(() => {
@@ -94,17 +153,87 @@ export function TeaserPage() {
     };
   }, []);
 
+  // Bounce the front layer when pulling down at the very top of the page
+  useEffect(() => {
+    let touchStartY = 0;
+
+    const triggerBounce = () => {
+      containerControls.start({ y: 14, transition: { type: 'spring', stiffness: 300, damping: 20 } })
+        .then(() => containerControls.start({ y: 0, transition: { type: 'spring', stiffness: 280, damping: 18 } }));
+    };
+
+    const onWheel = (e: WheelEvent) => {
+      if (window.scrollY <= 0 && e.deltaY < 0) {
+        triggerBounce();
+      }
+    };
+
+    const onTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0]?.clientY || 0;
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      const currentY = e.touches[0]?.clientY || 0;
+      const diff = currentY - touchStartY; // positive when pulling down
+      if (window.scrollY <= 0 && diff > 10) {
+        triggerBounce();
+      }
+    };
+
+    window.addEventListener('wheel', onWheel, { passive: true });
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
+
+    return () => {
+      window.removeEventListener('wheel', onWheel as any);
+      window.removeEventListener('touchstart', onTouchStart as any);
+      window.removeEventListener('touchmove', onTouchMove as any);
+    };
+  }, [containerControls]);
+
+  // Input bar shows immediately (no delay)
+  useEffect(() => {
+    setShowInput(true);
+  }, []);
+
+  // Animated placeholder text effect
+  useEffect(() => {
+    if (!showInput) return;
+    
+    const currentText = placeholderTexts[placeholderTextIndex];
+    
+    if (placeholderIndex < currentText.length) {
+      const timeout = setTimeout(() => {
+        setInputPlaceholder(prev => prev + currentText[placeholderIndex]);
+        setPlaceholderIndex(prev => prev + 1);
+      }, 70); // Slightly slower for natural typing
+      return () => clearTimeout(timeout);
+    } else {
+      // Wait before clearing and moving to next text
+      const clearTimer = setTimeout(() => {
+        setInputPlaceholder('');
+        setPlaceholderIndex(0);
+        setPlaceholderTextIndex(prev => (prev + 1) % placeholderTexts.length);
+      }, 1500); // Shorter pause
+      return () => clearTimeout(clearTimer);
+    }
+  }, [placeholderIndex, placeholderTextIndex, placeholderTexts, showInput]);
+
+  // Caret measurement effects removed
+
   return (
-    <div className="min-h-screen bg-[#FFFDF6] overflow-hidden font-sf-pro">
-      {/* Background Elements */}
-      <GeometricBackground />
+    <div className="min-h-screen relative overflow-hidden font-sf-pro overscroll-y-contain">
+      {/* Fixed base background so it never moves */}
+      <div className="fixed inset-0 bg-[#E9E8E1] -z-10"></div>
+      {/* Two-layer background wrapper */}
+      <motion.div animate={containerControls} className="relative z-10 mt-1 sm:mt-3 lg:mt-6 mb-4 sm:mb-8 lg:mb-16 mx-4 sm:mx-8 lg:mx-20 xl:mx-28 2xl:mx-36 bg-[#F6F5F2] rounded-[4rem] overflow-hidden will-change-transform">
       
       {/* Header */}
       <motion.header
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="relative z-20 flex items-center justify-between px-6 sm:px-12 lg:px-40 xl:px-56 2xl:px-72 3xl:px-88 py-6"
+        className="relative z-20 flex items-center justify-between px-2 sm:px-4 lg:px-12 xl:px-16 2xl:px-20 3xl:px-24 py-6"
       >
         {/* Logo and Name */}
         <div className="flex items-center gap-1">
@@ -117,21 +246,21 @@ export function TeaserPage() {
           <span className="text-xl font-medium text-gray-900">Nexbit</span>
         </div>
 
-        {/* Contact Button */}
+        {/* Contact Button - pill, dark bg, light text */}
         <motion.a
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.98 }}
           href="https://calendly.com/kp-nexbit/30min"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 px-6 py-3 text-black rounded-full font-medium hover:bg-gray-100 transition-colors"
+          className="inline-flex items-center justify-center rounded-full bg-[#343434] text-white px-6 py-3 md:px-7 md:py-2.5 text-base md:text-lg font-normal shadow-sm hover:shadow md:shadow transition-all"
         >
-          <span>Contact</span>
+          Contact
         </motion.a>
       </motion.header>
       
       {/* Hero Section */}
-      <section className="relative z-10 min-h-screen flex items-center px-6 sm:px-12 lg:px-40 xl:px-56 2xl:px-72 3xl:px-88 -mt-16">
+      <section className="relative z-10 min-h-screen flex items-center px-2 sm:px-4 lg:px-12 xl:px-16 2xl:px-20 3xl:px-24 -mt-16">
         <div className="max-w-7xl mx-auto w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
@@ -141,11 +270,9 @@ export function TeaserPage() {
               {/* Main Heading */}
               <div className="mb-6">
                 <GradientText
-                  text="Make Your Brand AI-Native in Minutes"
-                  gradient="from-gray-900 via-black to-gray-800"
-                  className="text-4xl md:text-4xl lg:text-4xl font-light tracking-tight leading-tight"
-                  highlightText="AI-Native"
-                  highlightClassName="font-ibm-plex-serif italic text-2xl md:text-2xl lg:text-4xl"
+                  text="Make Your Commerce AI-Native in Minutes"
+                  gradient="from-gray-950 via-black to-gray-800"
+                  className="text-5xl md:text-6xl lg:text-5xl font-medium tracking-tight leading-tight"
                 />
               </div>
 
@@ -155,11 +282,11 @@ export function TeaserPage() {
               </div>
             </div>
 
-            {/* Right Side - Vintage Typewriter Interface */}
+            {/* Right Side - Animated Input Bar (typewriter hidden) */}
             <div className="relative overflow-visible mt-28 lg:mt-0">
-              <div className="bg-[#FFFDF6] p-2 md:p-8 overflow-visible">
-                {/* Vintage Typewriter Machine */}
-                <div className="relative">
+              <div className="p-2 md:p-8 overflow-visible">
+                {/* Vintage Typewriter Machine - hidden */}
+                <div className="relative hidden">
                   {/* Authentic Vintage Typewriter Body */}
                   <div className="relative overflow-visible z-20" style={{ 
                     background: `
@@ -557,16 +684,53 @@ export function TeaserPage() {
                   </div>
                 </div>
 
-                {/* Input Area - Show placeholder when chatStep === 0 */}
-                {chatStep === 0 && (
-                  <div className="flex items-center gap-3 mt-6">
-                    <div className="flex-1 bg-white rounded-full px-4 py-3 shadow-sm border border-gray-200">
-                      <p className="text-gray-400 text-sm">Type your message...</p>
-                    </div>
-                    <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                      <ArrowRight className="w-4 h-4 text-gray-400" />
-                    </div>
-                  </div>
+                {/* Animated Input Area - Polished to match Alby */}
+                {showInput && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 16, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                    className="relative mt-8"
+                  >
+                    {/* Input wrapper with pill shape and subtle gradient rim */}
+                    <motion.div 
+                      initial={{ opacity: 0, x: 8 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.35, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+                      className="w-full max-w-[1280px] sm:max-w-[1440px] lg:max-w-[1600px] bg-white rounded-full border border-gray-200 shadow-[0_4px_22px_rgba(0,0,0,0.06)] pl-14 pr-28 py-5 relative"
+                    >
+                      {/* Sparkle icon on the left (multi-sparkles) */}
+                      <div className="absolute left-4 top-1/2 -translate-y-1/2" style={{ color: '#D4AF37' }}>
+                        <svg className="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M12 4l1.2 3.2L16.4 8.4 13.2 9.6 12 12.8 10.8 9.6 7.6 8.4l3.2-1.2L12 4z"/>
+                          <path d="M18.5 5.5l.7 1.6 1.6.7-1.6.7-.7 1.6-.7-1.6-1.6-.7 1.6-.7.7-1.6z"/>
+                          <path d="M6 12.5l.6 1.4 1.4.6-1.4.6L6 16.5l-.6-1.4-1.4-.6 1.4-.6.6-1.4z"/>
+                        </svg>
+                      </div>
+
+                      {/* Visible typed text for precise measurement */}
+                      <div className="relative w-full">
+                        <span
+                          className="inline-block bg-transparent outline-none text-[16px] md:text-[18px] leading-none text-gray-600 font-normal tracking-[0.1px] pr-1"
+                        >
+                          {inputPlaceholder}
+                        </span>
+                        {/* Blinking caret that follows measured text width */}
+                        {/* Caret removed per request */}
+                        <span className="hidden" />
+                      </div>
+
+                      {/* Send button overlapped on the right */}
+                      <motion.button
+                        initial={{ opacity: 0, scale: 0.85 }}
+                        animate={{ opacity: 1, scale: [1, 1.03, 1] }}
+                        transition={{ duration: 0.5, delay: 0.08, ease: [0.22,1,0.36,1] }}
+                        className="absolute right-2 inset-y-0 my-auto w-11 h-11 rounded-full bg-[#E5DBEB] hover:bg-[#d9cfe3] shadow-[0_6px_18px_rgba(229,219,235,0.5)] grid place-items-center z-10"
+                      >
+                        <svg className="w-6 h-6 text-gray-900 transform" viewBox="0 0 24 24" fill="currentColor"><path d="M2.5 12.5l18-9-7 17-2.5-6-6.5-2z"/></svg>
+                      </motion.button>
+                    </motion.div>
+                  </motion.div>
                 )}
               </div>
 
@@ -575,8 +739,52 @@ export function TeaserPage() {
         </div>
       </section>
 
+      {/* How it works Section - Avelis Style */}
+      <section className="relative py-16 md:py-24">
+        {/* Background Design - Two Layer System */}
+        <div className="relative z-10 bg-white rounded-[5rem] shadow-sm">
+          <div className="px-2 sm:px-4 lg:px-12 xl:px-16 2xl:px-20 3xl:px-24 py-14 md:py-20">
+            <div className="max-w-7xl mx-auto">
+              {/* Section Header */}
+              <div className="text-center mb-16">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 mb-6">
+                  How it works
+                </h2>
+                <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                  Make your brand AI-native without any disruption. Our comprehensive approach ensures seamless transformation with measurable results.
+                </p>
+              </div>
+
+              {/* Avelis-Style Cards with Dynamic Scroll-Based Stacking */}
+              <ScrollStackCards />
+
+              {/* Bottom CTA */}
+             
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Second Page Container with emerging white background */}
+      <motion.section
+        initial={{ opacity: 0, y: 40, scale: 0.98 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        viewport={{ once: false, amount: 0.3 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="relative"
+      >
+        {/* Emerging white background plate (second page) */}
+        <motion.div
+          aria-hidden
+          className="absolute inset-0 rounded-[2rem] bg-white shadow-sm -z-10"
+          initial={{ opacity: 0, y: 40, scale: 0.98 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        />
+        <div className="relative">
       {/* CTA Above Footer */}
-      <section className="px-6 sm:px-12 lg:px-40 xl:px-56 2xl:px-72 3xl:px-88 py-12">
+      <section className="px-2 sm:px-4 lg:px-12 xl:px-16 2xl:px-20 3xl:px-24 py-10">
         <div className="bg-[#FFF7D9] rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-7 md:gap-9 shadow-sm">
           {/* Left: Headings and Button */}
           <div className="flex-1">
@@ -602,14 +810,16 @@ export function TeaserPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#FFFDF6] border-t border-gray-100">
+      <footer className="bg-transparent border-t border-gray-100">
 
         {/* Main Footer Content */}
-        <div className="px-6 sm:px-12 lg:px-40 xl:px-56 2xl:px-72 3xl:px-88 py-8 md:py-12">
+        <div className="px-2 sm:px-4 lg:px-12 xl:px-16 2xl:px-20 3xl:px-24 py-8 md:py-10">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
             {/* Left Column - Brand Information */}
             <div className="text-center sm:text-left">
-              <div className="font-semibold text-lg text-black mb-2">Nexbit</div>
+            <div className="font-semibold text-lg mb-2" style={{ color: "#343434" }}>
+  Nexbit
+</div>
             </div>
 
             {/* Middle Column - Navigation/Social Links */}
@@ -627,7 +837,7 @@ export function TeaserPage() {
         </div>
 
         {/* Bottom Footer Section */}
-        <div className="border-t border-gray-200 px-6 sm:px-12 lg:px-40 xl:px-56 2xl:px-72 3xl:px-88 py-4 md:py-6">
+        <div className="border-t border-gray-200 px-2 sm:px-4 lg:px-12 xl:px-16 2xl:px-20 3xl:px-24 py-4 md:py-6">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-3 md:gap-4 text-sm text-gray-500">
             <div className="text-center sm:text-left">© Logikeon Labs Private Limited 2025</div>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 text-center">
@@ -637,6 +847,9 @@ export function TeaserPage() {
           </div>
         </div>
       </footer>
+        </div>
+      </motion.section>
+      </motion.div>
     </div>
   );
 }
