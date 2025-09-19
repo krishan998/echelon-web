@@ -280,6 +280,25 @@ export function TeaserPage() {
               <div className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed">
                 We're crafting something extraordinary. Be the first to experience what's coming.
               </div>
+
+              {/* AI Readiness Assessment CTA */}
+              {/* <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8, duration: 0.6 }}
+                className="mb-8"
+              >
+                <motion.a
+                  href="/ai-readiness-check"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex items-center gap-3 bg-gradient-to-r from-gray-800 to-black text-white px-6 py-3 rounded-full font-medium hover:from-gray-900 hover:to-gray-900 transition-all duration-300 shadow-lg hover:shadow-xl"
+                >
+                  <span>Check Your AI Readiness</span>
+                  <ArrowRight className="w-4 h-4" />
+                </motion.a>
+                <p className="text-sm text-gray-500 mt-2">Free assessment • Takes 30 seconds</p>
+              </motion.div> */}
             </div>
 
             {/* Right Side - Animated Input Bar (typewriter hidden) */}

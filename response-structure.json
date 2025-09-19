@@ -1,0 +1,1413 @@
+{
+    "response": {
+        "tables": [
+            {
+                "headers": [
+                    {
+                        "title": "Invoice No.\ne-Way Bill No.\nSHAL/24-25/368\n431452942217",
+                        "span": 0,
+                        "level": 0
+                    },
+                    {
+                        "title": "|Dated\n21-Jun-24",
+                        "span": 0,
+                        "level": 0
+                    }
+                ],
+                "rows": [
+                    {
+                        "values": {
+                            "col_0": {
+                                "value": "Delivery Note",
+                                "type": "text"
+                            },
+                            "col_1": {
+                                "value": "Mode/Terms of Payment\nCREDIT",
+                                "type": "text"
+                            }
+                        },
+                        "isTotal": false
+                    },
+                    {
+                        "values": {
+                            "col_0": {
+                                "value": "Reference No. \u0026 Date.",
+                                "type": "text"
+                            },
+                            "col_1": {
+                                "value": "Other References\nSTRAIGHT",
+                                "type": "text"
+                            }
+                        },
+                        "isTotal": false
+                    },
+                    {
+                        "values": {
+                            "col_0": {
+                                "value": "Buyer's Order No.",
+                                "type": "text"
+                            },
+                            "col_1": {
+                                "value": "Dated",
+                                "type": "text"
+                            }
+                        },
+                        "isTotal": false
+                    },
+                    {
+                        "values": {
+                            "col_0": {
+                                "value": "Dispatch Doc No.\nPO/24-25/1181",
+                                "type": "text"
+                            },
+                            "col_1": {
+                                "value": "Delivery Note Date",
+                                "type": "text"
+                            }
+                        },
+                        "isTotal": false
+                    },
+                    {
+                        "values": {
+                            "col_0": {
+                                "value": "Dispatched through\nROAD\n:unselected:",
+                                "type": "text"
+                            },
+                            "col_1": {
+                                "value": "Destination\nHARIDWAR",
+                                "type": "text"
+                            }
+                        },
+                        "isTotal": false
+                    },
+                    {
+                        "values": {
+                            "col_0": {
+                                "value": "Bill of Lading/LR-RR No.\ndt. 21-Jun-24",
+                                "type": "text"
+                            },
+                            "col_1": {
+                                "value": "Motor Vehicle No.\nHR38Y-7319",
+                                "type": "text"
+                            }
+                        },
+                        "isTotal": false
+                    }
+                ],
+                "columnTypes": {
+                    "0": "text",
+                    "1": "text"
+                }
+            },
+            {
+                "headers": [
+                    {
+                        "title": "SI\nNo",
+                        "span": 0,
+                        "level": 0
+                    },
+                    {
+                        "title": "Description of Goods",
+                        "span": 0,
+                        "level": 0
+                    },
+                    {
+                        "title": "HSN/SAC",
+                        "span": 0,
+                        "level": 0
+                    },
+                    {
+                        "title": "Quantity",
+                        "span": 0,
+                        "level": 0
+                    },
+                    {
+                        "title": "Rate",
+                        "span": 0,
+                        "level": 0
+                    },
+                    {
+                        "title": "per",
+                        "span": 0,
+                        "level": 0
+                    },
+                    {
+                        "title": "Amount",
+                        "span": 0,
+                        "level": 0
+                    }
+                ],
+                "rows": [
+                    {
+                        "values": {
+                            "col_0": {
+                                "value": "1",
+                                "type": "amount"
+                            },
+                            "col_1": {
+                                "value": "Tmt Bars 10mm",
+                                "type": "text"
+                            },
+                            "col_2": {
+                                "value": "72142090",
+                                "type": "amount"
+                            },
+                            "col_3": {
+                                "value": "7.000 MT",
+                                "type": "amount"
+                            },
+                            "col_4": {
+                                "value": "58,600.00",
+                                "type": "amount"
+                            },
+                            "col_5": {
+                                "value": "MT",
+                                "type": "text"
+                            },
+                            "col_6": {
+                                "value": "4,10,200.00",
+                                "type": "amount"
+                            }
+                        },
+                        "isTotal": false
+                    },
+                    {
+                        "values": {
+                            "col_0": {
+                                "value": "2",
+                                "type": "amount"
+                            },
+                            "col_1": {
+                                "value": "Tmt Bars 12mm",
+                                "type": "text"
+                            },
+                            "col_2": {
+                                "value": "72142090",
+                                "type": "amount"
+                            },
+                            "col_3": {
+                                "value": "4.000 MT",
+                                "type": "amount"
+                            },
+                            "col_4": {
+                                "value": "57,600.00",
+                                "type": "amount"
+                            },
+                            "col_5": {
+                                "value": "MT",
+                                "type": "text"
+                            },
+                            "col_6": {
+                                "value": "2,30,400.00",
+                                "type": "amount"
+                            }
+                        },
+                        "isTotal": false
+                    },
+                    {
+                        "values": {
+                            "col_0": {
+                                "value": "3",
+                                "type": "amount"
+                            },
+                            "col_1": {
+                                "value": "Tmt Bars 16mm",
+                                "type": "text"
+                            },
+                            "col_2": {
+                                "value": "72142090",
+                                "type": "amount"
+                            },
+                            "col_3": {
+                                "value": "2.500 MT",
+                                "type": "amount"
+                            },
+                            "col_4": {
+                                "value": "57,600.00",
+                                "type": "amount"
+                            },
+                            "col_5": {
+                                "value": "MT",
+                                "type": "text"
+                            },
+                            "col_6": {
+                                "value": "1,44,000.00",
+                                "type": "amount"
+                            }
+                        },
+                        "isTotal": false
+                    },
+                    {
+                        "values": {
+                            "col_0": {
+                                "value": "4",
+                                "type": "amount"
+                            },
+                            "col_1": {
+                                "value": "Tmt Bars 20mm",
+                                "type": "text"
+                            },
+                            "col_2": {
+                                "value": "72142090",
+                                "type": "amount"
+                            },
+                            "col_3": {
+                                "value": "4.000 MT",
+                                "type": "amount"
+                            },
+                            "col_4": {
+                                "value": "57,600.00",
+                                "type": "amount"
+                            },
+                            "col_5": {
+                                "value": "MT",
+                                "type": "text"
+                            },
+                            "col_6": {
+                                "value": "2,30,400.00",
+                                "type": "amount"
+                            }
+                        },
+                        "isTotal": false
+                    },
+                    {
+                        "values": {
+                            "col_0": {
+                                "value": "5",
+                                "type": "amount"
+                            },
+                            "col_1": {
+                                "value": "Tmt Bars 25mm",
+                                "type": "text"
+                            },
+                            "col_2": {
+                                "value": "72142090",
+                                "type": "amount"
+                            },
+                            "col_3": {
+                                "value": "13.580 MT",
+                                "type": "amount"
+                            },
+                            "col_4": {
+                                "value": "57,600.00",
+                                "type": "amount"
+                            },
+                            "col_5": {
+                                "value": "MT",
+                                "type": "text"
+                            },
+                            "col_6": {
+                                "value": "7,82,208.00",
+                                "type": "amount"
+                            }
+                        },
+                        "isTotal": false
+                    }
+                ],
+                "columnTypes": {
+                    "0": "amount",
+                    "1": "text",
+                    "2": "amount",
+                    "3": "amount",
+                    "4": "amount",
+                    "5": "text",
+                    "6": "amount"
+                }
+            },
+            {
+                "headers": [
+                    {
+                        "title": "HSN/SAC",
+                        "span": 0,
+                        "level": 0
+                    },
+                    {
+                        "title": "Taxable\nValue",
+                        "span": 0,
+                        "level": 0
+                    },
+                    {
+                        "title": "Integrated Tax",
+                        "children": [
+                            {
+                                "title": "Rate",
+                                "span": 0,
+                                "level": 1
+                            },
+                            {
+                                "title": "Amount",
+                                "span": 0,
+                                "level": 1
+                            }
+                        ],
+                        "span": 2,
+                        "level": 0
+                    },
+                    {
+                        "title": "Total\nTax Amount",
+                        "span": 0,
+                        "level": 0
+                    }
+                ],
+                "rows": [
+                    {
+                        "values": {
+                            "col_0": {
+                                "value": "72142090",
+                                "type": "amount"
+                            },
+                            "col_1": {
+                                "value": "17,97,208.00",
+                                "type": "amount"
+                            },
+                            "col_2": {
+                                "value": "18%",
+                                "type": "percentage"
+                            },
+                            "col_3": {
+                                "value": "3,23,497.44",
+                                "type": "amount"
+                            },
+                            "col_4": {
+                                "value": "3,23,497.44",
+                                "type": "amount"
+                            }
+                        },
+                        "isTotal": false
+                    },
+                    {
+                        "values": {
+                            "col_0": {
+                                "value": "Total",
+                                "type": "text"
+                            },
+                            "col_1": {
+                                "value": "17,97,208.00",
+                                "type": "amount"
+                            },
+                            "col_2": {
+                                "value": "",
+                                "type": "text"
+                            },
+                            "col_3": {
+                                "value": "3,23,497.44",
+                                "type": "amount"
+                            },
+                            "col_4": {
+                                "value": "3,23,497.44",
+                                "type": "amount"
+                            }
+                        },
+                        "isTotal": true
+                    }
+                ],
+                "columnTypes": {
+                    "0": "text",
+                    "1": "amount",
+                    "2": "text",
+                    "3": "amount",
+                    "4": "amount"
+                }
+            }
+        ],
+        "documents": [
+            {
+                "docType": "invoice",
+                "boundingRegions": [
+                    {
+                        "pageNumber": 1,
+                        "polygon": [
+                            0,
+                            0,
+                            1078,
+                            0,
+                            1078,
+                            1536,
+                            0,
+                            1536
+                        ]
+                    }
+                ],
+                "fields": {
+                    "InvoiceDate": {
+                        "type": "date",
+                        "valueDate": "2024-06-21",
+                        "content": "21-Jun-24",
+                        "boundingRegions": [
+                            {
+                                "pageNumber": 1,
+                                "polygon": [
+                                    806,
+                                    288,
+                                    888,
+                                    289,
+                                    888,
+                                    305,
+                                    806,
+                                    305
+                                ]
+                            }
+                        ],
+                        "confidence": 0.938,
+                        "spans": [
+                            {
+                                "offset": 317,
+                                "length": 9
+                            }
+                        ]
+                    },
+                    "InvoiceId": {
+                        "type": "string",
+                        "valueString": "SHAL/24-25/368",
+                        "content": "SHAL/24-25/368",
+                        "boundingRegions": [
+                            {
+                                "pageNumber": 1,
+                                "polygon": [
+                                    598,
+                                    288,
+                                    694,
+                                    288,
+                                    694,
+                                    305,
+                                    598,
+                                    305
+                                ]
+                            }
+                        ],
+                        "confidence": 0.939,
+                        "spans": [
+                            {
+                                "offset": 289,
+                                "length": 14
+                            }
+                        ]
+                    },
+                    "InvoiceTotal": {
+                        "type": "currency",
+                        "valueCurrency": {
+                            "amount": 2120705.44,
+                            "currencyCode": "INR"
+                        },
+                        "content": "₹ 21,20,705.44",
+                        "boundingRegions": [
+                            {
+                                "pageNumber": 1,
+                                "polygon": [
+                                    895,
+                                    1072,
+                                    1009,
+                                    1073,
+                                    1009,
+                                    1094,
+                                    895,
+                                    1093
+                                ]
+                            }
+                        ],
+                        "confidence": 0.926,
+                        "spans": [
+                            {
+                                "offset": 1580,
+                                "length": 14
+                            }
+                        ]
+                    },
+                    "Items": {
+                        "type": "array",
+                        "valueArray": [
+                            {
+                                "type": "object",
+                                "valueObject": {
+                                    "Amount": {
+                                        "type": "currency",
+                                        "valueCurrency": {
+                                            "amount": 410200,
+                                            "currencyCode": "INR"
+                                        },
+                                        "content": "4,10,200.00",
+                                        "boundingRegions": [
+                                            {
+                                                "pageNumber": 1,
+                                                "polygon": [
+                                                    915,
+                                                    700,
+                                                    1007,
+                                                    699,
+                                                    1007,
+                                                    717,
+                                                    916,
+                                                    716
+                                                ]
+                                            }
+                                        ],
+                                        "confidence": 0.92,
+                                        "spans": [
+                                            {
+                                                "offset": 1291,
+                                                "length": 11
+                                            }
+                                        ]
+                                    },
+                                    "Description": {
+                                        "type": "string",
+                                        "valueString": "Tmt Bars 10mm",
+                                        "content": "Tmt Bars 10mm",
+                                        "boundingRegions": [
+                                            {
+                                                "pageNumber": 1,
+                                                "polygon": [
+                                                    91,
+                                                    699,
+                                                    214,
+                                                    699,
+                                                    214,
+                                                    716,
+                                                    91,
+                                                    716
+                                                ]
+                                            }
+                                        ],
+                                        "confidence": 0.915,
+                                        "spans": [
+                                            {
+                                                "offset": 1232,
+                                                "length": 13
+                                            }
+                                        ]
+                                    },
+                                    "ProductCode": {
+                                        "type": "string",
+                                        "valueString": "72142090",
+                                        "content": "72142090",
+                                        "boundingRegions": [
+                                            {
+                                                "pageNumber": 1,
+                                                "polygon": [
+                                                    602,
+                                                    699,
+                                                    670,
+                                                    699,
+                                                    671,
+                                                    714,
+                                                    602,
+                                                    714
+                                                ]
+                                            }
+                                        ],
+                                        "confidence": 0.886,
+                                        "spans": [
+                                            {
+                                                "offset": 1246,
+                                                "length": 8
+                                            }
+                                        ]
+                                    },
+                                    "Tax": {
+                                        "type": "",
+                                        "content": "",
+                                        "boundingRegions": null,
+                                        "confidence": 0,
+                                        "spans": null
+                                    },
+                                    "TaxRate": {
+                                        "type": "",
+                                        "content": "",
+                                        "boundingRegions": null,
+                                        "confidence": 0,
+                                        "spans": null
+                                    }
+                                },
+                                "content": "1\nTmt Bars 10mm\n72142090\n7.000 MT\n58,600.00\nMT\n4,10,200.00",
+                                "boundingRegions": [
+                                    {
+                                        "pageNumber": 1,
+                                        "polygon": [
+                                            68,
+                                            699,
+                                            1007,
+                                            699,
+                                            1007,
+                                            717,
+                                            68,
+                                            717
+                                        ]
+                                    }
+                                ],
+                                "confidence": 0.878,
+                                "spans": [
+                                    {
+                                        "offset": 1230,
+                                        "length": 46
+                                    },
+                                    {
+                                        "offset": 1291,
+                                        "length": 11
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "object",
+                                "valueObject": {
+                                    "Amount": {
+                                        "type": "currency",
+                                        "valueCurrency": {
+                                            "amount": 230400,
+                                            "currencyCode": "INR"
+                                        },
+                                        "content": "2,30,400.00",
+                                        "boundingRegions": [
+                                            {
+                                                "pageNumber": 1,
+                                                "polygon": [
+                                                    916,
+                                                    719,
+                                                    1006,
+                                                    717,
+                                                    1006,
+                                                    734,
+                                                    916,
+                                                    734
+                                                ]
+                                            }
+                                        ],
+                                        "confidence": 0.919,
+                                        "spans": [
+                                            {
+                                                "offset": 1350,
+                                                "length": 11
+                                            }
+                                        ]
+                                    },
+                                    "Description": {
+                                        "type": "string",
+                                        "valueString": "Tmt Bars 12mm",
+                                        "content": "Tmt Bars 12mm",
+                                        "boundingRegions": [
+                                            {
+                                                "pageNumber": 1,
+                                                "polygon": [
+                                                    90,
+                                                    717,
+                                                    214,
+                                                    717,
+                                                    214,
+                                                    735,
+                                                    90,
+                                                    735
+                                                ]
+                                            }
+                                        ],
+                                        "confidence": 0.916,
+                                        "spans": [
+                                            {
+                                                "offset": 1277,
+                                                "length": 13
+                                            }
+                                        ]
+                                    },
+                                    "ProductCode": {
+                                        "type": "string",
+                                        "valueString": "72142090",
+                                        "content": "72142090",
+                                        "boundingRegions": [
+                                            {
+                                                "pageNumber": 1,
+                                                "polygon": [
+                                                    602,
+                                                    716,
+                                                    670,
+                                                    717,
+                                                    670,
+                                                    732,
+                                                    602,
+                                                    731
+                                                ]
+                                            }
+                                        ],
+                                        "confidence": 0.882,
+                                        "spans": [
+                                            {
+                                                "offset": 1305,
+                                                "length": 8
+                                            }
+                                        ]
+                                    },
+                                    "Tax": {
+                                        "type": "",
+                                        "content": "",
+                                        "boundingRegions": null,
+                                        "confidence": 0,
+                                        "spans": null
+                                    },
+                                    "TaxRate": {
+                                        "type": "",
+                                        "content": "",
+                                        "boundingRegions": null,
+                                        "confidence": 0,
+                                        "spans": null
+                                    }
+                                },
+                                "content": "Tmt Bars 12mm\n2\n72142090\n4.000 MT\n57,600.00\nMT\n2,30,400.00",
+                                "boundingRegions": [
+                                    {
+                                        "pageNumber": 1,
+                                        "polygon": [
+                                            67,
+                                            716,
+                                            1006,
+                                            716,
+                                            1006,
+                                            735,
+                                            67,
+                                            735
+                                        ]
+                                    }
+                                ],
+                                "confidence": 0.878,
+                                "spans": [
+                                    {
+                                        "offset": 1277,
+                                        "length": 13
+                                    },
+                                    {
+                                        "offset": 1303,
+                                        "length": 32
+                                    },
+                                    {
+                                        "offset": 1350,
+                                        "length": 11
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "object",
+                                "valueObject": {
+                                    "Amount": {
+                                        "type": "currency",
+                                        "valueCurrency": {
+                                            "amount": 144000,
+                                            "currencyCode": "INR"
+                                        },
+                                        "content": "1,44,000.00",
+                                        "boundingRegions": [
+                                            {
+                                                "pageNumber": 1,
+                                                "polygon": [
+                                                    917,
+                                                    737,
+                                                    1006,
+                                                    735,
+                                                    1006,
+                                                    752,
+                                                    917,
+                                                    752
+                                                ]
+                                            }
+                                        ],
+                                        "confidence": 0.919,
+                                        "spans": [
+                                            {
+                                                "offset": 1411,
+                                                "length": 11
+                                            }
+                                        ]
+                                    },
+                                    "Description": {
+                                        "type": "string",
+                                        "valueString": "Tmt Bars 16mm",
+                                        "content": "Tmt Bars 16mm",
+                                        "boundingRegions": [
+                                            {
+                                                "pageNumber": 1,
+                                                "polygon": [
+                                                    91,
+                                                    733,
+                                                    213,
+                                                    735,
+                                                    213,
+                                                    754,
+                                                    91,
+                                                    752
+                                                ]
+                                            }
+                                        ],
+                                        "confidence": 0.917,
+                                        "spans": [
+                                            {
+                                                "offset": 1336,
+                                                "length": 13
+                                            }
+                                        ]
+                                    },
+                                    "ProductCode": {
+                                        "type": "string",
+                                        "valueString": "72142090",
+                                        "content": "72142090",
+                                        "boundingRegions": [
+                                            {
+                                                "pageNumber": 1,
+                                                "polygon": [
+                                                    602,
+                                                    734,
+                                                    670,
+                                                    734,
+                                                    670,
+                                                    750,
+                                                    602,
+                                                    749
+                                                ]
+                                            }
+                                        ],
+                                        "confidence": 0.884,
+                                        "spans": [
+                                            {
+                                                "offset": 1364,
+                                                "length": 8
+                                            }
+                                        ]
+                                    },
+                                    "Tax": {
+                                        "type": "",
+                                        "content": "",
+                                        "boundingRegions": null,
+                                        "confidence": 0,
+                                        "spans": null
+                                    },
+                                    "TaxRate": {
+                                        "type": "",
+                                        "content": "",
+                                        "boundingRegions": null,
+                                        "confidence": 0,
+                                        "spans": null
+                                    }
+                                },
+                                "content": "Tmt Bars 16mm\n3\n72142090\n2.500 MT\n57,600.00\nMT\n1,44,000.00",
+                                "boundingRegions": [
+                                    {
+                                        "pageNumber": 1,
+                                        "polygon": [
+                                            66,
+                                            734,
+                                            1006,
+                                            734,
+                                            1006,
+                                            753,
+                                            66,
+                                            753
+                                        ]
+                                    }
+                                ],
+                                "confidence": 0.877,
+                                "spans": [
+                                    {
+                                        "offset": 1336,
+                                        "length": 13
+                                    },
+                                    {
+                                        "offset": 1362,
+                                        "length": 32
+                                    },
+                                    {
+                                        "offset": 1411,
+                                        "length": 11
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "object",
+                                "valueObject": {
+                                    "Amount": {
+                                        "type": "currency",
+                                        "valueCurrency": {
+                                            "amount": 230400,
+                                            "currencyCode": "INR"
+                                        },
+                                        "content": "2,30,400.00",
+                                        "boundingRegions": [
+                                            {
+                                                "pageNumber": 1,
+                                                "polygon": [
+                                                    917,
+                                                    755,
+                                                    1006,
+                                                    754,
+                                                    1006,
+                                                    770,
+                                                    917,
+                                                    770
+                                                ]
+                                            }
+                                        ],
+                                        "confidence": 0.919,
+                                        "spans": [
+                                            {
+                                                "offset": 1489,
+                                                "length": 11
+                                            }
+                                        ]
+                                    },
+                                    "Description": {
+                                        "type": "string",
+                                        "valueString": "Tmt Bars 20mm",
+                                        "content": "Tmt Bars 20mm",
+                                        "boundingRegions": [
+                                            {
+                                                "pageNumber": 1,
+                                                "polygon": [
+                                                    91,
+                                                    753,
+                                                    213,
+                                                    753,
+                                                    213,
+                                                    771,
+                                                    91,
+                                                    771
+                                                ]
+                                            }
+                                        ],
+                                        "confidence": 0.916,
+                                        "spans": [
+                                            {
+                                                "offset": 1397,
+                                                "length": 13
+                                            }
+                                        ]
+                                    },
+                                    "ProductCode": {
+                                        "type": "string",
+                                        "valueString": "72142090",
+                                        "content": "72142090",
+                                        "boundingRegions": [
+                                            {
+                                                "pageNumber": 1,
+                                                "polygon": [
+                                                    602,
+                                                    752,
+                                                    670,
+                                                    752,
+                                                    671,
+                                                    768,
+                                                    602,
+                                                    767
+                                                ]
+                                            }
+                                        ],
+                                        "confidence": 0.884,
+                                        "spans": [
+                                            {
+                                                "offset": 1423,
+                                                "length": 8
+                                            }
+                                        ]
+                                    },
+                                    "Tax": {
+                                        "type": "",
+                                        "content": "",
+                                        "boundingRegions": null,
+                                        "confidence": 0,
+                                        "spans": null
+                                    },
+                                    "TaxRate": {
+                                        "type": "",
+                                        "content": "",
+                                        "boundingRegions": null,
+                                        "confidence": 0,
+                                        "spans": null
+                                    }
+                                },
+                                "content": "4\nTmt Bars 20mm\n72142090\n4.000 MT\n57,600.00\nMT\n2,30,400.00",
+                                "boundingRegions": [
+                                    {
+                                        "pageNumber": 1,
+                                        "polygon": [
+                                            66,
+                                            752,
+                                            1006,
+                                            752,
+                                            1006,
+                                            771,
+                                            66,
+                                            771
+                                        ]
+                                    }
+                                ],
+                                "confidence": 0.878,
+                                "spans": [
+                                    {
+                                        "offset": 1395,
+                                        "length": 15
+                                    },
+                                    {
+                                        "offset": 1423,
+                                        "length": 30
+                                    },
+                                    {
+                                        "offset": 1489,
+                                        "length": 11
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "object",
+                                "valueObject": {
+                                    "Amount": {
+                                        "type": "currency",
+                                        "valueCurrency": {
+                                            "amount": 782208,
+                                            "currencyCode": "INR"
+                                        },
+                                        "content": "7,82,208.00",
+                                        "boundingRegions": [
+                                            {
+                                                "pageNumber": 1,
+                                                "polygon": [
+                                                    916,
+                                                    772,
+                                                    1006,
+                                                    771,
+                                                    1006,
+                                                    788,
+                                                    916,
+                                                    788
+                                                ]
+                                            }
+                                        ],
+                                        "confidence": 0.92,
+                                        "spans": [
+                                            {
+                                                "offset": 1514,
+                                                "length": 11
+                                            }
+                                        ]
+                                    },
+                                    "Description": {
+                                        "type": "string",
+                                        "valueString": "Tmt Bars 25mm",
+                                        "content": "Tmt Bars 25mm",
+                                        "boundingRegions": [
+                                            {
+                                                "pageNumber": 1,
+                                                "polygon": [
+                                                    90,
+                                                    770,
+                                                    214,
+                                                    771,
+                                                    214,
+                                                    789,
+                                                    90,
+                                                    788
+                                                ]
+                                            }
+                                        ],
+                                        "confidence": 0.916,
+                                        "spans": [
+                                            {
+                                                "offset": 1456,
+                                                "length": 13
+                                            }
+                                        ]
+                                    },
+                                    "ProductCode": {
+                                        "type": "string",
+                                        "valueString": "72142090",
+                                        "content": "72142090",
+                                        "boundingRegions": [
+                                            {
+                                                "pageNumber": 1,
+                                                "polygon": [
+                                                    602,
+                                                    770,
+                                                    671,
+                                                    770,
+                                                    671,
+                                                    786,
+                                                    602,
+                                                    785
+                                                ]
+                                            }
+                                        ],
+                                        "confidence": 0.886,
+                                        "spans": [
+                                            {
+                                                "offset": 1470,
+                                                "length": 8
+                                            }
+                                        ]
+                                    },
+                                    "Tax": {
+                                        "type": "",
+                                        "content": "",
+                                        "boundingRegions": null,
+                                        "confidence": 0,
+                                        "spans": null
+                                    },
+                                    "TaxRate": {
+                                        "type": "",
+                                        "content": "",
+                                        "boundingRegions": null,
+                                        "confidence": 0,
+                                        "spans": null
+                                    }
+                                },
+                                "content": "5\nTmt Bars 25mm\n72142090\n13.580 MT\n57,600.00\nMT\n7,82,208.00",
+                                "boundingRegions": [
+                                    {
+                                        "pageNumber": 1,
+                                        "polygon": [
+                                            66,
+                                            770,
+                                            1006,
+                                            770,
+                                            1006,
+                                            789,
+                                            66,
+                                            789
+                                        ]
+                                    }
+                                ],
+                                "confidence": 0.878,
+                                "spans": [
+                                    {
+                                        "offset": 1454,
+                                        "length": 34
+                                    },
+                                    {
+                                        "offset": 1501,
+                                        "length": 24
+                                    }
+                                ]
+                            }
+                        ],
+                        "content": "",
+                        "boundingRegions": null,
+                        "confidence": 0,
+                        "spans": null
+                    },
+                    "TaxDetails": {
+                        "type": "array",
+                        "valueArray": [
+                            {
+                                "type": "object",
+                                "valueObject": {
+                                    "Amount": {
+                                        "type": "currency",
+                                        "valueCurrency": {
+                                            "amount": 323497.44,
+                                            "currencyCode": "INR"
+                                        },
+                                        "content": "3,23,497.44",
+                                        "boundingRegions": [
+                                            {
+                                                "pageNumber": 1,
+                                                "polygon": [
+                                                    829,
+                                                    1173,
+                                                    911,
+                                                    1173,
+                                                    911,
+                                                    1188,
+                                                    830,
+                                                    1188
+                                                ]
+                                            }
+                                        ],
+                                        "confidence": 0.888,
+                                        "spans": [
+                                            {
+                                                "offset": 1807,
+                                                "length": 11
+                                            }
+                                        ]
+                                    },
+                                    "Description": {
+                                        "type": "",
+                                        "content": "",
+                                        "boundingRegions": null,
+                                        "confidence": 0,
+                                        "spans": null
+                                    },
+                                    "ProductCode": {
+                                        "type": "",
+                                        "content": "",
+                                        "boundingRegions": null,
+                                        "confidence": 0,
+                                        "spans": null
+                                    },
+                                    "Tax": {
+                                        "type": "",
+                                        "content": "",
+                                        "boundingRegions": null,
+                                        "confidence": 0,
+                                        "spans": null
+                                    },
+                                    "TaxRate": {
+                                        "type": "",
+                                        "content": "",
+                                        "boundingRegions": null,
+                                        "confidence": 0,
+                                        "spans": null
+                                    }
+                                },
+                                "content": "IGST@18%\n18\n%\n3,23,497.44\nTotal\n31.080 MT\n₹ 21,20,705.44\nAmount Chargeable (in words)\nE. \u0026 O.E\nINR Twenty One Lakh Twenty Thousand Seven Hundred Five and Forty Four paise Only\nHSN/SAC\nTaxable\nIntegrated Tax\nTotal\nValue\nRate\nAmount\nTax Amount\n72142090\n17,97,208.00\n18%\n3,23,497.44\n3,23,497.44",
+                                "boundingRegions": [
+                                    {
+                                        "pageNumber": 1,
+                                        "polygon": [
+                                            64,
+                                            822,
+                                            1009,
+                                            822,
+                                            1009,
+                                            1188,
+                                            64,
+                                            1188
+                                        ]
+                                    }
+                                ],
+                                "confidence": 0.39,
+                                "spans": [
+                                    {
+                                        "offset": 1539,
+                                        "length": 291
+                                    }
+                                ]
+                            }
+                        ],
+                        "content": "",
+                        "boundingRegions": null,
+                        "confidence": 0,
+                        "spans": null
+                    },
+                    "VendorAddress": {
+                        "type": "address",
+                        "valueAddress": {
+                            "houseNumber": "C-82",
+                            "road": "LOHA MANDI, B.S ROAD, INDUSTRIAL AREA",
+                            "postalCode": "201001",
+                            "city": "GHAZIABAD",
+                            "state": "UTTAR PRADESH",
+                            "streetAddress": "C-82 LOHA MANDI, B.S ROAD, INDUSTRIAL AREA",
+                            "stateDistrict": "GHAZIABAD"
+                        },
+                        "content": "C-82, LOHA MANDI, B.S ROAD, INDUSTRIAL AREA GHAZIABAD\nGHAZIABAD , UTTAR PRADESH - 201001",
+                        "boundingRegions": [
+                            {
+                                "pageNumber": 1,
+                                "polygon": [
+                                    187,
+                                    288,
+                                    467,
+                                    288,
+                                    467,
+                                    324,
+                                    187,
+                                    324
+                                ]
+                            }
+                        ],
+                        "confidence": 0.779,
+                        "spans": [
+                            {
+                                "offset": 235,
+                                "length": 53
+                            },
+                            {
+                                "offset": 327,
+                                "length": 34
+                            }
+                        ]
+                    },
+                    "VendorAddressRecipient": {
+                        "type": "string",
+                        "valueString": "SHALIKA ENTERPRISES PVT LTD (GZB)",
+                        "content": "SHALIKA ENTERPRISES PVT LTD (GZB)",
+                        "boundingRegions": [
+                            {
+                                "pageNumber": 1,
+                                "polygon": [
+                                    188,
+                                    269,
+                                    466,
+                                    269,
+                                    466,
+                                    289,
+                                    188,
+                                    289
+                                ]
+                            }
+                        ],
+                        "confidence": 0.886,
+                        "spans": [
+                            {
+                                "offset": 167,
+                                "length": 33
+                            }
+                        ]
+                    },
+                    "VendorName": {
+                        "type": "string",
+                        "valueString": "सेल SAIL",
+                        "content": "सेल SAIL",
+                        "boundingRegions": [
+                            {
+                                "pageNumber": 1,
+                                "polygon": [
+                                    73,
+                                    332,
+                                    163,
+                                    333,
+                                    163,
+                                    358,
+                                    73,
+                                    357
+                                ]
+                            }
+                        ],
+                        "confidence": 0.683,
+                        "spans": [
+                            {
+                                "offset": 362,
+                                "length": 7
+                            }
+                        ]
+                    },
+                    "VendorTaxId": {
+                        "type": "string",
+                        "valueString": "09AABCS7005H2ZF",
+                        "content": "09AABCS7005H2ZF",
+                        "boundingRegions": [
+                            {
+                                "pageNumber": 1,
+                                "polygon": [
+                                    284,
+                                    323,
+                                    449,
+                                    323,
+                                    449,
+                                    341,
+                                    284,
+                                    342
+                                ]
+                            }
+                        ],
+                        "confidence": 0.937,
+                        "spans": [
+                            {
+                                "offset": 381,
+                                "length": 15
+                            }
+                        ]
+                    }
+                },
+                "confidence": 1,
+                "spans": [
+                    {
+                        "offset": 0,
+                        "length": 2261
+                    }
+                ]
+            }
+        ]
+    }
+}
