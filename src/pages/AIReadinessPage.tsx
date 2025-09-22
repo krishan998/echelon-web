@@ -200,7 +200,7 @@ export function AIReadinessPage() {
             className="w-8 h-8"
             style={{ filter: 'brightness(0) saturate(100%) invert(8%) sepia(3%) saturate(0%) hue-rotate(0deg) brightness(95%) contrast(90%)' }}
           />
-          <span className="text-xl font-semibold tracking-tight text-stone-900 font-ibm-plex-serif">Nexbit</span>
+          <span className="text-xl font-semibold tracking-tight text-stone-900 font-sf-pro">Nexbit</span>
         </div>
         <motion.button
           whileHover={{ scale: 1.05 }}
@@ -382,10 +382,14 @@ export function AIReadinessPage() {
 
                   {/* Shimmer sweep */}
                   <motion.div
-                    className="absolute inset-y-0 -left-1/3 w-1/3 rounded-full"
-                    style={{ background: 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.65) 50%, rgba(255,255,255,0) 100%)' }}
-                    animate={{ x: ['0%', '130%'] }}
-                    transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+                    className="absolute inset-y-0 -left-1/2 w-1/2 rounded-full pointer-events-none"
+                    style={{
+                      background: 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.45) 50%, rgba(255,255,255,0) 100%)',
+                      filter: 'blur(4px)',
+                      transform: 'skewX(-15deg)'
+                    }}
+                    animate={{ x: ['0%', '160%'] }}
+                    transition={{ duration: 1.4, repeat: Infinity, ease: 'linear' }}
                   />
                   </div>
                   <div className="mt-3 text-xs text-stone-600">This takes just a few seconds</div>
@@ -516,7 +520,7 @@ export function AIReadinessPage() {
                       {/* Table Rows */}
                       <div className="bg-white">
                         <div className="grid grid-cols-[0.9fr_1.05fr_1.05fr] md:grid-cols-[0.7fr_1.15fr_1.15fr] border-b border-stone-200">
-                          <div className="px-3 py-3 text-xs font-medium text-stone-900">Find Product</div>
+                          <div className="px-3 py-3 text-xs font-medium text-stone-900">Finding Product</div>
                           <div className="px-3 py-3 text-center">
                             <div className="text-sm font-semibold text-stone-900 whitespace-nowrap">
                               {assessmentData.metrics.customerJourneyComplexity.findProductActionsCurrent}
@@ -650,7 +654,20 @@ export function AIReadinessPage() {
                     <p className="text-sm text-stone-600 mb-4">
                       Current user experience type
                     </p>
-                    <div className="text-sm text-stone-800 font-semibold mb-2">{assessmentData.metrics.personalizationIndex.currentStatus}</div>
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      {assessmentData.metrics.personalizationIndex.currentStatus
+                        .split(',')
+                        .map((s) => s.trim())
+                        .filter(Boolean)
+                        .map((status, idx) => (
+                          <span
+                            key={idx}
+                            className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-stone-100 text-stone-800 border border-stone-200"
+                          >
+                            {status}
+                          </span>
+                        ))}
+                    </div>
                     <div className="text-sm text-stone-700 leading-relaxed">Analysis: {assessmentData.metrics.personalizationIndex.analysis}</div>
                   </motion.div>
                 </div>
@@ -735,6 +752,32 @@ export function AIReadinessPage() {
                           </div>
                         </div>
                       </div>
+                    </div>
+                  </motion.div>
+                  {/* Static message about new categories (placed below Business Impact) */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.0, duration: 0.6 }}
+                    className="relative overflow-hidden rounded-2xl p-5 md:p-6 border border-stone-800/50 bg-stone-950 text-white"
+                  >
+                    <div
+                      className="absolute inset-0 opacity-30 pointer-events-none"
+                      style={{ background: 'radial-gradient(1200px 300px at 100% 100%, rgba(255,255,255,0.08), transparent 60%)' }}
+                    />
+                    <h3 className="relative z-10 text-xl md:text-2xl font-semibold tracking-tight mb-2 font-ibm-plex-serif">
+                      Launching a New Category?
+                    </h3>
+                    <p className="relative z-10 text-sm md:text-base text-stone-100/90 leading-relaxed">
+                      Skip filters, quizzes, and weeks of A/B tests. With an AI‑native assistant you go live from day one.
+                    </p>
+                    <p className="relative z-10 mt-1 text-[13px] md:text-sm text-stone-300 leading-relaxed">
+                      There&apos;s no training phase: it understands products on day one.
+                    </p>
+                    <div className="relative z-10 mt-3 flex flex-wrap gap-2 text-xs md:text-sm">
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/10 border border-white/20 text-stone-100">No A/B tests</span>
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/10 border border-white/20 text-stone-100">No training data</span>
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/10 border border-white/20 text-stone-100">Day‑one launch</span>
                     </div>
                   </motion.div>
                 </div>

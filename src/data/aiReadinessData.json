@@ -15,7 +15,7 @@
         "analysis": "Product descriptions are present but lack the structured attributes (e.g., 'Skin Type', 'Best For', 'Material') needed for your customers' advanced, specific queries."
       },
       "personalizationIndex": {
-        "currentStatus": "Static Catalogue",
+        "currentStatus": "Static Catalogue, Basic Personalization",
         "analysis": "Your website provides the same experience to every visitor, regardless of their individual needs or intent. This is the 2020 standard."
       },
       "competitorBenchmark": {
