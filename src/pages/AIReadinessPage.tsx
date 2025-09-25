@@ -153,7 +153,8 @@ export function AIReadinessPage() {
     try {
       const sp = new URLSearchParams(window.location.search);
       sp.set('brand', normalizedUrl);
-      if (email) sp.set('email', email);
+      // Ensure email param is not present in the shareable URL
+      sp.delete('email');
       const newUrl = `${window.location.pathname}?${sp.toString()}`;
       window.history.replaceState({}, '', newUrl);
     } catch {}
@@ -193,13 +194,11 @@ export function AIReadinessPage() {
   useEffect(() => {
     const sp = new URLSearchParams(window.location.search);
     const brand = sp.get('brand');
-    const shareEmail = sp.get('email') || '';
     if (brand) {
       const normalized = normalizeUrl(brand);
       const data = (aiReadinessData as Record<string, AssessmentData>)[normalized];
       if (data) {
         setUrl(normalized);
-        setEmail(shareEmail);
         setAssessmentData(data);
         setBrandDomain(normalized);
         setCurrentStep('results');
