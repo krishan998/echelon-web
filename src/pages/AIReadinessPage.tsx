@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, AlertCircle } from 'lucide-react';
-import { normalizeUrl, isValidUrl, isValidEmail, isEmailDomainAuthorized, submitEmailToSheet, getEmailDomain, submitWaitlistEmail } from '../utils/urlUtils';
+import { normalizeUrl, isValidUrl, isValidEmail, isEmailDomainAuthorized, submitEmailToSheet, getEmailDomain } from '../utils/urlUtils';
 import aiReadinessData from '../data/aiReadinessData.json';
 import logoSrc from '../assets/logo.png';
+import manmattersSearch from '../assets/manmattersSearch.png';
 
 interface AssessmentData {
   overallScore: number;
@@ -44,15 +45,14 @@ export function AIReadinessPage() {
   const [currentStep, setCurrentStep] = useState<'form' | 'loading' | 'results'>('form');
   const [url, setUrl] = useState('');
   const [email, setEmail] = useState('');
+  const [brandDomain, setBrandDomain] = useState('');
   const [urlError, setUrlError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
   const [assessmentData, setAssessmentData] = useState<AssessmentData | null>(null);
   const [animatedScore, setAnimatedScore] = useState(0);
   // Results CTA email capture state
-  const [resultsEmail, setResultsEmail] = useState('');
-  const [resultsEmailError, setResultsEmailError] = useState('');
-  const [resultsSubmitted, setResultsSubmitted] = useState(false);
+  // Bottom CTA simplified to a single Calendly button; email capture removed
 
   // Handle loading messages rotation
   useEffect(() => {
@@ -149,7 +149,17 @@ export function AIReadinessPage() {
     // Submit email to SheetDB (fire-and-forget)
     submitEmailToSheet(email, url);
 
+    // Persist brand + email into the URL for shareable links
+    try {
+      const sp = new URLSearchParams(window.location.search);
+      sp.set('brand', normalizedUrl);
+      if (email) sp.set('email', email);
+      const newUrl = `${window.location.pathname}?${sp.toString()}`;
+      window.history.replaceState({}, '', newUrl);
+    } catch {}
+
     setAssessmentData(data);
+    setBrandDomain(normalizedUrl);
     setCurrentStep('loading');
   };
 
@@ -162,9 +172,6 @@ export function AIReadinessPage() {
     setAssessmentData(null);
     setAnimatedScore(0);
     setLoadingMessageIndex(0);
-    setResultsEmail('');
-    setResultsEmailError('');
-    setResultsSubmitted(false);
   };
 
   // Load local images from assets (beauty, fashion, health) and support common formats
@@ -181,6 +188,24 @@ export function AIReadinessPage() {
   const imageColumns: string[][] = [beautyImages, fashionImages, healthImages];
 
   const flatImages = imageColumns.flat();
+
+  // On load: support shareable URL (?brand=domain&email=user@brand)
+  useEffect(() => {
+    const sp = new URLSearchParams(window.location.search);
+    const brand = sp.get('brand');
+    const shareEmail = sp.get('email') || '';
+    if (brand) {
+      const normalized = normalizeUrl(brand);
+      const data = (aiReadinessData as Record<string, AssessmentData>)[normalized];
+      if (data) {
+        setUrl(normalized);
+        setEmail(shareEmail);
+        setAssessmentData(data);
+        setBrandDomain(normalized);
+        setCurrentStep('results');
+      }
+    }
+  }, []);
 
   // We duplicate each column once at render time for seamless 50% translate loops
 
@@ -208,7 +233,7 @@ export function AIReadinessPage() {
           onClick={resetAssessment}
           className="flex items-center gap-2 px-5 py-2.5 text-stone-700 rounded-full font-medium hover:bg-black/5 transition-colors border border-stone-200/70 bg-white/70 backdrop-blur-sm shadow-sm"
         >
-          Back to Home
+          Check Another Brand
         </motion.button>
       </motion.header>
 
@@ -435,6 +460,7 @@ export function AIReadinessPage() {
               transition={{ duration: 0.6 }}
               className="max-w-6xl mx-auto mt-6 sm:mt-0"
             >
+ 
               {/* Header */}
               <div className="text-center mb-12">
                 <motion.h1
@@ -445,14 +471,16 @@ export function AIReadinessPage() {
                 >
                   AI Readiness Report
                 </motion.h1>
-                <motion.p
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.6 }}
-                  className="text-lg md:text-xl text-stone-600"
-                >
-                  Here's how your website scores for AI integration
-                </motion.p>
+                {brandDomain && (
+                  <motion.p
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.25, duration: 0.6 }}
+                    className="text-sm md:text-xl text-stone-800 font-medium"
+                  >
+                    {brandDomain}
+                  </motion.p>
+                )}
               </div>
 
               {/* Overall Score - Linear Progress */}
@@ -468,7 +496,10 @@ export function AIReadinessPage() {
                   <div className="text-2xl font-bold text-stone-900 font-ibm-plex-serif">{animatedScore} <span className="text-stone-600 text-base font-medium">/ 100</span></div>
                 </div>
                 {/* Track */}
-                <div className="w-full h-4 md:h-5 rounded-full bg-stone-200/80 overflow-hidden border border-stone-300/60">
+                <div
+                  className="w-full h-4 md:h-5 rounded-full overflow-hidden"
+                  style={{ background: '#ECEAE9', boxShadow: 'inset 0 0 0 1px #BFB59C' }}
+                >
                   {/* Fill */}
                   {(() => {
                     const score = assessmentData.overallScore;
@@ -477,8 +508,11 @@ export function AIReadinessPage() {
                         initial={{ width: '0%' }}
                         animate={{ width: `${score}%` }}
                         transition={{ delay: 0.5, duration: 1.8, ease: 'easeOut' }}
-                        style={{ background: 'linear-gradient(90deg, #475569, #0f172a)' }}
-                        className="h-full rounded-full shadow-[inset_0_0_8px_rgba(0,0,0,0.08)]"
+                        style={{
+                          background: 'linear-gradient(90deg, #444447 0%, #444447 100%)',
+                          boxShadow: '0 6px 14px rgba(78,71,111,0.35), inset 0 0 8px rgba(0,0,0,0.08)'
+                        }}
+                        className="h-full rounded-full"
                       />
                     );
                   })()}
@@ -615,31 +649,7 @@ export function AIReadinessPage() {
                     </div>
                   </motion.div>
 
-                  {/* Metric 2: Product Details Grade */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.7, duration: 0.6 }}
-                    className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-stone-200/70"
-                  >
-                    <h3 className="text-xl font-semibold tracking-tight text-stone-900 mb-1 font-ibm-plex-serif">
-                      Product Details Grade
-                    </h3>
-                    <p className="text-sm text-stone-600 mb-4">
-                      Are product details ready for AI?
-                    </p>
-                    
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="text-3xl font-bold text-stone-900 font-ibm-plex-serif">
-                        {assessmentData.metrics.productDetailsGrade.grade}
-                      </div>
-                      <div className="text-sm text-stone-600">Grade</div>
-                    </div>
-                    
-                    <p className="text-sm text-stone-700 leading-relaxed">
-                      {assessmentData.metrics.productDetailsGrade.analysis.slice(0, 120)}...
-                    </p>
-                  </motion.div>
+                  
 
                   {/* Metric 3: Personalization Index */}
                   <motion.div
@@ -648,27 +658,39 @@ export function AIReadinessPage() {
                     transition={{ delay: 0.8, duration: 0.6 }}
                     className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-stone-200/70"
                   >
-                    <h3 className="text-xl font-semibold tracking-tight text-stone-900 mb-1 font-ibm-plex-serif">
+                    <h3 className="text-xl font-semibold tracking-tight text-stone-900 mb-3 font-ibm-plex-serif">
                       Personalization Index
                     </h3>
-                    <p className="text-sm text-stone-600 mb-4">
-                      Current user experience type
-                    </p>
-                    <div className="flex flex-wrap gap-2 mb-2">
-                      {assessmentData.metrics.personalizationIndex.currentStatus
-                        .split(',')
-                        .map((s) => s.trim())
-                        .filter(Boolean)
-                        .map((status, idx) => (
-                          <span
-                            key={idx}
-                            className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-stone-100 text-stone-800 border border-stone-200"
-                          >
-                            {status}
-                          </span>
-                        ))}
+                    <div className="mb-4">
+                      <div className="text-[13px] uppercase tracking-wide text-stone-700 font-medium mb-1">Right Now:</div>
+                      <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-stone-200 text-stone-800 border border-stone-200">
+                        Static Catalogue
+                      </div>
+                      <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-stone-200 text-stone-800 border border-stone-200">
+                        Basic Personalization
+                      </div>
                     </div>
-                    <div className="text-sm text-stone-700 leading-relaxed">Analysis: {assessmentData.metrics.personalizationIndex.analysis}</div>
+
+                    <ul className="list-disc pl-5 space-y-1 text-sm text-stone-700 mb-4">
+                      <li>No personalization during discovery</li>
+                      <li>Users leave with questions still in mind</li>
+                    </ul>
+
+                    {/* Example questions users try to ask */}
+                    <div className="rounded-xl bg-stone-50 border border-stone-200 p-3 mb-4">
+                      <div className="text-[13px] uppercase tracking-wide text-stone-900 font-medium mb-2">What users want to ask</div>
+                      <div className="space-y-1.5 text-sm text-stone-800">
+                        <div className="rounded-lg bg-white border border-stone-200 px-3 py-2">suggest me product for my dense beard</div>
+                        <div className="rounded-lg bg-white border border-stone-200 px-3 py-2">is Growmax Topical Solution (60ml) good for my beard</div>
+                        <div className="rounded-lg bg-white border border-stone-200 px-3 py-2">how long will i have to apply it?</div>
+                        <div className="rounded-lg bg-white border border-stone-200 px-3 py-2">can i apply it 5 times a day for quick result</div>
+                      </div>
+                    </div>
+
+                    {/* Static discovery image from assets */}
+                    <div className="mt-3">
+                      <img src={manmattersSearch} alt="Static discovery example" className="w-full rounded-xl border border-stone-200" />
+                    </div>
                   </motion.div>
                 </div>
 
@@ -698,8 +720,8 @@ export function AIReadinessPage() {
                             initial={{ width: '0%' }}
                             animate={{ width: `${avg}%` }}
                             transition={{ delay: 0.2, duration: 1.4, ease: 'easeOut' }}
-                            style={{ background: 'linear-gradient(90deg, #16a34a, #065f46)' }}
-                            className="h-full rounded-full shadow-[inset_0_0_8px_rgba(0,0,0,0.06)]"
+                            style={{ background: '#BCD1C9', boxShadow: 'inset 0 0 8px rgba(0,0,0,0.06)' }}
+                            className="h-full rounded-full"
                           />
                         );
                       })()}
@@ -713,7 +735,8 @@ export function AIReadinessPage() {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.9, duration: 0.6 }}
-                    className="bg-stone-50 rounded-2xl p-4 shadow-sm border border-stone-200/80"
+                    className="rounded-2xl p-4 shadow-sm border border-stone-200/80"
+                    style={{ background: '#F0EEE6' }}
                   >
                     <h3 className="text-xl font-semibold tracking-tight text-stone-900 mb-1 font-ibm-plex-serif">
                       The Business Impact
@@ -727,7 +750,7 @@ export function AIReadinessPage() {
                         <div className="flex items-start gap-2">
                           <div className="w-2 h-2 bg-stone-500 rounded-full mt-2 flex-shrink-0"></div>
                           <div>
-                            <p className="font-semibold text-stone-900 text-sm mb-0.5">15-20% Conversion Boost</p>
+                            <p className="font-semibold text-stone-900 text-sm mb-0.5">Upto 30% More Conversion Boost</p>
                             <p className="text-xs text-stone-600">Brands with conversational AI see significant increases</p>
                           </div>
                         </div>
@@ -747,39 +770,44 @@ export function AIReadinessPage() {
                         <div className="flex items-start gap-2">
                           <div className="w-2 h-2 bg-stone-500 rounded-full mt-2 flex-shrink-0"></div>
                           <div>
-                            <p className="font-semibold text-stone-900 text-sm mb-0.5">30% Cart Abandonment</p>
+                            <p className="font-semibold text-stone-900 text-sm mb-0.5">40% Cart Abandonment</p>
                             <p className="text-xs text-stone-600">Customers overwhelmed by choices without guidance</p>
                           </div>
                         </div>
                       </div>
                     </div>
                   </motion.div>
-                  {/* Static message about new categories (placed below Business Impact) */}
+
+                  {/* What Nexbit Can Deliver */}
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1.0, duration: 0.6 }}
-                    className="relative overflow-hidden rounded-2xl p-5 md:p-6 border border-stone-800/50 bg-stone-950 text-white"
+                    className="rounded-2xl p-6 shadow-sm border border-stone-200/70"
+                    style={{ background: '#D5A27F' }}
                   >
-                    <div
-                      className="absolute inset-0 opacity-30 pointer-events-none"
-                      style={{ background: 'radial-gradient(1200px 300px at 100% 100%, rgba(255,255,255,0.08), transparent 60%)' }}
-                    />
-                    <h3 className="relative z-10 text-xl md:text-2xl font-semibold tracking-tight mb-2 font-ibm-plex-serif">
-                      Launching a New Category?
+                    <h3 className="text-xl font-semibold tracking-tight text-stone-900 mb-2 font-ibm-plex-serif">
+                      What Nexbit Can Deliver
                     </h3>
-                    <p className="relative z-10 text-sm md:text-base text-stone-100/90 leading-relaxed">
-                      Skip filters, quizzes, and weeks of A/B tests. With an AI‑native assistant you go live from day one.
-                    </p>
-                    <p className="relative z-10 mt-1 text-[13px] md:text-sm text-stone-300 leading-relaxed">
-                      There&apos;s no training phase: it understands products on day one.
-                    </p>
-                    <div className="relative z-10 mt-3 flex flex-wrap gap-2 text-xs md:text-sm">
-                      <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/10 border border-white/20 text-stone-100">No A/B tests</span>
-                      <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/10 border border-white/20 text-stone-100">No training data</span>
-                      <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/10 border border-white/20 text-stone-100">Day‑one launch</span>
+                    <p className="text-sm text-stone-600 mb-3">Fastest way to get to AI‑native shopping. Fast.</p>
+                    <ul className="list-disc pl-5 space-y-1.5 text-sm text-stone-800">
+                      <li><span className="font-semibold">+10–15% add‑to‑cart</span> from guided discovery on search, collections and catalogue</li>
+                      <li><span className="font-semibold">No Guesswork in discovery why cusomters haven't completed the purchase</span></li>
+                      <li><span className="font-semibold">Plug and Play solution without investing any engineering effort</span></li>
+                    </ul>
+                    <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                      <div className="rounded-xl border border-stone-200 bg-stone-50 p-3">
+                        <div className="text-[12px] uppercase tracking-wide text-stone-500 mb-1">How it fits</div>
+                        <div className="text-stone-800">Sits above catalog; answers only from approved product data and brand policy.</div>
+                      </div>
+                      <div className="rounded-xl border border-stone-200 bg-stone-50 p-3">
+                        <div className="text-[12px] uppercase tracking-wide text-stone-500 mb-1">Safety</div>
+                        <div className="text-stone-800">Answer to user as per brand policy.</div>
+                      </div>
                     </div>
                   </motion.div>
+                  {/* Static message about new categories (placed below Business Impact) */}
+                  
                 </div>
               </div>
 
@@ -788,55 +816,26 @@ export function AIReadinessPage() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.0, duration: 0.6 }}
-                className="text-center bg-gradient-to-r from-slate-800 to-slate-900 rounded-2xl p-8 text-white shadow-sm border border-stone-800/40"
+                className="text-center rounded-2xl p-8 text-stone-900 shadow-sm border"
+                style={{ background: '#D1CFC5', borderColor: 'rgba(0,0,0,0.12)' }}
               >
                 <h3 className="text-2xl font-semibold tracking-tight mb-3 font-ibm-plex-serif">
-                  Ready to Make Your Brand AI‑Native?
+                  Curious what AI can do for shopping? 
                 </h3>
-                <p className="text-base md:text-lg mb-6 text-gray-100/90">
-                  Leave your email and we’ll reach out with a tailored plan.
+                <p className="text-base md:text-lg mb-6 text-stone-800">
+                  Let’s have a quick chat
                 </p>
 
-                {!resultsSubmitted ? (
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      // No checks here; send waitlistemail per spec
-                      submitWaitlistEmail(resultsEmail);
-                      setResultsSubmitted(true);
-                    }}
-                    className="mx-auto max-w-xl flex flex-col sm:flex-row items-stretch gap-3"
+                <div className="mx-auto max-w-xl flex justify-center">
+                  <a
+                    href="https://calendly.com/kp-nexbit/30min"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center px-7 py-3.5 rounded-xl bg-stone-900 text-white font-semibold hover:bg-black transition-colors shadow-sm"
                   >
-                    <input
-                      type="email"
-                      value={resultsEmail}
-                      onChange={(e) => {
-                        setResultsEmail(e.target.value);
-                        setResultsEmailError('');
-                      }}
-                      placeholder="Your work email"
-                    className={`flex-1 px-5 py-3.5 rounded-xl border bg-white/90 text-stone-900 placeholder-stone-500 focus:outline-none focus:ring-4 ${
-                        resultsEmailError ? 'border-stone-400 focus:ring-stone-300' : 'border-stone-300 focus:ring-stone-200'
-                      }`}
-                    />
-                    <button
-                      type="submit"
-                    className="px-6 py-3.5 rounded-xl bg-white text-gray-900 font-semibold hover:bg-gray-50 transition-colors shadow-sm"
-                    >
-                      Submit
-                    </button>
-                  </form>
-                ) : (
-                  <div className="mx-auto max-w-xl">
-                    <div className="inline-block px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-sm">
-                      Thanks! We’ll get in touch shortly.
-                    </div>
-                  </div>
-                )}
-
-                {resultsEmailError && (
-                  <div className="mt-3 text-sm text-red-200">{resultsEmailError}</div>
-                )}
+                    Say Hi
+                  </a>
+                </div>
 
                 {/* Optional: Allow another analysis */}
                 {/* <div className="mt-6">
