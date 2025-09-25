@@ -789,20 +789,20 @@ export function AIReadinessPage() {
                     <h3 className="text-xl font-semibold tracking-tight text-stone-900 mb-2 font-ibm-plex-serif">
                       What Nexbit Can Deliver
                     </h3>
-                    <p className="text-sm text-stone-600 mb-3">Fastest way to get to AI‑native shopping. Fast.</p>
+                    <p className="text-sm text-stone-600 mb-3">Fastest way to get to AI‑native shopping.</p>
                     <ul className="list-disc pl-5 space-y-1.5 text-sm text-stone-800">
-                      <li><span className="font-semibold">+10–15% add‑to‑cart</span> from guided discovery on search, collections and catalogue</li>
-                      <li><span className="font-semibold">No Guesswork in discovery why cusomters haven't completed the purchase</span></li>
-                      <li><span className="font-semibold">Plug and Play solution without investing any engineering effort</span></li>
+                      <li><span className="font-semibold">20–25% Increased add‑to‑cart</span> from chat first discovery on search and catalogue</li>
+                      <li><span className="font-semibold">No guesswork in discovering why users haven’t completed their purchase</span></li>
+                      <li><span className="font-semibold">Plug and Play solution,  with no engineering efforts from brand</span></li>
                     </ul>
                     <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                       <div className="rounded-xl border border-stone-200 bg-stone-50 p-3">
                         <div className="text-[12px] uppercase tracking-wide text-stone-500 mb-1">How it fits</div>
-                        <div className="text-stone-800">Sits above catalog; answers only from approved product data and brand policy.</div>
+                        <div className="text-stone-800">Answers only from trusted product data and brand guidelines.</div>
                       </div>
                       <div className="rounded-xl border border-stone-200 bg-stone-50 p-3">
-                        <div className="text-[12px] uppercase tracking-wide text-stone-500 mb-1">Safety</div>
-                        <div className="text-stone-800">Answer to user as per brand policy.</div>
+                        <div className="text-[12px] uppercase tracking-wide text-stone-500 mb-1">Assistance</div>
+                        <div className="text-stone-800">Users get answers to all products queries.</div>
                       </div>
                     </div>
                   </motion.div>
