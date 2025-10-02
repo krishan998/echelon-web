@@ -82,12 +82,10 @@ export function TeaserPage() {
 
   // Animated placeholder text for input
   const placeholderTexts = [
-    "Design my new kitchen",
-    "How can I make my brand AI-native?",
-    "What's the best way to implement AI?",
-    "Show me AI solutions for my business",
-    "How do I get started with AI?",
-    "What AI tools should I use?"
+    "Suggest moisturizers for my skin type",
+    "Affortable and classy stay near vagator beach",
+    "which hair oil is best for my hair?",
+    "Should i really buy this serum?"
   ];
 
   // Auto-start chat animation with key press effects and dynamic paper growth
