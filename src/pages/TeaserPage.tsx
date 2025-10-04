@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { GradientText } from '../components/common/AnimatedText';
+import { submitWebsiteLandingPageEmail, isValidEmail } from '../utils/urlUtils';
 import logoSrc from '../assets/logo.png';
 import ctaImage from '../assets/ctaction.png';
 
@@ -10,7 +11,40 @@ import ctaImage from '../assets/ctaction.png';
 
 export function TeaserPage() {
   const containerControls = useAnimation();
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
+  const handleEmailSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setEmailError('');
+    
+    if (!email.trim()) {
+      setEmailError('Please enter your email address');
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      setEmailError('Please enter a valid email address');
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    // Submit email to API
+    submitWebsiteLandingPageEmail(email);
+    
+    // Show success state
+    setIsSubmitted(true);
+    setIsSubmitting(false);
+    
+    // Reset form after 3 seconds
+    setTimeout(() => {
+      setIsSubmitted(false);
+      setEmail('');
+    }, 3000);
+  };
 
   // Bounce the front layer when pulling down at the very top of the page
   useEffect(() => {
@@ -102,7 +136,7 @@ export function TeaserPage() {
                 <GradientText
                   text="Make Your Commerce AI-Native in Minutes"
                   gradient="from-gray-950 via-black to-gray-800"
-                  className="text-5xl md:text-6xl lg:text-5xl font-medium tracking-tight leading-tight"
+                  className="text-3xl sm:text-4xl md:text-6xl lg:text-5xl font-medium tracking-tight leading-tight"
                 />
               </div>
 
@@ -111,7 +145,7 @@ export function TeaserPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.6 }}
-                className="text-lg md:text-xl text-gray-600 mb-12 leading-relaxed"
+                className="text-base sm:text-lg md:text-xl text-gray-600 mb-12 leading-relaxed"
               >
                 We're building something extraordinary. Be the first to experience it.
               </motion.div>
@@ -121,33 +155,94 @@ export function TeaserPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.6 }}
-                className="text-center mb-8"
+                className="text-center mb-8 mt-12"
               >
-                <h3 className="text-2xl md:text-3xl font-medium text-gray-900 mb-6">
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-medium text-gray-900 mb-6">
                   Join Early Access
                 </h3>
                 
                 {/* Email Input */}
-                <div className="max-w-md mx-auto">
-                  <div className="relative">
-                    <input
-                      type="email"
-                      placeholder="Enter your email address"
-                      className="w-full px-6 py-4 text-lg border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-transparent shadow-sm"
-                    />
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-gray-900 text-white px-6 py-2 rounded-full font-medium hover:bg-gray-800 transition-colors"
-                    >
-                      Join
-                    </motion.button>
-                  </div>
-                  <p className="text-sm text-gray-500 mt-3">
-                    Get notified when we launch. No spam, ever.
-                  </p>
-                </div>
-              </motion.div>
+                <div className="max-w-lg mx-auto">
+                  <form onSubmit={handleEmailSubmit}>
+                    <div className="flex gap-3 items-start">
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => {
+                          setEmail(e.target.value);
+                          setEmailError('');
+                        }}
+                        placeholder="Enter email"
+                        className={`flex-1 px-4 sm:px-6 py-3 sm:py-4 text-base sm:text-lg border rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-transparent shadow-sm transition-all duration-200 ${
+                          emailError 
+                            ? 'border-red-300 focus:border-red-500 focus:ring-red-200' 
+                            : 'border-gray-200'
+                        }`}
+                        disabled={isSubmitting || isSubmitted}
+                      />
+                      <motion.button
+                        type="submit"
+                        whileHover={{ scale: isSubmitting || isSubmitted ? 1 : 1.02 }}
+                        whileTap={{ scale: isSubmitting || isSubmitted ? 1 : 0.98 }}
+                        disabled={isSubmitting || isSubmitted}
+                         className={`px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-medium transition-colors text-base sm:text-lg whitespace-nowrap ${
+                          isSubmitted
+                            ? 'bg-green-600 text-white'
+                            : isSubmitting
+                            ? 'bg-gray-500 text-white cursor-not-allowed'
+                            : 'bg-gray-900 text-white hover:bg-gray-800'
+                        }`}
+                      >
+                        {isSubmitted ? '✓ Joined!' : isSubmitting ? 'Joining...' : 'Join'}
+                      </motion.button>
+                    </div>
+                    {emailError && (
+                      <p className="text-red-500 text-sm mt-2 text-center">
+                        {emailError}
+                      </p>
+                    )}
+                    {isSubmitted && (
+                      <p className="text-green-600 text-sm mt-2 text-center">
+                        Thanks! We'll notify you when we launch.
+                      </p>
+                    )}
+                    {!isSubmitted && !emailError && (
+                      <p className="text-sm text-gray-500 mt-3 text-center">
+                        Get notified when we launch. No spam, ever.
+                      </p>
+                    )}
+                  </form>
+            </div>
+          </motion.div>
+
+          {/* Scroll Indicator */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.5, duration: 0.6 }}
+            className="flex flex-col items-center mt-32 md:mt-64"
+          >
+            <p className="text-sm text-gray-400 mb-4">Discover more below</p>
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ 
+                duration: 2, 
+                repeat: Infinity, 
+                ease: "easeInOut" 
+              }}
+              className="w-6 h-10 border-2 border-gray-300 rounded-full flex justify-center"
+            >
+              <motion.div
+                animate={{ y: [0, 12, 0] }}
+                transition={{ 
+                  duration: 2, 
+                  repeat: Infinity, 
+                  ease: "easeInOut" 
+                }}
+                className="w-1 h-3 bg-gray-400 rounded-full mt-2"
+              />
+            </motion.div>
+          </motion.div>
 
               {/* AI Readiness Assessment CTA */}
               {/* <motion.div
@@ -185,14 +280,20 @@ export function TeaserPage() {
           <div className="px-2 sm:px-4 lg:px-12 xl:px-16 2xl:px-20 3xl:px-24 py-14 md:py-20">
             <div className="max-w-7xl mx-auto">
               {/* Section Header */}
-              <div className="text-center mb-16">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 mb-6">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, amount: 0.2 }}
+                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                className="text-center mb-16"
+              >
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 mb-6">
                   Why Go AI-Native?
                 </h2>
-                <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
                   Transform your business with intelligent automation that works seamlessly in the background.
                 </p>
-              </div>
+              </motion.div>
 
               {/* Benefit Cards */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -209,9 +310,9 @@ export function TeaserPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Conversational AI</h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    Engage customers with intelligent conversations about your business. Our AI understands context, provides personalized recommendations, and handles complex queries naturally.
+                    <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3">Conversational AI</h3>
+                  <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                    Smart conversations that understand your business and customers.
                   </p>
                 </motion.div>
 
@@ -228,10 +329,10 @@ export function TeaserPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Eliminate Manual Grunt Work</h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    Automate repetitive tasks and focus on what matters most. Our AI handles customer inquiries, processes orders, and manages routine operations without human intervention.
-                  </p>
+                    <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3">Eliminate Manual Grunt Work</h3>
+                    <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                      Automate repetitive tasks so you can focus on what matters most. Customers are seeing a 80% reduction in grunt work.
+                    </p>
                 </motion.div>
 
                 {/* Card 3 - Quick Onboarding */}
@@ -247,10 +348,10 @@ export function TeaserPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Onboard in Minutes, Not Months</h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    Get up and running quickly with our streamlined setup process. No complex integrations or lengthy implementations, start leveraging AI for your business today.
-                  </p>
+                    <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3">Onboard in Minutes, Not Months</h3>
+                    <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                      Get up and running in minutes with our streamlined onboarding process.
+                    </p>
                 </motion.div>
               </div>
             </div>

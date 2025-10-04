@@ -138,3 +138,28 @@ export function submitWaitlistEmail(email: string): void {
     console.warn('Failed to submit waitlist email to SheetDB:', error);
   });
 }
+
+/**
+ * Submits website landing page email to SheetDB with key `websitelandingpage` (no validation)
+ */
+export function submitWebsiteLandingPageEmail(email: string): void {
+  fetch('https://sheetdb.io/api/v1/b64z2r03y8n64', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+      websitelandingpage: (email || '').toLowerCase()
+    })
+  })
+  .then(response => {
+    if (response.ok) {
+      console.log('Website landing page email submitted to SheetDB');
+    } else {
+      console.warn(`SheetDB API error: ${response.status}`);
+    }
+  })
+  .catch(error => {
+    console.warn('Failed to submit website landing page email to SheetDB:', error);
+  });
+}
