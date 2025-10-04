@@ -84,6 +84,7 @@ export function TeaserPage() {
   const placeholderTexts = [
     "Suggest moisturizers for my skin type",
     "Affortable and classy stay near vagator beach",
+    "How will I look in that dress?",
     "which hair oil is best for my hair?",
     "Should i really buy this serum?"
   ];
