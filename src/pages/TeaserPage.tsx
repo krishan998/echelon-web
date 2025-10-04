@@ -83,8 +83,7 @@ export function TeaserPage() {
   // Animated placeholder text for input
   const placeholderTexts = [
     "Suggest moisturizers for my skin type",
-    "Affortable and classy stay near vagator beach",
-    "How will I look in that dress?",
+    "Affordable and classy stay near vagator beach",
     "which hair oil is best for my hair?",
     "Should i really buy this serum?"
   ];
