@@ -124,12 +124,12 @@ export function TeaserPage() {
       </motion.header>
       
       {/* Hero Section */}
-      <section className="relative z-10 min-h-screen flex items-center px-2 sm:px-4 lg:px-12 xl:px-16 2xl:px-20 3xl:px-24 -mt-16">
+      <section className="relative z-10 min-h-screen flex items-center px-2 sm:px-4 lg:px-12 xl:px-16 2xl:px-20 3xl:px-24 -mt-12 lg:-mt-6 pt-4 lg:pt-12">
         <div className="max-w-7xl mx-auto w-full">
           <div className="flex justify-center items-center">
             
             {/* Centered Text Content */}
-            <div className="text-center flex flex-col justify-center items-center mt-20 lg:mt-0">
+            <div className="text-center flex flex-col justify-center items-center mt-24 lg:mt-8">
               
               {/* Main Heading - Centered */}
               <div className="mb-8">
