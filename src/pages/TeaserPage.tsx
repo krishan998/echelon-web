@@ -32,9 +32,28 @@ export function TeaserPage() {
 
   const desktopPanelMotion = {
     initial: { opacity: 0, scaleY: 0.1, scaleX: 0.95, y: 60 },
-    animate: { opacity: 1, scaleY: 1, scaleX: 1, y: 0 },
-    exit: { opacity: 0, scaleY: 0.1, scaleX: 0.95, y: 60 },
-    transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
+    animate: { 
+      opacity: 1, 
+      scaleY: 1, 
+      scaleX: 1, 
+      y: 0,
+    },
+    exit: { 
+      opacity: 0, 
+      scaleY: 0.1, 
+      scaleX: 0.95, 
+      y: 60,
+    },
+    transition: { 
+      duration: 0.35, 
+      ease: [0.16, 1, 0.3, 1],
+      opacity: { duration: 0.25 }
+    },
+    exitTransition: {
+      duration: 0.28,
+      ease: [0.4, 0, 0.2, 1],
+      opacity: { duration: 0.18 }
+    },
   };
 
   const mobilePanelMotion = {
@@ -42,6 +61,7 @@ export function TeaserPage() {
     animate: { opacity: 1, scale: 1, y: 0 },
     exit: { opacity: 0, scale: 0.96, y: 20 },
     transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
+    exitTransition: { duration: 0.25, ease: [0.4, 0, 0.2, 1] },
   };
 
   const currentPanelMotion = isMobilePanelActive ? mobilePanelMotion : desktopPanelMotion;
@@ -432,7 +452,7 @@ export function TeaserPage() {
       style={
         isMobilePanelActive
           ? undefined
-          : { width: isMobile ? 'auto' : 'min(90vw, 520px)' }
+          : { width: isMobile ? 'auto' : 'min(90vw, 400px)' }
       }
     >
       {/* Chat Box - Emerges from search icon */}
@@ -450,7 +470,10 @@ export function TeaserPage() {
             <motion.div
               initial={currentPanelMotion.initial}
               animate={currentPanelMotion.animate}
-              exit={currentPanelMotion.exit}
+              exit={{
+                ...currentPanelMotion.exit,
+                transition: currentPanelMotion.exitTransition || currentPanelMotion.transition
+              }}
               transition={currentPanelMotion.transition}
               className={`w-full h-full overflow-hidden flex flex-col bg-[#1f1f1f]/95 backdrop-blur ${
                 isMobilePanelActive 
@@ -467,7 +490,9 @@ export function TeaserPage() {
             >
           {/* Header */}
           <div
-            className="flex items-center justify-between px-4 py-3 border-b border-white/10 text-white"
+            className={`flex items-center justify-between px-4 py-3 border-b border-white/10 text-white ${
+              isMobilePanelActive ? '' : 'rounded-tl-2xl rounded-tr-2xl'
+            }`}
             style={{
               background: 'linear-gradient(135deg, rgba(230,123,98,0.95), rgba(176,80,58,0.95))',
             }}
