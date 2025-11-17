@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import { useEffect, useState, useRef } from 'react';
+import React from 'react';
+import { motion, AnimatePresence, useAnimation } from 'framer-motion';
 import { GradientText } from '../components/common/AnimatedText';
 import { submitWebsiteLandingPageEmail, isValidEmail } from '../utils/urlUtils';
-import logoSrc from '../assets/logo.png';
-import ctaImage from '../assets/ctaction.png';
+import logoSrc from '../assets/logo_fresh.jpg';
+import backImage from '../assets/back.jpg';
 
 
  
@@ -11,10 +12,115 @@ import ctaImage from '../assets/ctaction.png';
 
 export function TeaserPage() {
   const containerControls = useAnimation();
+  const [isMobile, setIsMobile] = useState(false);
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isPreviewingChat, setIsPreviewingChat] = useState(false);
+  const [panelHeight] = useState(560);
+  const [isHighlighted, setIsHighlighted] = useState(false);
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
+  const [showChatBox, setShowChatBox] = useState(false);
+  const [chatMessages, setChatMessages] = useState<Array<{ type: 'user' | 'system'; message: string }>>([]);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const highlightTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const panelRef = useRef<HTMLDivElement | null>(null);
+
+  const isMobilePanelActive = isMobile && (showChatBox || isPreviewingChat);
+  
+  const suggestedQuestions = [
+    "What services do you offer?",
+    "Tell me about pricing"
+  ];
+
+  // Auto-scroll to latest message
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [chatMessages]);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && showChatBox) {
+        setShowChatBox(false);
+      }
+    };
+
+    if (showChatBox) {
+      window.addEventListener('keydown', handleKeyDown);
+      return () => window.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [showChatBox]);
+
+  // Handle sending messages
+  const handleSendMessage = (message: string) => {
+    if (!message.trim()) return;
+    
+    setChatMessages(prev => [...prev, { type: 'user', message: message.trim() }]);
+    setShowChatBox(true);
+    setSearchInput('');
+    
+    // Add a system response (you can replace this with actual API call)
+    setTimeout(() => {
+      setChatMessages(prev => [...prev, { 
+        type: 'system', 
+        message: 'Thank you for your question. We\'ll get back to you soon!' 
+      }]);
+    }, 500);
+  };
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Auto highlight/peek animation before user interacts (only once on web, not on mobile)
+  useEffect(() => {
+    // Don't run on mobile
+    if (isMobile) return;
+    
+    // Don't run if user has interacted or chat box is shown
+    if (hasUserInteracted || showChatBox) return;
+
+    // Check if animation has already been shown (using localStorage)
+    const hasShownAnimation = localStorage.getItem('nexbit-chat-animation-shown');
+    if (hasShownAnimation === 'true') return;
+
+    // Trigger the peek animation once
+    const triggerPeek = () => {
+      setIsHighlighted(true);
+      setIsPreviewingChat(true);
+
+      if (highlightTimeoutRef.current) {
+        clearTimeout(highlightTimeoutRef.current);
+      }
+
+      highlightTimeoutRef.current = setTimeout(() => {
+        setIsHighlighted(false);
+        setIsPreviewingChat(false);
+        // Mark as shown in localStorage
+        localStorage.setItem('nexbit-chat-animation-shown', 'true');
+      }, 2200);
+    };
+
+    // Trigger once after a short delay
+    const timeout = setTimeout(triggerPeek, 2000);
+
+    return () => {
+      clearTimeout(timeout);
+      if (highlightTimeoutRef.current) {
+        clearTimeout(highlightTimeoutRef.current);
+      }
+    };
+  }, [hasUserInteracted, showChatBox, isMobile]);
 
   const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -86,11 +192,24 @@ export function TeaserPage() {
 
 
   return (
-    <div className="min-h-screen relative overflow-hidden font-sf-pro overscroll-y-contain">
+    <>
+    <div className="min-h-screen relative overflow-hidden font-sf-pro overscroll-y-contain bg-transparent" data-name="page-root">
       {/* Fixed base background so it never moves */}
-      <div className="fixed inset-0 bg-[#E9E8E1] -z-10"></div>
+      <div
+        className="fixed inset-0 -z-10 bg-cover bg-center"
+        data-name="global-background"
+        style={{
+          backgroundImage: `url(${backImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      ></div>
       {/* Two-layer background wrapper */}
-      <motion.div animate={containerControls} className="relative z-10 mt-1 sm:mt-3 lg:mt-6 mb-4 sm:mb-8 lg:mb-16 mx-4 sm:mx-8 lg:mx-20 xl:mx-28 2xl:mx-36 bg-[#F6F5F2] rounded-[3rem] overflow-hidden will-change-transform">
+      <motion.div
+        animate={containerControls}
+        className="relative z-10 mt-1 sm:mt-3 lg:mt-6 mb-4 sm:mb-8 lg:mb-16 mx-2 sm:mx-4 lg:mx-8 xl:mx-12 2xl:mx-16 rounded-[3rem] overflow-hidden will-change-transform bg-[#F6F5F2]"
+        data-name="front-layer"
+      >
       
       {/* Header */}
       <motion.header
@@ -100,12 +219,11 @@ export function TeaserPage() {
         className="relative z-20 flex items-center justify-between px-2 sm:px-4 lg:px-12 xl:px-16 2xl:px-20 3xl:px-24 py-6"
       >
         {/* Logo and Name */}
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-3">
           <img 
             src={logoSrc} 
             alt="Nexbit Logo" 
-            className="w-8 h-8"
-            style={{ filter: 'brightness(0) saturate(100%) invert(8%) sepia(3%) saturate(0%) hue-rotate(0deg) brightness(95%) contrast(90%)' }}
+            className="w-10 h-10 rounded-[2px] object-cover"
           />
           <span className="text-xl font-medium text-gray-900">Nexbit</span>
         </div>
@@ -124,17 +242,17 @@ export function TeaserPage() {
       </motion.header>
       
       {/* Hero Section */}
-      <section className="relative z-10 min-h-screen flex items-center px-2 sm:px-4 lg:px-12 xl:px-16 2xl:px-20 3xl:px-24 -mt-12 lg:-mt-6 pt-4 lg:pt-12">
+      <section className="relative z-10 h-[100vh] flex items-start px-2 sm:px-4 lg:px-12 xl:px-16 2xl:px-20 3xl:px-24 -mt-12 lg:-mt-6 pt-16 lg:pt-24 overflow-hidden" data-section="hero">
         <div className="max-w-7xl mx-auto w-full">
           <div className="flex justify-center items-center">
             
             {/* Centered Text Content */}
-            <div className="text-center flex flex-col justify-center items-center mt-24 lg:mt-8">
+            <div className="text-center flex flex-col justify-center items-center mt-8 lg:mt-4">
               
               {/* Main Heading - Centered */}
               <div className="mb-8">
                 <GradientText
-                  text="Make Your Commerce AI-Native in Minutes"
+                  text="Transform visitor to qualified conversation in seconds"
                   gradient="from-gray-950 via-black to-gray-800"
                   className="text-3xl sm:text-4xl md:text-6xl lg:text-5xl font-medium tracking-tight leading-tight"
                 />
@@ -206,43 +324,10 @@ export function TeaserPage() {
                         Thanks! We'll notify you when we launch.
                       </p>
                     )}
-                    {!isSubmitted && !emailError && (
-                      <p className="text-sm text-gray-500 mt-3 text-center">
-                        Get notified when we launch. No spam, ever.
-                      </p>
-                    )}
                   </form>
             </div>
           </motion.div>
 
-          {/* Scroll Indicator */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.5, duration: 0.6 }}
-            className="flex flex-col items-center mt-32 md:mt-64"
-          >
-            <p className="text-sm text-gray-400 mb-4">Discover more below</p>
-            <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{ 
-                duration: 2, 
-                repeat: Infinity, 
-                ease: "easeInOut" 
-              }}
-              className="w-6 h-10 border-2 border-gray-300 rounded-full flex justify-center"
-            >
-              <motion.div
-                animate={{ y: [0, 12, 0] }}
-                transition={{ 
-                  duration: 2, 
-                  repeat: Infinity, 
-                  ease: "easeInOut" 
-                }}
-                className="w-1 h-3 bg-gray-400 rounded-full mt-2"
-              />
-            </motion.div>
-          </motion.div>
 
               {/* AI Readiness Assessment CTA */}
               {/* <motion.div
@@ -267,176 +352,54 @@ export function TeaserPage() {
         </div>
       </section>
 
-      {/* Benefit Cards Section - Appears on Scroll */}
-      <motion.section
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, amount: 0.3 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="relative py-16 md:py-24"
-      >
-        {/* Background Design */}
-        <div className="relative z-10 bg-white rounded-[3rem] shadow-sm">
-          <div className="px-2 sm:px-4 lg:px-12 xl:px-16 2xl:px-20 3xl:px-24 py-14 md:py-20">
-            <div className="max-w-7xl mx-auto">
-              {/* Section Header */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                className="text-center mb-16"
-              >
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 mb-6">
-                  Why Go AI-Native?
-                </h2>
-                <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                  Transform your business with intelligent automation that works seamlessly in the background.
-                </p>
-              </motion.div>
-
-              {/* Benefit Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                {/* Card 1 - Conversational AI */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, amount: 0.3 }}
-                  transition={{ delay: 0.2, duration: 0.6 }}
-                  className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100"
-                >
-                  <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mb-4">
-                    <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                    </svg>
-                  </div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3">Conversational AI</h3>
-                  <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-                    Smart conversations that understand your business and customers.
-                  </p>
-                </motion.div>
-
-                {/* Card 2 - Eliminate Manual Work */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, amount: 0.3 }}
-                  transition={{ delay: 0.4, duration: 0.6 }}
-                  className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100"
-                >
-                  <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mb-4">
-                    <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3">Eliminate Manual Grunt Work</h3>
-                    <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-                      Automate repetitive tasks so you can focus on what matters most. Customers are seeing a 80% reduction in grunt work.
-                    </p>
-                </motion.div>
-
-                {/* Card 3 - Quick Onboarding */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, amount: 0.3 }}
-                  transition={{ delay: 0.6, duration: 0.6 }}
-                  className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100"
-                >
-                  <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mb-4">
-                    <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  </div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3">Onboard in Minutes, Not Months</h3>
-                    <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-                      Get up and running in minutes with our streamlined onboarding process.
-                    </p>
-                </motion.div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </motion.section>
-
       {/* Second Page Container with emerging white background */}
       <motion.section
         initial={{ opacity: 0, y: 40, scale: 0.98 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ once: false, amount: 0.3 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="relative"
+        className="relative -mt-32"
+        data-section="cta"
       >
         {/* Emerging white background plate (second page) */}
         <motion.div
           aria-hidden
-          className="absolute inset-0 rounded-[2rem] bg-white shadow-sm -z-10"
+          className="absolute inset-0 rounded-[2rem] shadow-sm -z-10 bg-cover bg-center"
           initial={{ opacity: 0, y: 40, scale: 0.98 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          style={{ backgroundImage: `linear-gradient(180deg, rgba(255,255,255,0.94), rgba(246,245,242,0.98)), url(${backImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
         />
         <div className="relative">
-      {/* CTA Above Footer */}
-      <section className="px-2 sm:px-4 lg:px-12 xl:px-16 2xl:px-20 3xl:px-24 py-10">
-        <div className="bg-[#FFF7D9] rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-7 md:gap-9 shadow-sm">
-          {/* Left: Headings and Button */}
-          <div className="flex-1">
-            <div className="text-2xl md:text-3xl font-normal text-gray-600">Interested in knowing full potential of AI for your brand?</div>
-            <a
-              href="https://calendly.com/kp-nexbit/30min"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-7 inline-flex items-center justify-center bg-[#181515] text-white px-7 py-3.5 rounded-lg font-medium hover:bg-black transition-colors"
-            >
-              Get in touch
-            </a>
-          </div>
-          {/* Right: Image */}
-          <div className="w-full md:w-[26rem] h-60 md:h-72 rounded-lg overflow-hidden">
-            <img
-              src={ctaImage}
-              alt="Contact illustration"
-              className="w-full h-full object-cover"
-            />
-          </div>
-        </div>
-      </section>
-
       {/* Footer */}
-      <footer className="bg-transparent border-t border-gray-100">
-
+      <footer
+        className="text-white border-t border-white/10"
+        data-section="footer"
+        style={{
+          backgroundColor: '#0D6C72',
+          backgroundImage:
+            'linear-gradient(135deg, rgba(255,255,255,0.08), rgba(0,0,0,0.2)), url(https://www.transparenttextures.com/patterns/dust.png)',
+          backgroundBlendMode: 'overlay',
+        }}
+      >
         {/* Main Footer Content */}
-        <div className="px-2 sm:px-4 lg:px-12 xl:px-16 2xl:px-20 3xl:px-24 py-8 md:py-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
+        <div className="px-2 sm:px-4 lg:px-12 xl:px-16 2xl:px-20 3xl:px-24 py-10 md:py-12">
+          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-8 md:gap-12">
             {/* Left Column - Brand Information */}
-            <div className="text-center sm:text-left">
-            <div className="font-semibold text-lg mb-2" style={{ color: "#343434" }}>
-  Nexbit
-</div>
+            <div className="text-center md:text-left flex flex-col items-center md:items-start gap-3">
+              <img src={logoSrc} alt="Nexbit Logo" className="w-12 h-12 rounded-[2px] object-cover" />
+              <div className="font-semibold text-lg">Nexbit</div>
             </div>
 
-            {/* Middle Column - Navigation/Social Links */}
-            <div className="text-center sm:text-left space-y-3">
-              <a href="https://calendly.com/kp-nexbit/30min" className="block text-gray-600 hover:text-black transition-colors">Get in touch</a>
-              <a href="https://www.linkedin.com/company/nexbit-ai/" target="_blank" rel="noopener noreferrer" className="block text-gray-600 hover:text-black transition-colors">LinkedIn</a>
-              <a href="https://x.com/NexbitAi" className="block text-gray-600 hover:text-black transition-colors">X</a>
-            </div>
-
-            {/* Right Column - Back to Top */}
-            <div className="text-center sm:col-span-2 md:col-span-1 md:text-right">
-              <a href="#" className="text-gray-600 hover:text-black transition-colors">Back to top ↑</a>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Footer Section */}
-        <div className="border-t border-gray-200 px-2 sm:px-4 lg:px-12 xl:px-16 2xl:px-20 3xl:px-24 py-4 md:py-6">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-3 md:gap-4 text-sm text-gray-500">
-            <div className="text-center sm:text-left">© Logikeon Labs Private Limited 2025</div>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 text-center">
-              {/* <a href="#" className="hover:text-gray-700 transition-colors">Terms of use</a>
-              <a href="#" className="hover:text-gray-700 transition-colors">Privacy Policy</a> */}
+            {/* Right Column - Back to Top & Links */}
+            <div className="text-center md:text-right space-y-3">
+              <a href="#page-root" className="text-white/80 hover:text-white transition-colors inline-flex items-center gap-1 justify-center md:justify-end">
+                Back to top
+                <span>↑</span>
+              </a>
+              <a href="https://www.linkedin.com/company/nexbit-ai/" target="_blank" rel="noopener noreferrer" className="block text-white/80 hover:text-white transition-colors">LinkedIn</a>
+              <a href="https://x.com/NexbitAi" className="block text-white/80 hover:text-white transition-colors">X</a>
             </div>
           </div>
         </div>
@@ -445,5 +408,235 @@ export function TeaserPage() {
       </motion.section>
       </motion.div>
     </div>
+
+    {/* Fixed Chat Widget */}
+    <div
+      className={`fixed z-50 flex flex-col gap-4 ${isMobilePanelActive ? 'inset-0 p-0' : 'left-4 bottom-6 sm:left-6 sm:bottom-6'}`}
+      data-name="chat-widget"
+      style={
+        isMobilePanelActive
+          ? undefined
+          : { width: isMobile ? 'auto' : 'min(90vw, 520px)' }
+      }
+    >
+
+      {/* Chat Box - Emerges from search icon */}
+      <div
+        className="w-full"
+        style={{ height: isMobilePanelActive ? '100%' : panelHeight }}
+      >
+        <AnimatePresence>
+          {(showChatBox || isPreviewingChat) && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, y: 12 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className={`w-full h-full overflow-hidden flex flex-col bg-[#1f1f1f]/95 backdrop-blur ${
+                isMobilePanelActive ? '' : 'rounded-2xl shadow-2xl'
+              }`}
+              style={{
+                pointerEvents: showChatBox ? 'auto' : 'none',
+                opacity: showChatBox ? 1 : 0.95,
+              }}
+              ref={panelRef}
+              data-chat-panel
+            >
+          {/* Header */}
+          <div
+            className="flex items-center justify-between px-4 py-3 border-b border-white/10 text-white"
+            style={{
+              background: 'linear-gradient(135deg, rgba(230,123,98,0.95), rgba(176,80,58,0.95))',
+            }}
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center shadow-inner">
+                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm0 2c-2.21 0-4 1.343-4 3v1h8v-1c0-1.657-1.79-3-4-3z" />
+                </svg>
+              </div>
+              <div>
+                <p className="font-medium">Nexbit</p>
+              </div>
+            </div>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => {
+                setShowChatBox(false);
+                setIsPreviewingChat(false);
+                setHasUserInteracted(true);
+              }}
+              className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+              aria-label="Close chat"
+            >
+              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </motion.button>
+          </div>
+
+          {/* Chat Body */}
+          <div className="flex-1 flex flex-col overflow-hidden bg-gradient-to-b from-white/3 to-transparent">
+            {/* Messages Area */}
+            <div className="flex-1 overflow-y-auto p-5 space-y-4">
+              {chatMessages.map((msg, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 12, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.25, delay: index * 0.05, ease: 'easeOut' }}
+                  className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div
+                    className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm shadow-lg ${
+                      msg.type === 'user'
+                        ? 'bg-[#3b3b3b] text-white'
+                        : 'bg-white/8 text-white'
+                    }`}
+                  >
+                    {msg.message}
+                  </div>
+                </motion.div>
+              ))}
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Suggestions */}
+            {suggestedQuestions.length > 0 && (
+              <div className="px-4 pb-3 pt-2 border-t border-white/10 bg-white/3">
+                <div className="flex flex-wrap gap-2">
+                  {suggestedQuestions.map((question, index) => (
+                    <motion.button
+                      key={index}
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => handleSendMessage(question)}
+                      className="px-3 py-1.5 text-xs rounded-full transition-colors text-white"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(230,123,98,0.28), rgba(176,80,58,0.28))',
+                        border: '1px solid rgba(255,255,255,0.2)',
+                      }}
+                    >
+                      {question}
+                    </motion.button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Input inside chat box */}
+            <div className="px-4 pb-4">
+              <div
+                className="flex items-center gap-3 rounded-2xl px-4 py-3 border border-white/15 shadow-lg"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(230,123,98,0.22), rgba(176,80,58,0.2))',
+                }}
+              >
+                <div
+                  className="w-9 h-9 rounded-full flex items-center justify-center text-white shadow-md"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(230,123,98,0.95), rgba(176,80,58,0.95))',
+                  }}
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                <input
+                  type="text"
+                  value={searchInput}
+                  onChange={(e) => {
+                    setSearchInput(e.target.value);
+                    setHasUserInteracted(true);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey && searchInput.trim()) {
+                      e.preventDefault();
+                      handleSendMessage(searchInput.trim());
+                    }
+                  }}
+                  placeholder="Ask anything about Nexbit..."
+                  className="flex-1 bg-transparent text-sm text-white outline-none placeholder-white/70"
+                />
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => {
+                    if (searchInput.trim()) {
+                      handleSendMessage(searchInput.trim());
+                    }
+                  }}
+                  className="w-9 h-9 rounded-full bg-white text-gray-900 flex items-center justify-center shadow"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </motion.button>
+              </div>
+            </div>
+          </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {!isMobilePanelActive && (
+        <div className={`flex items-end gap-3 w-full ${isMobile ? 'justify-start' : ''}`}>
+          <AnimatePresence>
+            {!showChatBox && !isPreviewingChat && (
+            <motion.button
+              key="chat-launcher"
+              onClick={() => {
+                setShowChatBox(true);
+                setHasUserInteracted(true);
+                setIsHighlighted(false);
+                setIsPreviewingChat(false);
+              }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.85, y: 10 }}
+              animate={{
+                opacity: 1,
+                scale: isHighlighted ? 1.15 : 1,
+                y: 0,
+                boxShadow: isHighlighted
+                  ? '0 0 35px rgba(93, 70, 255, 0.55)'
+                  : '0 12px 25px rgba(17, 12, 64, 0.25)',
+              }}
+              exit={{ opacity: 0, scale: 0.8, y: 10 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className="relative w-16 h-16 rounded-full text-white flex items-center justify-center transition-shadow overflow-hidden"
+              style={{
+                background: 'linear-gradient(135deg, rgba(230,123,98,0.95), rgba(176,80,58,0.95))',
+              }}
+            >
+              <div
+                className="absolute inset-0 opacity-30 mix-blend-screen"
+                style={{
+                  backgroundImage: 'url(https://www.transparenttextures.com/patterns/dust.png)',
+                }}
+              ></div>
+              <motion.span
+                className="absolute inset-0 rounded-full"
+                style={{
+                  background: 'radial-gradient(circle, rgba(255,255,255,0.5) 0%, rgba(230,123,98,0) 60%)',
+                }}
+                animate={{ scale: [1, 1.5], opacity: [0.25, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
+              />
+              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </motion.button>
+          )}
+          </AnimatePresence>
+
+          {/* spacing placeholder to keep layout width for icon preview on larger screens */}
+          {!isMobile && <div className="flex-1 min-w-[200px]" />}
+        </div>
+      )}
+    </div>
+    </>
   );
 }
