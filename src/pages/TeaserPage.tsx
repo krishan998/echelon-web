@@ -29,6 +29,22 @@ export function TeaserPage() {
   const panelRef = useRef<HTMLDivElement | null>(null);
 
   const isMobilePanelActive = isMobile && (showChatBox || isPreviewingChat);
+
+  const desktopPanelMotion = {
+    initial: { opacity: 0, scaleY: 0.1, scaleX: 0.95, y: 60 },
+    animate: { opacity: 1, scaleY: 1, scaleX: 1, y: 0 },
+    exit: { opacity: 0, scaleY: 0.1, scaleX: 0.95, y: 60 },
+    transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
+  };
+
+  const mobilePanelMotion = {
+    initial: { opacity: 0, scale: 0.96, y: 20 },
+    animate: { opacity: 1, scale: 1, y: 0 },
+    exit: { opacity: 0, scale: 0.96, y: 20 },
+    transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
+  };
+
+  const currentPanelMotion = isMobilePanelActive ? mobilePanelMotion : desktopPanelMotion;
   
   const suggestedQuestions = [
     "What services do you offer?",
@@ -411,7 +427,7 @@ export function TeaserPage() {
 
     {/* Fixed Chat Widget */}
     <div
-      className={`fixed z-50 flex flex-col gap-4 ${isMobilePanelActive ? 'inset-0 p-0' : 'left-4 bottom-6 sm:left-6 sm:bottom-6'}`}
+      className={`fixed z-50 ${isMobilePanelActive ? 'inset-0 p-0' : 'left-4 bottom-6 sm:left-6 sm:bottom-6'}`}
       data-name="chat-widget"
       style={
         isMobilePanelActive
@@ -419,23 +435,30 @@ export function TeaserPage() {
           : { width: isMobile ? 'auto' : 'min(90vw, 520px)' }
       }
     >
-
       {/* Chat Box - Emerges from search icon */}
       <div
-        className="w-full"
-        style={{ height: isMobilePanelActive ? '100%' : panelHeight }}
+        className={`w-full ${!isMobilePanelActive ? 'absolute bottom-0 left-0' : 'relative'}`}
+        style={{ 
+          height: (showChatBox || isPreviewingChat) 
+            ? (isMobilePanelActive ? '100%' : panelHeight) 
+            : '64px',
+          minHeight: (showChatBox || isPreviewingChat) ? undefined : '64px'
+        }}
       >
         <AnimatePresence>
           {(showChatBox || isPreviewingChat) && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.96, y: 12 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96, y: 12 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              initial={currentPanelMotion.initial}
+              animate={currentPanelMotion.animate}
+              exit={currentPanelMotion.exit}
+              transition={currentPanelMotion.transition}
               className={`w-full h-full overflow-hidden flex flex-col bg-[#1f1f1f]/95 backdrop-blur ${
-                isMobilePanelActive ? '' : 'rounded-2xl shadow-2xl'
+                isMobilePanelActive 
+                  ? '' 
+                  : 'rounded-tl-2xl rounded-tr-2xl rounded-br-2xl shadow-2xl'
               }`}
               style={{
+                transformOrigin: isMobilePanelActive ? 'center' : 'bottom left',
                 pointerEvents: showChatBox ? 'auto' : 'none',
                 opacity: showChatBox ? 1 : 0.95,
               }}
@@ -581,10 +604,10 @@ export function TeaserPage() {
         </AnimatePresence>
       </div>
 
+      {/* Chat Launcher Icon - Positioned at bottom-left, aligned with panel anchor */}
       {!isMobilePanelActive && (
-        <div className={`flex items-end gap-3 w-full ${isMobile ? 'justify-start' : ''}`}>
-          <AnimatePresence>
-            {!showChatBox && !isPreviewingChat && (
+        <AnimatePresence>
+          {!showChatBox && !isPreviewingChat && (
             <motion.button
               key="chat-launcher"
               onClick={() => {
@@ -606,7 +629,7 @@ export function TeaserPage() {
               }}
               exit={{ opacity: 0, scale: 0.8, y: 10 }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="relative w-16 h-16 rounded-full text-white flex items-center justify-center transition-shadow overflow-hidden"
+              className="absolute bottom-0 left-0 w-16 h-16 rounded-full text-white flex items-center justify-center transition-shadow overflow-hidden z-10"
               style={{
                 background: 'linear-gradient(135deg, rgba(230,123,98,0.95), rgba(176,80,58,0.95))',
               }}
@@ -630,11 +653,7 @@ export function TeaserPage() {
               </svg>
             </motion.button>
           )}
-          </AnimatePresence>
-
-          {/* spacing placeholder to keep layout width for icon preview on larger screens */}
-          {!isMobile && <div className="flex-1 min-w-[200px]" />}
-        </div>
+        </AnimatePresence>
       )}
     </div>
     </>
