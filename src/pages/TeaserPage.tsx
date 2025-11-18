@@ -12,71 +12,53 @@ import backImage from '../assets/back.jpg';
 
 export function TeaserPage() {
   const containerControls = useAnimation();
-  const [isMobile, setIsMobile] = useState(false);
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isPreviewingChat, setIsPreviewingChat] = useState(false);
-  const [panelHeight] = useState(560);
-  const [isHighlighted, setIsHighlighted] = useState(false);
-  const [hasUserInteracted, setHasUserInteracted] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const [showChatBox, setShowChatBox] = useState(false);
+  const [showJoinPopup, setShowJoinPopup] = useState(false);
   const [chatMessages, setChatMessages] = useState<Array<{ type: 'user' | 'system'; message: string }>>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const highlightTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const panelRef = useRef<HTMLDivElement | null>(null);
+  const chatFormRef = useRef<HTMLFormElement>(null);
+  const scrollPositionRef = useRef<number>(0);
 
-  const isMobilePanelActive = isMobile && (showChatBox || isPreviewingChat);
-
-  const desktopPanelMotion = {
-    initial: { opacity: 0, scaleY: 0.1, scaleX: 0.95, y: 60 },
-    animate: { 
-      opacity: 1, 
-      scaleY: 1, 
-      scaleX: 1, 
-      y: 0,
-    },
-    exit: { 
-      opacity: 0, 
-      scaleY: 0.1, 
-      scaleX: 0.95, 
-      y: 60,
-    },
-    transition: { 
-      duration: 0.35, 
-      ease: [0.16, 1, 0.3, 1],
-      opacity: { duration: 0.25 }
-    },
-    exitTransition: {
-      duration: 0.28,
-      ease: [0.4, 0, 0.2, 1],
-      opacity: { duration: 0.18 }
-    },
-  };
-
-  const mobilePanelMotion = {
-    initial: { opacity: 0, scale: 0.96, y: 20 },
-    animate: { opacity: 1, scale: 1, y: 0 },
-    exit: { opacity: 0, scale: 0.96, y: 20 },
-    transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
-    exitTransition: { duration: 0.25, ease: [0.4, 0, 0.2, 1] },
-  };
-
-  const currentPanelMotion = isMobilePanelActive ? mobilePanelMotion : desktopPanelMotion;
   
   const suggestedQuestions = [
     "What services do you offer?",
     "Tell me about pricing"
   ];
 
-  // Auto-scroll to latest message
+  // Auto-scroll to latest message (only within chat box, not the page)
   useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (messagesEndRef.current && showChatBox) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
-  }, [chatMessages]);
+  }, [chatMessages, showChatBox]);
+  
+  // Preserve scroll position when chat box opens
+  useEffect(() => {
+    if (showChatBox) {
+      const savedScrollY = scrollPositionRef.current || window.scrollY;
+      
+      // Restore scroll position using requestAnimationFrame for smooth restoration
+      const restoreScroll = () => {
+        window.scrollTo({
+          top: savedScrollY,
+          left: 0,
+          behavior: 'auto' // Use 'auto' instead of 'smooth' to prevent animation
+        });
+      };
+      
+      // Restore immediately and after DOM updates
+      restoreScroll();
+      requestAnimationFrame(() => {
+        restoreScroll();
+        requestAnimationFrame(restoreScroll);
+      });
+    }
+  }, [showChatBox]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -96,6 +78,9 @@ export function TeaserPage() {
   const handleSendMessage = (message: string) => {
     if (!message.trim()) return;
     
+    // Preserve scroll position before opening chat box
+    scrollPositionRef.current = window.scrollY;
+    
     setChatMessages(prev => [...prev, { type: 'user', message: message.trim() }]);
     setShowChatBox(true);
     setSearchInput('');
@@ -108,55 +93,6 @@ export function TeaserPage() {
       }]);
     }, 500);
   };
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 640);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  // Auto highlight/peek animation before user interacts (only once on web, not on mobile)
-  useEffect(() => {
-    // Don't run on mobile
-    if (isMobile) return;
-    
-    // Don't run if user has interacted or chat box is shown
-    if (hasUserInteracted || showChatBox) return;
-
-    // Check if animation has already been shown (using localStorage)
-    const hasShownAnimation = localStorage.getItem('nexbit-chat-animation-shown');
-    if (hasShownAnimation === 'true') return;
-
-    // Trigger the peek animation once
-    const triggerPeek = () => {
-      setIsHighlighted(true);
-      setIsPreviewingChat(true);
-
-      if (highlightTimeoutRef.current) {
-        clearTimeout(highlightTimeoutRef.current);
-      }
-
-      highlightTimeoutRef.current = setTimeout(() => {
-        setIsHighlighted(false);
-        setIsPreviewingChat(false);
-        // Mark as shown in localStorage
-        localStorage.setItem('nexbit-chat-animation-shown', 'true');
-      }, 2200);
-    };
-
-    // Trigger once after a short delay
-    const timeout = setTimeout(triggerPeek, 2000);
-
-    return () => {
-      clearTimeout(timeout);
-      if (highlightTimeoutRef.current) {
-        clearTimeout(highlightTimeoutRef.current);
-      }
-    };
-  }, [hasUserInteracted, showChatBox, isMobile]);
 
   const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -191,36 +127,90 @@ export function TeaserPage() {
   // Bounce the front layer when pulling down at the very top of the page
   useEffect(() => {
     let touchStartY = 0;
+    let isBouncing = false;
+    let lastTriggerTime = 0;
+    let isScrolling = false;
+    let scrollTimeout: ReturnType<typeof setTimeout> | null = null;
+    let lastScrollY = window.scrollY;
+    const DEBOUNCE_DELAY = 1000; // Minimum time between bounce triggers (ms)
+    const SCROLL_STOP_DELAY = 150; // Time to wait before considering scroll stopped (ms)
 
     const triggerBounce = () => {
+      const now = Date.now();
+      // Prevent triggering if already bouncing, if triggered too recently, or if not actively scrolling
+      if (isBouncing || (now - lastTriggerTime) < DEBOUNCE_DELAY || !isScrolling) {
+        return;
+      }
+
+      isBouncing = true;
+      lastTriggerTime = now;
+
       containerControls.start({ y: 14, transition: { type: 'spring', stiffness: 300, damping: 20 } })
-        .then(() => containerControls.start({ y: 0, transition: { type: 'spring', stiffness: 280, damping: 18 } }));
+        .then(() => containerControls.start({ y: 0, transition: { type: 'spring', stiffness: 280, damping: 18 } }))
+        .then(() => {
+          // Reset bounce flag after animation completes
+          setTimeout(() => {
+            isBouncing = false;
+          }, 200);
+        });
+    };
+
+    const markScrolling = () => {
+      isScrolling = true;
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
+      scrollTimeout = setTimeout(() => {
+        isScrolling = false;
+      }, SCROLL_STOP_DELAY);
     };
 
     const onWheel = (e: WheelEvent) => {
-      if (window.scrollY <= 0 && e.deltaY < 0) {
+      const currentScrollY = window.scrollY;
+      // Only trigger if scroll position actually changed (user is actively scrolling)
+      if (currentScrollY !== lastScrollY) {
+        markScrolling();
+        lastScrollY = currentScrollY;
+      }
+      
+      if (window.scrollY <= 0 && e.deltaY < 0 && isScrolling) {
         triggerBounce();
       }
     };
 
     const onTouchStart = (e: TouchEvent) => {
       touchStartY = e.touches[0]?.clientY || 0;
+      markScrolling();
     };
 
     const onTouchMove = (e: TouchEvent) => {
       const currentY = e.touches[0]?.clientY || 0;
       const diff = currentY - touchStartY; // positive when pulling down
+      markScrolling();
       if (window.scrollY <= 0 && diff > 10) {
         triggerBounce();
       }
     };
 
+    const onScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY !== lastScrollY) {
+        markScrolling();
+        lastScrollY = currentScrollY;
+      }
+    };
+
     window.addEventListener('wheel', onWheel, { passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('touchstart', onTouchStart, { passive: true });
     window.addEventListener('touchmove', onTouchMove, { passive: true });
 
     return () => {
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
       window.removeEventListener('wheel', onWheel as any);
+      window.removeEventListener('scroll', onScroll as any);
       window.removeEventListener('touchstart', onTouchStart as any);
       window.removeEventListener('touchmove', onTouchMove as any);
     };
@@ -264,126 +254,334 @@ export function TeaserPage() {
           <span className="text-xl font-medium text-gray-900">Nexbit</span>
         </div>
 
-        {/* Contact Button - pill, dark bg, light text */}
-        <motion.a
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.98 }}
-          href="https://calendly.com/kp-nexbit/30min"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center justify-center rounded-full bg-[#343434] text-white px-6 py-3 md:px-7 md:py-2.5 text-base md:text-lg font-normal shadow-sm hover:shadow md:shadow transition-all"
-        >
-          Contact
-        </motion.a>
+        {/* Actions */}
+        <div className="flex items-center gap-3">
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => setShowJoinPopup(true)}
+            className="inline-flex items-center justify-center rounded-full border border-gray-300 bg-white text-gray-900 px-5 py-2.5 text-sm sm:text-base font-medium shadow-sm hover:shadow transition-all"
+          >
+            Join Early Access
+          </motion.button>
+          <motion.a
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
+            href="https://calendly.com/kp-nexbit/30min"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center rounded-full bg-[#343434] text-white px-6 py-3 md:px-7 md:py-2.5 text-base md:text-lg font-normal shadow-sm hover:shadow md:shadow transition-all"
+          >
+            Contact
+          </motion.a>
+        </div>
       </motion.header>
       
-      {/* Hero Section */}
-      <section className="relative z-10 h-[100vh] flex items-start px-2 sm:px-4 lg:px-12 xl:px-16 2xl:px-20 3xl:px-24 -mt-12 lg:-mt-6 pt-16 lg:pt-24 overflow-hidden" data-section="hero">
-        <div className="max-w-7xl mx-auto w-full">
-          <div className="flex justify-center items-center">
-            
-            {/* Centered Text Content */}
-            <div className="text-center flex flex-col justify-center items-center mt-8 lg:mt-4">
-              
-              {/* Main Heading - Centered */}
-              <div className="mb-8">
-                <GradientText
-                  text="Transform visitor to qualified conversation in seconds"
-                  gradient="from-gray-950 via-black to-gray-800"
-                  className="text-3xl sm:text-4xl md:text-6xl lg:text-5xl font-medium tracking-tight leading-tight"
-                />
+      {/* Join Early Access Popup */}
+      <AnimatePresence>
+        {showJoinPopup && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.92, opacity: 0, y: 20 }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              className="w-full max-w-md rounded-3xl bg-white p-6 sm:p-8 shadow-2xl space-y-6 relative"
+            >
+              <button
+                onClick={() => setShowJoinPopup(false)}
+                className="absolute top-5 right-5 w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition"
+                aria-label="Close join popup"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <div className="space-y-2 text-center">
+                <p className="text-xs font-semibold tracking-[0.3em] text-gray-500 uppercase">Early access</p>
+                <h3 className="text-2xl font-semibold text-gray-900">Be the first to try Nexbit</h3>
+                <p className="text-sm text-gray-500">Tell us where to notify you once the SDR experience opens up.</p>
               </div>
+              <form onSubmit={handleEmailSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700" htmlFor="join-email">
+                    Email Address
+                  </label>
+                  <input
+                    id="join-email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      setEmailError('');
+                    }}
+                    placeholder="you@email.com"
+                    className={`w-full px-4 py-3 rounded-2xl border text-base shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-900/20 transition ${
+                      emailError 
+                        ? 'border-red-300 focus:border-red-500 focus:ring-red-200' 
+                        : 'border-gray-200'
+                    }`}
+                    disabled={isSubmitting || isSubmitted}
+                  />
+                  {emailError && (
+                    <p className="text-red-500 text-sm">
+                      {emailError}
+                    </p>
+                  )}
+                </div>
+                <motion.button
+                  type="submit"
+                  whileHover={{ scale: isSubmitting || isSubmitted ? 1 : 1.02 }}
+                  whileTap={{ scale: isSubmitting || isSubmitted ? 1 : 0.98 }}
+                  disabled={isSubmitting || isSubmitted}
+                  className={`w-full px-4 py-3 rounded-2xl font-medium text-base transition-colors ${
+                    isSubmitted
+                      ? 'bg-green-600 text-white'
+                      : isSubmitting
+                      ? 'bg-gray-500 text-white cursor-not-allowed'
+                      : 'bg-gray-900 text-white hover:bg-gray-800'
+                  }`}
+                >
+                  {isSubmitted ? '✓ Joined!' : isSubmitting ? 'Joining...' : 'Join waitlist'}
+                </motion.button>
+                {isSubmitted && (
+                  <p className="text-green-600 text-sm text-center">
+                    Thanks! We'll notify you when we launch.
+                  </p>
+                )}
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      
+      {/* Hero Section */}
+      <section className="relative z-10 min-h-[70vh] flex items-center justify-center px-2 sm:px-4 lg:px-12 xl:px-16 2xl:px-20 3xl:px-24 -mt-10 lg:-mt-4 pt-10 lg:pt-14 pb-10 overflow-visible" data-section="hero">
+        <div className="max-w-6xl mx-auto w-full flex flex-col items-center gap-6">
+          {/* Centered Text Content */}
+          <div className="text-center flex flex-col justify-center items-center mt-4 lg:mt-2">
+            
+            {/* Main Heading - Centered */}
+            <div className="mb-4">
+              <GradientText
+                text="#1 Human touch AI SDR without human efforts"
+                gradient="from-gray-950 via-black to-gray-800"
+                className="text-3xl sm:text-4xl md:text-6xl lg:text-5xl font-medium tracking-tight leading-tight"
+              />
+            </div>
 
-              {/* Tagline */}
-              <motion.div
+            {/* Tagline */}
+            <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.6 }}
-                className="text-base sm:text-lg md:text-xl text-gray-600 mb-12 leading-relaxed"
+                className="text-base sm:text-lg md:text-xl text-gray-600 mb-8 leading-relaxed"
               >
-                We're building something extraordinary. Be the first to experience it.
+                Stop letting your traffic bounce. Turn visitors into booked demos with an AI that chats like your best sales rep.
               </motion.div>
+          </div>
 
-              {/* Join Early Access */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.6 }}
-                className="text-center mb-8 mt-12"
-              >
-                <h3 className="text-xl sm:text-2xl md:text-3xl font-medium text-gray-900 mb-6">
-                  Join Early Access
-                </h3>
-                
-                {/* Email Input */}
-                <div className="max-w-lg mx-auto">
-                  <form onSubmit={handleEmailSubmit}>
-                    <div className="flex gap-3 items-start">
-                      <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => {
-                          setEmail(e.target.value);
-                          setEmailError('');
-                        }}
-                        placeholder="Enter email"
-                        className={`flex-1 px-4 sm:px-6 py-3 sm:py-4 text-base sm:text-lg border rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-transparent shadow-sm transition-all duration-200 ${
-                          emailError 
-                            ? 'border-red-300 focus:border-red-500 focus:ring-red-200' 
-                            : 'border-gray-200'
-                        }`}
-                        disabled={isSubmitting || isSubmitted}
-                      />
-                      <motion.button
-                        type="submit"
-                        whileHover={{ scale: isSubmitting || isSubmitted ? 1 : 1.02 }}
-                        whileTap={{ scale: isSubmitting || isSubmitted ? 1 : 0.98 }}
-                        disabled={isSubmitting || isSubmitted}
-                         className={`px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-medium transition-colors text-base sm:text-lg whitespace-nowrap ${
-                          isSubmitted
-                            ? 'bg-green-600 text-white'
-                            : isSubmitting
-                            ? 'bg-gray-500 text-white cursor-not-allowed'
-                            : 'bg-gray-900 text-white hover:bg-gray-800'
-                        }`}
-                      >
-                        {isSubmitted ? '✓ Joined!' : isSubmitting ? 'Joining...' : 'Join'}
-                      </motion.button>
-                    </div>
-                    {emailError && (
-                      <p className="text-red-500 text-sm mt-2 text-center">
-                        {emailError}
-                      </p>
-                    )}
-                    {isSubmitted && (
-                      <p className="text-green-600 text-sm mt-2 text-center">
-                        Thanks! We'll notify you when we launch.
-                      </p>
-                    )}
-                  </form>
+          {/* Foreground Image pulled up from background */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="relative w-full mt-2 mb-4"
+          >
+            <div className="absolute inset-x-6 -bottom-8 h-32 rounded-[40px] bg-gradient-to-b from-transparent via-white/70 to-white pointer-events-none blur-2xl" />
+            <div className="relative rounded-[48px] overflow-hidden shadow-[0_25px_70px_rgba(23,23,23,0.25)] border border-white/60">
+              <img
+                src={backImage}
+                alt="Nexbit experience preview"
+                className="w-full h-[28vh] min-h-[200px] max-h-[280px] object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#F6F5F2] via-transparent to-transparent opacity-80 pointer-events-none" />
             </div>
           </motion.div>
+        </div>
+      </section>
 
+      {/* Product CTA with embedded chat teaser */}
+      <section className="relative z-10 px-4 sm:px-8 lg:px-16 xl:px-20 2xl:px-24 3xl:px-28 py-8 mt-0 sm:mt-2 lg:mt-4" data-section="chat-teaser">
+        <div
+          className="relative max-w-4xl mx-auto w-full overflow-visible"
+          style={{ minHeight: 120 }}
+        >
+          <div className="relative">
+            <motion.form
+              ref={chatFormRef}
+              layoutId="chatDock"
+              animate={{ opacity: showChatBox ? 0 : 1 }}
+              transition={{ duration: 0.2 }}
+            onSubmit={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              if (searchInput.trim()) {
+                // Blur any focused elements to prevent scroll
+                if (document.activeElement instanceof HTMLElement) {
+                  document.activeElement.blur();
+                }
+                handleSendMessage(searchInput.trim());
+              }
+            }}
+              className="flex flex-col sm:flex-row items-center gap-4 w-full"
+              style={{
+                visibility: showChatBox ? 'hidden' : 'visible',
+                pointerEvents: showChatBox ? 'none' : 'auto',
+              }}
+            >
+              <div className="flex-1 w-full">
+            <input
+              type="text"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              placeholder="Ask Nexbit anything..."
+                  className="w-full bg-transparent text-2xl text-gray-900 placeholder-gray-400 px-0 py-2 border-b border-gray-200 focus:border-gray-900 focus:outline-none transition"
+            />
+              </div>
+            <motion.button
+              type="submit"
+                whileHover={{ scale: searchInput.trim() ? 1.03 : 1 }}
+              whileTap={{ scale: searchInput.trim() ? 0.97 : 1 }}
+              className="w-full sm:w-auto rounded-full bg-gray-900 text-white px-7 py-3 font-medium hover:bg-gray-800 transition whitespace-nowrap"
+            >
+              Start chat
+            </motion.button>
+            </motion.form>
 
-              {/* AI Readiness Assessment CTA */}
-              {/* <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8, duration: 0.6 }}
-                className="mb-8"
-              >
-                <motion.a
-                  href="/ai-readiness-check"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="inline-flex items-center gap-3 bg-gradient-to-r from-gray-800 to-black text-white px-6 py-3 rounded-full font-medium hover:from-gray-900 hover:to-gray-900 transition-all duration-300 shadow-lg hover:shadow-xl"
+            <AnimatePresence>
+              {showChatBox && (
+                <motion.div
+                  key="chat-expanded"
+                  initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.98 }}
+                  transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute left-0 w-full rounded-[36px] border border-gray-100 overflow-hidden shadow-[0_25px_60px_rgba(15,15,15,0.08)] bg-white z-50"
+                  style={{
+                    bottom: 0,
+                    transformOrigin: 'bottom center',
+                  }}
                 >
-                  <span>Check Your AI Readiness</span>
-                  <ArrowRight className="w-4 h-4" />
-                </motion.a>
-                <p className="text-sm text-gray-500 mt-2">Free assessment • Takes 30 seconds</p>
-              </motion.div> */}
-            </div>
+                <div className="flex flex-col h-[500px] sm:h-[540px]">
+                  <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 text-gray-900 bg-white/95">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-2xl bg-gray-100 flex items-center justify-center shadow-inner">
+                        <svg className="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm0 2c-2.21 0-4 1.343-4 3v1h8v-1c0-1.657-1.79-3-4-3z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="font-medium text-base">Nexbit</p>
+                        <p className="text-xs text-gray-500">Live SDR assistant</p>
+                      </div>
+                    </div>
+                    <motion.button
+                      whileHover={{ scale: 1.08 }}
+                      whileTap={{ scale: 0.92 }}
+                      onClick={() => setShowChatBox(false)}
+                      className="w-9 h-9 rounded-full border border-gray-200 bg-white hover:bg-gray-50 flex items-center justify-center transition"
+                      aria-label="Close chat"
+                    >
+                      <svg className="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </motion.button>
+                  </div>
+
+                  <div className="flex-1 flex flex-col overflow-hidden bg-white">
+                    <div className="flex-1 overflow-y-auto p-5 space-y-4">
+                      {chatMessages.map((msg, index) => (
+                        <motion.div
+                          key={`${msg.message}-${index}`}
+                          initial={{ opacity: 0, y: 12, scale: 0.98 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          transition={{ duration: 0.25, delay: index * 0.04, ease: 'easeOut' }}
+                          className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                        >
+                          <div
+                            className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm shadow-lg ${
+                              msg.type === 'user'
+                                ? 'bg-gray-900 text-white'
+                                : 'bg-gray-100 text-gray-900'
+                            }`}
+                          >
+                            {msg.message}
+                          </div>
+                        </motion.div>
+                      ))}
+                      <div ref={messagesEndRef} />
+                    </div>
+
+                    {suggestedQuestions.length > 0 && (
+                      <div className="px-5 pb-3 pt-2 border-t border-gray-100 bg-gray-50/60">
+                        <div className="flex flex-wrap gap-2">
+                          {suggestedQuestions.map((question, index) => (
+                            <motion.button
+                              key={index}
+                              whileHover={{ scale: 1.03 }}
+                              whileTap={{ scale: 0.96 }}
+                              onClick={() => handleSendMessage(question)}
+                              className="px-3 py-1.5 text-xs rounded-full transition-colors text-gray-800 border border-gray-200 bg-white shadow-sm"
+                            >
+                              {question}
+                            </motion.button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="px-5 pb-5 pt-3 bg-white border-t border-gray-100">
+                      <div className="flex items-center gap-3 rounded-2xl px-4 py-3 border border-gray-200 shadow-sm bg-white">
+                        <div
+                          className="w-10 h-10 rounded-full flex items-center justify-center text-white shadow-md"
+                          style={{
+                            background: 'linear-gradient(135deg, rgba(230,123,98,0.95), rgba(176,80,58,0.95))',
+                          }}
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                          </svg>
+                        </div>
+                        <input
+                          type="text"
+                          value={searchInput}
+                          onChange={(e) => setSearchInput(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' && !e.shiftKey && searchInput.trim()) {
+                              e.preventDefault();
+                              handleSendMessage(searchInput.trim());
+                            }
+                          }}
+                          placeholder="Ask anything about Nexbit..."
+                          className="flex-1 bg-transparent text-sm text-gray-900 outline-none placeholder-gray-400"
+                        />
+                        <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => {
+                            if (searchInput.trim()) {
+                              handleSendMessage(searchInput.trim());
+                            }
+                          }}
+                          className="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center shadow"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                          </svg>
+                        </motion.button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
           </div>
         </div>
       </section>
@@ -394,7 +592,7 @@ export function TeaserPage() {
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ once: false, amount: 0.3 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="relative -mt-32"
+        className="relative mt-16 sm:mt-20 lg:mt-28"
         data-section="cta"
       >
         {/* Emerging white background plate (second page) */}
@@ -445,242 +643,6 @@ export function TeaserPage() {
       </motion.div>
     </div>
 
-    {/* Fixed Chat Widget */}
-    <div
-      className={`fixed z-50 ${isMobilePanelActive ? 'inset-0 p-0' : 'left-4 bottom-6 sm:left-6 sm:bottom-6'}`}
-      data-name="chat-widget"
-      style={
-        isMobilePanelActive
-          ? undefined
-          : { width: isMobile ? 'auto' : 'min(90vw, 400px)' }
-      }
-    >
-      {/* Chat Box - Emerges from search icon */}
-      <div
-        className={`w-full ${!isMobilePanelActive ? 'absolute bottom-0 left-0' : 'relative'}`}
-        style={{ 
-          height: (showChatBox || isPreviewingChat) 
-            ? (isMobilePanelActive ? '100%' : panelHeight) 
-            : '64px',
-          minHeight: (showChatBox || isPreviewingChat) ? undefined : '64px'
-        }}
-      >
-        <AnimatePresence>
-          {(showChatBox || isPreviewingChat) && (
-            <motion.div
-              initial={currentPanelMotion.initial}
-              animate={currentPanelMotion.animate}
-              exit={{
-                ...currentPanelMotion.exit,
-                transition: currentPanelMotion.exitTransition || currentPanelMotion.transition
-              }}
-              transition={currentPanelMotion.transition}
-              className={`w-full h-full overflow-hidden flex flex-col bg-[#1f1f1f]/95 backdrop-blur ${
-                isMobilePanelActive 
-                  ? '' 
-                  : 'rounded-tl-2xl rounded-tr-2xl rounded-br-2xl shadow-2xl'
-              }`}
-              style={{
-                transformOrigin: isMobilePanelActive ? 'center' : 'bottom left',
-                pointerEvents: showChatBox ? 'auto' : 'none',
-                opacity: showChatBox ? 1 : 0.95,
-              }}
-              ref={panelRef}
-              data-chat-panel
-            >
-          {/* Header */}
-          <div
-            className={`flex items-center justify-between px-4 py-3 border-b border-white/10 text-white ${
-              isMobilePanelActive ? '' : 'rounded-tl-2xl rounded-tr-2xl'
-            }`}
-            style={{
-              background: 'linear-gradient(135deg, rgba(230,123,98,0.95), rgba(176,80,58,0.95))',
-            }}
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center shadow-inner">
-                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm0 2c-2.21 0-4 1.343-4 3v1h8v-1c0-1.657-1.79-3-4-3z" />
-                </svg>
-              </div>
-              <div>
-                <p className="font-medium">Nexbit</p>
-              </div>
-            </div>
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => {
-                setShowChatBox(false);
-                setIsPreviewingChat(false);
-                setHasUserInteracted(true);
-              }}
-              className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-              aria-label="Close chat"
-            >
-              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </motion.button>
-          </div>
-
-          {/* Chat Body */}
-          <div className="flex-1 flex flex-col overflow-hidden bg-gradient-to-b from-white/3 to-transparent">
-            {/* Messages Area */}
-            <div className="flex-1 overflow-y-auto p-5 space-y-4">
-              {chatMessages.map((msg, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 12, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.25, delay: index * 0.05, ease: 'easeOut' }}
-                  className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}
-                >
-                  <div
-                    className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm shadow-lg ${
-                      msg.type === 'user'
-                        ? 'bg-[#3b3b3b] text-white'
-                        : 'bg-white/8 text-white'
-                    }`}
-                  >
-                    {msg.message}
-                  </div>
-                </motion.div>
-              ))}
-              <div ref={messagesEndRef} />
-            </div>
-
-            {/* Suggestions */}
-            {suggestedQuestions.length > 0 && (
-              <div className="px-4 pb-3 pt-2 border-t border-white/10 bg-white/3">
-                <div className="flex flex-wrap gap-2">
-                  {suggestedQuestions.map((question, index) => (
-                    <motion.button
-                      key={index}
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => handleSendMessage(question)}
-                      className="px-3 py-1.5 text-xs rounded-full transition-colors text-white"
-                      style={{
-                        background: 'linear-gradient(135deg, rgba(230,123,98,0.28), rgba(176,80,58,0.28))',
-                        border: '1px solid rgba(255,255,255,0.2)',
-                      }}
-                    >
-                      {question}
-                    </motion.button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Input inside chat box */}
-            <div className="px-4 pb-4">
-              <div
-                className="flex items-center gap-3 rounded-2xl px-4 py-3 border border-white/15 shadow-lg"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(230,123,98,0.22), rgba(176,80,58,0.2))',
-                }}
-              >
-                <div
-                  className="w-9 h-9 rounded-full flex items-center justify-center text-white shadow-md"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(230,123,98,0.95), rgba(176,80,58,0.95))',
-                  }}
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </div>
-                <input
-                  type="text"
-                  value={searchInput}
-                  onChange={(e) => {
-                    setSearchInput(e.target.value);
-                    setHasUserInteracted(true);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && !e.shiftKey && searchInput.trim()) {
-                      e.preventDefault();
-                      handleSendMessage(searchInput.trim());
-                    }
-                  }}
-                  placeholder="Ask anything about Nexbit..."
-                  className="flex-1 bg-transparent text-sm text-white outline-none placeholder-white/70"
-                />
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => {
-                    if (searchInput.trim()) {
-                      handleSendMessage(searchInput.trim());
-                    }
-                  }}
-                  className="w-9 h-9 rounded-full bg-white text-gray-900 flex items-center justify-center shadow"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </motion.button>
-              </div>
-            </div>
-          </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-
-      {/* Chat Launcher Icon - Positioned at bottom-left, aligned with panel anchor */}
-      {!isMobilePanelActive && (
-        <AnimatePresence>
-          {!showChatBox && !isPreviewingChat && (
-            <motion.button
-              key="chat-launcher"
-              onClick={() => {
-                setShowChatBox(true);
-                setHasUserInteracted(true);
-                setIsHighlighted(false);
-                setIsPreviewingChat(false);
-              }}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, scale: 0.85, y: 10 }}
-              animate={{
-                opacity: 1,
-                scale: isHighlighted ? 1.15 : 1,
-                y: 0,
-                boxShadow: isHighlighted
-                  ? '0 0 35px rgba(93, 70, 255, 0.55)'
-                  : '0 12px 25px rgba(17, 12, 64, 0.25)',
-              }}
-              exit={{ opacity: 0, scale: 0.8, y: 10 }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute bottom-0 left-0 w-16 h-16 rounded-full text-white flex items-center justify-center transition-shadow overflow-hidden z-10"
-              style={{
-                background: 'linear-gradient(135deg, rgba(230,123,98,0.95), rgba(176,80,58,0.95))',
-              }}
-            >
-              <div
-                className="absolute inset-0 opacity-30 mix-blend-screen"
-                style={{
-                  backgroundImage: 'url(https://www.transparenttextures.com/patterns/dust.png)',
-                }}
-              ></div>
-              <motion.span
-                className="absolute inset-0 rounded-full"
-                style={{
-                  background: 'radial-gradient(circle, rgba(255,255,255,0.5) 0%, rgba(230,123,98,0) 60%)',
-                }}
-                animate={{ scale: [1, 1.5], opacity: [0.25, 0] }}
-                transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
-              />
-              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </motion.button>
-          )}
-        </AnimatePresence>
-      )}
-    </div>
     </>
   );
 }
