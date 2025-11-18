@@ -19,10 +19,12 @@ export function TeaserPage() {
   const [searchInput, setSearchInput] = useState('');
   const [showChatBox, setShowChatBox] = useState(false);
   const [showJoinPopup, setShowJoinPopup] = useState(false);
+  const [popupPosition, setPopupPosition] = useState({ top: 0, right: 0 });
   const [chatMessages, setChatMessages] = useState<Array<{ type: 'user' | 'system'; message: string }>>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatFormRef = useRef<HTMLFormElement>(null);
   const scrollPositionRef = useRef<number>(0);
+  const earlyAccessButtonRef = useRef<HTMLButtonElement>(null);
 
   
   const suggestedQuestions = [
@@ -63,16 +65,60 @@ export function TeaserPage() {
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && showChatBox) {
-        setShowChatBox(false);
+      if (e.key === 'Escape') {
+        if (showChatBox) {
+          setShowChatBox(false);
+        }
+        if (showJoinPopup) {
+          setShowJoinPopup(false);
+        }
       }
     };
 
-    if (showChatBox) {
+    if (showChatBox || showJoinPopup) {
       window.addEventListener('keydown', handleKeyDown);
       return () => window.removeEventListener('keydown', handleKeyDown);
     }
-  }, [showChatBox]);
+  }, [showChatBox, showJoinPopup]);
+
+  // Update popup position on scroll/resize
+  useEffect(() => {
+    if (!showJoinPopup || !earlyAccessButtonRef.current) return;
+
+    const updatePosition = () => {
+      if (earlyAccessButtonRef.current) {
+        const rect = earlyAccessButtonRef.current.getBoundingClientRect();
+        const popupWidth = Math.min(448, window.innerWidth * 0.9);
+        const popupHeight = 400;
+        const spacing = 12;
+        
+        let top = rect.bottom + spacing;
+        let right = window.innerWidth - rect.right;
+        
+        if (top + popupHeight > window.innerHeight - 20) {
+          top = rect.top - popupHeight - spacing;
+        }
+        
+        if (right + popupWidth > window.innerWidth - 20) {
+          right = 20;
+        }
+        
+        if (right < 20) {
+          right = 20;
+        }
+        
+        setPopupPosition({ top, right });
+      }
+    };
+
+    window.addEventListener('scroll', updatePosition, true);
+    window.addEventListener('resize', updatePosition);
+    
+    return () => {
+      window.removeEventListener('scroll', updatePosition, true);
+      window.removeEventListener('resize', updatePosition);
+    };
+  }, [showJoinPopup]);
 
   // Handle sending messages
   const handleSendMessage = (message: string) => {
@@ -257,9 +303,39 @@ export function TeaserPage() {
         {/* Actions */}
         <div className="flex items-center gap-3">
           <motion.button
+            ref={earlyAccessButtonRef}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
-            onClick={() => setShowJoinPopup(true)}
+            onClick={() => {
+              if (earlyAccessButtonRef.current) {
+                const rect = earlyAccessButtonRef.current.getBoundingClientRect();
+                const popupWidth = Math.min(448, window.innerWidth * 0.9); // max-w-md is 448px
+                const popupHeight = 400; // approximate height
+                const spacing = 12;
+                
+                // Calculate position - prefer below button, aligned to right edge
+                let top = rect.bottom + spacing;
+                let right = window.innerWidth - rect.right;
+                
+                // If popup would go off bottom of screen, position above button instead
+                if (top + popupHeight > window.innerHeight - 20) {
+                  top = rect.top - popupHeight - spacing;
+                }
+                
+                // Ensure popup doesn't go off right edge
+                if (right + popupWidth > window.innerWidth - 20) {
+                  right = 20;
+                }
+                
+                // Ensure popup doesn't go off left edge
+                if (right < 20) {
+                  right = 20;
+                }
+                
+                setPopupPosition({ top, right });
+              }
+              setShowJoinPopup(true);
+            }}
             className="inline-flex items-center justify-center rounded-full border border-gray-300 bg-white text-gray-900 px-5 py-2.5 text-sm sm:text-base font-medium shadow-sm hover:shadow transition-all"
           >
             Join Early Access
@@ -280,19 +356,42 @@ export function TeaserPage() {
       {/* Join Early Access Popup */}
       <AnimatePresence>
         {showJoinPopup && (
-          <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
+          <>
+            {/* Backdrop */}
             <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.92, opacity: 0, y: 20 }}
-              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="w-full max-w-md rounded-3xl bg-white p-6 sm:p-8 shadow-2xl space-y-6 relative"
+              className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowJoinPopup(false)}
+            />
+            {/* Popup positioned near button */}
+            <motion.div
+              className="fixed z-50"
+              style={{
+                top: `${popupPosition.top}px`,
+                right: `${popupPosition.right}px`,
+              }}
+              initial={{ 
+                scale: 0.8, 
+                opacity: 0, 
+                y: -10,
+                transformOrigin: 'top right'
+              }}
+              animate={{ 
+                scale: 1, 
+                opacity: 1, 
+                y: 0 
+              }}
+              exit={{ 
+                scale: 0.85, 
+                opacity: 0, 
+                y: -5 
+              }}
+              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              onClick={(e) => e.stopPropagation()}
             >
+              <div className="w-[90vw] max-w-md rounded-3xl bg-white p-6 sm:p-8 shadow-2xl space-y-6 relative">
               <button
                 onClick={() => setShowJoinPopup(false)}
                 className="absolute top-5 right-5 w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition"
@@ -304,8 +403,6 @@ export function TeaserPage() {
               </button>
               <div className="space-y-2 text-center">
                 <p className="text-xs font-semibold tracking-[0.3em] text-gray-500 uppercase">Early access</p>
-                <h3 className="text-2xl font-semibold text-gray-900">Be the first to try Nexbit</h3>
-                <p className="text-sm text-gray-500">Tell us where to notify you once the SDR experience opens up.</p>
               </div>
               <form onSubmit={handleEmailSubmit} className="space-y-4">
                 <div className="space-y-2">
@@ -355,8 +452,9 @@ export function TeaserPage() {
                   </p>
                 )}
               </form>
+              </div>
             </motion.div>
-          </motion.div>
+          </>
         )}
       </AnimatePresence>
       
