@@ -134,7 +134,7 @@ export function TeaserPage() {
               {/* Main Heading - Centered */}
               <div className="mb-8">
                 <GradientText
-                  text="Make Your Commerce AI-Native in Minutes"
+                  text="Make Your Brand AI-Native in Minutes"
                   gradient="from-gray-950 via-black to-gray-800"
                   className="text-3xl sm:text-4xl md:text-6xl lg:text-5xl font-medium tracking-tight leading-tight"
                 />
