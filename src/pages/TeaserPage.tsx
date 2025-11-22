@@ -548,17 +548,17 @@ export function TeaserPage() {
       </AnimatePresence>
       
       {/* Hero Section */}
-      <section className="relative z-10 min-h-[70vh] flex items-center justify-center px-2 sm:px-4 lg:px-12 xl:px-16 2xl:px-20 3xl:px-24 -mt-10 lg:-mt-4 pt-10 lg:pt-14 pb-10 overflow-visible" data-section="hero">
-        <div className="max-w-6xl mx-auto w-full flex flex-col items-center gap-6">
-          {/* Centered Text Content */}
-          <div className="text-center flex flex-col justify-center items-center mt-4 lg:mt-2">
+      <section className="relative z-10 min-h-[70vh] flex items-center justify-start pl-8 sm:pl-12 lg:pl-16 pr-2 sm:pr-4 lg:pr-12 xl:pr-16 2xl:pr-20 3xl:pr-24 -mt-10 lg:-mt-4 pt-10 lg:pt-14 pb-10 overflow-visible" data-section="hero">
+        <div className="w-full flex flex-col items-start gap-6">
+          {/* Left Aligned Text Content */}
+          <div className="text-left flex flex-col justify-center items-start mt-4 lg:mt-2">
             
-            {/* Main Heading - Centered */}
+            {/* Main Heading - Left Aligned */}
             <div className="mb-4">
               <GradientText
                 text="Nexbit explains your product better than you do."
                 gradient="from-gray-950 via-black to-gray-800"
-                className="text-3xl sm:text-4xl md:text-6xl lg:text-5xl font-regular tracking-tight leading-tight font-clash-display"
+                className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-regular tracking-tight leading-tight font-clash-display"
               />
             </div>
 
@@ -567,29 +567,11 @@ export function TeaserPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.6 }}
-                className="text-base sm:text-lg md:text-xl text-gray-600 mb-8 font-light leading-relaxed font-clash-display"
+                className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-600 mb-8 font-light leading-relaxed font-clash-display"
               >
                 Stop letting your traffic bounce. Turn visitors into booked demos with AI that chats like your best sales rep.
               </motion.div>
           </div>
-
-          {/* Foreground Image pulled up from background */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="relative w-full mt-2 mb-4"
-          >
-            <div className="absolute inset-x-6 -bottom-8 h-32 rounded-[40px] bg-gradient-to-b from-transparent via-white/70 to-white pointer-events-none blur-2xl" />
-            <div className="relative rounded-[48px] overflow-hidden shadow-[0_25px_70px_rgba(23,23,23,0.25)] border border-white/60">
-              <img
-                src={backImage}
-                alt="Nexbit experience preview"
-                className="w-full h-[28vh] min-h-[200px] max-h-[280px] object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#F6F5F2] via-transparent to-transparent opacity-80 pointer-events-none" />
-            </div>
-          </motion.div>
         </div>
       </section>
 

@@ -8,6 +8,7 @@ export default {
         'space-grotesk': ['Space Grotesk', 'sans-serif'],
         'montserrat': ['Montserrat', 'sans-serif'],
         'ibm-plex-serif': ['IBM Plex Serif', 'serif'],
+        'clash-display': ['Clash Display', 'Nohemi', 'sans-serif'],
       },
       colors: {
         background: '#FFFDF6',
