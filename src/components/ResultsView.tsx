@@ -1,5 +1,5 @@
 import React from 'react';
-import { Download } from 'lucide-react';
+import Download from 'lucide-react/dist/esm/icons/download';
 import { ApiResponse } from '../types';
 import { InvoiceDetails } from './InvoiceDetails';
 import { LineItems } from './LineItems';

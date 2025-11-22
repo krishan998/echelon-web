@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, ExternalLink } from 'lucide-react';
+import ArrowRight from 'lucide-react/dist/esm/icons/arrow-right';
+import ExternalLink from 'lucide-react/dist/esm/icons/external-link';
 
 interface ProjectCardProps {
   title: string;

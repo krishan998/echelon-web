@@ -7,7 +7,7 @@ export function Footer() {
       <div className="flex items-center justify-center py-2 md:py-8 mt-[20px] md:mt-[30px]">
         <div 
           className="text-[26vw] md:text-[26vw] text-[20vw] font-bold text-gray-400/20 whitespace-nowrap"
-          style={{ fontFamily: 'Share Tech Mono, monospace' }}
+          style={{ fontFamily: '\'Clash Display\', \'Nohemi\', \'Montserrat\', sans-serif' }}
         >
           NEXBIT
         </div>

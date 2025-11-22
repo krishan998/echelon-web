@@ -5,7 +5,14 @@ import { Footer } from '../components/layout/Footer';
 import { ProjectCard, FilterButton } from '../components/common/ProjectCard';
 import { AnimatedText, GradientText, RevealText } from '../components/common/AnimatedText';
 import { GeometricBackground } from '../components/backgrounds/GeometricBackground';
-import { ArrowRight, ExternalLink, Play, Sparkles, Zap, Target, Users, Lightbulb } from 'lucide-react';
+import ArrowRight from 'lucide-react/dist/esm/icons/arrow-right';
+import ExternalLink from 'lucide-react/dist/esm/icons/external-link';
+import Play from 'lucide-react/dist/esm/icons/play';
+import Sparkles from 'lucide-react/dist/esm/icons/sparkles';
+import Zap from 'lucide-react/dist/esm/icons/zap';
+import Target from 'lucide-react/dist/esm/icons/target';
+import Users from 'lucide-react/dist/esm/icons/users';
+import Lightbulb from 'lucide-react/dist/esm/icons/lightbulb';
 
 export function WorkPage() {
   const [activeFilter, setActiveFilter] = useState('All');

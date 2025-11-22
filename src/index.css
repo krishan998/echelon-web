@@ -2,6 +2,143 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Nohemi Font Face Declarations */
+/* Font files should be named: Nohemi-Weight.extension (e.g., Nohemi-Bold.woff) */
+/* Use the rename-fonts.js script to automatically remove hash suffixes from filenames */
+
+/* ExtraLight weight */
+@font-face {
+  font-family: 'Nohemi';
+  src: url('./assets/fonts/Nohemi-ExtraLight.woff2') format('woff2'),
+       url('./assets/fonts/Nohemi-ExtraLight.woff') format('woff'),
+       url('./assets/fonts/Nohemi-ExtraLight.otf') format('opentype'),
+       url('./assets/fonts/Nohemi-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Light weight */
+@font-face {
+  font-family: 'Nohemi';
+  src: url('./assets/fonts/Nohemi-Light.woff2') format('woff2'),
+       url('./assets/fonts/Nohemi-Light.woff') format('woff'),
+       url('./assets/fonts/Nohemi-Light.otf') format('opentype'),
+       url('./assets/fonts/Nohemi-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Regular weight */
+@font-face {
+  font-family: 'Nohemi';
+  src: url('./assets/fonts/Nohemi-Regular.woff2') format('woff2'),
+       url('./assets/fonts/Nohemi-Regular.woff') format('woff'),
+       url('./assets/fonts/Nohemi-Regular.otf') format('opentype'),
+       url('./assets/fonts/Nohemi-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Medium weight */
+@font-face {
+  font-family: 'Nohemi';
+  src: url('./assets/fonts/Nohemi-Medium.woff2') format('woff2'),
+       url('./assets/fonts/Nohemi-Medium.woff') format('woff'),
+       url('./assets/fonts/Nohemi-Medium.otf') format('opentype'),
+       url('./assets/fonts/Nohemi-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Semi-bold weight */
+@font-face {
+  font-family: 'Nohemi';
+  src: url('./assets/fonts/Nohemi-SemiBold.woff2') format('woff2'),
+       url('./assets/fonts/Nohemi-SemiBold.woff') format('woff'),
+       url('./assets/fonts/Nohemi-SemiBold.otf') format('opentype'),
+       url('./assets/fonts/Nohemi-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Bold weight */
+@font-face {
+  font-family: 'Nohemi';
+  src: url('./assets/fonts/Nohemi-Bold.woff2') format('woff2'),
+       url('./assets/fonts/Nohemi-Bold.woff') format('woff'),
+       url('./assets/fonts/Nohemi-Bold.otf') format('opentype'),
+       url('./assets/fonts/Nohemi-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ExtraBold weight */
+@font-face {
+  font-family: 'Nohemi';
+  src: url('./assets/fonts/Nohemi-ExtraBold.woff2') format('woff2'),
+       url('./assets/fonts/Nohemi-ExtraBold.woff') format('woff'),
+       url('./assets/fonts/Nohemi-ExtraBold.otf') format('opentype'),
+       url('./assets/fonts/Nohemi-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Clash Display Font Face Declarations */
+@font-face {
+  font-family: 'Clash Display';
+  src: url('./assets/fonts/ClashDisplay-Extralight.otf') format('opentype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clash Display';
+  src: url('./assets/fonts/ClashDisplay-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clash Display';
+  src: url('./assets/fonts/ClashDisplay-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clash Display';
+  src: url('./assets/fonts/ClashDisplay-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clash Display';
+  src: url('./assets/fonts/ClashDisplay-Semibold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clash Display';
+  src: url('./assets/fonts/ClashDisplay-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Global modern font and rendering */
 body {
   font-family: 'Inter', 'Montserrat', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";

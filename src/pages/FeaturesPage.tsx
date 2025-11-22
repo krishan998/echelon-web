@@ -1,7 +1,12 @@
 import React from 'react';
 import { Navbar } from '../components/layout/Navbar';
 import { Footer } from '../components/layout/Footer';
-import { FileText, Database, Shield, Zap, Workflow, Network } from 'lucide-react';
+import FileText from 'lucide-react/dist/esm/icons/file-text';
+import Database from 'lucide-react/dist/esm/icons/database';
+import Shield from 'lucide-react/dist/esm/icons/shield';
+import Zap from 'lucide-react/dist/esm/icons/zap';
+import Workflow from 'lucide-react/dist/esm/icons/workflow';
+import Network from 'lucide-react/dist/esm/icons/network';
 
 export function FeaturesPage() {
   const features = [

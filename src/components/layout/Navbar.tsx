@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import logo from '../../assets/logo.png';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import Menu from 'lucide-react/dist/esm/icons/menu';
+import X from 'lucide-react/dist/esm/icons/x';
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -39,7 +40,7 @@ export function Navbar() {
               />
               <span className="ml-3 text-xl md:text-xl text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-600 relative" 
                 style={{ 
-                  fontFamily: 'Montserrat, sans-serif',
+                  fontFamily: '\'Clash Display\', \'Nohemi\', \'Montserrat\', sans-serif',
                   letterSpacing: '-0.01em',
                 }}>
                 Nexbit

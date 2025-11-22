@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, AlertCircle } from 'lucide-react';
+import ArrowRight from 'lucide-react/dist/esm/icons/arrow-right';
+import AlertCircle from 'lucide-react/dist/esm/icons/alert-circle';
 import { normalizeUrl, isValidUrl, isValidEmail, isEmailDomainAuthorized, submitEmailToSheet, getEmailDomain } from '../utils/urlUtils';
 import aiReadinessData from '../data/aiReadinessData.json';
 import logoSrc from '../assets/logo.png';

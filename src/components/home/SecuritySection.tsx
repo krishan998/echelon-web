@@ -1,6 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Shield, Database, Clock } from 'lucide-react';
+import Shield from 'lucide-react/dist/esm/icons/shield';
+import Database from 'lucide-react/dist/esm/icons/database';
+import Clock from 'lucide-react/dist/esm/icons/clock';
 
 export function SecuritySection() {
   return (

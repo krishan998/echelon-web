@@ -1,14 +1,11 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import React from 'react';
 import { motion, AnimatePresence, useAnimation } from 'framer-motion';
 import { GradientText } from '../components/common/AnimatedText';
 import { submitWebsiteLandingPageEmail, isValidEmail } from '../utils/urlUtils';
+import { sendChatMessage } from '../api/chatApi';
 import logoSrc from '../assets/logo_fresh.jpg';
 import backImage from '../assets/back.jpg';
-
-
- 
-
 
 export function TeaserPage() {
   const containerControls = useAnimation();
@@ -21,16 +18,38 @@ export function TeaserPage() {
   const [showJoinPopup, setShowJoinPopup] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ top: 0, right: 0 });
   const [chatMessages, setChatMessages] = useState<Array<{ type: 'user' | 'system'; message: string }>>([]);
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [isLoadingMessage, setIsLoadingMessage] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const chatFormRef = useRef<HTMLFormElement>(null);
+  const chatPanelRef = useRef<HTMLDivElement>(null);
+  const introBlockRef = useRef<HTMLDivElement>(null);
   const scrollPositionRef = useRef<number>(0);
   const earlyAccessButtonRef = useRef<HTMLButtonElement>(null);
+  const botReplyTimeoutRef = useRef<number | null>(null);
+  const debugLog = useCallback((...args: any[]) => {
+    if (typeof window === 'undefined') return;
+    console.log('[ChatDebug]', ...args);
+  }, []);
 
-  
+  const handleCloseChat = useCallback(() => {
+    if (botReplyTimeoutRef.current) {
+      window.clearTimeout(botReplyTimeoutRef.current);
+      botReplyTimeoutRef.current = null;
+    }
+    debugLog('handleCloseChat');
+    setChatMessages([]);
+    setSessionId(null);
+    setIsLoadingMessage(false);
+    setShowChatBox(false);
+  }, [debugLog]);
+
   const suggestedQuestions = [
     "What services do you offer?",
     "Tell me about pricing"
   ];
+
+  const isIntroActive = showChatBox && chatMessages.length === 0;
+  const isCollapsedTipActive = !showChatBox;
 
   // Auto-scroll to latest message (only within chat box, not the page)
   useEffect(() => {
@@ -38,6 +57,34 @@ export function TeaserPage() {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
   }, [chatMessages, showChatBox]);
+  
+
+  useEffect(() => {
+    if (!showChatBox || !chatPanelRef.current) return;
+    debugLog('chat-panel-bounds', chatPanelRef.current.getBoundingClientRect());
+  }, [showChatBox, debugLog]);
+
+  useEffect(() => {
+    if (!isIntroActive || !introBlockRef.current) return;
+    debugLog('intro-block-bounds', introBlockRef.current.getBoundingClientRect());
+  }, [isIntroActive, debugLog]);
+
+  useEffect(() => {
+    debugLog('state-change', {
+      showChatBox,
+      chatCount: chatMessages.length,
+      isIntroActive,
+      hasMessages: chatMessages.length > 0,
+    });
+  }, [showChatBox, chatMessages, isIntroActive]);
+
+  useEffect(() => {
+    return () => {
+      if (botReplyTimeoutRef.current) {
+        window.clearTimeout(botReplyTimeoutRef.current);
+      }
+    };
+  }, []);
   
   // Preserve scroll position when chat box opens
   useEffect(() => {
@@ -67,7 +114,7 @@ export function TeaserPage() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         if (showChatBox) {
-          setShowChatBox(false);
+          handleCloseChat();
         }
         if (showJoinPopup) {
           setShowJoinPopup(false);
@@ -79,7 +126,7 @@ export function TeaserPage() {
       window.addEventListener('keydown', handleKeyDown);
       return () => window.removeEventListener('keydown', handleKeyDown);
     }
-  }, [showChatBox, showJoinPopup]);
+  }, [showChatBox, showJoinPopup, handleCloseChat]);
 
   // Update popup position on scroll/resize
   useEffect(() => {
@@ -121,23 +168,65 @@ export function TeaserPage() {
   }, [showJoinPopup]);
 
   // Handle sending messages
-  const handleSendMessage = (message: string) => {
+  const handleSendMessage = async (message: string) => {
+    debugLog('handleSendMessage', { rawMessage: message, sessionId });
     if (!message.trim()) return;
     
     // Preserve scroll position before opening chat box
     scrollPositionRef.current = window.scrollY;
     
-    setChatMessages(prev => [...prev, { type: 'user', message: message.trim() }]);
+    const userMessage = message.trim();
+    setChatMessages(prev => [...prev, { type: 'user', message: userMessage }]);
     setShowChatBox(true);
     setSearchInput('');
+    setIsLoadingMessage(true);
     
-    // Add a system response (you can replace this with actual API call)
-    setTimeout(() => {
+    // Clear any existing timeout
+    if (botReplyTimeoutRef.current) {
+      window.clearTimeout(botReplyTimeoutRef.current);
+      botReplyTimeoutRef.current = null;
+    }
+    
+    try {
+      // Call the chat API
+      const response = await sendChatMessage(userMessage, sessionId || undefined);
+      
+      // Store session_id from response (will be set on first message and used for subsequent messages)
+      if (response.session_id) {
+        setSessionId(response.session_id);
+      }
+      
+      // Add the system response
       setChatMessages(prev => [...prev, { 
         type: 'system', 
-        message: 'Thank you for your question. We\'ll get back to you soon!' 
+        message: response.response 
       }]);
-    }, 500);
+    } catch (error) {
+      console.error('Error sending chat message:', error);
+      // Show error message to user
+      setChatMessages(prev => [...prev, { 
+        type: 'system', 
+        message: 'Sorry, I encountered an error. Please try again.' 
+      }]);
+    } finally {
+      setIsLoadingMessage(false);
+    }
+  };
+
+  const handleStartChat = () => {
+    debugLog('Start chat clicked', {
+      hasInput: Boolean(searchInput.trim()),
+      existingMessages: chatMessages.length,
+    });
+    if (searchInput.trim()) {
+      handleSendMessage(searchInput.trim());
+      return;
+    }
+
+    scrollPositionRef.current = window.scrollY;
+    setChatMessages([]);
+    setSessionId(null); // Reset session when starting fresh chat
+    setShowChatBox(true);
   };
 
   const handleEmailSubmit = (e: React.FormEvent) => {
@@ -297,7 +386,7 @@ export function TeaserPage() {
             alt="Nexbit Logo" 
             className="w-10 h-10 rounded-[2px] object-cover"
           />
-          <span className="text-xl font-medium text-gray-900">Nexbit</span>
+          <span className="text-xl font-clash-display font-medium text-gray-900">Nexbit</span>
         </div>
 
         {/* Actions */}
@@ -467,9 +556,9 @@ export function TeaserPage() {
             {/* Main Heading - Centered */}
             <div className="mb-4">
               <GradientText
-                text="#1 Human touch AI SDR without human efforts"
+                text="Nexbit explains your product better than you do."
                 gradient="from-gray-950 via-black to-gray-800"
-                className="text-3xl sm:text-4xl md:text-6xl lg:text-5xl font-medium tracking-tight leading-tight"
+                className="text-3xl sm:text-4xl md:text-6xl lg:text-5xl font-regular tracking-tight leading-tight font-clash-display"
               />
             </div>
 
@@ -478,9 +567,9 @@ export function TeaserPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.6 }}
-                className="text-base sm:text-lg md:text-xl text-gray-600 mb-8 leading-relaxed"
+                className="text-base sm:text-lg md:text-xl text-gray-600 mb-8 font-light leading-relaxed font-clash-display"
               >
-                Stop letting your traffic bounce. Turn visitors into booked demos with an AI that chats like your best sales rep.
+                Stop letting your traffic bounce. Turn visitors into booked demos with AI that chats like your best sales rep.
               </motion.div>
           </div>
 
@@ -501,186 +590,6 @@ export function TeaserPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-[#F6F5F2] via-transparent to-transparent opacity-80 pointer-events-none" />
             </div>
           </motion.div>
-        </div>
-      </section>
-
-      {/* Product CTA with embedded chat teaser */}
-      <section className="relative z-10 px-4 sm:px-8 lg:px-16 xl:px-20 2xl:px-24 3xl:px-28 py-8 mt-0 sm:mt-2 lg:mt-4" data-section="chat-teaser">
-        <div
-          className="relative max-w-4xl mx-auto w-full overflow-visible"
-          style={{ minHeight: 120 }}
-        >
-          <div className="relative">
-            <motion.form
-              ref={chatFormRef}
-              layoutId="chatDock"
-              animate={{ opacity: showChatBox ? 0 : 1 }}
-              transition={{ duration: 0.2 }}
-            onSubmit={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              if (searchInput.trim()) {
-                // Blur any focused elements to prevent scroll
-                if (document.activeElement instanceof HTMLElement) {
-                  document.activeElement.blur();
-                }
-                handleSendMessage(searchInput.trim());
-              }
-            }}
-              className="flex flex-col sm:flex-row items-center gap-4 w-full"
-              style={{
-                visibility: showChatBox ? 'hidden' : 'visible',
-                pointerEvents: showChatBox ? 'none' : 'auto',
-              }}
-            >
-              <div className="flex-1 w-full">
-            <input
-              type="text"
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-              placeholder="Ask Nexbit anything..."
-                  className="w-full bg-transparent text-2xl text-gray-900 placeholder-gray-400 px-0 py-2 border-b border-gray-200 focus:border-gray-900 focus:outline-none transition"
-            />
-              </div>
-            <motion.button
-              type="submit"
-                whileHover={{ scale: searchInput.trim() ? 1.03 : 1 }}
-              whileTap={{ scale: searchInput.trim() ? 0.97 : 1 }}
-              className="w-full sm:w-auto rounded-full bg-gray-900 text-white px-7 py-3 font-medium hover:bg-gray-800 transition whitespace-nowrap"
-            >
-              Start chat
-            </motion.button>
-            </motion.form>
-
-            <AnimatePresence>
-              {showChatBox && (
-                <motion.div
-                  key="chat-expanded"
-                  initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 10, scale: 0.98 }}
-                  transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute left-0 w-full rounded-[36px] border border-gray-100 overflow-hidden shadow-[0_25px_60px_rgba(15,15,15,0.08)] bg-white z-50"
-                  style={{
-                    bottom: 0,
-                    transformOrigin: 'bottom center',
-                  }}
-                >
-                <div className="flex flex-col h-[500px] sm:h-[540px]">
-                  <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 text-gray-900 bg-white/95">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-2xl bg-gray-100 flex items-center justify-center shadow-inner">
-                        <svg className="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm0 2c-2.21 0-4 1.343-4 3v1h8v-1c0-1.657-1.79-3-4-3z" />
-                        </svg>
-                      </div>
-                      <div>
-                        <p className="font-medium text-base">Nexbit</p>
-                        <p className="text-xs text-gray-500">Live SDR assistant</p>
-                      </div>
-                    </div>
-                    <motion.button
-                      whileHover={{ scale: 1.08 }}
-                      whileTap={{ scale: 0.92 }}
-                      onClick={() => setShowChatBox(false)}
-                      className="w-9 h-9 rounded-full border border-gray-200 bg-white hover:bg-gray-50 flex items-center justify-center transition"
-                      aria-label="Close chat"
-                    >
-                      <svg className="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </motion.button>
-                  </div>
-
-                  <div className="flex-1 flex flex-col overflow-hidden bg-white">
-                    <div className="flex-1 overflow-y-auto p-5 space-y-4">
-                      {chatMessages.map((msg, index) => (
-                        <motion.div
-                          key={`${msg.message}-${index}`}
-                          initial={{ opacity: 0, y: 12, scale: 0.98 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          transition={{ duration: 0.25, delay: index * 0.04, ease: 'easeOut' }}
-                          className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}
-                        >
-                          <div
-                            className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm shadow-lg ${
-                              msg.type === 'user'
-                                ? 'bg-gray-900 text-white'
-                                : 'bg-gray-100 text-gray-900'
-                            }`}
-                          >
-                            {msg.message}
-                          </div>
-                        </motion.div>
-                      ))}
-                      <div ref={messagesEndRef} />
-                    </div>
-
-                    {suggestedQuestions.length > 0 && (
-                      <div className="px-5 pb-3 pt-2 border-t border-gray-100 bg-gray-50/60">
-                        <div className="flex flex-wrap gap-2">
-                          {suggestedQuestions.map((question, index) => (
-                            <motion.button
-                              key={index}
-                              whileHover={{ scale: 1.03 }}
-                              whileTap={{ scale: 0.96 }}
-                              onClick={() => handleSendMessage(question)}
-                              className="px-3 py-1.5 text-xs rounded-full transition-colors text-gray-800 border border-gray-200 bg-white shadow-sm"
-                            >
-                              {question}
-                            </motion.button>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="px-5 pb-5 pt-3 bg-white border-t border-gray-100">
-                      <div className="flex items-center gap-3 rounded-2xl px-4 py-3 border border-gray-200 shadow-sm bg-white">
-                        <div
-                          className="w-10 h-10 rounded-full flex items-center justify-center text-white shadow-md"
-                          style={{
-                            background: 'linear-gradient(135deg, rgba(230,123,98,0.95), rgba(176,80,58,0.95))',
-                          }}
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                          </svg>
-                        </div>
-                        <input
-                          type="text"
-                          value={searchInput}
-                          onChange={(e) => setSearchInput(e.target.value)}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter' && !e.shiftKey && searchInput.trim()) {
-                              e.preventDefault();
-                              handleSendMessage(searchInput.trim());
-                            }
-                          }}
-                          placeholder="Ask anything about Nexbit..."
-                          className="flex-1 bg-transparent text-sm text-gray-900 outline-none placeholder-gray-400"
-                        />
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={() => {
-                            if (searchInput.trim()) {
-                              handleSendMessage(searchInput.trim());
-                            }
-                          }}
-                          className="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center shadow"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                          </svg>
-                        </motion.button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-          </div>
         </div>
       </section>
 
@@ -721,7 +630,7 @@ export function TeaserPage() {
             {/* Left Column - Brand Information */}
             <div className="text-center md:text-left flex flex-col items-center md:items-start gap-3">
               <img src={logoSrc} alt="Nexbit Logo" className="w-12 h-12 rounded-[2px] object-cover" />
-              <div className="font-semibold text-lg">Nexbit</div>
+              <div className="font-clash-display font-medium text-lg">Nexbit</div>
             </div>
 
             {/* Right Column - Back to Top & Links */}
@@ -739,6 +648,213 @@ export function TeaserPage() {
         </div>
       </motion.section>
       </motion.div>
+
+      {/* Docked Chat overlay */}
+      <AnimatePresence>
+        {showChatBox && (
+          <motion.div
+            key="chat-backdrop"
+            className="fixed inset-0 z-40 bg-black/30 backdrop-blur-[2px]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={handleCloseChat}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Docked Chat Bar */}
+      <div className="fixed inset-x-0 bottom-0 z-50 px-3 sm:px-6 pb-5 pointer-events-none">
+        <AnimatePresence initial={false} mode="wait">
+          {showChatBox ? (
+            <motion.div
+              key="chat-expanded"
+              layoutId="docked-chat-shell"
+              className="mx-auto w-full max-w-2xl pointer-events-auto"
+              ref={chatPanelRef}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 24 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 28 }}
+              style={{ originY: 1 }}
+            >
+              <div className="rounded-2xl border border-gray-100 bg-white shadow-[0_25px_60px_rgba(15,15,15,0.18)] overflow-hidden">
+                <div className="flex flex-col h-[70vh] max-h-[620px]">
+                  <div className="flex items-center justify-between gap-4 px-5 py-4 border-b border-gray-100 bg-white/95">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-2xl bg-gray-100 flex items-center justify-center shadow-inner">
+                        <svg className="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm0 2c-2.21 0-4 1.343-4 3v1h8v-1c0-1.657-1.79-3-4-3z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="font-medium text-base text-gray-900">Nexbit</p>
+                        <p className="text-xs text-gray-500">AI SDR agent</p>
+                      </div>
+                    </div>
+                    <motion.button
+                      whileHover={{ scale: 1.08 }}
+                      whileTap={{ scale: 0.92 }}
+                      onClick={handleCloseChat}
+                      className="w-9 h-9 rounded-full border border-gray-200 bg-white hover:bg-gray-50 flex items-center justify-center transition"
+                      aria-label="Close chat"
+                    >
+                      <svg className="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </motion.button>
+                  </div>
+                  <div className="flex-1 overflow-y-auto p-5 space-y-4">
+                    {isIntroActive && (
+                      <div className="space-y-3" ref={introBlockRef}>
+                        <motion.div
+                          initial={{ opacity: 0, y: 12 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="max-w-[85%] rounded-2xl px-4 py-3 text-sm bg-gray-100 text-gray-900 shadow-inner"
+                        >
+                          Hi there! I'm Nexbit the AI SDR Agent. I'm here to help answer any questions you may have. How can I help you today?
+                        </motion.div>
+                      </div>
+                    )}
+                    {chatMessages.map((msg, index) => (
+                      <motion.div
+                        key={`${msg.message}-${index}`}
+                        initial={{ opacity: 0, y: 12, scale: 0.98 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ duration: 0.25, delay: index * 0.04, ease: 'easeOut' }}
+                        className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                      >
+                        <div
+                          className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm shadow-lg ${
+                            msg.type === 'user' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'
+                          }`}
+                        >
+                          {msg.message}
+                        </div>
+                      </motion.div>
+                    ))}
+                    {isLoadingMessage && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="flex justify-start"
+                      >
+                        <div className="max-w-[80%] rounded-2xl px-4 py-2.5 text-sm bg-gray-100 text-gray-900 shadow-lg">
+                          <div className="flex items-center gap-2">
+                            <div className="flex gap-1">
+                              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                            </div>
+                            <span className="text-gray-500 text-xs">Nexbit is typing...</span>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                    <div ref={messagesEndRef} />
+                  </div>
+
+                  {suggestedQuestions.length > 0 && (
+                    <div className="px-5 pb-3 pt-2 border-t border-gray-100 bg-gray-50/60">
+                      <div className="flex flex-wrap gap-2">
+                        {suggestedQuestions.map((question, index) => (
+                          <motion.button
+                            key={index}
+                            whileHover={{ scale: 1.03 }}
+                            whileTap={{ scale: 0.96 }}
+                            onClick={() => handleSendMessage(question)}
+                            className="px-3 py-1.5 text-xs rounded-full transition-colors text-gray-800 border border-gray-200 bg-white shadow-sm"
+                          >
+                            {question}
+                          </motion.button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  <div className="px-5 pb-5 pt-4 border-t border-gray-100 bg-white/95">
+                    <motion.form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (searchInput.trim()) {
+                          handleSendMessage(searchInput.trim());
+                        }
+                      }}
+                      className="flex flex-col sm:flex-row items-center gap-4 w-full"
+                    >
+                      <div className="flex-1 w-full">
+                        <input
+                          type="text"
+                          value={searchInput}
+                          onChange={(e) => setSearchInput(e.target.value)}
+                          placeholder="Ask Nexbit anything..."
+                          disabled={isLoadingMessage}
+                          className="w-full bg-transparent text-lg sm:text-xl text-gray-900 placeholder-gray-400 px-0 py-2 border-b border-gray-200 focus:border-gray-900 focus:outline-none transition disabled:opacity-50 disabled:cursor-not-allowed"
+                        />
+                      </div>
+                      <motion.button
+                        type="submit"
+                        disabled={isLoadingMessage || !searchInput.trim()}
+                        whileHover={{ scale: searchInput.trim() && !isLoadingMessage ? 1.03 : 1 }}
+                        whileTap={{ scale: searchInput.trim() && !isLoadingMessage ? 0.97 : 1 }}
+                        className="w-full sm:w-auto rounded-full bg-gray-900 text-white px-7 py-3 font-medium hover:bg-gray-800 transition whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {isLoadingMessage ? 'Sending...' : 'Send'}
+                      </motion.button>
+                    </motion.form>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="chat-collapsed"
+              layoutId="docked-chat-shell"
+              className="mx-auto w-full max-w-2xl pointer-events-auto"
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 24 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 28 }}
+              style={{ originY: 1 }}
+            >
+              <div className="rounded-2xl border border-gray-200 bg-white shadow-[0_15px_45px_rgba(15,15,15,0.12)] px-5 py-6 flex flex-col gap-4 relative">
+                {isCollapsedTipActive && (
+                  <div className="absolute left-0 right-0 -top-16 flex justify-center pointer-events-none select-none">
+                    <div className="w-full rounded-[28px] bg-white/95 px-6 py-3 text-sm text-gray-900 shadow-2xl border border-gray-200 max-w-[calc(100%-3rem)]">
+                      I engage and qualify inbound buyers on your site. Let me explain how I can help you.
+                    </div>
+                  </div>
+                )}
+
+                <div>
+                  <p className="text-sm font-semibold text-gray-900">Chat with Nexbit the AI SDR Agent</p>
+                </div>
+
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <div className="flex-1 w-full">
+                    <input
+                      type="text"
+                      value={searchInput}
+                      onChange={(e) => setSearchInput(e.target.value)}
+                      placeholder="Ask Nexbit anything..."
+                      className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900/15"
+                    />
+                  </div>
+                  <motion.button
+                    whileHover={{ scale: searchInput.trim() ? 1.03 : 1 }}
+                    whileTap={{ scale: searchInput.trim() ? 0.97 : 1 }}
+                    onClick={handleStartChat}
+                    className="inline-flex items-center justify-center rounded-xl bg-gray-900 text-white px-5 py-3 text-sm font-medium shadow-sm hover:bg-gray-800 transition w-full sm:w-auto whitespace-nowrap"
+                  >
+                    Start chat
+                  </motion.button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>₹
+      </div>
     </div>
 
     </>

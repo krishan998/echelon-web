@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { FileText, Workflow, Lock } from 'lucide-react';
+import FileText from 'lucide-react/dist/esm/icons/file-text';
+import Workflow from 'lucide-react/dist/esm/icons/workflow';
+import Lock from 'lucide-react/dist/esm/icons/lock';
 import { motion } from 'framer-motion';
 import { ScrollAnimation } from '../common/ScrollAnimation';
 import './Features.css';
