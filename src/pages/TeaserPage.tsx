@@ -88,16 +88,6 @@ export function TeaserPage() {
     };
   }, []);
 
-  // Set video playback rate to slow it down
-  useEffect(() => {
-    if (videoRef.current) {
-      // Use 0.3-0.4 for smoother playback. Very low rates (0.2) can cause lag
-      videoRef.current.playbackRate = 0.5; // Slow down to 35% speed (smoother than 0.2)
-      // Ensure smooth playback
-      videoRef.current.style.willChange = 'transform';
-    }
-  }, []);
-  
   // Preserve scroll position when chat box opens
   useEffect(() => {
     if (showChatBox) {
