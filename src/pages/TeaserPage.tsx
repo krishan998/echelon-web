@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import React from 'react';
 import { motion, AnimatePresence, useAnimation } from 'framer-motion';
-import { GradientText } from '../components/common/AnimatedText';
 import { submitWebsiteLandingPageEmail, isValidEmail } from '../utils/urlUtils';
 import { sendChatMessage } from '../api/chatApi';
 import logoSrc from '../assets/logo_fresh.jpg';
-import backImage from '../assets/back.jpg';
+import chatbotAvatar from '../assets/chatbot-avatar.jpg';
+import splashVideo from '../assets/splashvideo.mp4';
 
 export function TeaserPage() {
   const containerControls = useAnimation();
@@ -16,16 +16,19 @@ export function TeaserPage() {
   const [searchInput, setSearchInput] = useState('');
   const [showChatBox, setShowChatBox] = useState(false);
   const [showJoinPopup, setShowJoinPopup] = useState(false);
-  const [popupPosition, setPopupPosition] = useState({ top: 0, right: 0 });
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [chatMessages, setChatMessages] = useState<Array<{ type: 'user' | 'system'; message: string }>>([]);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [isLoadingMessage, setIsLoadingMessage] = useState(false);
+  const [hasInteractedWithChat, setHasInteractedWithChat] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatPanelRef = useRef<HTMLDivElement>(null);
   const introBlockRef = useRef<HTMLDivElement>(null);
   const scrollPositionRef = useRef<number>(0);
   const earlyAccessButtonRef = useRef<HTMLButtonElement>(null);
   const botReplyTimeoutRef = useRef<number | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const debugLog = useCallback((...args: any[]) => {
     if (typeof window === 'undefined') return;
     console.log('[ChatDebug]', ...args);
@@ -41,12 +44,11 @@ export function TeaserPage() {
     setSessionId(null);
     setIsLoadingMessage(false);
     setShowChatBox(false);
+    setHasInteractedWithChat(true);
+    setIsTransitioning(false); // Reset transition state
   }, [debugLog]);
 
-  const suggestedQuestions = [
-    "What services do you offer?",
-    "Tell me about pricing"
-  ];
+  const suggestedQuestions: string[] = [];
 
   const isIntroActive = showChatBox && chatMessages.length === 0;
   const isCollapsedTipActive = !showChatBox;
@@ -85,6 +87,16 @@ export function TeaserPage() {
       }
     };
   }, []);
+
+  // Set video playback rate to slow it down
+  useEffect(() => {
+    if (videoRef.current) {
+      // Use 0.3-0.4 for smoother playback. Very low rates (0.2) can cause lag
+      videoRef.current.playbackRate = 0.5; // Slow down to 35% speed (smoother than 0.2)
+      // Ensure smooth playback
+      videoRef.current.style.willChange = 'transform';
+    }
+  }, []);
   
   // Preserve scroll position when chat box opens
   useEffect(() => {
@@ -106,6 +118,11 @@ export function TeaserPage() {
         restoreScroll();
         requestAnimationFrame(restoreScroll);
       });
+      
+      // Reset transition state after a short delay to allow animation to complete
+      setTimeout(() => {
+        setIsTransitioning(false);
+      }, 300);
     }
   }, [showChatBox]);
 
@@ -139,22 +156,25 @@ export function TeaserPage() {
         const popupHeight = 400;
         const spacing = 12;
         
+        // Calculate position directly below button, aligned to left edge
         let top = rect.bottom + spacing;
-        let right = window.innerWidth - rect.right;
+        let left = rect.left;
         
+        // Ensure popup stays within viewport horizontally
+        if (left + popupWidth > window.innerWidth - 20) {
+          left = window.innerWidth - popupWidth - 20;
+        }
+        
+        if (left < 20) {
+          left = 20;
+        }
+        
+        // If popup would go below viewport, adjust top position
         if (top + popupHeight > window.innerHeight - 20) {
-          top = rect.top - popupHeight - spacing;
+          top = window.innerHeight - popupHeight - 20;
         }
         
-        if (right + popupWidth > window.innerWidth - 20) {
-          right = 20;
-        }
-        
-        if (right < 20) {
-          right = 20;
-        }
-        
-        setPopupPosition({ top, right });
+        setPopupPosition({ top, left });
       }
     };
 
@@ -180,6 +200,7 @@ export function TeaserPage() {
     setShowChatBox(true);
     setSearchInput('');
     setIsLoadingMessage(true);
+    setHasInteractedWithChat(true);
     
     // Clear any existing timeout
     if (botReplyTimeoutRef.current) {
@@ -218,6 +239,7 @@ export function TeaserPage() {
       hasInput: Boolean(searchInput.trim()),
       existingMessages: chatMessages.length,
     });
+    setIsTransitioning(true); // Hide input/button immediately
     if (searchInput.trim()) {
       handleSendMessage(searchInput.trim());
       return;
@@ -227,6 +249,7 @@ export function TeaserPage() {
     setChatMessages([]);
     setSessionId(null); // Reset session when starting fresh chat
     setShowChatBox(true);
+    setHasInteractedWithChat(true);
   };
 
   const handleEmailSubmit = (e: React.FormEvent) => {
@@ -357,27 +380,22 @@ export function TeaserPage() {
     <div className="min-h-screen relative overflow-hidden font-sf-pro overscroll-y-contain bg-transparent" data-name="page-root">
       {/* Fixed base background so it never moves */}
       <div
-        className="fixed inset-0 -z-10 bg-cover bg-center"
+        className="fixed inset-0 -z-10"
         data-name="global-background"
         style={{
-          backgroundImage: `url(${backImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundColor: '#F0EDED',
         }}
       ></div>
       {/* Two-layer background wrapper */}
       <motion.div
         animate={containerControls}
-        className="relative z-10 mt-1 sm:mt-3 lg:mt-6 mb-4 sm:mb-8 lg:mb-16 mx-2 sm:mx-4 lg:mx-8 xl:mx-12 2xl:mx-16 rounded-[3rem] overflow-hidden will-change-transform bg-[#F6F5F2]"
+        className="relative z-10 mt-1 sm:mt-3 lg:mt-6 mb-4 sm:mb-8 lg:mb-16 rounded-[3rem] overflow-hidden will-change-transform bg-[#F0EDED]"
         data-name="front-layer"
       >
-      
+        <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16">
       {/* Header */}
-      <motion.header
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="relative z-20 flex items-center justify-between px-2 sm:px-4 lg:px-12 xl:px-16 2xl:px-20 3xl:px-24 py-6"
+      <header
+        className="relative z-20 flex items-center justify-between py-3"
       >
         {/* Logo and Name */}
         <div className="flex items-center gap-3">
@@ -391,81 +409,36 @@ export function TeaserPage() {
 
         {/* Actions */}
         <div className="flex items-center gap-3">
-          <motion.button
-            ref={earlyAccessButtonRef}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => {
-              if (earlyAccessButtonRef.current) {
-                const rect = earlyAccessButtonRef.current.getBoundingClientRect();
-                const popupWidth = Math.min(448, window.innerWidth * 0.9); // max-w-md is 448px
-                const popupHeight = 400; // approximate height
-                const spacing = 12;
-                
-                // Calculate position - prefer below button, aligned to right edge
-                let top = rect.bottom + spacing;
-                let right = window.innerWidth - rect.right;
-                
-                // If popup would go off bottom of screen, position above button instead
-                if (top + popupHeight > window.innerHeight - 20) {
-                  top = rect.top - popupHeight - spacing;
-                }
-                
-                // Ensure popup doesn't go off right edge
-                if (right + popupWidth > window.innerWidth - 20) {
-                  right = 20;
-                }
-                
-                // Ensure popup doesn't go off left edge
-                if (right < 20) {
-                  right = 20;
-                }
-                
-                setPopupPosition({ top, right });
-              }
-              setShowJoinPopup(true);
-            }}
-            className="inline-flex items-center justify-center rounded-full border border-gray-300 bg-white text-gray-900 px-5 py-2.5 text-sm sm:text-base font-medium shadow-sm hover:shadow transition-all"
-          >
-            Join Early Access
-          </motion.button>
-          <motion.a
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
+          <a
             href="https://calendly.com/kp-nexbit/30min"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-full bg-[#343434] text-white px-6 py-3 md:px-7 md:py-2.5 text-base md:text-lg font-normal shadow-sm hover:shadow md:shadow transition-all"
+            className="inline-flex items-center justify-center rounded-full text-white px-6 py-3 md:px-7 md:py-2.5 text-base md:text-lg font-normal shadow-sm hover:shadow md:shadow"
+            style={{ backgroundColor: '#564F4B' }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#4a433f'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#564F4B'}
           >
             Contact
-          </motion.a>
+          </a>
         </div>
-      </motion.header>
+      </header>
       
       {/* Join Early Access Popup */}
       <AnimatePresence>
         {showJoinPopup && (
           <>
-            {/* Backdrop */}
-            <motion.div
-              className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setShowJoinPopup(false)}
-            />
             {/* Popup positioned near button */}
             <motion.div
               className="fixed z-50"
               style={{
                 top: `${popupPosition.top}px`,
-                right: `${popupPosition.right}px`,
+                left: `${popupPosition.left}px`,
               }}
               initial={{ 
                 scale: 0.8, 
                 opacity: 0, 
                 y: -10,
-                transformOrigin: 'top right'
+                transformOrigin: 'top center'
               }}
               animate={{ 
                 scale: 1, 
@@ -525,13 +498,16 @@ export function TeaserPage() {
                   whileHover={{ scale: isSubmitting || isSubmitted ? 1 : 1.02 }}
                   whileTap={{ scale: isSubmitting || isSubmitted ? 1 : 0.98 }}
                   disabled={isSubmitting || isSubmitted}
-                  className={`w-full px-4 py-3 rounded-2xl font-medium text-base transition-colors ${
+                  className={`w-full px-4 py-3 rounded-2xl font-medium text-base transition-colors text-white ${
                     isSubmitted
-                      ? 'bg-green-600 text-white'
+                      ? 'bg-green-600'
                       : isSubmitting
-                      ? 'bg-gray-500 text-white cursor-not-allowed'
-                      : 'bg-gray-900 text-white hover:bg-gray-800'
+                      ? 'bg-gray-500 cursor-not-allowed'
+                      : ''
                   }`}
+                  style={!isSubmitted && !isSubmitting ? { backgroundColor: '#564F4B' } : undefined}
+                  onMouseEnter={!isSubmitted && !isSubmitting ? (e) => e.currentTarget.style.backgroundColor = '#4a433f' : undefined}
+                  onMouseLeave={!isSubmitted && !isSubmitting ? (e) => e.currentTarget.style.backgroundColor = '#564F4B' : undefined}
                 >
                   {isSubmitted ? '✓ Joined!' : isSubmitting ? 'Joining...' : 'Join waitlist'}
                 </motion.button>
@@ -548,29 +524,62 @@ export function TeaserPage() {
       </AnimatePresence>
       
       {/* Hero Section */}
-      <section className="relative z-10 min-h-[70vh] flex items-center justify-start pl-8 sm:pl-12 lg:pl-16 pr-2 sm:pr-4 lg:pr-12 xl:pr-16 2xl:pr-20 3xl:pr-24 -mt-10 lg:-mt-4 pt-10 lg:pt-14 pb-10 overflow-visible" data-section="hero">
+      <section className="relative z-10 min-h-[70vh] flex items-center justify-start -mt-28 lg:-mt-20 pt-0 pb-4 overflow-visible" data-section="hero">
         <div className="w-full flex flex-col items-start gap-6">
           {/* Left Aligned Text Content */}
-          <div className="text-left flex flex-col justify-center items-start mt-4 lg:mt-2">
+          <div className="text-left flex flex-col justify-center items-start mt-2 lg:mt-0">
             
             {/* Main Heading - Left Aligned */}
             <div className="mb-4">
-              <GradientText
-                text="Nexbit explains your product better than you do."
-                gradient="from-gray-950 via-black to-gray-800"
-                className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-regular tracking-tight leading-tight font-clash-display"
-              />
+              <div className="bg-gradient-to-r from-[#564F4B] to-[#564F4B] bg-clip-text text-transparent text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-[450] tracking-tight leading-tight font-clash-display">
+                Nexbit explains your product better than you do
+              </div>
             </div>
 
             {/* Tagline */}
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.6 }}
-                className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-600 mb-8 font-light leading-relaxed font-clash-display"
+            <div
+                className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 font-light leading-relaxed"
+                style={{ color: '#564F4B' }}
               >
                 Stop letting your traffic bounce. Turn visitors into booked demos with AI that chats like your best sales rep.
-              </motion.div>
+              </div>
+
+            {/* Join Early Access Button */}
+            <button
+              ref={earlyAccessButtonRef}
+              onClick={() => {
+                if (earlyAccessButtonRef.current) {
+                  const rect = earlyAccessButtonRef.current.getBoundingClientRect();
+                  const popupWidth = Math.min(448, window.innerWidth * 0.9);
+                  const popupHeight = 400;
+                  const spacing = 12;
+                  
+                  // Calculate position directly below button, aligned to left edge
+                  let top = rect.bottom + spacing;
+                  let left = rect.left;
+                  
+                  // Ensure popup stays within viewport horizontally
+                  if (left + popupWidth > window.innerWidth - 20) {
+                    left = window.innerWidth - popupWidth - 20;
+                  }
+                  
+                  if (left < 20) {
+                    left = 20;
+                  }
+                  
+                  // If popup would go below viewport, adjust top position
+                  if (top + popupHeight > window.innerHeight - 20) {
+                    top = window.innerHeight - popupHeight - 20;
+                  }
+                  
+                  setPopupPosition({ top, left });
+                }
+                setShowJoinPopup(true);
+              }}
+              className="inline-flex items-center justify-center rounded-full bg-white text-gray-900 px-6 py-3 text-base font-medium shadow-sm hover:shadow"
+            >
+              Join Early Access
+            </button>
           </div>
         </div>
       </section>
@@ -587,48 +596,77 @@ export function TeaserPage() {
         {/* Emerging white background plate (second page) */}
         <motion.div
           aria-hidden
-          className="absolute inset-0 rounded-[2rem] shadow-sm -z-10 bg-cover bg-center"
+          className="absolute inset-0 rounded-[2rem] shadow-sm -z-10"
           initial={{ opacity: 0, y: 40, scale: 0.98 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          style={{ backgroundImage: `linear-gradient(180deg, rgba(255,255,255,0.94), rgba(246,245,242,0.98)), url(${backImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+          style={{ backgroundColor: '#F0EDED' }}
         />
-        <div className="relative">
+      </motion.section>
+
+      {/* Video Section Above Footer */}
+      <section className="w-full pt-28 md:pt-32 pb-4 md:pb-6 relative z-0 -mt-56 md:-mt-64" style={{ transition: 'none', boxShadow: 'none'  }}>
+        <div className="w-full" style={{ transition: 'none' }}>
+          <div className="w-full rounded-3xl overflow-hidden aspect-[4/3] md:aspect-[21/9]" style={{ transition: 'none', boxShadow: 'none' }}>
+            <video
+              ref={videoRef}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover"
+              style={{ transition: 'none !important', opacity: '1 !important', filter: 'brightness(0.95) contrast(0.85) saturate(0.9)' }}
+            >
+              <source src={splashVideo} type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer
-        className="text-white border-t border-white/10"
+        className="border-t border-gray-200 relative z-0 rounded-3xl w-full"
         data-section="footer"
         style={{
-          backgroundColor: '#0D6C72',
-          backgroundImage:
-            'linear-gradient(135deg, rgba(255,255,255,0.08), rgba(0,0,0,0.2)), url(https://www.transparenttextures.com/patterns/dust.png)',
-          backgroundBlendMode: 'overlay',
+          backgroundColor: '#1A4D35',
+          backgroundImage: `
+            url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)' opacity='0.2'/%3E%3C/svg%3E"),
+            radial-gradient(ellipse at 15px 23px, rgba(255,255,255,0.06) 1.5px, transparent 1.5px),
+            radial-gradient(ellipse at 47px 12px, rgba(255,255,255,0.05) 1px, transparent 1px),
+            radial-gradient(ellipse at 78px 45px, rgba(255,255,255,0.07) 2px, transparent 2px),
+            radial-gradient(ellipse at 123px 67px, rgba(255,255,255,0.04) 1px, transparent 1px),
+            radial-gradient(ellipse at 156px 34px, rgba(255,255,255,0.06) 1.5px, transparent 1.5px),
+            radial-gradient(ellipse at 189px 89px, rgba(255,255,255,0.05) 1px, transparent 1px)
+          `,
+          backgroundSize: '200px 200px, 180px 180px, 160px 160px, 140px 140px, 120px 120px, 100px 100px',
+          backgroundPosition: '0 0, 20px 30px, 40px 10px, 60px 50px, 80px 20px, 100px 70px'
         }}
       >
         {/* Main Footer Content */}
-        <div className="px-2 sm:px-4 lg:px-12 xl:px-16 2xl:px-20 3xl:px-24 py-10 md:py-12">
-          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-8 md:gap-12">
+        <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16 py-12 md:py-16">
+          <div className="w-full">
+            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-8 md:gap-12">
             {/* Left Column - Brand Information */}
             <div className="text-center md:text-left flex flex-col items-center md:items-start gap-3">
               <img src={logoSrc} alt="Nexbit Logo" className="w-12 h-12 rounded-[2px] object-cover" />
-              <div className="font-clash-display font-medium text-lg">Nexbit</div>
+              <div className="font-clash-display font-medium text-lg text-white">Nexbit</div>
             </div>
 
             {/* Right Column - Back to Top & Links */}
             <div className="text-center md:text-right space-y-3">
-              <a href="#page-root" className="text-white/80 hover:text-white transition-colors inline-flex items-center gap-1 justify-center md:justify-end">
+              <a href="#page-root" className="text-white/80 hover:text-white inline-flex items-center gap-1 justify-center md:justify-end">
                 Back to top
                 <span>↑</span>
               </a>
-              <a href="https://www.linkedin.com/company/nexbit-ai/" target="_blank" rel="noopener noreferrer" className="block text-white/80 hover:text-white transition-colors">LinkedIn</a>
-              <a href="https://x.com/NexbitAi" className="block text-white/80 hover:text-white transition-colors">X</a>
+              <a href="https://www.linkedin.com/company/nexbit-ai/" target="_blank" rel="noopener noreferrer" className="block text-white/80 hover:text-white">LinkedIn</a>
+              <a href="https://x.com/NexbitAi" className="block text-white/80 hover:text-white">X</a>
             </div>
           </div>
         </div>
+        </div>
       </footer>
         </div>
-      </motion.section>
       </motion.div>
 
       {/* Docked Chat overlay */}
@@ -636,7 +674,7 @@ export function TeaserPage() {
         {showChatBox && (
           <motion.div
             key="chat-backdrop"
-            className="fixed inset-0 z-40 bg-black/30 backdrop-blur-[2px]"
+            className="fixed inset-0 z-40"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -647,43 +685,59 @@ export function TeaserPage() {
       </AnimatePresence>
 
       {/* Docked Chat Bar */}
-      <div className="fixed inset-x-0 bottom-0 z-50 px-3 sm:px-6 pb-5 pointer-events-none">
-        <AnimatePresence initial={false} mode="wait">
+      <div className="fixed inset-0 md:inset-x-0 md:bottom-0 md:top-auto bottom-4 md:bottom-10 z-50 px-0 md:px-6 pointer-events-none">
+        <AnimatePresence initial={false}>
           {showChatBox ? (
             <motion.div
               key="chat-expanded"
-              layoutId="docked-chat-shell"
-              className="mx-auto w-full max-w-2xl pointer-events-auto"
+              className="w-full h-full md:mx-auto md:w-full md:max-w-4xl md:h-auto pointer-events-auto"
               ref={chatPanelRef}
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 24 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 28 }}
-              style={{ originY: 1 }}
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 1 }}
+              transition={{ duration: 0 }}
             >
-              <div className="rounded-2xl border border-gray-100 bg-white shadow-[0_25px_60px_rgba(15,15,15,0.18)] overflow-hidden">
-                <div className="flex flex-col h-[70vh] max-h-[620px]">
-                  <div className="flex items-center justify-between gap-4 px-5 py-4 border-b border-gray-100 bg-white/95">
+              <div className="relative h-full md:h-auto">
+                <motion.div 
+                  layoutId="docked-chat-shell"
+                  className="h-full md:h-auto md:rounded-2xl border-0 md:border border-gray-100 shadow-[0_25px_60px_rgba(15,15,15,0.18)] overflow-hidden relative"
+                  style={{
+                    background: 'transparent'
+                  }}
+                  transition={{ 
+                    layout: {
+                      type: 'spring', 
+                      stiffness: 200, 
+                      damping: 35,
+                      mass: 0.7
+                    }
+                  }}
+                >
+                  <motion.div className="absolute bg-white pointer-events-none" style={{ top: 0, bottom: '40px', left: 0, right: 0 }} layout={false}></motion.div>
+                  <motion.div className="absolute bg-white pointer-events-none" style={{ bottom: 0, height: '40px', left: 0, right: 0, opacity: 0.8 }} layout={false}></motion.div>
+                  <div className="flex flex-col h-full md:h-[620px] relative z-10">
+                  <div className="flex items-center justify-between gap-4 px-5 py-2 border-b border-gray-100 bg-white/95">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-2xl bg-gray-100 flex items-center justify-center shadow-inner">
-                        <svg className="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm0 2c-2.21 0-4 1.343-4 3v1h8v-1c0-1.657-1.79-3-4-3z" />
-                        </svg>
+                      <div className="w-10 h-10 rounded-2xl overflow-hidden flex items-center justify-center shadow-inner bg-gray-100">
+                        <img 
+                          src={chatbotAvatar} 
+                          alt="Chatbot avatar" 
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                       <div>
                         <p className="font-medium text-base text-gray-900">Nexbit</p>
-                        <p className="text-xs text-gray-500">AI SDR agent</p>
                       </div>
                     </div>
                     <motion.button
                       whileHover={{ scale: 1.08 }}
                       whileTap={{ scale: 0.92 }}
                       onClick={handleCloseChat}
-                      className="w-9 h-9 rounded-full border border-gray-200 bg-white hover:bg-gray-50 flex items-center justify-center transition"
-                      aria-label="Close chat"
+                      className="w-9 h-9 rounded-full bg-white hover:bg-gray-50 flex items-center justify-center transition"
+                      aria-label="Minimize chat"
                     >
                       <svg className="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
                       </svg>
                     </motion.button>
                   </div>
@@ -693,7 +747,7 @@ export function TeaserPage() {
                         <motion.div
                           initial={{ opacity: 0, y: 12 }}
                           animate={{ opacity: 1, y: 0 }}
-                          className="max-w-[85%] rounded-2xl px-4 py-3 text-sm bg-gray-100 text-gray-900 shadow-inner"
+                          className="max-w-[85%] rounded-2xl px-4 py-3 text-sm text-black"
                         >
                           Hi there! I'm Nexbit the AI SDR Agent. I'm here to help answer any questions you may have. How can I help you today?
                         </motion.div>
@@ -708,9 +762,10 @@ export function TeaserPage() {
                         className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}
                       >
                         <div
-                          className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm shadow-lg ${
-                            msg.type === 'user' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'
+                          className={`max-w-[80%] px-4 py-2.5 text-sm ${
+                            msg.type === 'user' ? 'text-gray-900 rounded-xl' : 'text-black rounded-2xl'
                           }`}
+                          style={msg.type === 'user' ? { backgroundColor: '#F2F2F2' } : {}}
                         >
                           {msg.message}
                         </div>
@@ -722,14 +777,13 @@ export function TeaserPage() {
                         animate={{ opacity: 1, y: 0 }}
                         className="flex justify-start"
                       >
-                        <div className="max-w-[80%] rounded-2xl px-4 py-2.5 text-sm bg-gray-100 text-gray-900 shadow-lg">
+                        <div className="max-w-[80%] rounded-2xl px-4 py-2.5 text-sm text-black">
                           <div className="flex items-center gap-2">
                             <div className="flex gap-1">
                               <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
                               <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
                               <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                             </div>
-                            <span className="text-gray-500 text-xs">Nexbit is typing...</span>
                           </div>
                         </div>
                       </motion.div>
@@ -746,7 +800,7 @@ export function TeaserPage() {
                             whileHover={{ scale: 1.03 }}
                             whileTap={{ scale: 0.96 }}
                             onClick={() => handleSendMessage(question)}
-                            className="px-3 py-1.5 text-xs rounded-full transition-colors text-gray-800 border border-gray-200 bg-white shadow-sm"
+                            className="px-3 py-1.5 text-xs rounded-full transition-colors text-gray-800 bg-white shadow-sm"
                           >
                             {question}
                           </motion.button>
@@ -754,8 +808,14 @@ export function TeaserPage() {
                       </div>
                     </div>
                   )}
-                  <div className="px-5 pb-5 pt-4 border-t border-gray-100 bg-white/95">
+                  <motion.div 
+                    layoutId="input-form-container"
+                    layout="position"
+                    className="px-3 py-3 border-t border-gray-100 bg-transparent relative z-20" 
+                    transition={{ duration: 0 }}
+                  >
                     <motion.form
+                      layout={false}
                       onSubmit={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -763,79 +823,220 @@ export function TeaserPage() {
                           handleSendMessage(searchInput.trim());
                         }
                       }}
-                      className="flex flex-col sm:flex-row items-center gap-4 w-full"
+                      className="flex flex-col gap-0 w-full"
                     >
-                      <div className="flex-1 w-full">
-                        <input
-                          type="text"
-                          value={searchInput}
-                          onChange={(e) => setSearchInput(e.target.value)}
-                          placeholder="Ask Nexbit anything..."
-                          disabled={isLoadingMessage}
-                          className="w-full bg-transparent text-lg sm:text-xl text-gray-900 placeholder-gray-400 px-0 py-2 border-b border-gray-200 focus:border-gray-900 focus:outline-none transition disabled:opacity-50 disabled:cursor-not-allowed"
-                        />
+                      <div className="w-full">
+                        <div className="relative bg-white rounded-xl">
+                          <input
+                            type="text"
+                            value={searchInput}
+                            onChange={(e) => setSearchInput(e.target.value)}
+                            placeholder="Ask Nexbit anything..."
+                            disabled={isLoadingMessage}
+                            className="w-full rounded-xl pl-4 pr-4 pt-4 pb-4 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed bg-transparent border-0"
+                          />
+                        </div>
                       </div>
-                      <motion.button
-                        type="submit"
-                        disabled={isLoadingMessage || !searchInput.trim()}
-                        whileHover={{ scale: searchInput.trim() && !isLoadingMessage ? 1.03 : 1 }}
-                        whileTap={{ scale: searchInput.trim() && !isLoadingMessage ? 0.97 : 1 }}
-                        className="w-full sm:w-auto rounded-full bg-gray-900 text-white px-7 py-3 font-medium hover:bg-gray-800 transition whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+                      <motion.div 
+                        layoutId="suggested-buttons-container"
+                        className="flex gap-2 items-center px-1 pt-2 pb-1"
+                        transition={{ duration: 0 }}
                       >
-                        {isLoadingMessage ? 'Sending...' : 'Send'}
-                      </motion.button>
+                        <motion.button
+                          layout={false}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => handleSendMessage("Book a quick demo")}
+                          className="px-3 py-1.5 text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
+                        >
+                          Book a quick demo
+                        </motion.button>
+                        <motion.button
+                          layout={false}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => handleSendMessage("Tell me about pricing")}
+                          className="px-3 py-1.5 text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
+                        >
+                          Tell me about pricing
+                        </motion.button>
+                        <motion.button
+                          layoutId="send-button"
+                          layout={false}
+                          type="submit"
+                          disabled={isLoadingMessage || !searchInput.trim()}
+                          whileHover={{ scale: searchInput.trim() && !isLoadingMessage ? 1.03 : 1 }}
+                          whileTap={{ scale: searchInput.trim() && !isLoadingMessage ? 0.97 : 1 }}
+                          className="inline-flex items-center justify-center rounded-md text-white w-10 h-10 shadow-sm transition disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 ml-auto"
+                          style={{ backgroundColor: '#564F4B' }}
+                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#4a433f'}
+                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#564F4B'}
+                          aria-label="Send message"
+                          transition={{ duration: 0 }}
+                        >
+                          <motion.svg 
+                            className="w-4 h-4" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            viewBox="0 0 24 24"
+                            animate={{ x: [0, 3, 0] }}
+                            transition={{ 
+                              duration: 1.5, 
+                              repeat: Infinity, 
+                              ease: "easeInOut" 
+                            }}
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                          </motion.svg>
+                        </motion.button>
+                      </motion.div>
+                      <motion.p 
+                        layoutId="disclaimer-text"
+                        className="text-xs px-1 pt-3 pb-0 relative z-10"
+                        style={{ color: '#000000' }}
+                        transition={{ duration: 0 }}
+                      >
+                        By continuing, you agree this conversation may be recorded and used per our privacy policy.
+                      </motion.p>
                     </motion.form>
+                  </motion.div>
                   </div>
-                </div>
+                </motion.div>
               </div>
             </motion.div>
           ) : (
             <motion.div
               key="chat-collapsed"
-              layoutId="docked-chat-shell"
-              className="mx-auto w-full max-w-2xl pointer-events-auto"
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 24 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 28 }}
-              style={{ originY: 1 }}
+              className="mx-auto w-full max-w-4xl pointer-events-auto absolute bottom-0 left-0 right-0 md:relative md:bottom-auto md:left-auto md:right-auto"
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 1 }}
+              transition={{ duration: 0 }}
             >
-              <div className="rounded-2xl border border-gray-200 bg-white shadow-[0_15px_45px_rgba(15,15,15,0.12)] px-5 py-6 flex flex-col gap-4 relative">
-                {isCollapsedTipActive && (
-                  <div className="absolute left-0 right-0 -top-16 flex justify-center pointer-events-none select-none">
-                    <div className="w-full rounded-[28px] bg-white/95 px-6 py-3 text-sm text-gray-900 shadow-2xl border border-gray-200 max-w-[calc(100%-3rem)]">
-                      I engage and qualify inbound buyers on your site. Let me explain how I can help you.
-                    </div>
+              <div className="relative">
+                <motion.div 
+                  layoutId="docked-chat-shell"
+                  className="rounded-2xl border border-gray-200 shadow-[0_15px_45px_rgba(15,15,15,0.12)] relative overflow-hidden"
+                  style={{
+                    background: 'transparent'
+                  }}
+                  transition={{ 
+                    layout: {
+                      type: 'spring', 
+                      stiffness: 200, 
+                      damping: 35,
+                      mass: 0.7
+                    }
+                  }}
+                >
+                  <motion.div className="absolute bg-white pointer-events-none" style={{ top: 0, bottom: '40px', left: 0, right: 0 }} layout={false}></motion.div>
+                  <motion.div className="absolute bg-white pointer-events-none" style={{ bottom: 0, height: '40px', left: 0, right: 0, opacity: 0.8 }} layout={false}></motion.div>
+                  <div className="px-3 py-3 min-h-[170px] md:min-h-[150px] flex flex-col justify-end relative z-10">
+                    {isCollapsedTipActive && !hasInteractedWithChat && (
+                      <div className="absolute left-3 -top-20 md:-top-16 flex justify-start pointer-events-none select-none z-10">
+                        <div className="relative w-auto rounded-[28px] bg-white/95 px-6 py-3 text-sm text-gray-900 shadow-2xl border border-gray-200">
+                          <div className="absolute left-6 bottom-0 translate-y-full w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-gray-200"></div>
+                          <div className="absolute left-[26px] bottom-0 translate-y-full w-0 h-0 border-l-[7px] border-l-transparent border-r-[7px] border-r-transparent border-t-[7px] border-t-white/95"></div>
+                          I engage and qualify inbound buyers on your site. Let me explain how I can help you.
+                        </div>
+                      </div>
+                    )}
                   </div>
-                )}
-
-                <div>
-                  <p className="text-sm font-semibold text-gray-900">Chat with Nexbit the AI SDR Agent</p>
-                </div>
-
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                  <div className="flex-1 w-full">
-                    <input
-                      type="text"
-                      value={searchInput}
-                      onChange={(e) => setSearchInput(e.target.value)}
-                      placeholder="Ask Nexbit anything..."
-                      className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900/15"
-                    />
-                  </div>
-                  <motion.button
-                    whileHover={{ scale: searchInput.trim() ? 1.03 : 1 }}
-                    whileTap={{ scale: searchInput.trim() ? 0.97 : 1 }}
-                    onClick={handleStartChat}
-                    className="inline-flex items-center justify-center rounded-xl bg-gray-900 text-white px-5 py-3 text-sm font-medium shadow-sm hover:bg-gray-800 transition w-full sm:w-auto whitespace-nowrap"
+                </motion.div>
+                
+                {!isTransitioning && !showChatBox && (
+                  <motion.div 
+                    layoutId="input-form-container"
+                    layout="position"
+                    className="absolute inset-0 flex flex-col justify-end px-3 py-3 z-20"
+                    style={{ 
+                      pointerEvents: isTransitioning ? 'none' : 'auto',
+                      opacity: isTransitioning ? 0 : 1,
+                      transition: 'opacity 0.1s'
+                    }}
+                    transition={{ duration: 0 }}
                   >
-                    Start chat
-                  </motion.button>
-                </div>
+                    <div className="w-full">
+                      <div className="relative bg-white rounded-xl border-0">
+                        <input
+                          type="text"
+                          value={searchInput}
+                          onChange={(e) => setSearchInput(e.target.value)}
+                          onFocus={() => setHasInteractedWithChat(true)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' && searchInput.trim()) {
+                              e.preventDefault();
+                              handleStartChat();
+                            }
+                          }}
+                          placeholder="Ask Nexbit anything..."
+                          className="w-full rounded-xl pl-4 pr-4 pt-4 pb-4 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none bg-transparent border-0"
+                        />
+                      </div>
+                    </div>
+                    <motion.div 
+                      layoutId="suggested-buttons-container"
+                      className="flex gap-2 items-center px-1 pt-2 pb-1"
+                      transition={{ duration: 0 }}
+                    >
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => handleSendMessage("Book a quick demo")}
+                        className="px-3 py-1.5 text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
+                      >
+                        Book a quick demo
+                      </motion.button>
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => handleSendMessage("Tell me about pricing")}
+                        className="px-3 py-1.5 text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
+                      >
+                        Tell me about pricing
+                      </motion.button>
+                      <motion.button
+                        layoutId="send-button"
+                        whileHover={{ scale: searchInput.trim() ? 1.03 : 1 }}
+                        whileTap={{ scale: searchInput.trim() ? 0.97 : 1 }}
+                        onClick={handleStartChat}
+                        disabled={!searchInput.trim()}
+                        className="inline-flex items-center justify-center rounded-md text-white w-10 h-10 shadow-sm transition disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 ml-auto"
+                        style={{ backgroundColor: '#564F4B' }}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#4a433f'}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#564F4B'}
+                        aria-label="Send message"
+                        transition={{ duration: 0 }}
+                      >
+                        <motion.svg 
+                          className="w-4 h-4" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          viewBox="0 0 24 24"
+                          animate={{ x: [0, 3, 0] }}
+                          transition={{ 
+                            duration: 1.5, 
+                            repeat: Infinity, 
+                            ease: "easeInOut" 
+                          }}
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                          </motion.svg>
+                      </motion.button>
+                    </motion.div>
+                    <motion.p 
+                      layoutId="disclaimer-text"
+                      className="text-xs text-gray-500 px-1 pt-3 pb-0 relative z-10"
+                      transition={{ duration: 0 }}
+                    >
+                      By continuing, you agree this conversation may be recorded and used per our privacy policy.
+                    </motion.p>
+                  </motion.div>
+                )}
               </div>
             </motion.div>
           )}
-        </AnimatePresence>₹
+        </AnimatePresence>
       </div>
     </div>
 
