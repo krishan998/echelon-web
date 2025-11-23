@@ -4,7 +4,7 @@ import { motion, AnimatePresence, useAnimation } from 'framer-motion';
 import { submitWebsiteLandingPageEmail, isValidEmail } from '../utils/urlUtils';
 import { sendChatMessage } from '../api/chatApi';
 import logoSrc from '../assets/logo_fresh.jpg';
-import chatbotAvatar from '../assets/chatbot-avatar.jpg';
+import chatbotAvatar from '../assets/Chatbot-avatar.jpg';
 import splashVideo from '../assets/splashvideo.mp4';
 
 export function TeaserPage() {
