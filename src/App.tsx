@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { HomePage } from './pages/HomePage';
 import { DemoPage } from './pages/DemoPage';
 import { FeaturesPage } from './pages/FeaturesPage';
@@ -15,6 +16,7 @@ export default function App() {
   return (
     <Router>
       <Analytics />
+      <SpeedInsights />
       <Routes>
         <Route path="/" element={<TeaserPage />} />
         <Route path="/home" element={<HomePage />} />
