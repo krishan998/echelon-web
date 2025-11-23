@@ -629,7 +629,7 @@ export function TeaserPage() {
         className="border-t border-gray-200 relative z-0 rounded-3xl w-full"
         data-section="footer"
         style={{
-          backgroundColor: '#1A4D35',
+          backgroundColor: '#1A4923',
           backgroundImage: `
             url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)' opacity='0.2'/%3E%3C/svg%3E"),
             radial-gradient(ellipse at 15px 23px, rgba(255,255,255,0.06) 1.5px, transparent 1.5px),
@@ -713,7 +713,7 @@ export function TeaserPage() {
                     }
                   }}
                 >
-                  <motion.div className="absolute bg-white pointer-events-none" style={{ top: 0, bottom: '40px', left: 0, right: 0 }} layout={false}></motion.div>
+                  <motion.div className="absolute bg-white pointer-events-none rounded-t-2xl" style={{ top: 0, bottom: '40px', left: 0, right: 0 }} layout={false}></motion.div>
                   <motion.div className="absolute bg-white pointer-events-none" style={{ bottom: 0, height: '40px', left: 0, right: 0, opacity: 0.8 }} layout={false}></motion.div>
                   <div className="flex flex-col h-full md:h-[620px] relative z-10">
                   <div className="flex items-center justify-between gap-4 px-5 py-2 border-b border-gray-100 bg-white/95">
@@ -913,7 +913,16 @@ export function TeaserPage() {
               exit={{ opacity: 1 }}
               transition={{ duration: 0 }}
             >
-              <div className="relative">
+              <div className="relative overflow-visible">
+                {isCollapsedTipActive && !hasInteractedWithChat && (
+                  <div className="absolute left-3 -top-20 md:-top-16 flex justify-start pointer-events-none select-none z-30">
+                    <div className="relative w-auto rounded-[28px] bg-white/95 px-6 py-3 text-sm text-gray-900 shadow-2xl border border-gray-200">
+                      <div className="absolute left-6 bottom-0 translate-y-full w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-gray-200"></div>
+                      <div className="absolute left-[26px] bottom-0 translate-y-full w-0 h-0 border-l-[7px] border-l-transparent border-r-[7px] border-r-transparent border-t-[7px] border-t-white/95"></div>
+                      I engage and qualify inbound buyers on your site. Let me explain how I can help you.
+                    </div>
+                  </div>
+                )}
                 <motion.div 
                   layoutId="docked-chat-shell"
                   className="rounded-2xl border border-gray-200 shadow-[0_15px_45px_rgba(15,15,15,0.12)] relative overflow-hidden"
@@ -929,18 +938,9 @@ export function TeaserPage() {
                     }
                   }}
                 >
-                  <motion.div className="absolute bg-white pointer-events-none" style={{ top: 0, bottom: '40px', left: 0, right: 0 }} layout={false}></motion.div>
+                  <motion.div className="absolute bg-white pointer-events-none rounded-t-2xl" style={{ top: 0, bottom: '40px', left: 0, right: 0 }} layout={false}></motion.div>
                   <motion.div className="absolute bg-white pointer-events-none" style={{ bottom: 0, height: '40px', left: 0, right: 0, opacity: 0.8 }} layout={false}></motion.div>
                   <div className="px-3 py-3 min-h-[170px] md:min-h-[150px] flex flex-col justify-end relative z-10">
-                    {isCollapsedTipActive && !hasInteractedWithChat && (
-                      <div className="absolute left-3 -top-20 md:-top-16 flex justify-start pointer-events-none select-none z-10">
-                        <div className="relative w-auto rounded-[28px] bg-white/95 px-6 py-3 text-sm text-gray-900 shadow-2xl border border-gray-200">
-                          <div className="absolute left-6 bottom-0 translate-y-full w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-gray-200"></div>
-                          <div className="absolute left-[26px] bottom-0 translate-y-full w-0 h-0 border-l-[7px] border-l-transparent border-r-[7px] border-r-transparent border-t-[7px] border-t-white/95"></div>
-                          I engage and qualify inbound buyers on your site. Let me explain how I can help you.
-                        </div>
-                      </div>
-                    )}
                   </div>
                 </motion.div>
                 
