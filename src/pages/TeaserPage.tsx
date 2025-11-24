@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import React from 'react';
-import { motion, AnimatePresence, useAnimation } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { submitWebsiteLandingPageEmail, isValidEmail } from '../utils/urlUtils';
 import { sendChatMessage } from '../api/chatApi';
 import logoSrc from '../assets/logo_fresh.jpg';
@@ -8,7 +8,6 @@ import chatbotAvatar from '../assets/Chatbot-avatar.jpg';
 import splashVideo from '../assets/splashvideo.mp4';
 
 export function TeaserPage() {
-  const containerControls = useAnimation();
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -272,99 +271,6 @@ export function TeaserPage() {
     }, 3000);
   };
 
-  // Bounce the front layer when pulling down at the very top of the page
-  useEffect(() => {
-    let touchStartY = 0;
-    let isBouncing = false;
-    let lastTriggerTime = 0;
-    let isScrolling = false;
-    let scrollTimeout: ReturnType<typeof setTimeout> | null = null;
-    let lastScrollY = window.scrollY;
-    const DEBOUNCE_DELAY = 1000; // Minimum time between bounce triggers (ms)
-    const SCROLL_STOP_DELAY = 150; // Time to wait before considering scroll stopped (ms)
-
-    const triggerBounce = () => {
-      const now = Date.now();
-      // Prevent triggering if already bouncing, if triggered too recently, or if not actively scrolling
-      if (isBouncing || (now - lastTriggerTime) < DEBOUNCE_DELAY || !isScrolling) {
-        return;
-      }
-
-      isBouncing = true;
-      lastTriggerTime = now;
-
-      containerControls.start({ y: 14, transition: { type: 'spring', stiffness: 300, damping: 20 } })
-        .then(() => containerControls.start({ y: 0, transition: { type: 'spring', stiffness: 280, damping: 18 } }))
-        .then(() => {
-          // Reset bounce flag after animation completes
-          setTimeout(() => {
-            isBouncing = false;
-          }, 200);
-        });
-    };
-
-    const markScrolling = () => {
-      isScrolling = true;
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
-      scrollTimeout = setTimeout(() => {
-        isScrolling = false;
-      }, SCROLL_STOP_DELAY);
-    };
-
-    const onWheel = (e: WheelEvent) => {
-      const currentScrollY = window.scrollY;
-      // Only trigger if scroll position actually changed (user is actively scrolling)
-      if (currentScrollY !== lastScrollY) {
-        markScrolling();
-        lastScrollY = currentScrollY;
-      }
-      
-      if (window.scrollY <= 0 && e.deltaY < 0 && isScrolling) {
-        triggerBounce();
-      }
-    };
-
-    const onTouchStart = (e: TouchEvent) => {
-      touchStartY = e.touches[0]?.clientY || 0;
-      markScrolling();
-    };
-
-    const onTouchMove = (e: TouchEvent) => {
-      const currentY = e.touches[0]?.clientY || 0;
-      const diff = currentY - touchStartY; // positive when pulling down
-      markScrolling();
-      if (window.scrollY <= 0 && diff > 10) {
-        triggerBounce();
-      }
-    };
-
-    const onScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY !== lastScrollY) {
-        markScrolling();
-        lastScrollY = currentScrollY;
-      }
-    };
-
-    window.addEventListener('wheel', onWheel, { passive: true });
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('touchstart', onTouchStart, { passive: true });
-    window.addEventListener('touchmove', onTouchMove, { passive: true });
-
-    return () => {
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
-      window.removeEventListener('wheel', onWheel as any);
-      window.removeEventListener('scroll', onScroll as any);
-      window.removeEventListener('touchstart', onTouchStart as any);
-      window.removeEventListener('touchmove', onTouchMove as any);
-    };
-  }, [containerControls]);
-
-
   return (
     <>
     <div className="min-h-screen relative overflow-hidden font-sf-pro overscroll-y-contain bg-transparent" data-name="page-root">
@@ -378,7 +284,6 @@ export function TeaserPage() {
       ></div>
       {/* Two-layer background wrapper */}
       <motion.div
-        animate={containerControls}
         className="relative z-10 mt-1 sm:mt-3 lg:mt-6 mb-4 sm:mb-8 lg:mb-16 rounded-[3rem] overflow-hidden will-change-transform bg-[#F0EDED]"
         data-name="front-layer"
       >
