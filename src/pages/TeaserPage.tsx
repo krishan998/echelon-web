@@ -2,7 +2,9 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { submitWebsiteLandingPageEmail, isValidEmail } from '../utils/urlUtils';
-import { sendChatMessage } from '../api/chatApi';
+import { sendChatMessage, type ChatCta } from '../api/chatApi';
+
+type ChatMessage = { type: 'user' | 'system'; message: string; cta?: ChatCta | null };
 import logoSrc from '../assets/logo_fresh.jpg';
 import chatbotAvatar from '../assets/Chatbot-avatar.jpg';
 import splashVideo from '../assets/splashvideo.mp4';
@@ -16,7 +18,7 @@ export function TeaserPage() {
   const [showChatBox, setShowChatBox] = useState(false);
   const [showJoinPopup, setShowJoinPopup] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-  const [chatMessages, setChatMessages] = useState<Array<{ type: 'user' | 'system'; message: string }>>([]);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [isLoadingMessage, setIsLoadingMessage] = useState(false);
   const [hasInteractedWithChat, setHasInteractedWithChat] = useState(false);
@@ -185,7 +187,7 @@ export function TeaserPage() {
     scrollPositionRef.current = window.scrollY;
     
     const userMessage = message.trim();
-    setChatMessages(prev => [...prev, { type: 'user', message: userMessage }]);
+      setChatMessages(prev => [...prev, { type: 'user', message: userMessage }]);
     setShowChatBox(true);
     setSearchInput('');
     setIsLoadingMessage(true);
@@ -209,7 +211,8 @@ export function TeaserPage() {
       // Add the system response
       setChatMessages(prev => [...prev, { 
         type: 'system', 
-        message: response.response 
+        message: response.response,
+        cta: response.cta ?? null,
       }]);
     } catch (error) {
       console.error('Error sending chat message:', error);
@@ -419,7 +422,7 @@ export function TeaserPage() {
       </AnimatePresence>
       
       {/* Hero Section */}
-      <section className="relative z-10 min-h-[70vh] flex items-center justify-start -mt-28 lg:-mt-20 pt-0 pb-4 overflow-visible" data-section="hero">
+      <section className="relative z-10 min-h-[70vh] flex items-center justify-start -mt-20 sm:-mt-24 lg:-mt-20 pt-0 pb-4 overflow-visible" data-section="hero">
         <div className="w-full flex flex-col items-start gap-6">
           {/* Left Aligned Text Content */}
           <div className="text-left flex flex-col justify-center items-start mt-2 lg:mt-0">
@@ -663,6 +666,40 @@ export function TeaserPage() {
                           style={msg.type === 'user' ? { backgroundColor: '#F2F2F2' } : {}}
                         >
                           {msg.message}
+                          {msg.type === 'system' && msg.cta && (
+                            <div className="mt-3 rounded-2xl border border-[#e4dcd2] bg-[#f7f3ee] p-4 text-left shadow-[0_12px_35px_rgba(26,73,35,0.08)]">
+                              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#1A4923]">
+                                {"Let's Connect"}
+                              </p>
+                              <p className="mt-2 text-base font-semibold text-gray-900">
+                                {msg.cta.title || 'Book a Demo'}
+                              </p>
+                              {msg.cta.description && (
+                                <p className="mt-1 text-sm text-gray-600">
+                                  {msg.cta.description}
+                                </p>
+                              )}
+                              {msg.cta.url && (
+                                <a
+                                  href={msg.cta.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-[#1A4923] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#123217] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1A4923]"
+                                >
+                                  Book a Demo
+                                  <svg
+                                    className="h-3.5 w-3.5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth={1.8}
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m0 0-6-6m6 6-6 6" />
+                                  </svg>
+                                </a>
+                              )}
+                            </div>
+                          )}
                         </div>
                       </motion.div>
                     ))}

@@ -3,9 +3,18 @@ interface ChatRequest {
   session_id?: string;
 }
 
-interface ChatResponse {
+export interface ChatCta {
+  type: string;
+  title: string;
+  description: string;
+  url: string;
+  thumbnail?: string | null;
+}
+
+export interface ChatResponse {
   response: string;
   session_id: string;
+  cta?: ChatCta | null;
 }
 
 // Base URL for the chat API - can be configured via environment variable
@@ -52,6 +61,7 @@ export async function sendChatMessage(
     return {
       response: data.response,
       session_id: data.session_id,
+      cta: data.cta ?? null,
     };
   } catch (error) {
     // Enhance error message
