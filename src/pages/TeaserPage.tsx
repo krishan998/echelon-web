@@ -4,9 +4,90 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { submitWebsiteLandingPageEmail, isValidEmail } from '../utils/urlUtils';
 import { sendChatMessage, type ChatCta } from '../api/chatApi';
 
-type ChatMessage = { type: 'user' | 'system'; message: string; cta?: ChatCta | null };
+type ChatMessage = { id: string; type: 'user' | 'system'; message: string; cta?: ChatCta | null };
 import logoSrc from '../assets/logo_fresh.jpg';
-import chatbotAvatar from '../assets/Chatbot-avatar.jpg';
+import chatbotAvatar from '../assets/logo_fresh.jpg';
+
+const createMessageId = () => `msg-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
+const SystemMessageBubble: React.FC<{
+  text: string;
+  cta?: ChatCta | null;
+  normalizeUrl: (raw: string) => string;
+}> = ({ text, cta, normalizeUrl }) => {
+  const [displayedText, setDisplayedText] = useState('');
+  const [isComplete, setIsComplete] = useState(false);
+
+  useEffect(() => {
+    setDisplayedText('');
+    setIsComplete(false);
+
+    if (!text) {
+      setIsComplete(true);
+      return;
+    }
+
+    if (typeof window === 'undefined') {
+      setDisplayedText(text);
+      setIsComplete(true);
+      return;
+    }
+
+    let index = 0;
+    const step = Math.max(15, Math.min(50, Math.ceil(900 / text.length)));
+
+    const intervalId = window.setInterval(() => {
+      index += 1;
+      setDisplayedText(text.slice(0, index));
+      if (index >= text.length) {
+        window.clearInterval(intervalId);
+        setIsComplete(true);
+      }
+    }, step);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [text]);
+
+  const ctaHref = cta?.url ? normalizeUrl(cta.url) : '';
+
+  return (
+    <>
+      <p className="whitespace-pre-line leading-relaxed">{displayedText}</p>
+      {isComplete && cta && ctaHref && (
+        <div className="mt-3 rounded-2xl border border-[#e4dcd2] bg-[#f7f3ee] p-4 text-left shadow-[0_12px_35px_rgba(26,73,35,0.08)]">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#1A4923]">{"Let's Connect"}</p>
+          <p className="mt-2 text-base font-semibold text-gray-900">
+            {cta.title || 'Book a Demo'}
+          </p>
+          {cta.description && (
+            <p className="mt-1 text-sm text-gray-600">
+              {cta.description}
+            </p>
+          )}
+          <a
+            href={ctaHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-[#1A4923] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#123217] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1A4923]"
+          >
+            Book a Demo
+            <svg
+              className="h-3.5 w-3.5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.8}
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m0 0-6-6m6 6-6 6" />
+            </svg>
+          </a>
+        </div>
+      )}
+    </>
+  );
+};
 import splashVideo from '../assets/splashvideo.mp4';
 
 export function TeaserPage() {
@@ -201,7 +282,7 @@ export function TeaserPage() {
     scrollPositionRef.current = window.scrollY;
     
     const userMessage = message.trim();
-      setChatMessages(prev => [...prev, { type: 'user', message: userMessage }]);
+    setChatMessages(prev => [...prev, { id: createMessageId(), type: 'user', message: userMessage }]);
     setShowChatBox(true);
     setSearchInput('');
     setIsLoadingMessage(true);
@@ -224,6 +305,7 @@ export function TeaserPage() {
       
       // Add the system response
       setChatMessages(prev => [...prev, { 
+        id: createMessageId(),
         type: 'system', 
         message: response.response,
         cta: response.cta ?? null,
@@ -232,6 +314,7 @@ export function TeaserPage() {
       console.error('Error sending chat message:', error);
       // Show error message to user
       setChatMessages(prev => [...prev, { 
+        id: createMessageId(),
         type: 'system', 
         message: 'Sorry, I encountered an error. Please try again.' 
       }]);
@@ -453,7 +536,7 @@ export function TeaserPage() {
                 className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 font-light leading-relaxed"
                 style={{ color: '#564F4B' }}
               >
-                Stop letting your traffic bounce. Turn visitors into booked demos with AI that chats like your best sales rep.
+                Set up in minutes, give visitors instant clarity, and watch demos grow 5x.
               </div>
 
             {/* Join Early Access Button */}
@@ -630,7 +713,7 @@ export function TeaserPage() {
                   <div className="flex flex-col h-full md:h-[620px] relative z-10">
                   <div className="flex items-center justify-between gap-4 px-5 py-2 border-b border-gray-100 bg-white/95">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-2xl overflow-hidden flex items-center justify-center shadow-inner bg-gray-100">
+                      <div className="w-10 h-10 rounded-1xl overflow-hidden flex items-center justify-center shadow-inner bg-gray-100">
                         <img 
                           src={chatbotAvatar} 
                           alt="Chatbot avatar" 
@@ -667,7 +750,7 @@ export function TeaserPage() {
                     )}
                     {chatMessages.map((msg, index) => (
                       <motion.div
-                        key={`${msg.message}-${index}`}
+                        key={msg.id}
                         initial={{ opacity: 0, y: 12, scale: 0.98 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         transition={{ duration: 0.25, delay: index * 0.04, ease: 'easeOut' }}
@@ -677,50 +760,17 @@ export function TeaserPage() {
                           className={`max-w-[80%] px-4 py-2.5 text-sm ${
                             msg.type === 'user' ? 'text-gray-900 rounded-xl' : 'text-black rounded-2xl'
                           }`}
-                          style={msg.type === 'user' ? { backgroundColor: '#F2F2F2' } : {}}
+                          style={{
+                            fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+                            fontWeight: 300,
+                            ...(msg.type === 'user' ? { backgroundColor: '#F2F2F2' } : {}),
+                          }}
                         >
-                          {msg.message}
-                          {msg.type === 'system' && msg.cta ? (() => {
-                            const cta = msg.cta;
-                            return (
-                              <div className="mt-3 rounded-2xl border border-[#e4dcd2] bg-[#f7f3ee] p-4 text-left shadow-[0_12px_35px_rgba(26,73,35,0.08)]">
-                                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#1A4923]">
-                                  {"Let's Connect"}
-                                </p>
-                                <p className="mt-2 text-base font-semibold text-gray-900">
-                                  {cta.title || 'Book a Demo'}
-                                </p>
-                                {cta.description && (
-                                  <p className="mt-1 text-sm text-gray-600">
-                                    {cta.description}
-                                  </p>
-                                )}
-                                {(() => {
-                                  const ctaHref = normalizeUrl(cta.url ?? '');
-                                  if (!ctaHref) return null;
-                                  return (
-                                    <a
-                                      href={ctaHref}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-[#1A4923] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#123217] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1A4923]"
-                                    >
-                                      Book a Demo
-                                      <svg
-                                        className="h-3.5 w-3.5"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth={1.8}
-                                        viewBox="0 0 24 24"
-                                      >
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m0 0-6-6m6 6-6 6" />
-                                      </svg>
-                                    </a>
-                                  );
-                                })()}
-                              </div>
-                            );
-                          })() : null}
+                          {msg.type === 'system' ? (
+                            <SystemMessageBubble text={msg.message} cta={msg.cta} normalizeUrl={normalizeUrl} />
+                          ) : (
+                            msg.message
+                          )}
                         </div>
                       </motion.div>
                     ))}
@@ -800,10 +850,10 @@ export function TeaserPage() {
                           layout={false}
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          onClick={() => handleSendMessage("Book a quick demo")}
+                          onClick={() => handleSendMessage("Why Nexbit?")}
                           className="px-3 py-1.5 text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
                         >
-                          Book a quick demo
+                          Why Nexbit?
                         </motion.button>
                         <motion.button
                           type="button"
@@ -870,13 +920,22 @@ export function TeaserPage() {
             >
               <div className="relative overflow-visible">
                 {isCollapsedTipActive && !hasInteractedWithChat && (
-                  <div className="absolute left-3 -top-20 md:-top-16 flex justify-start pointer-events-none select-none z-30">
-                    <div className="relative w-auto rounded-[28px] bg-white/95 px-6 py-3 text-sm text-gray-900 shadow-2xl border border-gray-200">
+                  <motion.div
+                    className="absolute left-3 -top-20 md:-top-16 flex justify-start pointer-events-none select-none z-30"
+                    initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.4, ease: 'easeOut' }}
+                  >
+                    <motion.div
+                      className="relative w-auto rounded-[28px] bg-white/95 px-6 py-3 text-sm text-gray-900 shadow-2xl border border-gray-200"
+                      animate={{ y: [0, -4, 0] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                    >
                       <div className="absolute left-6 bottom-0 translate-y-full w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-gray-200"></div>
                       <div className="absolute left-[26px] bottom-0 translate-y-full w-0 h-0 border-l-[7px] border-l-transparent border-r-[7px] border-r-transparent border-t-[7px] border-t-white/95"></div>
-                      I engage and qualify inbound buyers on your site. Let me explain how I can help you.
-                    </div>
-                  </div>
+                      Try asking anything you’d ask a sales rep.
+                    </motion.div>
+                  </motion.div>
                 )}
                 <motion.div 
                   layoutId="docked-chat-shell"
@@ -937,10 +996,10 @@ export function TeaserPage() {
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        onClick={() => handleSendMessage("Book a quick demo")}
+                        onClick={() => handleSendMessage("Why Nexbit?")}
                         className="px-3 py-1.5 text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
                       >
-                        Book a quick demo
+                        Why Nexbit?
                       </motion.button>
                       <motion.button
                         whileHover={{ scale: 1.02 }}
