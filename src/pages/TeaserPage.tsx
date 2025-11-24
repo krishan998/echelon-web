@@ -35,6 +35,20 @@ export function TeaserPage() {
     console.log('[ChatDebug]', ...args);
   }, []);
 
+  const normalizeUrl = useCallback((rawUrl: string) => {
+    const trimmed = rawUrl.trim();
+    if (!trimmed) return '';
+    try {
+      return new URL(trimmed).toString();
+    } catch {
+      try {
+        return new URL(`https://${trimmed}`).toString();
+      } catch {
+        return trimmed;
+      }
+    }
+  }, []);
+
   const handleCloseChat = useCallback(() => {
     if (botReplyTimeoutRef.current) {
       window.clearTimeout(botReplyTimeoutRef.current);
@@ -666,40 +680,47 @@ export function TeaserPage() {
                           style={msg.type === 'user' ? { backgroundColor: '#F2F2F2' } : {}}
                         >
                           {msg.message}
-                          {msg.type === 'system' && msg.cta && (
-                            <div className="mt-3 rounded-2xl border border-[#e4dcd2] bg-[#f7f3ee] p-4 text-left shadow-[0_12px_35px_rgba(26,73,35,0.08)]">
-                              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#1A4923]">
-                                {"Let's Connect"}
-                              </p>
-                              <p className="mt-2 text-base font-semibold text-gray-900">
-                                {msg.cta.title || 'Book a Demo'}
-                              </p>
-                              {msg.cta.description && (
-                                <p className="mt-1 text-sm text-gray-600">
-                                  {msg.cta.description}
+                          {msg.type === 'system' && msg.cta ? (() => {
+                            const cta = msg.cta;
+                            return (
+                              <div className="mt-3 rounded-2xl border border-[#e4dcd2] bg-[#f7f3ee] p-4 text-left shadow-[0_12px_35px_rgba(26,73,35,0.08)]">
+                                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#1A4923]">
+                                  {"Let's Connect"}
                                 </p>
-                              )}
-                              {msg.cta.url && (
-                                <a
-                                  href={msg.cta.url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-[#1A4923] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#123217] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1A4923]"
-                                >
-                                  Book a Demo
-                                  <svg
-                                    className="h-3.5 w-3.5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth={1.8}
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m0 0-6-6m6 6-6 6" />
-                                  </svg>
-                                </a>
-                              )}
-                            </div>
-                          )}
+                                <p className="mt-2 text-base font-semibold text-gray-900">
+                                  {cta.title || 'Book a Demo'}
+                                </p>
+                                {cta.description && (
+                                  <p className="mt-1 text-sm text-gray-600">
+                                    {cta.description}
+                                  </p>
+                                )}
+                                {(() => {
+                                  const ctaHref = normalizeUrl(cta.url ?? '');
+                                  if (!ctaHref) return null;
+                                  return (
+                                    <a
+                                      href={ctaHref}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-[#1A4923] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#123217] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1A4923]"
+                                    >
+                                      Book a Demo
+                                      <svg
+                                        className="h-3.5 w-3.5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth={1.8}
+                                        viewBox="0 0 24 24"
+                                      >
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m0 0-6-6m6 6-6 6" />
+                                      </svg>
+                                    </a>
+                                  );
+                                })()}
+                              </div>
+                            );
+                          })() : null}
                         </div>
                       </motion.div>
                     ))}
