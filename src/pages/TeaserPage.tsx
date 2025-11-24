@@ -796,6 +796,7 @@ export function TeaserPage() {
                         transition={{ duration: 0 }}
                       >
                         <motion.button
+                          type="button"
                           layout={false}
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
@@ -805,6 +806,7 @@ export function TeaserPage() {
                           Book a quick demo
                         </motion.button>
                         <motion.button
+                          type="button"
                           layout={false}
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
