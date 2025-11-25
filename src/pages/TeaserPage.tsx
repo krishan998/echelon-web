@@ -3,6 +3,8 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { submitWebsiteLandingPageEmail, isValidEmail } from '../utils/urlUtils';
 import { sendChatMessage, type ChatCta } from '../api/chatApi';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 type ChatMessage = { id: string; type: 'user' | 'system'; message: string; cta?: ChatCta | null };
 import logoSrc from '../assets/logo_fresh.jpg';
@@ -54,7 +56,26 @@ const SystemMessageBubble: React.FC<{
 
   return (
     <>
-      <p className="whitespace-pre-line leading-relaxed">{displayedText}</p>
+      <div className="space-y-3 text-base leading-relaxed">
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          components={{
+            p: ({ node, ...props }) => (
+              <p className="whitespace-pre-line" {...props} />
+            ),
+            strong: ({ node, ...props }) => <strong className="font-semibold" {...props} />,
+            ul: ({ node, ...props }) => (
+              <ul className="ml-5 list-disc space-y-1 text-left" {...props} />
+            ),
+            ol: ({ node, ...props }) => (
+              <ol className="ml-5 list-decimal space-y-1 text-left" {...props} />
+            ),
+            li: ({ node, ...props }) => <li className="leading-relaxed" {...props} />,
+          }}
+        >
+          {displayedText}
+        </ReactMarkdown>
+      </div>
       {isComplete && cta && ctaHref && (
         <div className="mt-3 rounded-2xl border border-[#e4dcd2] bg-[#f7f3ee] p-4 text-left shadow-[0_12px_35px_rgba(26,73,35,0.08)]">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#1A4923]">{"Let's Connect"}</p>
@@ -527,7 +548,7 @@ export function TeaserPage() {
             {/* Main Heading - Left Aligned */}
             <div className="mb-4">
               <div className="bg-gradient-to-r from-[#564F4B] to-[#564F4B] bg-clip-text text-transparent text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-[450] tracking-tight leading-tight font-clash-display">
-                Nexbit explains your product better than you do
+                The fastest path <br /> from website visits to qualified leads.
               </div>
             </div>
 
@@ -536,7 +557,7 @@ export function TeaserPage() {
                 className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 font-light leading-relaxed"
                 style={{ color: '#564F4B' }}
               >
-                Set up in minutes, give visitors instant clarity, and watch demos grow 5x.
+                Turn confused visitors into qualified buyers and lift demo requests by 5x.
               </div>
 
             {/* Join Early Access Button */}
