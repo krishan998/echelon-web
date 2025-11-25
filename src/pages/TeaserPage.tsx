@@ -548,7 +548,7 @@ export function TeaserPage() {
             {/* Main Heading - Left Aligned */}
             <div className="mb-4">
               <div className="bg-gradient-to-r from-[#564F4B] to-[#564F4B] bg-clip-text text-transparent text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-[450] tracking-tight leading-tight font-clash-display">
-                The fastest path <br /> from website visits to qualified leads.
+                The fastest path <br /> from website visits to qualified leads
               </div>
             </div>
 
@@ -557,7 +557,7 @@ export function TeaserPage() {
                 className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 font-light leading-relaxed"
                 style={{ color: '#564F4B' }}
               >
-                Turn confused visitors into qualified buyers and lift demo requests by 5x.
+                Engage inbound buyers and 5x your demo conversions.
               </div>
 
             {/* Join Early Access Button */}
