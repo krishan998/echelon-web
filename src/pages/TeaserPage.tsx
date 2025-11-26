@@ -9,6 +9,9 @@ import remarkGfm from 'remark-gfm';
 type ChatMessage = { id: string; type: 'user' | 'system'; message: string; cta?: ChatCta | null };
 import logoSrc from '../assets/logo_fresh.jpg';
 import chatbotAvatar from '../assets/logo_fresh.jpg';
+import feature1Image from '../assets/presales-features/First_Funnel.png';
+import feature2Image from '../assets/presales-features/Second-personalization.png';
+import feature3Image from '../assets/presales-features/Third_CRM_enrichment.png';
 
 const createMessageId = () => `msg-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
@@ -425,6 +428,41 @@ export function TeaserPage() {
 
         {/* Actions */}
         <div className="flex items-center gap-3">
+          <button
+            ref={earlyAccessButtonRef}
+            onClick={() => {
+              if (earlyAccessButtonRef.current) {
+                const rect = earlyAccessButtonRef.current.getBoundingClientRect();
+                const popupWidth = Math.min(448, window.innerWidth * 0.9);
+                const popupHeight = 400;
+                const spacing = 12;
+                
+                // Calculate position directly below button, aligned to left edge
+                let top = rect.bottom + spacing;
+                let left = rect.left;
+                
+                // Ensure popup stays within viewport horizontally
+                if (left + popupWidth > window.innerWidth - 20) {
+                  left = window.innerWidth - popupWidth - 20;
+                }
+                
+                if (left < 20) {
+                  left = 20;
+                }
+                
+                // If popup would go below viewport, adjust top position
+                if (top + popupHeight > window.innerHeight - 20) {
+                  top = window.innerHeight - popupHeight - 20;
+                }
+                
+                setPopupPosition({ top, left });
+              }
+              setShowJoinPopup(true);
+            }}
+            className="inline-flex items-center justify-center rounded-full bg-white text-gray-900 px-6 py-3 md:px-7 md:py-2.5 text-base md:text-lg font-normal shadow-sm hover:shadow md:shadow"
+          >
+            Join Early Access
+          </button>
           <a
             href="https://calendly.com/kp-nexbit/30min"
             target="_blank"
@@ -557,45 +595,74 @@ export function TeaserPage() {
                 className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 font-light leading-relaxed"
                 style={{ color: '#564F4B' }}
               >
-                Engage inbound buyers and 5x your demo conversions.
+                Engage inbound buyers with AI Revenue Agents and 5x your demo conversions.
               </div>
 
-            {/* Join Early Access Button */}
+            {/* See it in action Button */}
             <button
-              ref={earlyAccessButtonRef}
-              onClick={() => {
-                if (earlyAccessButtonRef.current) {
-                  const rect = earlyAccessButtonRef.current.getBoundingClientRect();
-                  const popupWidth = Math.min(448, window.innerWidth * 0.9);
-                  const popupHeight = 400;
-                  const spacing = 12;
-                  
-                  // Calculate position directly below button, aligned to left edge
-                  let top = rect.bottom + spacing;
-                  let left = rect.left;
-                  
-                  // Ensure popup stays within viewport horizontally
-                  if (left + popupWidth > window.innerWidth - 20) {
-                    left = window.innerWidth - popupWidth - 20;
-                  }
-                  
-                  if (left < 20) {
-                    left = 20;
-                  }
-                  
-                  // If popup would go below viewport, adjust top position
-                  if (top + popupHeight > window.innerHeight - 20) {
-                    top = window.innerHeight - popupHeight - 20;
-                  }
-                  
-                  setPopupPosition({ top, left });
-                }
-                setShowJoinPopup(true);
-              }}
+              onClick={() => handleSendMessage("Hey Nex, Tell me about some of the features you have.")}
               className="inline-flex items-center justify-center rounded-full bg-white text-gray-900 px-6 py-3 text-base font-medium shadow-sm hover:shadow"
             >
-              Join Early Access
+              See it in action
             </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="relative z-10 mt-4 sm:mt-6 lg:mt-8 mb-16 sm:mb-20 lg:mb-24">
+        <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 lg:gap-12">
+            {/* Feature 1 */}
+            <div className="flex flex-col items-center text-center">
+              <div className="w-full aspect-square rounded-2xl overflow-hidden mb-4 bg-gray-100 flex items-center justify-center">
+                <img 
+                  src={feature1Image} 
+                  alt="Feature 1" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <h3 className="text-xl md:text-2xl font-clash-display font-medium text-gray-900 mb-2">
+                Feature Headline 1
+              </h3>
+              <p className="text-base md:text-lg text-gray-600 leading-relaxed">
+                Feature sub-headline 1 description goes here
+              </p>
+            </div>
+
+            {/* Feature 2 */}
+            <div className="flex flex-col items-center text-center">
+              <div className="w-full aspect-square rounded-2xl overflow-hidden mb-4 bg-gray-100 flex items-center justify-center">
+                <img 
+                  src={feature2Image} 
+                  alt="Feature 2" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <h3 className="text-xl md:text-2xl font-clash-display font-medium text-gray-900 mb-2">
+                Feature Headline 2
+              </h3>
+              <p className="text-base md:text-lg text-gray-600 leading-relaxed">
+                Feature sub-headline 2 description goes here
+              </p>
+            </div>
+
+            {/* Feature 3 */}
+            <div className="flex flex-col items-center text-center">
+              <div className="w-full aspect-square rounded-2xl overflow-hidden mb-4 bg-gray-100 flex items-center justify-center">
+                <img 
+                  src={feature3Image} 
+                  alt="Feature 3" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <h3 className="text-xl md:text-2xl font-clash-display font-medium text-gray-900 mb-2">
+                Feature Headline 3
+              </h3>
+              <p className="text-base md:text-lg text-gray-600 leading-relaxed">
+                Feature sub-headline 3 description goes here
+              </p>
+            </div>
           </div>
         </div>
       </section>
