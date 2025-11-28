@@ -427,7 +427,7 @@ export function TeaserPage() {
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <button
             ref={earlyAccessButtonRef}
             onClick={() => {
@@ -459,7 +459,7 @@ export function TeaserPage() {
               }
               setShowJoinPopup(true);
             }}
-            className="inline-flex items-center justify-center rounded-full bg-white text-gray-900 px-6 py-3 md:px-7 md:py-2.5 text-base md:text-lg font-normal shadow-sm hover:shadow md:shadow"
+            className="inline-flex items-center justify-center rounded-full bg-white text-gray-900 px-4 py-2 text-sm sm:px-5 sm:py-2 sm:text-base md:px-7 md:py-2.5 md:text-lg font-normal shadow-sm hover:shadow md:shadow"
           >
             Join Early Access
           </button>
@@ -467,7 +467,7 @@ export function TeaserPage() {
             href="https://calendly.com/kp-nexbit/30min"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-full text-white px-6 py-3 md:px-7 md:py-2.5 text-base md:text-lg font-normal shadow-sm hover:shadow md:shadow"
+            className="inline-flex items-center justify-center rounded-full text-white px-4 py-2 text-sm sm:px-5 sm:py-2 sm:text-base md:px-7 md:py-2.5 md:text-lg font-normal shadow-sm hover:shadow md:shadow"
             style={{ backgroundColor: '#564F4B' }}
             onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#4a433f'}
             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#564F4B'}
@@ -600,7 +600,7 @@ export function TeaserPage() {
 
             {/* See it in action Button */}
             <button
-              onClick={() => handleSendMessage("Hey Nex, Tell me about some of the features you have.")}
+              onClick={() => handleSendMessage("Hey Nex, what can you do?")}
               className="inline-flex items-center justify-center rounded-full bg-white text-gray-900 px-6 py-3 text-base font-medium shadow-sm hover:shadow"
             >
               See it in action
@@ -681,9 +681,9 @@ export function TeaserPage() {
         <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16">
           <div className="flex flex-col gap-8">
             <div className="space-y-3 text-center">
-              <p className="text-base sm:text-lg font-semibold uppercase tracking-[0.2em] text-[#1A4923]">
+              <h2 className="text-2xl sm:text-2xl font-clash-grotesk font-semibold text-gray-900">
                 Why Nexbit?
-              </p>
+              </h2>
               {/* <h2 className="text-3xl sm:text-4xl font-clash-grotesk text-gray-900">
                 Outcomes you can feel in weeks
               </h2> */}
@@ -691,7 +691,7 @@ export function TeaserPage() {
                 Early customers lean on Nexbit to turn inbound demand into revenue.
               </p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-4 md:gap-6">
               <div className="flex flex-col gap-3 items-center text-center">
                 <span className="text-base sm:text-lg font-medium tracking-wide text-gray-600 text-center">
                   Increase demo requests
@@ -1029,6 +1029,16 @@ export function TeaserPage() {
                         How fast can we go live?
                       </motion.button>
                         <motion.button
+                          type="button"
+                          layout={false}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => handleSendMessage("List some of your features")}
+                          className="px-3 py-1.5 text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
+                        >
+                        List some of your features
+                      </motion.button>
+                        <motion.button
                           layoutId="send-button"
                           layout={false}
                           type="submit"
@@ -1078,7 +1088,7 @@ export function TeaserPage() {
               <div className="relative overflow-visible">
                 {isCollapsedTipActive && !hasInteractedWithChat && (
                   <motion.div
-                    className="absolute left-3 -top-20 md:-top-16 flex justify-start pointer-events-none select-none z-30"
+                    className="absolute left-3 -top-16 md:-top-16 flex justify-start pointer-events-none select-none z-30"
                     initial={{ opacity: 0, y: 8, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ duration: 0.4, ease: 'easeOut' }}
