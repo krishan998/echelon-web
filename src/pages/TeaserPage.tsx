@@ -403,12 +403,12 @@ export function TeaserPage() {
         className="fixed inset-0 -z-10"
         data-name="global-background"
         style={{
-          backgroundColor: '#F0EDED',
+          backgroundColor: '#FFFFE3',
         }}
       ></div>
       {/* Two-layer background wrapper */}
       <motion.div
-        className="relative z-10 mt-1 sm:mt-3 lg:mt-6 mb-4 sm:mb-8 lg:mb-16 rounded-[3rem] overflow-hidden will-change-transform bg-[#F0EDED]"
+        className="relative z-10 mt-1 sm:mt-3 lg:mt-6 mb-4 sm:mb-8 lg:mb-16 rounded-[3rem] overflow-hidden will-change-transform bg-[#FFFFE3]"
         data-name="front-layer"
       >
         <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16">
@@ -423,7 +423,7 @@ export function TeaserPage() {
             alt="Nexbit Logo" 
             className="w-10 h-10 rounded-[2px] object-cover"
           />
-          <span className="text-xl font-clash-display font-medium text-gray-900">Nexbit</span>
+          <span className="text-3xl font-clash-grotesk font-medium text-gray-900">Nexbit</span>
         </div>
 
         {/* Actions */}
@@ -581,12 +581,12 @@ export function TeaserPage() {
       <section className="relative z-10 min-h-[70vh] flex items-center justify-start -mt-20 sm:-mt-24 lg:-mt-20 pt-0 pb-4 overflow-visible" data-section="hero">
         <div className="w-full flex flex-col items-start gap-6">
           {/* Left Aligned Text Content */}
-          <div className="text-left flex flex-col justify-center items-start mt-2 lg:mt-0">
+          <div className="text-left flex flex-col justify-center items-start mt-2 lg:mt-0 pl-4 md:pl-12 lg:pl-16">
             
             {/* Main Heading - Left Aligned */}
             <div className="mb-4">
-              <div className="bg-gradient-to-r from-[#564F4B] to-[#564F4B] bg-clip-text text-transparent text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-[450] tracking-tight leading-tight font-clash-display">
-                The fastest path <br /> from website visits to qualified leads
+              <div className="bg-gradient-to-r from-[#564F4B] to-[#564F4B] bg-clip-text text-transparent text-3xl sm:text-4xl md:text-6xl lg:text-[4.5rem] font-[3500] tracking-tight leading-tight font-clash-grotesk">
+                The fastest path from website visits to qualified leads
               </div>
             </div>
 
@@ -610,7 +610,7 @@ export function TeaserPage() {
       </section>
 
       {/* Features Section */}
-      <section className="relative z-10 mt-4 sm:mt-6 lg:mt-8 mb-16 sm:mb-20 lg:mb-24">
+      <section className="relative z-10 -mt-10 sm:-mt-16 lg:-mt-20 mb-16 sm:mb-20 lg:mb-24">
         <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 lg:gap-12">
             {/* Feature 1 */}
@@ -622,11 +622,14 @@ export function TeaserPage() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-xl md:text-2xl font-clash-display font-medium text-gray-900 mb-2">
-                Feature Headline 1
+              <h3 className="text-xl md:text-xl font-clash-grotesk font-medium text-gray-900 mb-2">
+                Turn website visitors into <br /> informed buyers
               </h3>
-              <p className="text-base md:text-lg text-gray-600 leading-relaxed">
-                Feature sub-headline 1 description goes here
+              <p
+                className="text-sm md:text-sm text-gray-600 leading-relaxed"
+                style={{ fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}
+              >
+                Instantly explain your product, pricing, and value to every visitor
               </p>
             </div>
 
@@ -639,11 +642,14 @@ export function TeaserPage() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-xl md:text-2xl font-clash-display font-medium text-gray-900 mb-2">
-                Feature Headline 2
+              <h3 className="text-xl md:text-xl font-clash-grotesk font-medium text-gray-900 mb-2">
+              Personalize every conversation with Persona Intelligence
               </h3>
-              <p className="text-base md:text-lg text-gray-600 leading-relaxed">
-                Feature sub-headline 2 description goes here
+              <p
+                className="text-sm md:text-sm text-gray-600 leading-relaxed"
+                style={{ fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}
+              >
+              Nex adapts based on buyer persona, intent, and the stage in the funnel
               </p>
             </div>
 
@@ -656,12 +662,71 @@ export function TeaserPage() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-xl md:text-2xl font-clash-display font-medium text-gray-900 mb-2">
-                Feature Headline 3
+              <h3 className="text-xl md:text-xl font-clash-grotesk font-medium text-gray-900 mb-2">
+                Give your sales team superhuman context
               </h3>
-              <p className="text-base md:text-lg text-gray-600 leading-relaxed">
-                Feature sub-headline 3 description goes here
+              <p
+                className="text-sm md:text-sm text-gray-600 leading-relaxed"
+                style={{ fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}
+              >
+                Enrich your CRM with intent, qualification signals, and sales-ready insights
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Nexbit Section */}
+      <section className="relative z-10 mt-32 sm:mt-40 lg:mt-48 mb-16 sm:mb-20 lg:mb-24">
+        <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16">
+          <div className="flex flex-col gap-8">
+            <div className="space-y-3 text-center">
+              <p className="text-base sm:text-lg font-semibold uppercase tracking-[0.2em] text-[#1A4923]">
+                Why Nexbit?
+              </p>
+              {/* <h2 className="text-3xl sm:text-4xl font-clash-grotesk text-gray-900">
+                Outcomes you can feel in weeks
+              </h2> */}
+              <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
+                Early customers lean on Nexbit to turn inbound demand into revenue.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+              <div className="flex flex-col gap-3 items-center text-center">
+                <span className="text-base sm:text-lg font-medium tracking-wide text-gray-600 text-center">
+                  Increase demo requests
+                </span>
+                <span className="text-5xl sm:text-6xl font-semibold text-gray-900 whitespace-nowrap leading-none">
+                  5x
+                </span>
+              </div>
+              <div className="flex flex-col gap-3 items-center text-center">
+                <span className="text-base sm:text-lg font-medium tracking-wide text-gray-600 text-center">
+                  Live in under
+                </span>
+                <span className="text-5xl sm:text-6xl font-semibold text-gray-900 whitespace-nowrap leading-none">
+                  5 mins
+                </span>
+              </div>
+              <div className="flex flex-col gap-3 items-center text-center">
+                <span className="text-base sm:text-lg font-medium tracking-wide text-gray-600 text-center">
+                  Auto-qualification saves
+                </span>
+                <span className="text-5xl sm:text-6xl font-semibold text-gray-900 whitespace-nowrap leading-none">
+                  10+
+                </span>
+                <span className="text-sm sm:text-base text-gray-600 tracking-wide">
+                  hours/week
+                </span>
+              </div>
+              <div className="flex flex-col gap-3 items-center text-center">
+                <span className="text-base sm:text-lg font-medium tracking-wide text-gray-600 text-center">
+                  Uptime
+                </span>
+                <span className="text-5xl sm:text-6xl font-semibold text-gray-900 whitespace-nowrap leading-none">
+                  99.9%
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -684,12 +749,12 @@ export function TeaserPage() {
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          style={{ backgroundColor: '#F0EDED' }}
+          style={{ backgroundColor: '#FFFFE3' }}
         />
       </motion.section>
 
       {/* Video Section Above Footer */}
-      <section className="w-full pt-28 md:pt-32 pb-4 md:pb-6 relative z-0 -mt-56 md:-mt-64" style={{ transition: 'none', boxShadow: 'none'  }}>
+      <section className="w-full pt-20 md:pt-24 pb-4 md:pb-6 relative z-0 mt-12 md:mt-16" style={{ transition: 'none', boxShadow: 'none'  }}>
         <div className="w-full" style={{ transition: 'none' }}>
           <div className="w-full rounded-3xl overflow-hidden aspect-[4/3] md:aspect-[21/9]" style={{ transition: 'none', boxShadow: 'none' }}>
             <video
@@ -733,7 +798,7 @@ export function TeaserPage() {
             {/* Left Column - Brand Information */}
             <div className="text-center md:text-left flex flex-col items-center md:items-start gap-3">
               <img src={logoSrc} alt="Nexbit Logo" className="w-12 h-12 rounded-[2px] object-cover" />
-              <div className="font-clash-display font-medium text-lg text-white">Nexbit</div>
+              <div className="font-clash-grotesk font-medium text-xl text-white">Nexbit</div>
             </div>
 
             {/* Right Column - Back to Top & Links */}
@@ -809,7 +874,7 @@ export function TeaserPage() {
                         />
                       </div>
                       <div>
-                        <p className="font-medium text-base text-gray-900">Nexbit</p>
+                        <p className="font-medium text-base text-gray-900">Nex</p>
                       </div>
                     </div>
                     <motion.button
@@ -922,7 +987,7 @@ export function TeaserPage() {
                             type="text"
                             value={searchInput}
                             onChange={(e) => setSearchInput(e.target.value)}
-                            placeholder="Ask Nexbit anything..."
+                            placeholder="Ask me anything about Nexbit..."
                             disabled={isLoadingMessage}
                             className="w-full rounded-xl pl-4 pr-4 pt-4 pb-4 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed bg-transparent border-0"
                           />
@@ -954,6 +1019,16 @@ export function TeaserPage() {
                           Tell me about pricing
                         </motion.button>
                         <motion.button
+                          type="button"
+                          layout={false}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => handleSendMessage("How fast can we go live?")}
+                          className="px-3 py-1.5 text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
+                        >
+                        How fast can we go live?
+                      </motion.button>
+                        <motion.button
                           layoutId="send-button"
                           layout={false}
                           type="submit"
@@ -967,20 +1042,14 @@ export function TeaserPage() {
                           aria-label="Send message"
                           transition={{ duration: 0 }}
                         >
-                          <motion.svg 
+                          <svg 
                             className="w-4 h-4" 
                             fill="none" 
                             stroke="currentColor" 
                             viewBox="0 0 24 24"
-                            animate={{ x: [0, 3, 0] }}
-                            transition={{ 
-                              duration: 1.5, 
-                              repeat: Infinity, 
-                              ease: "easeInOut" 
-                            }}
                           >
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                          </motion.svg>
+                          </svg>
                         </motion.button>
                       </motion.div>
                       <motion.p 
@@ -1021,7 +1090,7 @@ export function TeaserPage() {
                     >
                       <div className="absolute left-6 bottom-0 translate-y-full w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-gray-200"></div>
                       <div className="absolute left-[26px] bottom-0 translate-y-full w-0 h-0 border-l-[7px] border-l-transparent border-r-[7px] border-r-transparent border-t-[7px] border-t-white/95"></div>
-                      Try asking anything you’d ask a sales rep.
+                      Everything you see on the site, Nex can explain it better.
                     </motion.div>
                   </motion.div>
                 )}
@@ -1071,7 +1140,7 @@ export function TeaserPage() {
                               handleStartChat();
                             }
                           }}
-                          placeholder="Ask Nexbit anything..."
+                          placeholder="Ask me anything about Nexbit..."
                           className="w-full rounded-xl pl-4 pr-4 pt-4 pb-4 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none bg-transparent border-0"
                         />
                       </div>
@@ -1089,13 +1158,21 @@ export function TeaserPage() {
                       >
                         Why Nexbit?
                       </motion.button>
-                      <motion.button
+                      {/* <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => handleSendMessage("Tell me about pricing")}
                         className="px-3 py-1.5 text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
                       >
                         Tell me about pricing
+                      </motion.button> */}
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => handleSendMessage("How fast can we go live?")}
+                        className="px-3 py-1.5 text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
+                      >
+                        How fast can we go live?
                       </motion.button>
                       <motion.button
                         layoutId="send-button"
@@ -1110,20 +1187,14 @@ export function TeaserPage() {
                         aria-label="Send message"
                         transition={{ duration: 0 }}
                       >
-                        <motion.svg 
+                        <svg 
                           className="w-4 h-4" 
                           fill="none" 
                           stroke="currentColor" 
                           viewBox="0 0 24 24"
-                          animate={{ x: [0, 3, 0] }}
-                          transition={{ 
-                            duration: 1.5, 
-                            repeat: Infinity, 
-                            ease: "easeInOut" 
-                          }}
                         >
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                          </motion.svg>
+                        </svg>
                       </motion.button>
                     </motion.div>
                     <motion.p 

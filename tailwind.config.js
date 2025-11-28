@@ -4,11 +4,11 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'sf-pro': ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        'sf-pro': ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
         'space-grotesk': ['Space Grotesk', 'sans-serif'],
         'montserrat': ['Montserrat', 'sans-serif'],
         'ibm-plex-serif': ['IBM Plex Serif', 'serif'],
-        'clash-display': ['Clash Display', 'Nohemi', 'sans-serif'],
+        'clash-grotesk': ['Clash Grotesk', 'sans-serif'],
       },
       colors: {
         background: '#FFFDF6',
