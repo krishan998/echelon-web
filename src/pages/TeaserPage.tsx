@@ -702,10 +702,10 @@ export function TeaserPage() {
               </div>
               <div className="flex flex-col gap-3 items-center text-center">
                 <span className="text-base sm:text-lg font-medium tracking-wide text-gray-600 text-center">
-                  Live in under
+                  Live in
                 </span>
                 <span className="text-4xl sm:text-5xl font-semibold text-gray-900 whitespace-nowrap leading-none">
-                  5 mins
+                  &lt;5 mins
                 </span>
               </div>
               <div className="flex flex-col gap-3 items-center text-center">
@@ -716,7 +716,7 @@ export function TeaserPage() {
                   10+
                 </span>
                 <span className="text-sm sm:text-base text-gray-600 tracking-wide">
-                  hours/week
+                  hours/week/SDR
                 </span>
               </div>
               <div className="flex flex-col gap-3 items-center text-center">
