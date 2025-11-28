@@ -696,7 +696,7 @@ export function TeaserPage() {
                 <span className="text-base sm:text-lg font-medium tracking-wide text-gray-600 text-center">
                   Increase demo requests
                 </span>
-                <span className="text-5xl sm:text-6xl font-semibold text-gray-900 whitespace-nowrap leading-none">
+                <span className="text-4xl sm:text-5xl font-semibold text-gray-900 whitespace-nowrap leading-none">
                   5x
                 </span>
               </div>
@@ -704,7 +704,7 @@ export function TeaserPage() {
                 <span className="text-base sm:text-lg font-medium tracking-wide text-gray-600 text-center">
                   Live in under
                 </span>
-                <span className="text-5xl sm:text-6xl font-semibold text-gray-900 whitespace-nowrap leading-none">
+                <span className="text-4xl sm:text-5xl font-semibold text-gray-900 whitespace-nowrap leading-none">
                   5 mins
                 </span>
               </div>
@@ -712,7 +712,7 @@ export function TeaserPage() {
                 <span className="text-base sm:text-lg font-medium tracking-wide text-gray-600 text-center">
                   Auto-qualification saves
                 </span>
-                <span className="text-5xl sm:text-6xl font-semibold text-gray-900 whitespace-nowrap leading-none">
+                <span className="text-4xl sm:text-5xl font-semibold text-gray-900 whitespace-nowrap leading-none">
                   10+
                 </span>
                 <span className="text-sm sm:text-base text-gray-600 tracking-wide">
@@ -723,7 +723,7 @@ export function TeaserPage() {
                 <span className="text-base sm:text-lg font-medium tracking-wide text-gray-600 text-center">
                   Uptime
                 </span>
-                <span className="text-5xl sm:text-6xl font-semibold text-gray-900 whitespace-nowrap leading-none">
+                <span className="text-4xl sm:text-5xl font-semibold text-gray-900 whitespace-nowrap leading-none">
                   99.9%
                 </span>
               </div>
