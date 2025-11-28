@@ -38,9 +38,9 @@ export function Navbar() {
                 alt="Nexbit Logo" 
                 className="h-8 w-8 md:h-8 md:w-8 h-7 w-7 relative group-hover:scale-105 group-hover:rotate-3 transition-all duration-300" 
               />
-              <span className="ml-3 text-xl md:text-xl text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-600 relative" 
+              <span className="ml-3 text-2xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-600 relative" 
                 style={{ 
-                  fontFamily: '\'Clash Display\', \'Nohemi\', \'Montserrat\', sans-serif',
+                  fontFamily: '\'Clash Grotesk\', \'Nohemi\', \'Montserrat\', sans-serif',
                   letterSpacing: '-0.01em',
                 }}>
                 Nexbit
