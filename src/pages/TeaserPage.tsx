@@ -395,9 +395,14 @@ export function TeaserPage() {
     }, 3000);
   };
 
+  const scrollToTop = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   return (
     <>
-    <div className="min-h-screen relative overflow-hidden font-sf-pro overscroll-y-contain bg-transparent" data-name="page-root">
+    <div id="page-root" className="min-h-screen relative overflow-hidden font-sf-pro overscroll-y-contain bg-transparent" data-name="page-root">
       {/* Fixed base background so it never moves */}
       <div
         className="fixed inset-0 -z-10"
@@ -799,11 +804,12 @@ export function TeaserPage() {
             <div className="text-center md:text-left flex flex-col items-center md:items-start gap-3">
               <img src={logoSrc} alt="Nexbit Logo" className="w-12 h-12 rounded-[2px] object-cover" />
               <div className="font-clash-grotesk font-medium text-xl text-white">Nexbit</div>
+              <p className="text-white/60 text-sm mt-2">© 2025 Logikeon Labs Private Limited. All rights reserved.</p>
             </div>
 
             {/* Right Column - Back to Top & Links */}
             <div className="text-center md:text-right space-y-3">
-              <a href="#page-root" className="text-white/80 hover:text-white inline-flex items-center gap-1 justify-center md:justify-end">
+              <a href="#page-root" onClick={scrollToTop} className="text-white/80 hover:text-white inline-flex items-center gap-1 justify-center md:justify-end cursor-pointer">
                 Back to top
                 <span>↑</span>
               </a>
