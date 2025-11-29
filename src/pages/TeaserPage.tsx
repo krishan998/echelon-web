@@ -403,12 +403,12 @@ export function TeaserPage() {
         className="fixed inset-0 -z-10"
         data-name="global-background"
         style={{
-          backgroundColor: '#FFFFE3',
+          backgroundColor: '#F7EFE3',
         }}
       ></div>
       {/* Two-layer background wrapper */}
       <motion.div
-        className="relative z-10 mt-1 sm:mt-3 lg:mt-6 mb-4 sm:mb-8 lg:mb-16 rounded-[3rem] overflow-hidden will-change-transform bg-[#FFFFE3]"
+        className="relative z-10 mt-1 sm:mt-3 lg:mt-6 mb-4 sm:mb-8 lg:mb-16 rounded-[3rem] overflow-hidden will-change-transform bg-[#F7EFE3]"
         data-name="front-layer"
       >
         <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16">
@@ -749,7 +749,7 @@ export function TeaserPage() {
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          style={{ backgroundColor: '#FFFFE3' }}
+          style={{ backgroundColor: '#F7EFE3' }}
         />
       </motion.section>
 
