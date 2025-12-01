@@ -419,20 +419,22 @@ export function TeaserPage() {
         <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16">
       {/* Header */}
       <header
-        className="relative z-20 flex items-center justify-between py-3"
+        className="relative z-20 flex items-center justify-between gap-2 py-3"
       >
         {/* Logo and Name */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 min-w-0">
           <img 
             src={logoSrc} 
             alt="Nexbit Logo" 
             className="w-10 h-10 rounded-[2px] object-cover"
           />
-          <span className="text-3xl font-clash-grotesk font-medium text-gray-900">Nexbit</span>
+          <span className="text-xl sm:text-2xl md:text-3xl font-clash-grotesk font-medium text-gray-900 truncate">
+            Nexbit
+          </span>
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0">
           <button
             ref={earlyAccessButtonRef}
             onClick={() => {
@@ -464,7 +466,7 @@ export function TeaserPage() {
               }
               setShowJoinPopup(true);
             }}
-            className="inline-flex items-center justify-center rounded-full bg-white text-gray-900 px-4 py-2 text-sm sm:px-5 sm:py-2 sm:text-base md:px-7 md:py-2.5 md:text-lg font-normal shadow-sm hover:shadow md:shadow"
+            className="inline-flex items-center justify-center rounded-full bg-white text-gray-900 px-2.5 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm md:px-6 md:py-2.5 md:text-base font-normal shadow-sm hover:shadow md:shadow whitespace-nowrap"
           >
             Join Early Access
           </button>
@@ -472,7 +474,7 @@ export function TeaserPage() {
             href="https://calendly.com/kp-nexbit/30min"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-full text-white px-4 py-2 text-sm sm:px-5 sm:py-2 sm:text-base md:px-7 md:py-2.5 md:text-lg font-normal shadow-sm hover:shadow md:shadow"
+            className="inline-flex items-center justify-center rounded-full text-white px-2.5 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm md:px-6 md:py-2.5 md:text-base font-normal shadow-sm hover:shadow md:shadow whitespace-nowrap"
             style={{ backgroundColor: '#564F4B' }}
             onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#4a433f'}
             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#564F4B'}
@@ -1094,7 +1096,7 @@ export function TeaserPage() {
               <div className="relative overflow-visible">
                 {isCollapsedTipActive && !hasInteractedWithChat && (
                   <motion.div
-                    className="absolute left-3 -top-16 md:-top-16 flex justify-start pointer-events-none select-none z-30"
+                    className="absolute left-3 -top-24 sm:-top-20 md:-top-16 flex justify-start pointer-events-none select-none z-30"
                     initial={{ opacity: 0, y: 8, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ duration: 0.4, ease: 'easeOut' }}
