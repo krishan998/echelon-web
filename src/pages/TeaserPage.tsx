@@ -968,9 +968,15 @@ export function TeaserPage() {
               {featureCards.map((feature, idx) => (
                 <React.Fragment key={feature.label}>
                   <div
-                    className="relative bg-white shadow-[0_18px_40px_rgba(15,15,15,0.04)] mb-10 lg:mb-12"
+                    className="relative mb-10 lg:mb-12 min-h-[200px] flex items-center"
+                    style={{
+                      backgroundColor: '#FFFFFF',
+                      backgroundImage:
+                        'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.05) 1px, transparent 0)',
+                      backgroundSize: '18px 18px',
+                    }}
                   >
-                    <div className="grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] gap-6 lg:gap-10">
+                    <div className="grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] gap-6 lg:gap-10 w-full pt-4 sm:pt-6">
                       {/* Left: text content */}
                       <div className="order-2 lg:order-1 space-y-2 px-3 sm:px-4 py-2 sm:py-3">
                         <div className="flex items-center gap-2">
@@ -995,7 +1001,7 @@ export function TeaserPage() {
                       {/* Right: card image */}
                       {/* Mobile / tablet: simple inline card */}
                       <div className="order-1 lg:order-2 lg:hidden flex items-center justify-center">
-                        <div className="overflow-hidden" style={{ width: '60%', height: '60%' }}>
+                        <div className="overflow-hidden" style={{ width: '48%', height: '48%' }}>
                           <img
                             src={feature.image}
                             alt={feature.title}
@@ -1008,7 +1014,7 @@ export function TeaserPage() {
                       {/* Desktop: sticky card that stacks as you scroll between sections */}
                       <div className="hidden lg:block order-2 flex items-center justify-center">
                         <div className="sticky top-24">
-                          <div className="overflow-hidden" style={{ width: '60%', height: '60%' }}>
+                          <div className="overflow-hidden" style={{ width: '48%', height: '48%' }}>
                             <img
                               src={feature.image}
                               alt={feature.title}
