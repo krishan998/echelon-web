@@ -12,6 +12,11 @@ import chatbotAvatar from '../assets/logo_fresh.jpg';
 import feature1Image from '../assets/presales-features/First_Funnel.png';
 import feature2Image from '../assets/presales-features/Second-personalization.png';
 import feature3Image from '../assets/presales-features/Third_CRM_enrichment.png';
+import integrationTile from '../assets/integrationTile.png';
+import reliableIcon from '../assets/reliable.svg';
+import scalableIcon from '../assets/scalable.svg';
+import reliableSectionImage from '../assets/reliablesection.png';
+import heroBgVideo from '../assets/herobg.webm';
 
 const createMessageId = () => `msg-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
@@ -112,7 +117,7 @@ const SystemMessageBubble: React.FC<{
     </>
   );
 };
-import splashVideo from '../assets/splashvideo.mp4';
+import splashVideo from '../assets/ctavideo.mp4';
 
 export function TeaserPage() {
   const [email, setEmail] = useState('');
@@ -169,6 +174,73 @@ export function TeaserPage() {
   }, [debugLog]);
 
   const suggestedQuestions: string[] = [];
+
+  // Load all integration logos from assets/intgrations
+  const integrationLogos = React.useMemo(() => {
+    const modules = import.meta.glob('../assets/intgrations/*.{png,jpg,jpeg,svg}', {
+      eager: true,
+      import: 'default',
+    }) as Record<string, string>;
+    return Object.values(modules);
+  }, []);
+
+  const whyNexbitRows = [
+    {
+      label: '5x',
+      color: '#E9B3FF',
+      title: 'Increase demo requests',
+      body: '5x increase in demo requests from chat first discovery on search and catalogue.',
+    },
+    {
+      label: 'Forward-deployed team',
+      color: '#FFB27B',
+      title: 'Hands-on deployment support',
+      body: 'Partner with a forward-deployed engineer to go live quickly and keep your playbooks evolving.',
+    },
+    {
+      label: '99.99% uptime',
+      color: '#E9B3FF',
+      title: 'Enterprise-grade reliability',
+      body: 'Our AI agents are built on a hardened runtime with multi-region failover and continuous monitoring.',
+    },
+   
+    {
+      label: 'Sub-500ms latency',
+      color: '#7BD8FF',
+      title: 'Instant, human-like experiences',
+      body: 'Low-latency infra ensures every interaction feels natural, even at peak traffic.',
+    },
+    {
+      label: 'AI guardrails',
+      color: '#7BFFD6',
+      title: 'Controlled, compliant conversations',
+      body: 'Guardrails and policies keep every response on brand, on topic, and safe for your users.',
+    },
+  ];
+
+  const featureCards = [
+    {
+      label: 'Turn website visitors into informed buyers',
+      color: '#FFB27B',
+      title: 'Turn website visitors into informed buyers',
+      body: 'Instantly explain your product, pricing, and value to every visitor, no matter where they land in the funnel.',
+      image: feature1Image,
+    },
+    {
+      label: 'Personalize every conversation',
+      color: '#7BD8FF',
+      title: 'Personalize every conversation with Persona Intelligence',
+      body: 'Nex adapts to buyer persona, intent, and funnel stage so every touchpoint feels 1:1 and on-message.',
+      image: feature2Image,
+    },
+    {
+      label: 'Give sales teams superhuman context',
+      color: '#7BFFD6',
+      title: 'Give your sales team superhuman context',
+      body: 'Enrich your CRM with qualification signals, intent, and call-ready notes from every conversation.',
+      image: feature3Image,
+    },
+  ];
 
   const isIntroActive = showChatBox && chatMessages.length === 0;
   const isCollapsedTipActive = !showChatBox;
@@ -402,88 +474,79 @@ export function TeaserPage() {
 
   return (
     <>
-    <div id="page-root" className="min-h-screen relative overflow-hidden font-sf-pro overscroll-y-contain bg-transparent" data-name="page-root">
-      {/* Fixed base background so it never moves */}
+    <div id="page-root" className="min-h-screen relative overflow-hidden font-sf-pro overscroll-y-contain" data-name="page-root">
+      {/* Fixed base background - Black with grain texture */}
       <div
         className="fixed inset-0 -z-10"
         data-name="global-background"
         style={{
-          backgroundColor: '#F7EFE3',
+          backgroundColor: '#0E0E13',
         }}
-      ></div>
-      {/* Two-layer background wrapper */}
-      <motion.div
-        className="relative z-10 mt-1 sm:mt-3 lg:mt-6 mb-4 sm:mb-8 lg:mb-16 rounded-[3rem] overflow-hidden will-change-transform bg-[#F7EFE3]"
-        data-name="front-layer"
       >
-        <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16">
-      {/* Header */}
-      <header
-        className="relative z-20 flex items-center justify-between gap-2 py-3"
-      >
-        {/* Logo and Name */}
-        <div className="flex items-center gap-2 min-w-0">
-          <img 
-            src={logoSrc} 
-            alt="Nexbit Logo" 
-            className="w-10 h-10 rounded-[2px] object-cover"
-          />
-          <span className="text-xl sm:text-2xl md:text-3xl font-clash-grotesk font-medium text-gray-900 truncate">
-            Nexbit
-          </span>
+        {/* Grain texture overlay - Animated */}
+        <div
+          className="absolute inset-0 z-[1] opacity-[0.05] pointer-events-none"
+          style={{
+            backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3CfeColorMatrix type=\'saturate\' values=\'0\'/%3E%3C/filter%3E%3Crect width=\'200\' height=\'200\' filter=\'url(%23noise)\' opacity=\'0.4\'/%3E%3C/svg%3E")',
+            backgroundSize: '240px 240px',
+            backgroundRepeat: 'repeat',
+            animation: 'grain 8s steps(10) infinite',
+          }}
+        />
+        <style>{`
+          @keyframes grain {
+            0%, 100% { transform: translate(0, 0); }
+            10% { transform: translate(-5%, -10%); }
+            20% { transform: translate(-15%, 5%); }
+            30% { transform: translate(7%, -25%); }
+            40% { transform: translate(-5%, 25%); }
+            50% { transform: translate(-15%, 10%); }
+            60% { transform: translate(15%, 0%); }
+            70% { transform: translate(0%, 15%); }
+            80% { transform: translate(3%, 35%); }
+            90% { transform: translate(-10%, 10%); }
+          }
+        `}</style>
+        {/* Animated blob - top left */}
+        <motion.div
+          className="hidden md:block pointer-events-none absolute left-[-4%] top-[12px] z-0"
+          style={{
+            width: '400px',
+            height: '400px',
+            background: 'radial-gradient(circle, rgba(235, 248, 85, 0.18) 0%, rgba(235, 248, 85, 0.08) 40%, rgba(0, 0, 0, 0) 70%)',
+          }}
+          animate={{
+            x: [0, 20, 0],
+            y: [0, 15, 0],
+            scale: [1, 1.05, 1],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        {/* Animated blob - bottom right */}
+        <motion.div
+          className="hidden md:block pointer-events-none absolute z-0 bottom-[-40px] right-[-10%]"
+          style={{
+            width: '500px',
+            height: '500px',
+            background: 'radial-gradient(circle, rgba(26, 73, 35, 0.15) 0%, rgba(26, 73, 35, 0.08) 40%, rgba(0, 0, 0, 0) 70%)',
+          }}
+          animate={{
+            x: [0, -25, 0],
+            y: [0, -20, 0],
+            scale: [1, 1.08, 1],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
+          }}
+        />
         </div>
-
-        {/* Actions */}
-        <div className="flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0">
-          <button
-            ref={earlyAccessButtonRef}
-            onClick={() => {
-              if (earlyAccessButtonRef.current) {
-                const rect = earlyAccessButtonRef.current.getBoundingClientRect();
-                const popupWidth = Math.min(448, window.innerWidth * 0.9);
-                const popupHeight = 400;
-                const spacing = 12;
-                
-                // Calculate position directly below button, aligned to left edge
-                let top = rect.bottom + spacing;
-                let left = rect.left;
-                
-                // Ensure popup stays within viewport horizontally
-                if (left + popupWidth > window.innerWidth - 20) {
-                  left = window.innerWidth - popupWidth - 20;
-                }
-                
-                if (left < 20) {
-                  left = 20;
-                }
-                
-                // If popup would go below viewport, adjust top position
-                if (top + popupHeight > window.innerHeight - 20) {
-                  top = window.innerHeight - popupHeight - 20;
-                }
-                
-                setPopupPosition({ top, left });
-              }
-              setShowJoinPopup(true);
-            }}
-            className="inline-flex items-center justify-center rounded-full bg-white text-gray-900 px-2.5 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm md:px-6 md:py-2.5 md:text-base font-normal shadow-sm hover:shadow md:shadow whitespace-nowrap"
-          >
-            Join Early Access
-          </button>
-          <a
-            href="https://calendly.com/kp-nexbit/30min"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-full text-white px-2.5 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm md:px-6 md:py-2.5 md:text-base font-normal shadow-sm hover:shadow md:shadow whitespace-nowrap"
-            style={{ backgroundColor: '#564F4B' }}
-            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#4a433f'}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#564F4B'}
-          >
-            Contact
-          </a>
-        </div>
-      </header>
-      
       {/* Join Early Access Popup */}
       <AnimatePresence>
         {showJoinPopup && (
@@ -585,203 +648,400 @@ export function TeaserPage() {
       </AnimatePresence>
       
       {/* Hero Section */}
-      <section className="relative z-10 min-h-[70vh] flex items-center justify-start -mt-20 sm:-mt-24 lg:-mt-20 pt-0 pb-4 overflow-visible" data-section="hero">
-        <div className="w-full flex flex-col items-start gap-6">
+      <section className="relative z-10 min-h-screen flex items-start justify-start w-full pt-0 pb-0 overflow-hidden" data-section="hero">
+        {/* Hero Background Video */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover z-0"
+          style={{
+            objectFit: 'cover',
+            objectPosition: 'center',
+          }}
+        >
+          <source src={heroBgVideo} type="video/webm" />
+        </video>
+        {/* Overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/20 z-[1]" />
+        
+        <div className="relative z-10 w-full">
+          <div className="w-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 pt-6 sm:pt-8 lg:pt-10 pb-10 flex flex-col gap-8">
+            {/* Header inside hero so it shares video background */}
+            <header
+              className="relative z-20 flex items-center justify-between gap-2"
+            >
+              {/* Logo and Name */}
+              <div className="flex items-center gap-2 min-w-0">
+                <img 
+                  src={logoSrc} 
+                  alt="Nexbit Logo" 
+                  className="w-10 h-10 rounded-[2px] object-cover"
+                />
+                <span className="text-xl sm:text-2xl md:text-3xl font-clash-grotesk font-medium text-white truncate">
+                  Nexbit
+                </span>
+              </div>
+
+              {/* Actions */}
+              <div className="flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0">
+                <div className="relative inline-block">
+                  <div
+                    className="absolute inset-0 rounded-full opacity-30 blur-md"
+                    style={{
+                      background: 'linear-gradient(118.05deg, rgba(10, 10, 13, 0), rgba(29, 62, 37, 0.8) 25%, rgba(49, 79, 29, 0.9) 54%, rgba(8, 40, 34, 0.8) 80%, rgba(10, 10, 13, 0))',
+                      transform: 'scale(1.1)',
+                      zIndex: 0,
+                      pointerEvents: 'none',
+                      top: '-4px',
+                      left: '-4px',
+                      right: '-4px',
+                      bottom: '-4px',
+                    }}
+                  />
+                  <button
+                    ref={earlyAccessButtonRef}
+                    onClick={() => {
+                      if (earlyAccessButtonRef.current) {
+                        const rect = earlyAccessButtonRef.current.getBoundingClientRect();
+                        const popupWidth = Math.min(448, window.innerWidth * 0.9);
+                        const popupHeight = 400;
+                        const spacing = 12;
+                        
+                        // Calculate position directly below button, aligned to left edge
+                        let top = rect.bottom + spacing;
+                        let left = rect.left;
+                        
+                        // Ensure popup stays within viewport horizontally
+                        if (left + popupWidth > window.innerWidth - 20) {
+                          left = window.innerWidth - popupWidth - 20;
+                        }
+                        
+                        if (left < 20) {
+                          left = 20;
+                        }
+                        
+                        // If popup would go below viewport, adjust top position
+                        if (top + popupHeight > window.innerHeight - 20) {
+                          top = window.innerHeight - popupHeight - 20;
+                        }
+                        
+                        setPopupPosition({ top, left });
+                      }
+                      setShowJoinPopup(true);
+                    }}
+                  className="relative inline-flex items-center justify-center rounded-lg bg-white text-gray-900 px-2.5 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm md:px-6 md:py-2.5 md:text-base font-normal shadow-sm hover:shadow md:shadow whitespace-nowrap z-10"
+                  >
+                    Join Early Access
+                  </button>
+                </div>
+                <a
+                  href="https://calendly.com/kp-nexbit/30min"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center rounded-lg text-white px-2.5 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm md:px-6 md:py-2.5 md:text-base font-normal shadow-sm hover:shadow md:shadow whitespace-nowrap"
+                  style={{ backgroundColor: '#564F4B' }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#4a433f'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#564F4B'}
+                >
+                  Contact
+                </a>
+              </div>
+            </header>
+
           {/* Left Aligned Text Content */}
-          <div className="text-left flex flex-col justify-center items-start mt-2 lg:mt-0 pl-4 md:pl-12 lg:pl-16">
+            <div className="text-left flex flex-col justify-center items-start gap-6 py-10">
             
             {/* Main Heading - Left Aligned */}
             <div className="mb-4">
-              <div className="bg-gradient-to-r from-[#564F4B] to-[#564F4B] bg-clip-text text-transparent text-3xl sm:text-4xl md:text-6xl lg:text-[4.5rem] font-[3500] tracking-tight leading-tight font-clash-grotesk">
+                <div className="text-white text-3xl sm:text-4xl md:text-6xl lg:text-[4.5rem] font-[3500] tracking-tight leading-tight font-clash-grotesk">
                 The fastest path from website visits to qualified leads
               </div>
             </div>
 
             {/* Tagline */}
             <div
-                className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 font-light leading-relaxed"
-                style={{ color: '#564F4B' }}
+                  className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 font-light leading-relaxed text-gray-300 max-w-2xl"
               >
                 Engage inbound buyers with AI Revenue Agents and 5x your demo conversions.
               </div>
 
-            {/* See it in action Button */}
+              {/* See it in action Button with gradient strip effect */}
+              <div className="relative inline-block">
+                <div
+                  className="absolute inset-0 rounded-xl opacity-20 blur-xl"
+                  style={{
+                    background: 'linear-gradient(118.05deg, rgba(10, 10, 13, 0), rgba(29, 62, 37, 0.8) 25%, rgba(49, 79, 29, 0.9) 54%, rgba(8, 40, 34, 0.8) 80%, rgba(10, 10, 13, 0))',
+                  transform: 'scale(1.2)',
+                  zIndex: 0,
+                  pointerEvents: 'none',
+                  top: '-10px',
+                  left: '-10px',
+                  right: '-10px',
+                  bottom: '-10px',
+                  borderRadius: '12px',
+                }}
+                />
             <button
               onClick={() => handleSendMessage("Hey Nex, what can you do?")}
-              className="inline-flex items-center justify-center rounded-full bg-white text-gray-900 px-6 py-3 text-base font-medium shadow-sm hover:shadow"
+                  className="relative inline-flex items-center justify-center rounded-lg bg-white text-gray-900 px-6 py-3 text-base font-medium shadow-sm hover:shadow z-10"
             >
               See it in action
             </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="relative z-10 -mt-10 sm:-mt-16 lg:-mt-20 mb-16 sm:mb-20 lg:mb-24">
+      {/* Integrations Section (second page, just below hero) */}
+      <section className="relative z-10 mt-16 sm:mt-20 lg:mt-24 mb-16 lg:mb-20">
         <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 lg:gap-12">
-            {/* Feature 1 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="w-full aspect-square rounded-2xl overflow-hidden mb-4 bg-gray-100 flex items-center justify-center">
-                <img 
-                  src={feature1Image} 
-                  alt="Feature 1" 
-                  className="w-full h-full object-cover"
+          <div className="relative flex flex-col lg:flex-row gap-10 lg:gap-16 items-center">
+              {/* Static integration illustration image */}
+              <div className="relative w-full max-w-md">
+                <img
+                  src={integrationTile}
+                  alt="Integrations visualization"
+                  className="w-full h-auto object-contain"
+                  loading="lazy"
                 />
               </div>
-              <h3 className="text-xl md:text-xl font-clash-grotesk font-medium text-gray-900 mb-2">
-                Turn website visitors into <br /> informed buyers
-              </h3>
-              <p
-                className="text-sm md:text-sm text-gray-600 leading-relaxed"
-                style={{ fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}
-              >
-                Instantly explain your product, pricing, and value to every visitor
-              </p>
+
+              <div className="flex-1 max-w-2xl w-full space-y-5 text-center lg:text-left lg:ml-4">
+                <div className="space-y-3">
+                  <p className="text-xs uppercase tracking-[0.4em] text-[#A386FF]">
+                    Integrations
+                  </p>
+                  <h2 className="text-3xl sm:text-[2.3rem] lg:text-[3.1rem] font-clash-grotesk text-white leading-tight">
+                    Integrate with more than 40+ apps in a snap.
+                  </h2>
             </div>
 
-            {/* Feature 2 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="w-full aspect-square rounded-2xl overflow-hidden mb-4 bg-gray-100 flex items-center justify-center">
-                <img 
-                  src={feature2Image} 
-                  alt="Feature 2" 
-                  className="w-full h-full object-cover"
+                {/* Horizontal marquee row that stays within this box */}
+                <div className="relative overflow-hidden mt-2 sm:mt-3">
+                  <motion.div
+                    className="flex gap-4 sm:gap-5"
+                    animate={{ x: ['0%', '-50%'] }}
+                    transition={{
+                      duration: 25,
+                      ease: 'linear',
+                      repeat: Infinity,
+                    }}
+                  >
+                    {[...integrationLogos, ...integrationLogos].map((logoSrc, idx) => (
+                      <div
+                        key={`${logoSrc}-${idx}`}
+                        className="flex items-center justify-center"
+                      >
+                        <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-center shadow-[0_0_25px_rgba(0,0,0,0.45)]">
+                          <img
+                            src={logoSrc}
+                            alt="Integration logo"
+                            className="max-h-10 sm:max-h-12 md:max-h-14 w-auto object-contain"
+                            loading="lazy"
                 />
               </div>
-              <h3 className="text-xl md:text-xl font-clash-grotesk font-medium text-gray-900 mb-2">
-              Personalize every conversation with Persona Intelligence
-              </h3>
-              <p
-                className="text-sm md:text-sm text-gray-600 leading-relaxed"
-                style={{ fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}
-              >
-              Nex adapts based on buyer persona, intent, and the stage in the funnel
-              </p>
-            </div>
-
-            {/* Feature 3 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="w-full aspect-square rounded-2xl overflow-hidden mb-4 bg-gray-100 flex items-center justify-center">
-                <img 
-                  src={feature3Image} 
-                  alt="Feature 3" 
-                  className="w-full h-full object-cover"
-                />
               </div>
-              <h3 className="text-xl md:text-xl font-clash-grotesk font-medium text-gray-900 mb-2">
-                Give your sales team superhuman context
-              </h3>
-              <p
-                className="text-sm md:text-sm text-gray-600 leading-relaxed"
-                style={{ fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}
-              >
-                Enrich your CRM with intent, qualification signals, and sales-ready insights
-              </p>
+                    ))}
+                  </motion.div>
+                </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Why Nexbit Section */}
-      <section className="relative z-10 mt-32 sm:mt-40 lg:mt-48 mb-16 sm:mb-20 lg:mb-24">
-        <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16">
-          <div className="flex flex-col gap-8">
-            <div className="space-y-3 text-center">
-              <h2 className="text-2xl sm:text-2xl font-clash-grotesk font-semibold text-gray-900">
-                Why Nexbit?
-              </h2>
-              {/* <h2 className="text-3xl sm:text-4xl font-clash-grotesk text-gray-900">
-                Outcomes you can feel in weeks
-              </h2> */}
-              <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
-                Early customers lean on Nexbit to turn inbound demand into revenue.
-              </p>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-4 md:gap-6">
-              <div className="flex flex-col gap-3 items-center text-center">
-                <span className="text-base sm:text-lg font-medium tracking-wide text-gray-600 text-center">
-                  Increase demo requests
-                </span>
-                <span className="text-4xl sm:text-5xl font-semibold text-gray-900 whitespace-nowrap leading-none">
-                  5x
-                </span>
-              </div>
-              <div className="flex flex-col gap-3 items-center text-center">
-                <span className="text-base sm:text-lg font-medium tracking-wide text-gray-600 text-center">
-                  Live in
-                </span>
-                <span className="text-4xl sm:text-5xl font-semibold text-gray-900 whitespace-nowrap leading-none">
-                  &lt;5 mins
-                </span>
-              </div>
-              <div className="flex flex-col gap-3 items-center text-center">
-                <span className="text-base sm:text-lg font-medium tracking-wide text-gray-600 text-center">
-                  Auto-qualification saves
-                </span>
-                <span className="text-4xl sm:text-5xl font-semibold text-gray-900 whitespace-nowrap leading-none">
-                  10+
-                </span>
-                <span className="text-sm sm:text-base text-gray-600 tracking-wide">
-                  hours/week/SDR
-                </span>
-              </div>
-              <div className="flex flex-col gap-3 items-center text-center">
-                <span className="text-base sm:text-lg font-medium tracking-wide text-gray-600 text-center">
-                  Uptime
-                </span>
-                <span className="text-4xl sm:text-5xl font-semibold text-gray-900 whitespace-nowrap leading-none">
-                  99.9%
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Second Page Container with emerging white background */}
-      <motion.section
-        initial={{ opacity: 0, y: 40, scale: 0.98 }}
-        whileInView={{ opacity: 1, y: 0, scale: 1 }}
-        viewport={{ once: false, amount: 0.3 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="relative mt-16 sm:mt-20 lg:mt-28"
-        data-section="cta"
-      >
-        {/* Emerging white background plate (second page) */}
-        <motion.div
-          aria-hidden
-          className="absolute inset-0 rounded-[2rem] shadow-sm -z-10"
-          initial={{ opacity: 0, y: 40, scale: 0.98 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: false, amount: 0.3 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          style={{ backgroundColor: '#F7EFE3' }}
+      {/* Why Nexbit Section - Reliable. Scalable. Secure. */}
+      <section className="relative overflow-hidden z-10 mt-32 sm:mt-40 lg:mt-48 mb-0 pb-16 sm:pb-24 lg:pb-28 min-h-screen">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundColor: '#F5EEDC',
+            backgroundImage:
+              'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.12) 1px, transparent 0)',
+            backgroundSize: '22px 22px',
+          }}
         />
-      </motion.section>
+        <div className="relative w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16">
+          <div className="rounded-[32px] p-6 sm:p-10 lg:p-14">
+            <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
+              {/* Left: headline + feature rows */}
+              <div className="flex-1 space-y-10 text-[#14110F]">
+                <h2 className="text-2xl sm:text-[2.3rem] lg:text-[2.8rem] font-clash-grotesk leading-tight flex flex-wrap md:flex-nowrap gap-3 items-center">
+                  <span className="font-medium inline-flex items-center gap-2 whitespace-nowrap">
+                    Reliable.
+                    <img src={reliableIcon} alt="Reliable icon" className="h-7 w-7 sm:h-8 sm:w-8" />
+                  </span>
+                  <span className="font-medium inline-flex items-center gap-2 whitespace-nowrap">
+                    Scalable.
+                    <img src={scalableIcon} alt="Scalable icon" className="h-7 w-7 sm:h-8 sm:w-8" />
+                  </span>
+                  <span className="font-medium whitespace-nowrap">Secure.</span>
+                </h2>
 
-      {/* Video Section Above Footer */}
-      <section className="w-full pt-20 md:pt-24 pb-4 md:pb-6 relative z-0 mt-12 md:mt-16" style={{ transition: 'none', boxShadow: 'none'  }}>
-        <div className="w-full" style={{ transition: 'none' }}>
-          <div className="w-full rounded-3xl overflow-hidden aspect-[4/3] md:aspect-[21/9]" style={{ transition: 'none', boxShadow: 'none' }}>
-            <video
-              ref={videoRef}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-full object-cover"
-              style={{ transition: 'none !important', opacity: '1 !important', filter: 'brightness(0.95) contrast(0.85) saturate(0.9)' }}
-            >
-              <source src={splashVideo} type="video/mp4" />
-            </video>
+                <div className="space-y-6">
+                  {whyNexbitRows.map((row, idx) => (
+                    <div
+                      key={row.label}
+                      className={`flex flex-col sm:flex-row items-start gap-4 pt-6 ${
+                        idx === 0 ? 'border-t-0' : 'border-t border-[#E3D8C4]'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3 sm:w-64">
+                        <div
+                          className="h-11 w-11 rounded-full flex items-center justify-center shadow-[0_8px_18px_rgba(0,0,0,0.18)]"
+                          style={{ backgroundColor: row.color }}
+                        >
+                          {/* Simple icon placeholder - can be replaced with real icons */}
+                          <span className="text-lg">·</span>
+                        </div>
+                        <p className="text-sm sm:text-base font-medium">{row.label}</p>
+                      </div>
+                      <div className="flex-1 space-y-1">
+                        <p className="text-sm sm:text-base font-semibold">{row.title}</p>
+                        <p className="text-sm sm:text-[0.95rem] text-[#4D463F] leading-relaxed">
+                          {row.body}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+            </div>
+
+              {/* Right: abstract lock made of dots */}
+              <div className="hidden lg:flex flex-1 items-center justify-center">
+                <img
+                  src={reliableSectionImage}
+                  alt="Security lock composed of colored dots"
+                  className="max-w-[520px] w-full h-auto object-contain"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Feature Cards - stacked per-section timeline (Delve-style) */}
+      <section
+        className="relative z-10 mb-0"
+        style={{
+          backgroundColor: '#FFFFFF',
+          backgroundImage:
+            'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.05) 1px, transparent 0)',
+          backgroundSize: '18px 18px',
+        }}
+      >
+        <div className="relative w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16 pb-10 lg:pb-12">
+          {/* Extended vertical border lines - from top of section, aligned with feature boxes container */}
+          <div className="absolute top-0 bottom-0 left-0 w-px bg-black/30 pointer-events-none" />
+          <div className="absolute top-0 bottom-0 right-0 w-px bg-black/30 pointer-events-none" />
+          
+          <div className="mb-10 sm:mb-14">
+            <p className="text-xs uppercase tracking-[0.35em] text-gray-500">
+              PRODUCT
+            </p>
+            <h2 className="mt-3 text-2xl sm:text-3xl lg:text-[2.4rem] font-clash-grotesk text-black leading-tight">
+              Design a funnel that converts,<br className="hidden sm:block" /> one card at a time.
+            </h2>
+          </div>
+
+          <div className="relative">
+            {/* Extended top border - full screen width */}
+            <div 
+              className="absolute top-0 left-0 right-0 h-px bg-black/30 pointer-events-none"
+              style={{
+                left: 'calc(-1 * ((100vw - 100%) / 2))',
+                right: 'calc(-1 * ((100vw - 100%) / 2))',
+              }}
+            />
+            {/* Extended bottom border - full screen width */}
+            <div 
+              className="absolute bottom-0 left-0 right-0 h-px bg-black/30 pointer-events-none"
+              style={{
+                left: 'calc(-1 * ((100vw - 100%) / 2))',
+                right: 'calc(-1 * ((100vw - 100%) / 2))',
+              }}
+            />
+            <div className="relative">
+              {featureCards.map((feature, idx) => (
+                <React.Fragment key={feature.label}>
+                  <div
+                    className="relative bg-white shadow-[0_18px_40px_rgba(15,15,15,0.04)] mb-10 lg:mb-12"
+                  >
+                    <div className="grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] gap-6 lg:gap-10">
+                      {/* Left: text content */}
+                      <div className="order-2 lg:order-1 space-y-2 px-3 sm:px-4 py-2 sm:py-3">
+                        <div className="flex items-center gap-2">
+                          <div
+                            className="h-7 w-7 rounded-full flex items-center justify-center shadow-[0_10px_30px_rgba(0,0,0,0.35)]"
+                            style={{ backgroundColor: feature.color }}
+                          >
+                            <span className="text-base text-black/70">·</span>
+                          </div>
+                          <p className="text-xs sm:text-sm font-medium text-[#14110F]">
+                            {feature.label}
+                          </p>
+                        </div>
+                        <h3 className="text-lg sm:text-xl lg:text-[1.12rem] font-clash-grotesk font-semibold text-[#14110F]">
+                          {feature.title}
+                        </h3>
+                        <p className="text-xs sm:text-[0.665rem] text-[#4D463F] leading-relaxed max-w-xl">
+                          {feature.body}
+                        </p>
+                      </div>
+
+                      {/* Right: card image */}
+                      {/* Mobile / tablet: simple inline card */}
+                      <div className="order-1 lg:order-2 lg:hidden flex items-center justify-center">
+                        <div className="overflow-hidden" style={{ width: '60%', height: '60%' }}>
+                          <img
+                            src={feature.image}
+                            alt={feature.title}
+                            className="w-full h-auto object-cover"
+                            loading="lazy"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Desktop: sticky card that stacks as you scroll between sections */}
+                      <div className="hidden lg:block order-2 flex items-center justify-center">
+                        <div className="sticky top-24">
+                          <div className="overflow-hidden" style={{ width: '60%', height: '60%' }}>
+                            <img
+                              src={feature.image}
+                              alt={feature.title}
+                              className="w-full h-auto object-cover"
+                              loading="lazy"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Extended horizontal border line between boxes - extends full screen width */}
+                  {idx < featureCards.length - 1 && (
+                    <div className="relative mb-10 lg:mb-12">
+                      <div 
+                        className="absolute top-1/2 h-px bg-black/15 pointer-events-none"
+                        style={{
+                          left: 'calc(-1 * ((100vw - 100%) / 2))',
+                          right: 'calc(-1 * ((100vw - 100%) / 2))',
+                        }}
+                      />
+                    </div>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
       <footer
-        className="border-t border-gray-200 relative z-0 rounded-3xl w-full"
+        className="relative z-0 w-full"
         data-section="footer"
         style={{
           backgroundColor: '#1A4923',
@@ -799,7 +1059,7 @@ export function TeaserPage() {
         }}
       >
         {/* Main Footer Content */}
-        <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16 py-12 md:py-16">
+        <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16 py-14 md:py-18">
           <div className="w-full">
             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-8 md:gap-12">
             {/* Left Column - Brand Information */}
@@ -822,8 +1082,6 @@ export function TeaserPage() {
         </div>
         </div>
       </footer>
-        </div>
-      </motion.div>
 
       {/* Docked Chat overlay */}
       <AnimatePresence>
@@ -989,8 +1247,70 @@ export function TeaserPage() {
                       }}
                       className="flex flex-col gap-0 w-full"
                     >
-                      <div className="w-full">
-                        <div className="relative bg-white rounded-xl">
+                      <div className="flex items-stretch gap-1 w-full">
+                        <div className="flex items-center justify-center">
+                          <motion.button
+                            type="button"
+                            layout={false}
+                            whileHover={{ scale: 1.03 }}
+                            whileTap={{ scale: 0.97 }}
+                            className="inline-flex items-center justify-center rounded-2xl w-16 h-16 sm:w-20 sm:h-20 bg-white text-gray-100 shadow-sm border-[6px]"
+                            style={{ borderColor: '#564F4B' }}
+                            aria-label="Start voice input"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              // TODO: hook up to voice input
+                            }}
+                          >
+                            <svg
+                              className="w-10 h-10 sm:w-12 sm:h-12"
+                              viewBox="0 0 40 40"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <rect
+                                x="4"
+                                y="0"
+                                width="32"
+                                height="40"
+                                rx="8"
+                                fill="#FFFFFF"
+                              />
+                              <g fill="#564F4B">
+                                {/* Mic head - 5 rows of 3 dots with extra vertical spacing */}
+                                <circle cx="13" cy="6" r="1.6" />
+                                <circle cx="20" cy="6" r="1.6" />
+                                <circle cx="27" cy="6" r="1.6" />
+
+                                <circle cx="13" cy="11" r="1.6" />
+                                <circle cx="20" cy="11" r="1.6" />
+                                <circle cx="27" cy="11" r="1.6" />
+
+                                <circle cx="13" cy="16" r="1.6" />
+                                <circle cx="20" cy="16" r="1.6" />
+                                <circle cx="27" cy="16" r="1.6" />
+
+                                <circle cx="13" cy="21" r="1.6" />
+                                <circle cx="20" cy="21" r="1.6" />
+                                <circle cx="27" cy="21" r="1.6" />
+
+                                <circle cx="13" cy="26" r="1.6" />
+                                <circle cx="20" cy="26" r="1.6" />
+                                <circle cx="27" cy="26" r="1.6" />
+
+                                {/* Mic stand - single vertical dot */}
+                                <circle cx="20" cy="31" r="1.6" />
+
+                                {/* Mic base - 3 dots */}
+                                <circle cx="13" cy="35" r="1.6" />
+                                <circle cx="20" cy="35" r="1.6" />
+                                <circle cx="27" cy="35" r="1.6" />
+                              </g>
+                            </svg>
+                          </motion.button>
+                        </div>
+                        <div className="flex-1 flex flex-col">
+                          <div className="relative bg-white rounded-xl flex items-center">
                           <input
                             type="text"
                             value={searchInput}
@@ -999,7 +1319,6 @@ export function TeaserPage() {
                             disabled={isLoadingMessage}
                             className="w-full rounded-xl pl-4 pr-4 pt-4 pb-4 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed bg-transparent border-0"
                           />
-                        </div>
                       </div>
                       <motion.div 
                         layoutId="suggested-buttons-container"
@@ -1070,6 +1389,8 @@ export function TeaserPage() {
                           </svg>
                         </motion.button>
                       </motion.div>
+                        </div>
+                      </div>
                       <motion.p 
                         layoutId="disclaimer-text"
                         className="text-xs px-1 pt-3 pb-0 relative z-10"
@@ -1146,7 +1467,70 @@ export function TeaserPage() {
                     transition={{ duration: 0 }}
                   >
                     <div className="w-full">
-                      <div className="relative bg-white rounded-xl border-0">
+                      <div className="flex items-stretch gap-1 w-full">
+                        <div className="flex items-center justify-center">
+                          <motion.button
+                            type="button"
+                            layout={false}
+                            whileHover={{ scale: 1.03 }}
+                            whileTap={{ scale: 0.97 }}
+                            className="inline-flex items-center justify-center rounded-3xl w-16 h-16 sm:w-20 sm:h-20 bg-white text-gray-100 shadow-sm border-[1px]"
+                            style={{ borderColor: '#564F4B' }}
+                            aria-label="Start voice input"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              // TODO: hook up to voice input
+                            }}
+                          >
+                            <svg
+                              className="w-10 h-10 sm:w-12 sm:h-12"
+                              viewBox="0 0 40 40"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <rect
+                                x="4"
+                                y="0"
+                                width="32"
+                                height="40"
+                                rx="8"
+                                fill="#FFFFFF"
+                              />
+                              <g fill="#564F4B">
+                                {/* Mic head - 5 rows of 3 dots with extra vertical spacing */}
+                                <circle cx="13" cy="6" r="1.6" />
+                                <circle cx="20" cy="6" r="1.6" />
+                                <circle cx="27" cy="6" r="1.6" />
+
+                                <circle cx="13" cy="11" r="1.6" />
+                                <circle cx="20" cy="11" r="1.6" />
+                                <circle cx="27" cy="11" r="1.6" />
+
+                                <circle cx="13" cy="16" r="1.6" />
+                                <circle cx="20" cy="16" r="1.6" />
+                                <circle cx="27" cy="16" r="1.6" />
+
+                                <circle cx="13" cy="21" r="1.6" />
+                                <circle cx="20" cy="21" r="1.6" />
+                                <circle cx="27" cy="21" r="1.6" />
+
+                                <circle cx="13" cy="26" r="1.6" />
+                                <circle cx="20" cy="26" r="1.6" />
+                                <circle cx="27" cy="26" r="1.6" />
+
+                                {/* Mic stand - single vertical dot */}
+                                <circle cx="20" cy="31" r="1.6" />
+
+                                {/* Mic base - 3 dots */}
+                                <circle cx="13" cy="35" r="1.6" />
+                                <circle cx="20" cy="35" r="1.6" />
+                                <circle cx="27" cy="35" r="1.6" />
+                              </g>
+                            </svg>
+                          </motion.button>
+                        </div>
+                        <div className="flex-1 flex flex-col">
+                          <div className="relative bg-white rounded-xl border-0 flex items-center">
                         <input
                           type="text"
                           value={searchInput}
@@ -1161,7 +1545,6 @@ export function TeaserPage() {
                           placeholder="Ask me anything about Nexbit..."
                           className="w-full rounded-xl pl-4 pr-4 pt-4 pb-4 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none bg-transparent border-0"
                         />
-                      </div>
                     </div>
                     <motion.div 
                       layoutId="suggested-buttons-container"
@@ -1215,6 +1598,9 @@ export function TeaserPage() {
                         </svg>
                       </motion.button>
                     </motion.div>
+                        </div>
+                      </div>
+                    </div>
                     <motion.p 
                       layoutId="disclaimer-text"
                       className="text-xs text-gray-500 px-1 pt-3 pb-0 relative z-10"

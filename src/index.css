@@ -145,7 +145,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  background: #f7efe3;
+  background: #0E0E13;
 }
 
 /* Font loading verification - Montserrat should be distinctly different from default fonts */
@@ -200,7 +200,7 @@ body {
   min-height: 100vh;
   width: 100%;
   position: relative;
-  background: #f7efe3;
+  background: #0E0E13;
   overscroll-behavior-y: contain; /* prevent browser overscroll flash */
 }
 
