@@ -750,8 +750,8 @@ export function TeaserPage() {
               </div>
             </header>
 
-          {/* Left Aligned Text Content */}
-            <div className="text-left flex flex-col justify-center items-start gap-6 py-10">
+          {/* Left Aligned Text Content - Centered Container */}
+            <div className="text-left flex flex-col justify-center items-start gap-6 py-10 mt-16 md:mt-20 lg:mt-24 max-w-6xl mx-auto ml-8 md:ml-12 lg:ml-16">
             
             {/* Main Heading - Left Aligned */}
             <div className="mb-4">
@@ -923,123 +923,193 @@ export function TeaserPage() {
         </div>
       </section>
 
-      {/* Feature Cards - stacked per-section timeline (Delve-style) */}
+      {/* Feature Cards - 4 Quadrant Grid Design */}
       <section
-        className="relative z-10 mb-0"
+        className="relative z-10 mb-0 lg:py-16 lg:py-24"
         style={{
-          backgroundColor: '#FFFFFF',
+          backgroundColor: '#F5EEDC',
           backgroundImage:
-            'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.05) 1px, transparent 0)',
-          backgroundSize: '18px 18px',
+            'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.12) 1px, transparent 0)',
+          backgroundSize: '22px 22px',
         }}
       >
-        <div className="relative w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16 pb-10 lg:pb-12">
-          {/* Extended vertical border lines - from top of section, aligned with feature boxes container */}
-          <div className="absolute top-0 bottom-0 left-0 w-px bg-black/30 pointer-events-none" />
-          <div className="absolute top-0 bottom-0 right-0 w-px bg-black/30 pointer-events-none" />
-          
-          <div className="mb-10 sm:mb-14">
-            <p className="text-xs uppercase tracking-[0.35em] text-gray-500">
-              PRODUCT
-            </p>
-            <h2 className="mt-3 text-2xl sm:text-3xl lg:text-[2.4rem] font-clash-grotesk text-black leading-tight">
-              Design a funnel that converts,<br className="hidden sm:block" /> one card at a time.
-            </h2>
-          </div>
+        <div className="relative w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16 pb-14 lg:pb-20">
+          {/* 4 Quadrant Grid Container */}
+          <div className="w-full max-w-6xl mx-auto">
+            {/* Grid: 2x2 layout - Square on desktop, stacked on mobile */}
+            <div className="w-full max-w-5xl mx-auto relative">
+              <div className="grid grid-cols-1 md:grid-cols-2 md:[grid-template-rows:repeat(2,1fr)] border-l border-r border-black/20"
+                style={{
+                  backgroundColor: '#F5EEDC',
+                  backgroundImage:
+                    'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.12) 1px, transparent 0)',
+                  backgroundSize: '22px 22px',
+                  aspectRatio: '1 / 1',
+                  gap: '68px',
+                  rowGap: '68px',
+                }}
+              >
+              {/* Top Left: Headline */}
+              <div className="relative p-6 sm:p-8 lg:p-12 flex flex-col justify-center items-start h-full w-full"
+                style={{
+                  backgroundColor: '#F5EEDC',
+                  backgroundImage:
+                    'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.12) 1px, transparent 0)',
+                  backgroundSize: '22px 22px',
+                }}
+              >
+                <p className="text-xs uppercase tracking-[0.35em] text-gray-500 mb-4">
+                  PRODUCT
+                </p>
+                <h2 className="text-2xl sm:text-3xl lg:text-[2.4rem] xl:text-[3rem] font-clash-grotesk text-black leading-tight">
+                  A funnel that converts,<br /> one card at a time.
+                </h2>
+              </div>
 
-          <div className="relative">
-            {/* Extended top border - full screen width */}
-            <div 
-              className="absolute top-0 left-0 right-0 h-px bg-black/30 pointer-events-none"
-              style={{
-                left: 'calc(-1 * ((100vw - 100%) / 2))',
-                right: 'calc(-1 * ((100vw - 100%) / 2))',
-              }}
-            />
-            {/* Extended bottom border - full screen width */}
-            <div 
-              className="absolute bottom-0 left-0 right-0 h-px bg-black/30 pointer-events-none"
-              style={{
-                left: 'calc(-1 * ((100vw - 100%) / 2))',
-                right: 'calc(-1 * ((100vw - 100%) / 2))',
-              }}
-            />
-            <div className="relative">
-              {featureCards.map((feature, idx) => (
-                <React.Fragment key={feature.label}>
-                  <div
-                    className="relative mb-10 lg:mb-12 min-h-[200px] flex items-center"
-                    style={{
-                      backgroundColor: '#FFFFFF',
-                      backgroundImage:
-                        'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.05) 1px, transparent 0)',
-                      backgroundSize: '18px 18px',
-                    }}
-                  >
-                    <div className="grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] gap-6 lg:gap-10 w-full pt-4 sm:pt-6">
-                      {/* Left: text content */}
-                      <div className="order-2 lg:order-1 space-y-2 px-3 sm:px-4 py-2 sm:py-3">
-                        <div className="flex items-center gap-2">
-                          <div
-                            className="h-7 w-7 rounded-full flex items-center justify-center shadow-[0_10px_30px_rgba(0,0,0,0.35)]"
-                            style={{ backgroundColor: feature.color }}
-                          >
-                            <span className="text-base text-black/70">·</span>
-                          </div>
-                          <p className="text-xs sm:text-sm font-medium text-[#14110F]">
-                            {feature.label}
-                          </p>
-                        </div>
-                        <h3 className="text-lg sm:text-xl lg:text-[1.12rem] font-clash-grotesk font-semibold text-[#14110F]">
-                          {feature.title}
-                        </h3>
-                        <p className="text-xs sm:text-[0.665rem] text-[#4D463F] leading-relaxed max-w-xl">
-                          {feature.body}
-                        </p>
-                      </div>
+              {/* Top Right: First Feature */}
+              <div className="relative flex flex-col overflow-hidden h-full w-full"
+                style={{
+                  backgroundColor: '#F5EEDC',
+                  backgroundImage:
+                    'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.12) 1px, transparent 0)',
+                  backgroundSize: '22px 22px',
+                }}
+              >
+                {/* Image: 60% of height */}
+                <div className="relative w-full overflow-hidden" style={{ height: '60%', backgroundColor: 'transparent' }}>
+                  <img
+                    src={featureCards[0].image}
+                    alt={featureCards[0].title}
+                    className="w-full h-full object-cover"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    loading="lazy"
+                  />
+                </div>
+                {/* Text: 40% of height */}
+                <div className="p-4 sm:p-6 lg:p-8 flex flex-col justify-center overflow-hidden" style={{ height: '40%' }}>
+                  <h3 className="text-base sm:text-lg lg:text-xl font-clash-grotesk font-semibold text-[#14110F] leading-tight mb-2">
+                    {featureCards[0].title}
+                  </h3>
+                  <p className="text-xs sm:text-sm lg:text-base text-[#4D463F] leading-relaxed line-clamp-2">
+                    {featureCards[0].body}
+                  </p>
+                </div>
+              </div>
 
-                      {/* Right: card image */}
-                      {/* Mobile / tablet: simple inline card */}
-                      <div className="order-1 lg:order-2 lg:hidden flex items-center justify-center">
-                        <div className="overflow-hidden" style={{ width: '48%', height: '48%' }}>
-                          <img
-                            src={feature.image}
-                            alt={feature.title}
-                            className="w-full h-auto object-cover"
-                            loading="lazy"
-                          />
-                        </div>
-                      </div>
+              {/* Bottom Left: Third Feature */}
+              <div className="relative flex flex-col overflow-hidden h-full w-full"
+                style={{
+                  backgroundColor: '#F5EEDC',
+                  backgroundImage:
+                    'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.12) 1px, transparent 0)',
+                  backgroundSize: '22px 22px',
+                }}
+              >
+                {/* Image: 60% of height */}
+                <div className="relative w-full overflow-hidden" style={{ height: '60%', backgroundColor: 'transparent' }}>
+                  <img
+                    src={featureCards[2].image}
+                    alt={featureCards[2].title}
+                    className="w-full h-full object-cover"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    loading="lazy"
+                  />
+                </div>
+                {/* Text: 40% of height */}
+                <div className="p-4 sm:p-6 lg:p-8 flex flex-col justify-center overflow-hidden" style={{ height: '40%' }}>
+                  <h3 className="text-base sm:text-lg lg:text-xl font-clash-grotesk font-semibold text-[#14110F] leading-tight mb-2">
+                    {featureCards[2].title}
+                  </h3>
+                  <p className="text-xs sm:text-sm lg:text-base text-[#4D463F] leading-relaxed line-clamp-2">
+                    {featureCards[2].body}
+                  </p>
+                </div>
+              </div>
 
-                      {/* Desktop: sticky card that stacks as you scroll between sections */}
-                      <div className="hidden lg:block order-2 flex items-center justify-center">
-                        <div className="sticky top-24">
-                          <div className="overflow-hidden" style={{ width: '48%', height: '48%' }}>
-                            <img
-                              src={feature.image}
-                              alt={feature.title}
-                              className="w-full h-auto object-cover"
-                              loading="lazy"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Extended horizontal border line between boxes - extends full screen width */}
-                  {idx < featureCards.length - 1 && (
-                    <div className="relative mb-10 lg:mb-12">
-                      <div 
-                        className="absolute top-1/2 h-px bg-black/15 pointer-events-none"
-                        style={{
-                          left: 'calc(-1 * ((100vw - 100%) / 2))',
-                          right: 'calc(-1 * ((100vw - 100%) / 2))',
-                        }}
-                      />
-                    </div>
-                  )}
-                </React.Fragment>
-              ))}
+              {/* Bottom Right: Second Feature */}
+              <div className="relative flex flex-col overflow-hidden h-full w-full"
+                style={{
+                  backgroundColor: '#F5EEDC',
+                  backgroundImage:
+                    'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.12) 1px, transparent 0)',
+                  backgroundSize: '22px 22px',
+                }}
+              >
+                {/* Image: 60% of height */}
+                <div className="relative w-full overflow-hidden" style={{ height: '60%', backgroundColor: 'transparent' }}>
+                  <img
+                    src={featureCards[1].image}
+                    alt={featureCards[1].title}
+                    className="w-full h-full object-cover"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    loading="lazy"
+                  />
+                </div>
+                {/* Text: 40% of height */}
+                <div className="p-4 sm:p-6 lg:p-8 flex flex-col justify-center overflow-hidden" style={{ height: '40%' }}>
+                  <h3 className="text-base sm:text-lg lg:text-xl font-clash-grotesk font-semibold text-[#14110F] leading-tight mb-2">
+                    {featureCards[1].title}
+                  </h3>
+                  <p className="text-xs sm:text-sm lg:text-base text-[#4D463F] leading-relaxed line-clamp-2">
+                    {featureCards[1].body}
+                  </p>
+                </div>
+              </div>
+              </div>
+              {/* Single vertical divider line - positioned at right edge of left column */}
+              <div 
+                className="hidden md:block absolute top-0 bottom-0 w-px bg-black/20 pointer-events-none"
+                style={{
+                  left: 'calc(50% - 34px)',
+                }}
+              />
+              {/* Single vertical divider line - positioned at left edge of right column */}
+              <div 
+                className="hidden md:block absolute top-0 bottom-0 w-px bg-black/20 pointer-events-none"
+                style={{
+                  left: 'calc(50% + 34px)',
+                }}
+              />
+              {/* Single horizontal divider line - positioned at top of bigger square, extends full width */}
+              <div 
+                className="hidden md:block absolute h-px bg-black/20 pointer-events-none"
+                style={{
+                  top: '0',
+                  left: '50%',
+                  width: '100vw',
+                  transform: 'translateX(-50%)',
+                }}
+              />
+              {/* Single horizontal divider line - positioned at bottom of top row, extends full width */}
+              <div 
+                className="hidden md:block absolute h-px bg-black/20 pointer-events-none"
+                style={{
+                  top: 'calc(50% - 34px)',
+                  left: '50%',
+                  width: '100vw',
+                  transform: 'translateX(-50%)',
+                }}
+              />
+              {/* Single horizontal divider line - positioned at top of bottom row, extends full width */}
+              <div 
+                className="hidden md:block absolute h-px bg-black/20 pointer-events-none"
+                style={{
+                  top: 'calc(50% + 34px)',
+                  left: '50%',
+                  width: '100vw',
+                  transform: 'translateX(-50%)',
+                }}
+              />
+              {/* Single horizontal divider line - positioned at bottom of bigger square, extends full width */}
+              <div 
+                className="hidden md:block absolute h-px bg-black/20 pointer-events-none"
+                style={{
+                  bottom: '0',
+                  left: '50%',
+                  width: '100vw',
+                  transform: 'translateX(-50%)',
+                }}
+              />
             </div>
           </div>
         </div>
@@ -1120,10 +1190,7 @@ export function TeaserPage() {
               <div className="relative h-full md:h-auto">
                 <motion.div 
                   layoutId="docked-chat-shell"
-                  className="h-full md:h-auto md:rounded-2xl border-0 md:border border-gray-100 shadow-[0_25px_60px_rgba(15,15,15,0.18)] overflow-hidden relative"
-                  style={{
-                    background: 'transparent'
-                  }}
+                  className="h-full md:h-auto md:rounded-2xl border-0 md:border border-gray-100 shadow-[0_25px_60px_rgba(15,15,15,0.18)] overflow-hidden relative bg-white"
                   transition={{ 
                     layout: {
                       type: 'spring', 
@@ -1133,9 +1200,7 @@ export function TeaserPage() {
                     }
                   }}
                 >
-                  <motion.div className="absolute bg-white pointer-events-none rounded-t-2xl" style={{ top: 0, bottom: '40px', left: 0, right: 0 }} layout={false}></motion.div>
-                  <motion.div className="absolute bg-white pointer-events-none" style={{ bottom: 0, height: '40px', left: 0, right: 0, opacity: 0.8 }} layout={false}></motion.div>
-                  <div className="flex flex-col h-full md:h-[620px] relative z-10">
+                  <div className="flex flex-col h-full md:h-[310px] relative z-10">
                   <div className="flex items-center justify-between gap-4 px-5 py-2 border-b border-gray-100 bg-white/95">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-1xl overflow-hidden flex items-center justify-center shadow-inner bg-gray-100">
@@ -1239,7 +1304,7 @@ export function TeaserPage() {
                   <motion.div 
                     layoutId="input-form-container"
                     layout="position"
-                    className="px-3 py-3 border-t border-gray-100 bg-transparent relative z-20" 
+                    className="px-2 py-1.5 border-t border-gray-100 bg-white relative z-20 overflow-hidden" 
                     transition={{ duration: 0 }}
                   >
                     <motion.form
@@ -1251,7 +1316,7 @@ export function TeaserPage() {
                           handleSendMessage(searchInput.trim());
                         }
                       }}
-                      className="flex flex-col gap-0 w-full"
+                      className="flex flex-col gap-0 w-full overflow-hidden"
                     >
                       <div className="flex items-stretch gap-1 w-full">
                         <div className="flex items-center justify-center">
@@ -1260,7 +1325,7 @@ export function TeaserPage() {
                             layout={false}
                             whileHover={{ scale: 1.03 }}
                             whileTap={{ scale: 0.97 }}
-                            className="inline-flex items-center justify-center rounded-2xl w-16 h-16 sm:w-20 sm:h-20 bg-white text-gray-100 shadow-sm border-[6px]"
+                            className="inline-flex items-center justify-center rounded-2xl w-12 h-12 sm:w-14 sm:h-14 bg-white text-gray-100 shadow-sm border-[4px]"
                             style={{ borderColor: '#564F4B' }}
                             aria-label="Start voice input"
                             onClick={(e) => {
@@ -1270,7 +1335,7 @@ export function TeaserPage() {
                             }}
                           >
                             <svg
-                              className="w-10 h-10 sm:w-12 sm:h-12"
+                              className="w-7 h-7 sm:w-8 sm:h-8"
                               viewBox="0 0 40 40"
                               xmlns="http://www.w3.org/2000/svg"
                             >
@@ -1315,20 +1380,20 @@ export function TeaserPage() {
                             </svg>
                           </motion.button>
                         </div>
-                        <div className="flex-1 flex flex-col">
-                          <div className="relative bg-white rounded-xl flex items-center">
+                        <div className="flex-1 flex flex-col overflow-hidden">
+                          <div className="relative bg-white rounded-lg flex items-center overflow-hidden">
                           <input
                             type="text"
                             value={searchInput}
                             onChange={(e) => setSearchInput(e.target.value)}
                             placeholder="Ask me anything about Nexbit..."
                             disabled={isLoadingMessage}
-                            className="w-full rounded-xl pl-4 pr-4 pt-4 pb-4 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed bg-transparent border-0"
+                            className="w-full rounded-lg pl-2.5 pr-2.5 pt-1 pb-1 text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed bg-transparent border-0"
                           />
                       </div>
                       <motion.div 
                         layoutId="suggested-buttons-container"
-                        className="flex gap-2 items-center px-1 pt-2 pb-1"
+                        className="flex gap-1.5 items-center px-1 pt-1 pb-0.5"
                         transition={{ duration: 0 }}
                       >
                         <motion.button
@@ -1337,7 +1402,7 @@ export function TeaserPage() {
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           onClick={() => handleSendMessage("Why Nexbit?")}
-                          className="px-3 py-1.5 text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
+                          className="px-2 py-1 text-[10px] sm:text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
                         >
                           Why Nexbit?
                         </motion.button>
@@ -1347,7 +1412,7 @@ export function TeaserPage() {
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           onClick={() => handleSendMessage("Tell me about pricing")}
-                          className="px-3 py-1.5 text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
+                          className="px-2 py-1 text-[10px] sm:text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
                         >
                           Tell me about pricing
                         </motion.button>
@@ -1357,7 +1422,7 @@ export function TeaserPage() {
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           onClick={() => handleSendMessage("How fast can we go live?")}
-                          className="px-3 py-1.5 text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
+                          className="px-2 py-1 text-[10px] sm:text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
                         >
                         How fast can we go live?
                       </motion.button>
@@ -1367,7 +1432,7 @@ export function TeaserPage() {
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           onClick={() => handleSendMessage("List some of your features")}
-                          className="px-3 py-1.5 text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
+                          className="px-2 py-1 text-[10px] sm:text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
                         >
                         List some of your features
                       </motion.button>
@@ -1378,7 +1443,7 @@ export function TeaserPage() {
                           disabled={isLoadingMessage || !searchInput.trim()}
                           whileHover={{ scale: searchInput.trim() && !isLoadingMessage ? 1.03 : 1 }}
                           whileTap={{ scale: searchInput.trim() && !isLoadingMessage ? 0.97 : 1 }}
-                          className="inline-flex items-center justify-center rounded-md text-white w-10 h-10 shadow-sm transition disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 ml-auto"
+                          className="inline-flex items-center justify-center rounded-md text-white w-8 h-8 shadow-sm transition disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 ml-auto"
                           style={{ backgroundColor: '#564F4B' }}
                           onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#4a433f'}
                           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#564F4B'}
@@ -1386,7 +1451,7 @@ export function TeaserPage() {
                           transition={{ duration: 0 }}
                         >
                           <svg 
-                            className="w-4 h-4" 
+                            className="w-3 h-3" 
                             fill="none" 
                             stroke="currentColor" 
                             viewBox="0 0 24 24"
@@ -1397,14 +1462,6 @@ export function TeaserPage() {
                       </motion.div>
                         </div>
                       </div>
-                      <motion.p 
-                        layoutId="disclaimer-text"
-                        className="text-xs px-1 pt-3 pb-0 relative z-10"
-                        style={{ color: '#000000' }}
-                        transition={{ duration: 0 }}
-                      >
-                        By continuing, you agree this conversation may be recorded and used per our privacy policy.
-                      </motion.p>
                     </motion.form>
                   </motion.div>
                   </div>
@@ -1441,10 +1498,7 @@ export function TeaserPage() {
                 )}
                 <motion.div 
                   layoutId="docked-chat-shell"
-                  className="rounded-2xl border border-gray-200 shadow-[0_15px_45px_rgba(15,15,15,0.12)] relative overflow-hidden"
-                  style={{
-                    background: 'transparent'
-                  }}
+                  className="rounded-2xl border border-gray-200 shadow-[0_15px_45px_rgba(15,15,15,0.12)] relative overflow-hidden bg-white"
                   transition={{ 
                     layout: {
                       type: 'spring', 
@@ -1454,9 +1508,7 @@ export function TeaserPage() {
                     }
                   }}
                 >
-                  <motion.div className="absolute bg-white pointer-events-none rounded-t-2xl" style={{ top: 0, bottom: '40px', left: 0, right: 0 }} layout={false}></motion.div>
-                  <motion.div className="absolute bg-white pointer-events-none" style={{ bottom: 0, height: '40px', left: 0, right: 0, opacity: 0.8 }} layout={false}></motion.div>
-                  <div className="px-3 py-3 min-h-[170px] md:min-h-[150px] flex flex-col justify-end relative z-10">
+                  <div className="px-3 py-3 min-h-[85px] md:min-h-[75px] flex flex-col justify-end relative z-10">
                   </div>
                 </motion.div>
                 
@@ -1464,7 +1516,7 @@ export function TeaserPage() {
                   <motion.div 
                     layoutId="input-form-container"
                     layout="position"
-                    className="absolute inset-0 flex flex-col justify-end px-3 py-3 z-20"
+                    className="absolute inset-0 flex flex-col justify-end px-2 py-1.5 z-20 overflow-hidden"
                     style={{ 
                       pointerEvents: isTransitioning ? 'none' : 'auto',
                       opacity: isTransitioning ? 0 : 1,
@@ -1480,7 +1532,7 @@ export function TeaserPage() {
                             layout={false}
                             whileHover={{ scale: 1.03 }}
                             whileTap={{ scale: 0.97 }}
-                            className="inline-flex items-center justify-center rounded-3xl w-16 h-16 sm:w-20 sm:h-20 bg-white text-gray-100 shadow-sm border-[1px]"
+                            className="inline-flex items-center justify-center rounded-3xl w-12 h-12 sm:w-14 sm:h-14 bg-white text-gray-100 shadow-sm border-[1px]"
                             style={{ borderColor: '#564F4B' }}
                             aria-label="Start voice input"
                             onClick={(e) => {
@@ -1490,7 +1542,7 @@ export function TeaserPage() {
                             }}
                           >
                             <svg
-                              className="w-10 h-10 sm:w-12 sm:h-12"
+                              className="w-7 h-7 sm:w-8 sm:h-8"
                               viewBox="0 0 40 40"
                               xmlns="http://www.w3.org/2000/svg"
                             >
@@ -1535,8 +1587,8 @@ export function TeaserPage() {
                             </svg>
                           </motion.button>
                         </div>
-                        <div className="flex-1 flex flex-col">
-                          <div className="relative bg-white rounded-xl border-0 flex items-center">
+                        <div className="flex-1 flex flex-col overflow-hidden">
+                          <div className="relative bg-white rounded-lg border-0 flex items-center overflow-hidden">
                         <input
                           type="text"
                           value={searchInput}
@@ -1549,19 +1601,19 @@ export function TeaserPage() {
                             }
                           }}
                           placeholder="Ask me anything about Nexbit..."
-                          className="w-full rounded-xl pl-4 pr-4 pt-4 pb-4 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none bg-transparent border-0"
+                          className="w-full rounded-lg pl-2.5 pr-2.5 pt-1 pb-1 text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none bg-transparent border-0"
                         />
                     </div>
                     <motion.div 
                       layoutId="suggested-buttons-container"
-                      className="flex gap-2 items-center px-1 pt-2 pb-1"
+                      className="flex gap-1.5 items-center px-1 pt-1 pb-0.5"
                       transition={{ duration: 0 }}
                     >
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => handleSendMessage("Why Nexbit?")}
-                        className="px-3 py-1.5 text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
+                        className="px-2 py-1 text-[10px] sm:text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
                       >
                         Why Nexbit?
                       </motion.button>
@@ -1569,7 +1621,7 @@ export function TeaserPage() {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => handleSendMessage("Tell me about pricing")}
-                        className="px-3 py-1.5 text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
+                        className="px-2 py-1 text-[10px] sm:text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
                       >
                         Tell me about pricing
                       </motion.button> */}
@@ -1577,7 +1629,7 @@ export function TeaserPage() {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => handleSendMessage("How fast can we go live?")}
-                        className="px-3 py-1.5 text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
+                        className="px-2 py-1 text-[10px] sm:text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
                       >
                         How fast can we go live?
                       </motion.button>
@@ -1587,7 +1639,7 @@ export function TeaserPage() {
                         whileTap={{ scale: searchInput.trim() ? 0.97 : 1 }}
                         onClick={handleStartChat}
                         disabled={!searchInput.trim()}
-                        className="inline-flex items-center justify-center rounded-md text-white w-10 h-10 shadow-sm transition disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 ml-auto"
+                        className="inline-flex items-center justify-center rounded-md text-white w-8 h-8 shadow-sm transition disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 ml-auto"
                         style={{ backgroundColor: '#564F4B' }}
                         onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#4a433f'}
                         onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#564F4B'}
@@ -1595,7 +1647,7 @@ export function TeaserPage() {
                         transition={{ duration: 0 }}
                       >
                         <svg 
-                          className="w-4 h-4" 
+                          className="w-3 h-3" 
                           fill="none" 
                           stroke="currentColor" 
                           viewBox="0 0 24 24"
@@ -1607,13 +1659,6 @@ export function TeaserPage() {
                         </div>
                       </div>
                     </div>
-                    <motion.p 
-                      layoutId="disclaimer-text"
-                      className="text-xs text-gray-500 px-1 pt-3 pb-0 relative z-10"
-                      transition={{ duration: 0 }}
-                    >
-                      By continuing, you agree this conversation may be recorded and used per our privacy policy.
-                    </motion.p>
                   </motion.div>
                 )}
               </div>
