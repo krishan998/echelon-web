@@ -17,6 +17,11 @@ import reliableIcon from '../assets/reliable.svg';
 import scalableIcon from '../assets/scalable.svg';
 import reliableSectionImage from '../assets/reliablesection.png';
 import heroBgVideo from '../assets/herobg.webm';
+import increasedemoIcon from '../assets/selling_points/increasedemo.png';
+import fdeIcon from '../assets/selling_points/fde.png';
+import uptimeIcon from '../assets/selling_points/uptime.png';
+import latencyIcon from '../assets/selling_points/latency.png';
+import securityIcon from '../assets/selling_points/security.png';
 
 const createMessageId = () => `msg-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
@@ -186,22 +191,25 @@ export function TeaserPage() {
 
   const whyNexbitRows = [
     {
-      label: '5x',
+      label: '5x Demo Requests',
       color: '#E9B3FF',
       title: 'Increase demo requests',
       body: '5x increase in demo requests from chat first discovery on search and catalogue.',
+      icon: increasedemoIcon,
     },
     {
       label: 'Forward-deployed team',
       color: '#FFB27B',
       title: 'Hands-on deployment support',
       body: 'Partner with a forward-deployed engineer to go live quickly and keep your playbooks evolving.',
+      icon: fdeIcon,
     },
     {
       label: '99.99% uptime',
       color: '#E9B3FF',
       title: 'Enterprise-grade reliability',
       body: 'Our AI agents are built on a hardened runtime with multi-region failover and continuous monitoring.',
+      icon: uptimeIcon,
     },
    
     {
@@ -209,12 +217,14 @@ export function TeaserPage() {
       color: '#7BD8FF',
       title: 'Instant, human-like experiences',
       body: 'Low-latency infra ensures every interaction feels natural, even at peak traffic.',
+      icon: latencyIcon,
     },
     {
       label: 'AI guardrails',
       color: '#7BFFD6',
       title: 'Controlled, compliant conversations',
       body: 'Guardrails and policies keep every response on brand, on topic, and safe for your users.',
+      icon: securityIcon,
     },
   ];
 
@@ -815,7 +825,7 @@ export function TeaserPage() {
                     Integrations
                   </p>
                   <h2 className="text-3xl sm:text-[2.3rem] lg:text-[3.1rem] font-clash-grotesk text-white leading-tight">
-                    Integrate with more than 40+ apps in a snap.
+                    Integrate with more than 20+ apps in a snap.
                   </h2>
             </div>
 
@@ -869,14 +879,10 @@ export function TeaserPage() {
               {/* Left: headline + feature rows */}
               <div className="flex-1 space-y-10 text-[#14110F]">
                 <h2 className="text-2xl sm:text-[2.3rem] lg:text-[2.8rem] font-clash-grotesk leading-tight flex flex-wrap md:flex-nowrap gap-3 items-center">
-                  <span className="font-medium inline-flex items-center gap-2 whitespace-nowrap">
-                    Reliable.
-                    <img src={reliableIcon} alt="Reliable icon" className="h-7 w-7 sm:h-8 sm:w-8" />
-                  </span>
-                  <span className="font-medium inline-flex items-center gap-2 whitespace-nowrap">
-                    Scalable.
-                    <img src={scalableIcon} alt="Scalable icon" className="h-7 w-7 sm:h-8 sm:w-8" />
-                  </span>
+                  <span className="font-medium whitespace-nowrap">Reliable.</span>
+                  <img src={reliableIcon} alt="Reliable icon" className="h-7 w-7 sm:h-8 sm:w-8 flex-shrink-0" />
+                  <span className="font-medium whitespace-nowrap">Scalable.</span>
+                  <img src={scalableIcon} alt="Scalable icon" className="h-7 w-7 sm:h-8 sm:w-8 flex-shrink-0" />
                   <span className="font-medium whitespace-nowrap">Secure.</span>
                 </h2>
 
@@ -893,8 +899,11 @@ export function TeaserPage() {
                           className="h-11 w-11 rounded-full flex items-center justify-center shadow-[0_8px_18px_rgba(0,0,0,0.18)]"
                           style={{ backgroundColor: row.color }}
                         >
-                          {/* Simple icon placeholder - can be replaced with real icons */}
-                          <span className="text-lg">·</span>
+                          <img
+                            src={row.icon}
+                            alt={row.title}
+                            className="w-6 h-6 object-contain"
+                          />
                         </div>
                         <p className="text-sm sm:text-base font-medium">{row.label}</p>
                       </div>
@@ -958,11 +967,9 @@ export function TeaserPage() {
                   backgroundSize: '22px 22px',
                 }}
               >
-                <p className="text-xs uppercase tracking-[0.35em] text-gray-500 mb-4">
-                  PRODUCT
-                </p>
+               
                 <h2 className="text-2xl sm:text-3xl lg:text-[2.4rem] xl:text-[3rem] font-clash-grotesk text-black leading-tight">
-                  A funnel that converts,<br /> one card at a time.
+                  A funnel that converts
                 </h2>
               </div>
 
@@ -986,7 +993,7 @@ export function TeaserPage() {
                   />
                 </div>
                 {/* Text: 40% of height */}
-                <div className="p-4 sm:p-6 lg:p-8 flex flex-col justify-center overflow-hidden" style={{ height: '40%' }}>
+                <div className="pt-0 pl-2 sm:pl-3 lg:pl-4 pr-4 sm:pr-6 lg:pr-8 pb-4 sm:pb-6 lg:pb-8 flex flex-col justify-center overflow-hidden" style={{ height: '40%' }}>
                   <h3 className="text-base sm:text-lg lg:text-xl font-clash-grotesk font-semibold text-[#14110F] leading-tight mb-2">
                     {featureCards[0].title}
                   </h3>
@@ -1016,7 +1023,7 @@ export function TeaserPage() {
                   />
                 </div>
                 {/* Text: 40% of height */}
-                <div className="p-4 sm:p-6 lg:p-8 flex flex-col justify-center overflow-hidden" style={{ height: '40%' }}>
+                <div className="pt-0 pl-2 sm:pl-3 lg:pl-4 pr-4 sm:pr-6 lg:pr-8 pb-4 sm:pb-6 lg:pb-8 flex flex-col justify-center overflow-hidden" style={{ height: '40%' }}>
                   <h3 className="text-base sm:text-lg lg:text-xl font-clash-grotesk font-semibold text-[#14110F] leading-tight mb-2">
                     {featureCards[2].title}
                   </h3>
@@ -1046,7 +1053,7 @@ export function TeaserPage() {
                   />
                 </div>
                 {/* Text: 40% of height */}
-                <div className="p-4 sm:p-6 lg:p-8 flex flex-col justify-center overflow-hidden" style={{ height: '40%' }}>
+                <div className="pt-0 pl-2 sm:pl-3 lg:pl-4 pr-4 sm:pr-6 lg:pr-8 pb-4 sm:pb-6 lg:pb-8 flex flex-col justify-center overflow-hidden" style={{ height: '40%' }}>
                   <h3 className="text-base sm:text-lg lg:text-xl font-clash-grotesk font-semibold text-[#14110F] leading-tight mb-2">
                     {featureCards[1].title}
                   </h3>
@@ -1120,18 +1127,7 @@ export function TeaserPage() {
         className="relative z-0 w-full"
         data-section="footer"
         style={{
-          backgroundColor: '#1A4923',
-          backgroundImage: `
-            url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)' opacity='0.2'/%3E%3C/svg%3E"),
-            radial-gradient(ellipse at 15px 23px, rgba(255,255,255,0.06) 1.5px, transparent 1.5px),
-            radial-gradient(ellipse at 47px 12px, rgba(255,255,255,0.05) 1px, transparent 1px),
-            radial-gradient(ellipse at 78px 45px, rgba(255,255,255,0.07) 2px, transparent 2px),
-            radial-gradient(ellipse at 123px 67px, rgba(255,255,255,0.04) 1px, transparent 1px),
-            radial-gradient(ellipse at 156px 34px, rgba(255,255,255,0.06) 1.5px, transparent 1.5px),
-            radial-gradient(ellipse at 189px 89px, rgba(255,255,255,0.05) 1px, transparent 1px)
-          `,
-          backgroundSize: '200px 200px, 180px 180px, 160px 160px, 140px 140px, 120px 120px, 100px 100px',
-          backgroundPosition: '0 0, 20px 30px, 40px 10px, 60px 50px, 80px 20px, 100px 70px'
+          backgroundColor: '#1A4923'
         }}
       >
         {/* Main Footer Content */}
@@ -1158,6 +1154,31 @@ export function TeaserPage() {
         </div>
         </div>
       </footer>
+
+      {/* End of Page - NEXBIT */}
+      <div
+        className="relative z-0 w-full"
+        style={{
+          backgroundColor: '#1A4923'
+        }}
+      >
+        <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16 pt-4 md:pt-6 pb-20 md:pb-32">
+          <div className="text-center">
+            <h1 
+              className="text-8xl sm:text-9xl md:text-[10rem] lg:text-[16rem] xl:text-[20rem] 2xl:text-[24rem] font-clash-grotesk font-bold italic tracking-tight leading-none"
+              style={{
+                fontFamily: '\'Clash Grotesk\', sans-serif',
+                background: 'linear-gradient(to bottom, rgba(245,238,220,0.2) 0%, rgba(245,238,220,0.4) 20%, rgba(245,238,220,0.7) 50%, rgba(245,238,220,0.9) 80%, rgba(245,238,220,1) 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              NEXBIT
+            </h1>
+          </div>
+        </div>
+      </div>
 
       {/* Docked Chat overlay */}
       <AnimatePresence>
