@@ -30,7 +30,8 @@ const SystemMessageBubble: React.FC<{
   text: string;
   cta?: ChatCta | null;
   normalizeUrl: (raw: string) => string;
-}> = ({ text, cta, normalizeUrl }) => {
+  onTextUpdate?: () => void;
+}> = ({ text, cta, normalizeUrl, onTextUpdate }) => {
   const [displayedText, setDisplayedText] = useState('');
   const [isComplete, setIsComplete] = useState(false);
 
@@ -55,16 +56,24 @@ const SystemMessageBubble: React.FC<{
     const intervalId = window.setInterval(() => {
       index += 1;
       setDisplayedText(text.slice(0, index));
+      // Trigger scroll on each text update
+      if (onTextUpdate) {
+        onTextUpdate();
+      }
       if (index >= text.length) {
         window.clearInterval(intervalId);
         setIsComplete(true);
+        // Final scroll when complete
+        if (onTextUpdate) {
+          onTextUpdate();
+        }
       }
     }, step);
 
     return () => {
       window.clearInterval(intervalId);
     };
-  }, [text]);
+  }, [text, onTextUpdate]);
 
   const ctaHref = cta?.url ? normalizeUrl(cta.url) : '';
 
@@ -141,6 +150,7 @@ export function TeaserPage() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatPanelRef = useRef<HTMLDivElement>(null);
+  const chatScrollContainerRef = useRef<HTMLDivElement>(null);
   const introBlockRef = useRef<HTMLDivElement>(null);
   const scrollPositionRef = useRef<number>(0);
   const earlyAccessButtonRef = useRef<HTMLButtonElement>(null);
@@ -279,11 +289,20 @@ export function TeaserPage() {
   const isCollapsedTipActive = !showChatBox;
 
   // Auto-scroll to latest message (only within chat box, not the page)
-  useEffect(() => {
+  const scrollToBottom = useCallback(() => {
     if (messagesEndRef.current && showChatBox) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      // Use requestAnimationFrame for smooth scrolling during text animation
+      requestAnimationFrame(() => {
+        if (messagesEndRef.current) {
+          messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      });
     }
-  }, [chatMessages, showChatBox]);
+  }, [showChatBox]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatMessages, showChatBox, scrollToBottom]);
   
 
   useEffect(() => {
@@ -1301,7 +1320,7 @@ export function TeaserPage() {
                     }
                   }}
                 >
-                  <div className="flex flex-col h-full md:h-[310px] relative z-10">
+                  <div className="flex flex-col h-full md:h-[650px] relative z-10">
                   <div className="flex items-center justify-between gap-4 px-5 py-2 border-b border-gray-100 bg-white/95">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-1xl overflow-hidden flex items-center justify-center shadow-inner bg-gray-100">
@@ -1327,7 +1346,7 @@ export function TeaserPage() {
                       </svg>
                     </motion.button>
                   </div>
-                  <div className="flex-1 overflow-y-auto p-5 space-y-4">
+                  <div ref={chatScrollContainerRef} className="flex-1 overflow-y-auto p-5 space-y-4">
                     {isIntroActive && (
                       <div className="space-y-3" ref={introBlockRef}>
                         <motion.div
@@ -1358,7 +1377,7 @@ export function TeaserPage() {
                           }}
                         >
                           {msg.type === 'system' ? (
-                            <SystemMessageBubble text={msg.message} cta={msg.cta} normalizeUrl={normalizeUrl} />
+                            <SystemMessageBubble text={msg.message} cta={msg.cta} normalizeUrl={normalizeUrl} onTextUpdate={scrollToBottom} />
                           ) : (
                             msg.message
                           )}
