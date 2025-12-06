@@ -1881,8 +1881,8 @@ export function TeaserPage() {
                             </svg>
                           </motion.button>
                         </div>
-                        <div className="flex-1 flex flex-col min-w-0">
-                          <div className="relative bg-white rounded-lg border-0 flex items-center min-h-[2.5rem]">
+                        <div className="flex-1 flex flex-col min-w-0 relative bg-white rounded-lg border-0 overflow-hidden">
+                          <div className="relative flex items-center py-2">
                         <input
                           type="text"
                           value={searchInput}
@@ -1895,34 +1895,12 @@ export function TeaserPage() {
                             }
                           }}
                           placeholder="Ask me anything about Nexbit..."
-                          className="w-full rounded-lg pl-2.5 pr-12 py-2 text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none bg-transparent border-0"
+                          className="w-full rounded-lg pl-2.5 pr-[5%] py-0 text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none bg-transparent border-0"
                         />
-                        <motion.button
-                          layoutId="send-button"
-                          whileHover={{ scale: searchInput.trim() ? 1.03 : 1 }}
-                          whileTap={{ scale: searchInput.trim() ? 0.97 : 1 }}
-                          onClick={handleStartChat}
-                          disabled={!searchInput.trim()}
-                          className="absolute right-1.5 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-md text-white w-8 h-8 shadow-sm transition disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
-                          style={{ backgroundColor: '#564F4B' }}
-                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#4a433f'}
-                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#564F4B'}
-                          aria-label="Send message"
-                          transition={{ duration: 0 }}
-                        >
-                          <svg 
-                            className="w-3 h-3" 
-                            fill="none" 
-                            stroke="currentColor" 
-                            viewBox="0 0 24 24"
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                          </svg>
-                        </motion.button>
                     </div>
                     <motion.div 
                       layoutId="suggested-buttons-container"
-                      className="flex gap-1.5 items-center px-1 pt-1.5 pb-0.5 flex-wrap"
+                      className="flex gap-1.5 items-center px-1 pr-[5%] pt-1.5 pb-0.5 flex-wrap"
                       transition={{ duration: 0 }}
                     >
                       <motion.button
@@ -1950,6 +1928,30 @@ export function TeaserPage() {
                         How fast can we go live?
                       </motion.button>
                     </motion.div>
+                    <div 
+                      className="absolute right-0 top-0 bottom-0 w-[5%] flex items-center justify-center rounded-r-lg"
+                      style={{ backgroundColor: '#564F4B' }}
+                    >
+                      <motion.button
+                        layoutId="send-button"
+                        whileHover={{ scale: searchInput.trim() ? 1.05 : 1 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={handleStartChat}
+                        disabled={!searchInput.trim()}
+                        className="flex items-center justify-center text-white transition disabled:opacity-50 disabled:cursor-not-allowed"
+                        aria-label="Send message"
+                        transition={{ duration: 0 }}
+                      >
+                        <svg 
+                          className="w-4 h-4" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                      </motion.button>
+                    </div>
                         </div>
                       </div>
                     </div>
