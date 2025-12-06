@@ -5,6 +5,7 @@ import { submitWebsiteLandingPageEmail, isValidEmail } from '../utils/urlUtils';
 import { sendChatMessage, type ChatCta } from '../api/chatApi';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { useVoiceAgent } from '../hooks/useVoiceAgent';
 
 type ChatMessage = { id: string; type: 'user' | 'system'; message: string; cta?: ChatCta | null };
 import logoSrc from '../assets/logo_fresh.jpg';
@@ -122,7 +123,7 @@ const SystemMessageBubble: React.FC<{
     </>
   );
 };
-import splashVideo from '../assets/ctavideo.mp4';
+// import splashVideo from '../assets/ctavideo.mp4';
 
 export function TeaserPage() {
   const [email, setEmail] = useState('');
@@ -144,11 +145,29 @@ export function TeaserPage() {
   const scrollPositionRef = useRef<number>(0);
   const earlyAccessButtonRef = useRef<HTMLButtonElement>(null);
   const botReplyTimeoutRef = useRef<number | null>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const debugLog = useCallback((...args: any[]) => {
-    if (typeof window === 'undefined') return;
-    console.log('[ChatDebug]', ...args);
-  }, []);
+
+  // Voice Agent Hook
+  const {
+    state: voiceAgentState,
+    isRecording,
+    conversationText: voiceConversationText,
+    error: voiceError,
+    startRecording: startVoiceRecording,
+    stopRecording: stopVoiceRecording,
+    disconnect: disconnectVoiceAgent,
+  } = useVoiceAgent({
+    callbacks: {
+      onConversationText: (text) => {
+        // Optionally add voice conversation text to chat messages
+        // You can customize this behavior
+      },
+      onError: (error) => {
+        console.error('[VoiceAgent] Error:', error);
+      },
+      onStateChange: (state) => {
+      },
+    },
+  });
 
   const normalizeUrl = useCallback((rawUrl: string) => {
     const trimmed = rawUrl.trim();
@@ -169,14 +188,18 @@ export function TeaserPage() {
       window.clearTimeout(botReplyTimeoutRef.current);
       botReplyTimeoutRef.current = null;
     }
-    debugLog('handleCloseChat');
     setChatMessages([]);
     setSessionId(null);
     setIsLoadingMessage(false);
     setShowChatBox(false);
     setHasInteractedWithChat(true);
     setIsTransitioning(false); // Reset transition state
-  }, [debugLog]);
+    // Stop voice recording if active
+    if (isRecording) {
+      stopVoiceRecording();
+      disconnectVoiceAgent();
+    }
+  }, [isRecording, stopVoiceRecording, disconnectVoiceAgent]);
 
   const suggestedQuestions: string[] = [];
 
@@ -265,21 +288,13 @@ export function TeaserPage() {
 
   useEffect(() => {
     if (!showChatBox || !chatPanelRef.current) return;
-    debugLog('chat-panel-bounds', chatPanelRef.current.getBoundingClientRect());
-  }, [showChatBox, debugLog]);
+  }, [showChatBox]);
 
   useEffect(() => {
     if (!isIntroActive || !introBlockRef.current) return;
-    debugLog('intro-block-bounds', introBlockRef.current.getBoundingClientRect());
-  }, [isIntroActive, debugLog]);
+  }, [isIntroActive]);
 
   useEffect(() => {
-    debugLog('state-change', {
-      showChatBox,
-      chatCount: chatMessages.length,
-      isIntroActive,
-      hasMessages: chatMessages.length > 0,
-    });
   }, [showChatBox, chatMessages, isIntroActive]);
 
   useEffect(() => {
@@ -381,7 +396,6 @@ export function TeaserPage() {
 
   // Handle sending messages
   const handleSendMessage = async (message: string) => {
-    debugLog('handleSendMessage', { rawMessage: message, sessionId });
     if (!message.trim()) return;
     
     // Preserve scroll position before opening chat box
@@ -430,10 +444,6 @@ export function TeaserPage() {
   };
 
   const handleStartChat = () => {
-    debugLog('Start chat clicked', {
-      hasInput: Boolean(searchInput.trim()),
-      existingMessages: chatMessages.length,
-    });
     setIsTransitioning(true); // Hide input/button immediately
     if (searchInput.trim()) {
       handleSendMessage(searchInput.trim());
@@ -1302,6 +1312,30 @@ export function TeaserPage() {
                         </div>
                       </motion.div>
                     )}
+                    {voiceError && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="flex justify-start"
+                      >
+                        <div className="max-w-[80%] rounded-2xl px-4 py-2.5 text-sm text-red-600 bg-red-50 border border-red-200">
+                          <p className="font-medium">Voice Error</p>
+                          <p className="text-xs mt-1">{voiceError}</p>
+                        </div>
+                      </motion.div>
+                    )}
+                    {voiceConversationText && isRecording && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="flex justify-start"
+                      >
+                        <div className="max-w-[80%] rounded-2xl px-4 py-2.5 text-sm text-gray-700 bg-blue-50 border border-blue-200">
+                          <p className="text-xs font-medium mb-1">Voice conversation:</p>
+                          <p>{voiceConversationText}</p>
+                        </div>
+                      </motion.div>
+                    )}
                     <div ref={messagesEndRef} />
                   </div>
 
@@ -1346,17 +1380,91 @@ export function TeaserPage() {
                             layout={false}
                             whileHover={{ scale: 1.03 }}
                             whileTap={{ scale: 0.97 }}
-                            className="inline-flex items-center justify-center rounded-2xl w-12 h-12 sm:w-14 sm:h-14 bg-white text-gray-100 shadow-sm border-[4px]"
-                            style={{ borderColor: '#564F4B' }}
-                            aria-label="Start voice input"
-                            onClick={(e) => {
+                            className="inline-flex items-center justify-center rounded-2xl w-16 h-16 sm:w-20 sm:h-20 bg-white text-gray-100 shadow-sm border-[6px] relative"
+                            style={{
+                              borderColor: isRecording ? '#ef4444' : '#564F4B',
+                              backgroundColor: isRecording ? '#fee2e2' : 'white',
+                            }}
+                            aria-label={isRecording ? "Stop voice input" : "Start voice input"}
+                            onClick={async (e) => {
                               e.preventDefault();
                               e.stopPropagation();
-                              // TODO: hook up to voice input
+                              if (isRecording) {
+                                stopVoiceRecording();
+                                disconnectVoiceAgent();
+                              } else {
+                                try {
+                                  await startVoiceRecording();
+                                } catch (error) {
+                                  console.error('Failed to start voice recording:', error);
+                                }
+                              }
                             }}
                           >
+                            {voiceAgentState === 'connecting' && (
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="w-6 h-6 border-2 border-[#564F4B] border-t-transparent rounded-full animate-spin" />
+                              </div>
+                            )}
+                            {voiceAgentState === 'recording' && voiceAgentState !== 'playing' && (
+                              <div className="absolute inset-0 flex items-center justify-center z-10">
+                                {/* Listening/Recording effect - Red pulsing circle with ripple */}
+                                <div className="relative">
+                                  <div className="w-12 h-12 bg-red-500 rounded-full animate-pulse shadow-lg shadow-red-500/50" />
+                                  <div className="absolute inset-0 w-12 h-12 bg-red-400 rounded-full animate-ping opacity-75" />
+                                  <div className="absolute inset-0 w-12 h-12 bg-red-300 rounded-full animate-ping opacity-50" style={{ animationDelay: '0.5s' }} />
+                                  <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="w-2 h-2 bg-white rounded-full" />
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                            {voiceAgentState === 'playing' && (
+                              <div className="absolute inset-0 flex items-center justify-center z-10">
+                                {/* Computer speaking effect - Blue animated sound waves */}
+                                <div className="relative flex items-end justify-center gap-1 h-10">
+                                  <div className="w-1.5 bg-blue-500 rounded-full shadow-sm shadow-blue-500/50" style={{ 
+                                    height: '35%',
+                                    animation: 'soundWave 0.8s ease-in-out infinite',
+                                    animationDelay: '0s'
+                                  }} />
+                                  <div className="w-1.5 bg-blue-500 rounded-full shadow-sm shadow-blue-500/50" style={{ 
+                                    height: '60%',
+                                    animation: 'soundWave 0.8s ease-in-out infinite',
+                                    animationDelay: '0.2s'
+                                  }} />
+                                  <div className="w-1.5 bg-blue-500 rounded-full shadow-sm shadow-blue-500/50" style={{ 
+                                    height: '100%',
+                                    animation: 'soundWave 0.8s ease-in-out infinite',
+                                    animationDelay: '0.4s'
+                                  }} />
+                                  <div className="w-1.5 bg-blue-500 rounded-full shadow-sm shadow-blue-500/50" style={{ 
+                                    height: '60%',
+                                    animation: 'soundWave 0.8s ease-in-out infinite',
+                                    animationDelay: '0.6s'
+                                  }} />
+                                  <div className="w-1.5 bg-blue-500 rounded-full shadow-sm shadow-blue-500/50" style={{ 
+                                    height: '35%',
+                                    animation: 'soundWave 0.8s ease-in-out infinite',
+                                    animationDelay: '0.8s'
+                                  }} />
+                                </div>
+                                <style>{`
+                                  @keyframes soundWave {
+                                    0%, 100% { 
+                                      transform: scaleY(0.2); 
+                                      opacity: 0.6; 
+                                    }
+                                    50% { 
+                                      transform: scaleY(1); 
+                                      opacity: 1; 
+                                    }
+                                  }
+                                `}</style>
+                              </div>
+                            )}
                             <svg
-                              className="w-7 h-7 sm:w-8 sm:h-8"
+                              className={`w-10 h-10 sm:w-12 sm:h-12 ${voiceAgentState === 'connecting' || voiceAgentState === 'recording' || voiceAgentState === 'playing' ? 'opacity-0' : 'opacity-100'}`}
                               viewBox="0 0 40 40"
                               xmlns="http://www.w3.org/2000/svg"
                             >
@@ -1553,17 +1661,91 @@ export function TeaserPage() {
                             layout={false}
                             whileHover={{ scale: 1.03 }}
                             whileTap={{ scale: 0.97 }}
-                            className="inline-flex items-center justify-center rounded-3xl w-12 h-12 sm:w-14 sm:h-14 bg-white text-gray-100 shadow-sm border-[1px]"
-                            style={{ borderColor: '#564F4B' }}
-                            aria-label="Start voice input"
-                            onClick={(e) => {
+                            className="inline-flex items-center justify-center rounded-3xl w-16 h-16 sm:w-20 sm:h-20 bg-white text-gray-100 shadow-sm border-[1px] relative"
+                            style={{
+                              borderColor: isRecording ? '#ef4444' : '#564F4B',
+                              backgroundColor: isRecording ? '#fee2e2' : 'white',
+                            }}
+                            aria-label={isRecording ? "Stop voice input" : "Start voice input"}
+                            onClick={async (e) => {
                               e.preventDefault();
                               e.stopPropagation();
-                              // TODO: hook up to voice input
+                              if (isRecording) {
+                                stopVoiceRecording();
+                                disconnectVoiceAgent();
+                              } else {
+                                try {
+                                  await startVoiceRecording();
+                                } catch (error) {
+                                  console.error('Failed to start voice recording:', error);
+                                }
+                              }
                             }}
                           >
+                            {voiceAgentState === 'connecting' && (
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="w-6 h-6 border-2 border-[#564F4B] border-t-transparent rounded-full animate-spin" />
+                              </div>
+                            )}
+                            {voiceAgentState === 'recording' && voiceAgentState !== 'playing' && (
+                              <div className="absolute inset-0 flex items-center justify-center z-10">
+                                {/* Listening/Recording effect - Red pulsing circle with ripple */}
+                                <div className="relative">
+                                  <div className="w-12 h-12 bg-red-500 rounded-full animate-pulse shadow-lg shadow-red-500/50" />
+                                  <div className="absolute inset-0 w-12 h-12 bg-red-400 rounded-full animate-ping opacity-75" />
+                                  <div className="absolute inset-0 w-12 h-12 bg-red-300 rounded-full animate-ping opacity-50" style={{ animationDelay: '0.5s' }} />
+                                  <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="w-2 h-2 bg-white rounded-full" />
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                            {voiceAgentState === 'playing' && (
+                              <div className="absolute inset-0 flex items-center justify-center z-10">
+                                {/* Computer speaking effect - Blue animated sound waves */}
+                                <div className="relative flex items-end justify-center gap-1 h-10">
+                                  <div className="w-1.5 bg-blue-500 rounded-full shadow-sm shadow-blue-500/50" style={{ 
+                                    height: '35%',
+                                    animation: 'soundWave 0.8s ease-in-out infinite',
+                                    animationDelay: '0s'
+                                  }} />
+                                  <div className="w-1.5 bg-blue-500 rounded-full shadow-sm shadow-blue-500/50" style={{ 
+                                    height: '60%',
+                                    animation: 'soundWave 0.8s ease-in-out infinite',
+                                    animationDelay: '0.2s'
+                                  }} />
+                                  <div className="w-1.5 bg-blue-500 rounded-full shadow-sm shadow-blue-500/50" style={{ 
+                                    height: '100%',
+                                    animation: 'soundWave 0.8s ease-in-out infinite',
+                                    animationDelay: '0.4s'
+                                  }} />
+                                  <div className="w-1.5 bg-blue-500 rounded-full shadow-sm shadow-blue-500/50" style={{ 
+                                    height: '60%',
+                                    animation: 'soundWave 0.8s ease-in-out infinite',
+                                    animationDelay: '0.6s'
+                                  }} />
+                                  <div className="w-1.5 bg-blue-500 rounded-full shadow-sm shadow-blue-500/50" style={{ 
+                                    height: '35%',
+                                    animation: 'soundWave 0.8s ease-in-out infinite',
+                                    animationDelay: '0.8s'
+                                  }} />
+                                </div>
+                                <style>{`
+                                  @keyframes soundWave {
+                                    0%, 100% { 
+                                      transform: scaleY(0.2); 
+                                      opacity: 0.6; 
+                                    }
+                                    50% { 
+                                      transform: scaleY(1); 
+                                      opacity: 1; 
+                                    }
+                                  }
+                                `}</style>
+                              </div>
+                            )}
                             <svg
-                              className="w-7 h-7 sm:w-8 sm:h-8"
+                              className={`w-10 h-10 sm:w-12 sm:h-12 ${voiceAgentState === 'connecting' || voiceAgentState === 'recording' || voiceAgentState === 'playing' ? 'opacity-0' : 'opacity-100'}`}
                               viewBox="0 0 40 40"
                               xmlns="http://www.w3.org/2000/svg"
                             >
