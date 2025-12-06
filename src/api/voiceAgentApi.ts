@@ -1,6 +1,6 @@
 // Voice Agent WebSocket API
 // Base URL for the voice agent API - can be configured via environment variable
-const VOICE_AGENT_BASE_URL = import.meta.env.VITE_VOICE_AGENT_API_URL || 'http://localhost:8080';
+const VOICE_AGENT_BASE_URL = import.meta.env.VITE_CHAT_API_URL || 'http://localhost:8080';
 
 export type VoiceAgentMessageType =
   | 'settings'
