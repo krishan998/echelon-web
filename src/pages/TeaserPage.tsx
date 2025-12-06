@@ -203,9 +203,9 @@ export function TeaserPage() {
 
   const suggestedQuestions: string[] = [];
 
-  // Load all integration logos from assets/intgrations
+  // Load all integration logos from assets/integrations
   const integrationLogos = React.useMemo(() => {
-    const modules = import.meta.glob('../assets/intgrations/*.{png,jpg,jpeg,svg}', {
+    const modules = import.meta.glob('../assets/integrations/*.{png,jpg,jpeg,svg}', {
       eager: true,
       import: 'default',
     }) as Record<string, string>;
@@ -1429,7 +1429,7 @@ export function TeaserPage() {
                   <motion.div 
                     layoutId="input-form-container"
                     layout="position"
-                    className="px-2 py-1.5 border-t border-gray-100 bg-white relative z-20 overflow-hidden" 
+                    className="px-2 py-2 border-t border-gray-100 bg-white relative z-20" 
                     transition={{ duration: 0 }}
                   >
                     <motion.form
@@ -1441,16 +1441,16 @@ export function TeaserPage() {
                           handleSendMessage(searchInput.trim());
                         }
                       }}
-                      className="flex flex-col gap-0 w-full overflow-hidden"
+                      className="flex flex-col gap-1 w-full"
                     >
                       <div className="flex items-stretch gap-1 w-full">
-                        <div className="flex items-center justify-center">
+                        <div className="flex items-center justify-center flex-shrink-0">
                           <motion.button
                             type="button"
                             layout={false}
                             whileHover={{ scale: 1.03 }}
                             whileTap={{ scale: 0.97 }}
-                            className="inline-flex items-center justify-center rounded-2xl w-16 h-16 sm:w-20 sm:h-20 bg-white text-gray-100 shadow-sm border-[6px] relative"
+                            className="inline-flex items-center justify-center rounded-2xl w-16 h-16 sm:w-20 sm:h-20 bg-white text-gray-100 shadow-sm border-[6px] relative overflow-visible"
                             style={{
                               borderColor: isRecording ? '#ef4444' : '#564F4B',
                               backgroundColor: isRecording ? '#fee2e2' : 'white',
@@ -1476,7 +1476,7 @@ export function TeaserPage() {
                                 <div className="w-6 h-6 border-2 border-[#564F4B] border-t-transparent rounded-full animate-spin" />
                               </div>
                             )}
-                            {voiceAgentState === 'recording' && voiceAgentState !== 'playing' && (
+                            {voiceAgentState === 'recording' && (
                               <div className="absolute inset-0 flex items-center justify-center z-10">
                                 {/* Listening/Recording effect - Red pulsing circle with ripple */}
                                 <div className="relative">
@@ -1537,6 +1537,7 @@ export function TeaserPage() {
                               className={`w-10 h-10 sm:w-12 sm:h-12 ${voiceAgentState === 'connecting' || voiceAgentState === 'recording' || voiceAgentState === 'playing' ? 'opacity-0' : 'opacity-100'}`}
                               viewBox="0 0 40 40"
                               xmlns="http://www.w3.org/2000/svg"
+                              preserveAspectRatio="xMidYMid meet"
                             >
                               <rect
                                 x="4"
@@ -1579,20 +1580,43 @@ export function TeaserPage() {
                             </svg>
                           </motion.button>
                         </div>
-                        <div className="flex-1 flex flex-col overflow-hidden">
-                          <div className="relative bg-white rounded-lg flex items-center overflow-hidden">
+                        <div className="flex-1 flex flex-col min-w-0">
+                          <div className="relative bg-white rounded-lg flex items-center min-h-[2.5rem]">
                           <input
                             type="text"
                             value={searchInput}
                             onChange={(e) => setSearchInput(e.target.value)}
                             placeholder="Ask me anything about Nexbit..."
                             disabled={isLoadingMessage}
-                            className="w-full rounded-lg pl-2.5 pr-2.5 pt-1 pb-1 text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed bg-transparent border-0"
+                            className="w-full rounded-lg pl-2.5 pr-12 py-2 text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed bg-transparent border-0"
                           />
+                          <motion.button
+                            layoutId="send-button"
+                            layout={false}
+                            type="submit"
+                            disabled={isLoadingMessage || !searchInput.trim()}
+                            whileHover={{ scale: searchInput.trim() && !isLoadingMessage ? 1.03 : 1 }}
+                            whileTap={{ scale: searchInput.trim() && !isLoadingMessage ? 0.97 : 1 }}
+                            className="absolute right-1.5 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-md text-white w-8 h-8 shadow-sm transition disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
+                            style={{ backgroundColor: '#564F4B' }}
+                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#4a433f'}
+                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#564F4B'}
+                            aria-label="Send message"
+                            transition={{ duration: 0 }}
+                          >
+                            <svg 
+                              className="w-3 h-3" 
+                              fill="none" 
+                              stroke="currentColor" 
+                              viewBox="0 0 24 24"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                            </svg>
+                          </motion.button>
                       </div>
                       <motion.div 
                         layoutId="suggested-buttons-container"
-                        className="flex gap-1.5 items-center px-1 pt-1 pb-0.5"
+                        className="flex gap-1.5 items-center px-1 pt-1.5 pb-0.5 flex-wrap"
                         transition={{ duration: 0 }}
                       >
                         <motion.button
@@ -1635,29 +1659,6 @@ export function TeaserPage() {
                         >
                         List some of your features
                       </motion.button>
-                        <motion.button
-                          layoutId="send-button"
-                          layout={false}
-                          type="submit"
-                          disabled={isLoadingMessage || !searchInput.trim()}
-                          whileHover={{ scale: searchInput.trim() && !isLoadingMessage ? 1.03 : 1 }}
-                          whileTap={{ scale: searchInput.trim() && !isLoadingMessage ? 0.97 : 1 }}
-                          className="inline-flex items-center justify-center rounded-md text-white w-8 h-8 shadow-sm transition disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 ml-auto"
-                          style={{ backgroundColor: '#564F4B' }}
-                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#4a433f'}
-                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#564F4B'}
-                          aria-label="Send message"
-                          transition={{ duration: 0 }}
-                        >
-                          <svg 
-                            className="w-3 h-3" 
-                            fill="none" 
-                            stroke="currentColor" 
-                            viewBox="0 0 24 24"
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                          </svg>
-                        </motion.button>
                       </motion.div>
                         </div>
                       </div>
@@ -1697,7 +1698,7 @@ export function TeaserPage() {
                 )}
                 <motion.div 
                   layoutId="docked-chat-shell"
-                  className="rounded-2xl border border-gray-200 shadow-[0_15px_45px_rgba(15,15,15,0.12)] relative overflow-hidden bg-white"
+                  className="rounded-2xl border border-gray-200 shadow-[0_15px_45px_rgba(15,15,15,0.12)] relative bg-white"
                   transition={{ 
                     layout: {
                       type: 'spring', 
@@ -1707,7 +1708,7 @@ export function TeaserPage() {
                     }
                   }}
                 >
-                  <div className="px-3 py-3 min-h-[85px] md:min-h-[75px] flex flex-col justify-end relative z-10">
+                  <div className="px-3 py-3 min-h-[100px] md:min-h-[90px] flex flex-col justify-end relative z-10">
                   </div>
                 </motion.div>
                 
@@ -1715,7 +1716,7 @@ export function TeaserPage() {
                   <motion.div 
                     layoutId="input-form-container"
                     layout="position"
-                    className="absolute inset-0 flex flex-col justify-end px-2 py-1.5 z-20 overflow-hidden"
+                    className="absolute inset-0 flex flex-col justify-end px-2 py-2 z-20"
                     style={{ 
                       pointerEvents: isTransitioning ? 'none' : 'auto',
                       opacity: isTransitioning ? 0 : 1,
@@ -1725,13 +1726,13 @@ export function TeaserPage() {
                   >
                     <div className="w-full">
                       <div className="flex items-stretch gap-1 w-full">
-                        <div className="flex items-center justify-center">
+                        <div className="flex items-center justify-center flex-shrink-0">
                           <motion.button
                             type="button"
                             layout={false}
                             whileHover={{ scale: 1.03 }}
                             whileTap={{ scale: 0.97 }}
-                            className="inline-flex items-center justify-center rounded-3xl w-16 h-16 sm:w-20 sm:h-20 bg-white text-gray-100 shadow-sm border-[1px] relative"
+                            className="inline-flex items-center justify-center rounded-3xl w-16 h-16 sm:w-20 sm:h-20 bg-white text-gray-100 shadow-sm border-[1px] relative overflow-visible"
                             style={{
                               borderColor: isRecording ? '#ef4444' : '#564F4B',
                               backgroundColor: isRecording ? '#fee2e2' : 'white',
@@ -1757,7 +1758,7 @@ export function TeaserPage() {
                                 <div className="w-6 h-6 border-2 border-[#564F4B] border-t-transparent rounded-full animate-spin" />
                               </div>
                             )}
-                            {voiceAgentState === 'recording' && voiceAgentState !== 'playing' && (
+                            {voiceAgentState === 'recording' && (
                               <div className="absolute inset-0 flex items-center justify-center z-10">
                                 {/* Listening/Recording effect - Red pulsing circle with ripple */}
                                 <div className="relative">
@@ -1818,6 +1819,7 @@ export function TeaserPage() {
                               className={`w-10 h-10 sm:w-12 sm:h-12 ${voiceAgentState === 'connecting' || voiceAgentState === 'recording' || voiceAgentState === 'playing' ? 'opacity-0' : 'opacity-100'}`}
                               viewBox="0 0 40 40"
                               xmlns="http://www.w3.org/2000/svg"
+                              preserveAspectRatio="xMidYMid meet"
                             >
                               <rect
                                 x="4"
@@ -1860,8 +1862,8 @@ export function TeaserPage() {
                             </svg>
                           </motion.button>
                         </div>
-                        <div className="flex-1 flex flex-col overflow-hidden">
-                          <div className="relative bg-white rounded-lg border-0 flex items-center overflow-hidden">
+                        <div className="flex-1 flex flex-col min-w-0">
+                          <div className="relative bg-white rounded-lg border-0 flex items-center min-h-[2.5rem]">
                         <input
                           type="text"
                           value={searchInput}
@@ -1874,12 +1876,34 @@ export function TeaserPage() {
                             }
                           }}
                           placeholder="Ask me anything about Nexbit..."
-                          className="w-full rounded-lg pl-2.5 pr-2.5 pt-1 pb-1 text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none bg-transparent border-0"
+                          className="w-full rounded-lg pl-2.5 pr-12 py-2 text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none bg-transparent border-0"
                         />
+                        <motion.button
+                          layoutId="send-button"
+                          whileHover={{ scale: searchInput.trim() ? 1.03 : 1 }}
+                          whileTap={{ scale: searchInput.trim() ? 0.97 : 1 }}
+                          onClick={handleStartChat}
+                          disabled={!searchInput.trim()}
+                          className="absolute right-1.5 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-md text-white w-8 h-8 shadow-sm transition disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
+                          style={{ backgroundColor: '#564F4B' }}
+                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#4a433f'}
+                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#564F4B'}
+                          aria-label="Send message"
+                          transition={{ duration: 0 }}
+                        >
+                          <svg 
+                            className="w-3 h-3" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                          </svg>
+                        </motion.button>
                     </div>
                     <motion.div 
                       layoutId="suggested-buttons-container"
-                      className="flex gap-1.5 items-center px-1 pt-1 pb-0.5"
+                      className="flex gap-1.5 items-center px-1 pt-1.5 pb-0.5 flex-wrap"
                       transition={{ duration: 0 }}
                     >
                       <motion.button
@@ -1905,28 +1929,6 @@ export function TeaserPage() {
                         className="px-2 py-1 text-[10px] sm:text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
                       >
                         How fast can we go live?
-                      </motion.button>
-                      <motion.button
-                        layoutId="send-button"
-                        whileHover={{ scale: searchInput.trim() ? 1.03 : 1 }}
-                        whileTap={{ scale: searchInput.trim() ? 0.97 : 1 }}
-                        onClick={handleStartChat}
-                        disabled={!searchInput.trim()}
-                        className="inline-flex items-center justify-center rounded-md text-white w-8 h-8 shadow-sm transition disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 ml-auto"
-                        style={{ backgroundColor: '#564F4B' }}
-                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#4a433f'}
-                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#564F4B'}
-                        aria-label="Send message"
-                        transition={{ duration: 0 }}
-                      >
-                        <svg 
-                          className="w-3 h-3" 
-                          fill="none" 
-                          stroke="currentColor" 
-                          viewBox="0 0 24 24"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                        </svg>
                       </motion.button>
                     </motion.div>
                         </div>
