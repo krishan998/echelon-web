@@ -953,11 +953,81 @@ export function TeaserPage() {
         }}
       >
         <div className="relative w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16 pb-14 lg:pb-20">
-          {/* 4 Quadrant Grid Container */}
-          <div className="w-full max-w-6xl mx-auto">
-            {/* Grid: 2x2 layout - Square on desktop, stacked on mobile */}
+          {/* Mobile Layout - Stacked features */}
+          <div className="md:hidden w-full space-y-6 sm:space-y-8">
+            {/* Headline */}
+            <div className="w-full px-1">
+              <h2 className="text-xl sm:text-2xl font-clash-grotesk text-black leading-tight break-words">
+                A funnel that converts
+              </h2>
+            </div>
+            
+            {/* Feature 1 */}
+            <div className="w-full space-y-3 sm:space-y-4">
+              <div className="relative w-full overflow-hidden rounded-lg" style={{ aspectRatio: '16 / 9' }}>
+                <img
+                  src={featureCards[0].image}
+                  alt={featureCards[0].title}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <div className="space-y-2 px-1">
+                <h3 className="text-base sm:text-lg font-clash-grotesk font-semibold text-[#14110F] leading-snug sm:leading-tight break-words">
+                  {featureCards[0].title}
+                </h3>
+                <p className="text-sm sm:text-base text-[#4D463F] leading-relaxed break-words whitespace-normal">
+                  {featureCards[0].body}
+                </p>
+              </div>
+            </div>
+
+            {/* Feature 2 */}
+            <div className="w-full space-y-3 sm:space-y-4">
+              <div className="relative w-full overflow-hidden rounded-lg" style={{ aspectRatio: '16 / 9' }}>
+                <img
+                  src={featureCards[1].image}
+                  alt={featureCards[1].title}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <div className="space-y-2 px-1">
+                <h3 className="text-base sm:text-lg font-clash-grotesk font-semibold text-[#14110F] leading-snug sm:leading-tight break-words">
+                  {featureCards[1].title}
+                </h3>
+                <p className="text-sm sm:text-base text-[#4D463F] leading-relaxed break-words whitespace-normal">
+                  {featureCards[1].body}
+                </p>
+              </div>
+            </div>
+
+            {/* Feature 3 */}
+            <div className="w-full space-y-3 sm:space-y-4">
+              <div className="relative w-full overflow-hidden rounded-lg" style={{ aspectRatio: '16 / 9' }}>
+                <img
+                  src={featureCards[2].image}
+                  alt={featureCards[2].title}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <div className="space-y-2 px-1">
+                <h3 className="text-base sm:text-lg font-clash-grotesk font-semibold text-[#14110F] leading-snug sm:leading-tight break-words">
+                  {featureCards[2].title}
+                </h3>
+                <p className="text-sm sm:text-base text-[#4D463F] leading-relaxed break-words whitespace-normal">
+                  {featureCards[2].body}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop Layout - 4 Quadrant Grid Container */}
+          <div className="hidden md:block w-full max-w-6xl mx-auto">
+            {/* Grid: 2x2 layout - Square on desktop */}
             <div className="w-full max-w-5xl mx-auto relative">
-              <div className="grid grid-cols-1 md:grid-cols-2 md:[grid-template-rows:repeat(2,1fr)] border-l border-r border-black/20"
+              <div className="grid grid-cols-2 md:[grid-template-rows:repeat(2,1fr)] border-l border-r border-black/20"
                 style={{
                   backgroundColor: '#F5EEDC',
                   backgroundImage:
