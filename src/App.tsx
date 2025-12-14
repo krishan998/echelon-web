@@ -11,6 +11,8 @@ import { TermsPage } from './pages/TermsPage';
 import { WorkPage } from './pages/WorkPage';
 import { TeaserPage } from './pages/TeaserPage';
 import { AIReadinessPage } from './pages/AIReadinessPage';
+import { DemoBuilderPage } from './pages/DemoBuilderPage';
+import { DemoBuilderDashboard } from './pages/DemoBuilderDashboard';
 
 export default function App() {
   return (
@@ -29,6 +31,9 @@ export default function App() {
         <Route path="/work" element={<WorkPage />} />
         <Route path="/teaser" element={<TeaserPage />} />
         <Route path="/ai-readiness-check" element={<AIReadinessPage />} />
+        <Route path="/demo-builder" element={<DemoBuilderPage />} />
+        <Route path="/demo-builder-dashboard" element={<DemoBuilderDashboard />} />
+        <Route path="/demo-builde-dashboard" element={<DemoBuilderDashboard />} />
         
         {/* Redirect all external link fallbacks to home */}
         <Route path="/pricing" element={<Navigate to="/" replace />} />
