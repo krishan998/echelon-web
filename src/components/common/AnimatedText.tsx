@@ -102,7 +102,7 @@ interface GradientTextProps {
 
 export function GradientText({ 
   text, 
-  gradient = 'from-blue-600 to-purple-600',
+  gradient = 'from-[#201636] to-purple-600',
   className = '',
   delay = 0,
   highlightText,

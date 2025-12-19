@@ -33,7 +33,7 @@ export function Features() {
         "Adapt to new document formats without retraining"
       ],
       icon: FileText,
-      color: "from-blue-500/20 to-blue-600/20",
+      color: "from-[#20163633] to-[#20163666]",
       video: "/videos/analyse.mp4"
     },
     {

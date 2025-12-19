@@ -22,8 +22,8 @@ export function Hero() {
               transition={{ duration: 0.8 }}
             >
               <div className="announcement-bar-wrapper">
-                <a href="#" className="group inline-flex items-center px-5 py-2 md:px-5 md:py-2 px-3 py-1 rounded-full bg-white/90 shadow-sm hover:shadow-lg hover:-translate-y-0.5 hover:bg-white transform transition-all duration-300 ease-out border-2 border-blue-200/60 backdrop-blur-sm">
-                  <span className="bg-gradient-to-r from-blue-600 to-blue-700 text-white text-xs md:text-xs text-[8px] px-2 py-0.5 rounded-full mr-2 font-medium group-hover:from-blue-700 group-hover:to-blue-800 transition-all duration-300">NEW</span>
+                <a href="#" className="group inline-flex items-center px-5 py-2 md:px-5 md:py-2 px-3 py-1 rounded-full bg-white/90 shadow-sm hover:shadow-lg hover:-translate-y-0.5 hover:bg-white transform transition-all duration-300 ease-out border-2 border-[#20163633] backdrop-blur-sm">
+                  <span className="bg-gradient-to-r from-[#201636] to-[#140f24] text-white text-xs md:text-xs text-[8px] px-2 py-0.5 rounded-full mr-2 font-medium group-hover:from-[#140f24] group-hover:to-[#201636] transition-all duration-300">NEW</span>
                   <span className="text-sm md:text-sm text-[11px] font-medium text-gray-800 group-hover:text-gray-900">We've launched AI-powered PBC!</span>
                 </a>
               </div>
@@ -40,7 +40,7 @@ export function Hero() {
             <ScrollAnimation animation="fadeIn" className="mb-8">
               <h1 className="text-[2.25rem] md:text-[3.375rem] font-bold tracking-tight text-black gradient-text" 
                   style={{ fontFamily: 'Rubik, sans-serif', letterSpacing: '0.02em' }}>
-                AI that makes <span className="text-blue-600">audits</span> effortless
+                AI that makes <span className="text-[#201636]">audits</span> effortless
               </h1>
             </ScrollAnimation>
 

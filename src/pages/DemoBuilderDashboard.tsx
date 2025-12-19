@@ -73,6 +73,32 @@ const mockAnalytics = {
     under15min: 45,
     over30min: 23,
   },
+  // Chatbot-specific metrics aligned with Demo Builder chat flow
+  chatFunnel: [
+    { stage: 'Saw welcome message', count: 1247, percentage: 100 },
+    { stage: 'Clicked quick reply', count: 742, percentage: 59.5 },
+    { stage: '"I want to see demos" clicked', count: 510, percentage: 40.9 },
+    { stage: 'Selected a demo from list', count: 368, percentage: 29.5 },
+    { stage: 'Watched demo to end', count: 214, percentage: 17.1 },
+    { stage: '"Yes i will love that" clicked', count: 89, percentage: 7.1 },
+    { stage: 'Opened booking calendar', count: 72, percentage: 5.8 },
+  ],
+  quickReplyMetrics: {
+    tellMeMoreClicks: 312,
+    iWantDemosClicks: 510,
+  },
+  demoSelectionStats: [
+    { demo: 'AI agents', selections: 142, completions: 85 },
+    { demo: 'Analytics', selections: 121, completions: 76 },
+    { demo: 'Pricing & Plans', selections: 98, completions: 61 },
+    { demo: 'Integration', selections: 74, completions: 46 },
+    { demo: 'Advanced Features', selections: 53, completions: 29 },
+    { demo: 'Integration Security & Compliance', selections: 41, completions: 23 },
+  ],
+  postVideoIntents: {
+    yesLoveThat: 89,
+    stillHaveQuestions: 45,
+  },
 };
 
 const demos = [
@@ -140,83 +166,63 @@ export function DemoBuilderDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-[#F5F3FF] flex">
       {/* Left Sidebar */}
-      <aside className="w-64 bg-white border-r border-gray-200 flex-shrink-0 sticky top-0 h-screen overflow-y-auto">
-        <div className="p-6">
-          <div className="mb-8">
-            <h2 className="text-xl font-bold text-gray-900">Demo Builder</h2>
-            <p className="text-xs text-gray-500 mt-1">Dashboard</p>
-          </div>
-          
-          <nav className="space-y-1">
-            {sidebarItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => setActiveSidebarItem(item.id)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
-                  activeSidebarItem === item.id
-                    ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                    : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-                }`}
-              >
-                {item.icon}
-                <span>{item.label}</span>
-              </button>
-            ))}
-          </nav>
+      <aside className="w-16 bg-[#1F1636] text-white flex-shrink-0 sticky top-0 h-screen overflow-y-auto flex flex-col items-center py-4">
+        {/* Brand */}
+        <div className="mb-6 h-9 w-9 rounded-2xl bg-white/10 flex items-center justify-center text-xs font-semibold">
+          Ri
+        </div>
+        {/* Sidebar icons only */}
+        <nav className="flex-1 flex flex-col items-center gap-2 mt-2">
+          {sidebarItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => setActiveSidebarItem(item.id)}
+              className={`h-9 w-9 flex items-center justify-center rounded-xl text-[0px] transition-all ${
+                activeSidebarItem === item.id
+                  ? 'bg-white text-[#1F1636] shadow-sm'
+                  : 'text-white/70 hover:bg-white/10 hover:text-white'
+              }`}
+              aria-label={item.label}
+            >
+              <span className="text-white/0 sr-only">{item.label}</span>
+              {item.icon}
+            </button>
+          ))}
+        </nav>
+        {/* Bottom icon placeholder */}
+        <div className="mt-4 h-9 w-9 rounded-xl bg-white/10 flex items-center justify-center">
+          <span className="text-xs">☼</span>
         </div>
       </aside>
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Demo Builder Analytics</h1>
-              <p className="text-sm text-gray-500 mt-1">Real-time insights and performance metrics</p>
-            </div>
-            <div className="flex items-center gap-3">
-              <select
-                value={timeRange}
-                onChange={(e) => setTimeRange(e.target.value as any)}
-                className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="7d">Last 7 days</option>
-                <option value="30d">Last 30 days</option>
-                <option value="90d">Last 90 days</option>
-                <option value="all">All time</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </header>
+        {/* Header */}
+    
 
         <div className="flex-1 overflow-y-auto">
           <div className="px-6 py-6">
             {/* Home View */}
             {activeSidebarItem === 'home' && (
               <div className="space-y-6">
-                {/* Key Metrics Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                {/* Top Summary Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-xl p-6 shadow-sm border border-gray-200"
+            className="bg-gradient-to-br from-[#7B5CFF] to-[#B495FF] rounded-2xl p-6 shadow-sm text-white relative overflow-hidden"
           >
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between relative z-10">
               <div>
-                <p className="text-sm text-gray-600">Total Users</p>
-                <p className="text-3xl font-bold text-gray-900 mt-2">{mockAnalytics.totalUsers.toLocaleString()}</p>
-                <p className="text-xs text-green-600 mt-2">+12.5% from last period</p>
+                <p className="text-xs font-medium uppercase tracking-wide text-white/70">ARR from guided demos</p>
+                <p className="text-3xl font-semibold mt-3">$1M</p>
               </div>
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-              </div>
+            </div>
+            <div className="absolute inset-0 opacity-40 pointer-events-none">
+              <div className="absolute -right-10 -bottom-16 h-40 w-40 rounded-full border border-white/20" />
+              <div className="absolute -right-2 -bottom-10 h-32 w-32 rounded-full border border-white/30" />
             </div>
           </motion.div>
 
@@ -224,7 +230,7 @@ export function DemoBuilderDashboard() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-white rounded-xl p-6 shadow-sm border border-gray-200"
+            className="bg-white/80 rounded-2xl p-6 shadow-sm border border-white"
           >
             <div className="flex items-center justify-between">
               <div>
@@ -232,8 +238,8 @@ export function DemoBuilderDashboard() {
                 <p className="text-3xl font-bold text-gray-900 mt-2">{mockAnalytics.totalDemosWatched.toLocaleString()}</p>
                 <p className="text-xs text-gray-500 mt-2">Avg: {mockAnalytics.averageDemosPerUser} per user</p>
               </div>
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                 </svg>
               </div>
@@ -244,7 +250,7 @@ export function DemoBuilderDashboard() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-white rounded-xl p-6 shadow-sm border border-gray-200"
+            className="bg-white/80 rounded-2xl p-6 shadow-sm border border-white"
           >
             <div className="flex items-center justify-between">
               <div>
@@ -254,8 +260,8 @@ export function DemoBuilderDashboard() {
                   {((mockAnalytics.totalBookings / mockAnalytics.totalUsers) * 100).toFixed(1)}% conversion rate
                 </p>
               </div>
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
@@ -266,7 +272,7 @@ export function DemoBuilderDashboard() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-white rounded-xl p-6 shadow-sm border border-gray-200"
+            className="bg-white/80 rounded-2xl p-6 shadow-sm border border-white"
           >
             <div className="flex items-center justify-between">
               <div>
@@ -274,8 +280,8 @@ export function DemoBuilderDashboard() {
                 <p className="text-3xl font-bold text-gray-900 mt-2">{mockAnalytics.completionRate}%</p>
                 <p className="text-xs text-gray-500 mt-2">Average across all demos</p>
               </div>
-              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
@@ -289,11 +295,11 @@ export function DemoBuilderDashboard() {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <button
                       onClick={() => setActiveSidebarItem('analytics')}
-                      className="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all text-left"
+                      className="p-4 border border-gray-200 rounded-lg hover:border-gray-400 hover:bg-white transition-all text-left"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                          <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                          <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                           </svg>
                         </div>
@@ -305,11 +311,11 @@ export function DemoBuilderDashboard() {
                     </button>
                     <button
                       onClick={() => setActiveSidebarItem('user-demos')}
-                      className="p-4 border border-gray-200 rounded-lg hover:border-purple-500 hover:bg-purple-50 transition-all text-left"
+                      className="p-4 border border-gray-200 rounded-lg hover:border-gray-400 hover:bg-white transition-all text-left"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                          <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                          <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                           </svg>
                         </div>
@@ -355,10 +361,10 @@ export function DemoBuilderDashboard() {
                       <div>
                         <p className="text-sm text-gray-600">Total Users</p>
                         <p className="text-3xl font-bold text-gray-900 mt-2">{mockAnalytics.totalUsers.toLocaleString()}</p>
-                        <p className="text-xs text-green-600 mt-2">+12.5% from last period</p>
+                        <p className="text-xs text-gray-500 mt-2">+12.5% from last period</p>
                       </div>
-                      <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                        <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                         </svg>
                       </div>
@@ -377,8 +383,8 @@ export function DemoBuilderDashboard() {
                         <p className="text-3xl font-bold text-gray-900 mt-2">{mockAnalytics.totalDemosWatched.toLocaleString()}</p>
                         <p className="text-xs text-gray-500 mt-2">Avg: {mockAnalytics.averageDemosPerUser} per user</p>
                       </div>
-                      <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                        <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                        <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                         </svg>
                       </div>
@@ -399,8 +405,8 @@ export function DemoBuilderDashboard() {
                           {((mockAnalytics.totalBookings / mockAnalytics.totalUsers) * 100).toFixed(1)}% conversion rate
                         </p>
                       </div>
-                      <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                        <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                        <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                       </div>
@@ -444,8 +450,8 @@ export function DemoBuilderDashboard() {
                           onClick={() => setSelectedMetric(tab.id as any)}
                           className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
                             selectedMetric === tab.id
-                              ? 'border-blue-500 text-blue-600'
-                              : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                          ? 'border-gray-900 text-gray-900'
+                          : 'border-transparent text-gray-600 hover:text-gray-800 hover:border-gray-300'
                           }`}
                         >
                           {tab.label}
@@ -516,13 +522,7 @@ export function DemoBuilderDashboard() {
                             initial={{ width: 0 }}
                             animate={{ width: `${stage.percentage}%` }}
                             transition={{ duration: 0.8, delay: idx * 0.1 }}
-                            className={`h-3 rounded-full ${
-                              idx === 0 ? 'bg-blue-500' :
-                              idx === 1 ? 'bg-purple-500' :
-                              idx === 2 ? 'bg-indigo-500' :
-                              idx === 3 ? 'bg-pink-500' :
-                              'bg-green-500'
-                            }`}
+                            className="h-3 rounded-full bg-gray-800"
                           />
                         </div>
                         {idx < mockAnalytics.conversionFunnel.length - 1 && (
@@ -562,7 +562,7 @@ export function DemoBuilderDashboard() {
                               <div className="flex items-center">
                                 <div className="w-20 bg-gray-200 rounded-full h-2 mr-2">
                                   <div
-                                    className="bg-blue-600 h-2 rounded-full"
+                                    className="bg-gray-800 h-2 rounded-full"
                                     style={{ width: `${demo.avgCompletion}%` }}
                                   />
                                 </div>
@@ -620,21 +620,21 @@ export function DemoBuilderDashboard() {
                 <div className="bg-white border border-gray-200 rounded-lg p-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">User Retention</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="text-center p-4 bg-blue-50 rounded-lg">
-                      <p className="text-xs font-medium text-blue-700 uppercase tracking-wide mb-2">Day 1</p>
-                      <p className="text-3xl font-bold text-blue-900">{mockAnalytics.userRetention.day1}%</p>
-                      <p className="text-xs text-blue-600 mt-1">Users return after 1 day</p>
-                    </div>
-                    <div className="text-center p-4 bg-purple-50 rounded-lg">
-                      <p className="text-xs font-medium text-purple-700 uppercase tracking-wide mb-2">Day 7</p>
-                      <p className="text-3xl font-bold text-purple-900">{mockAnalytics.userRetention.day7}%</p>
-                      <p className="text-xs text-purple-600 mt-1">Users return after 7 days</p>
-                    </div>
-                    <div className="text-center p-4 bg-indigo-50 rounded-lg">
-                      <p className="text-xs font-medium text-indigo-700 uppercase tracking-wide mb-2">Day 30</p>
-                      <p className="text-3xl font-bold text-indigo-900">{mockAnalytics.userRetention.day30}%</p>
-                      <p className="text-xs text-indigo-600 mt-1">Users return after 30 days</p>
-                    </div>
+                      <div className="text-center p-4 bg-white rounded-lg border border-gray-200">
+                        <p className="text-xs font-medium text-gray-700 uppercase tracking-wide mb-2">Day 1</p>
+                        <p className="text-3xl font-bold text-gray-900">{mockAnalytics.userRetention.day1}%</p>
+                        <p className="text-xs text-gray-500 mt-1">Users return after 1 day</p>
+                      </div>
+                      <div className="text-center p-4 bg-white rounded-lg border border-gray-200">
+                        <p className="text-xs font-medium text-gray-700 uppercase tracking-wide mb-2">Day 7</p>
+                        <p className="text-3xl font-bold text-gray-900">{mockAnalytics.userRetention.day7}%</p>
+                        <p className="text-xs text-gray-500 mt-1">Users return after 7 days</p>
+                      </div>
+                      <div className="text-center p-4 bg-white rounded-lg border border-gray-200">
+                        <p className="text-xs font-medium text-gray-700 uppercase tracking-wide mb-2">Day 30</p>
+                        <p className="text-3xl font-bold text-gray-900">{mockAnalytics.userRetention.day30}%</p>
+                        <p className="text-xs text-gray-500 mt-1">Users return after 30 days</p>
+                      </div>
                   </div>
                 </div>
 
@@ -692,12 +692,12 @@ export function DemoBuilderDashboard() {
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                 <div className="flex items-center">
-                                  <div className="w-20 bg-gray-200 rounded-full h-2 mr-2">
-                                    <div
-                                      className="bg-blue-600 h-2 rounded-full"
-                                      style={{ width: `${user.completionRate}%` }}
-                                    />
-                                  </div>
+                              <div className="w-20 bg-gray-200 rounded-full h-2 mr-2">
+                                <div
+                                  className="bg-gray-800 h-2 rounded-full"
+                                  style={{ width: `${user.completionRate}%` }}
+                                />
+                              </div>
                                   <span>{user.completionRate}%</span>
                                 </div>
                               </td>
@@ -705,9 +705,9 @@ export function DemoBuilderDashboard() {
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.lastActive || 'N/A'}</td>
                               <td className="px-6 py-4 whitespace-nowrap">
                                 {user.booked ? (
-                                  <span className="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">Yes</span>
+                                  <span className="px-2 py-1 text-xs font-semibold text-gray-900 bg-gray-200 rounded-full">Yes</span>
                                 ) : (
-                                  <span className="px-2 py-1 text-xs font-semibold text-gray-800 bg-gray-100 rounded-full">No</span>
+                                  <span className="px-2 py-1 text-xs font-semibold text-gray-700 bg-gray-100 rounded-full">No</span>
                                 )}
                               </td>
                             </tr>
@@ -761,11 +761,11 @@ export function DemoBuilderDashboard() {
                         {mockAnalytics.heatmapData[selectedDemo].pauses.map((pause, idx) => (
                           <div
                             key={`pause-${idx}`}
-                            className="absolute top-0 bottom-0 w-1 bg-red-500 rounded-full transform -translate-x-1/2"
+                            className="absolute top-0 bottom-0 w-1 bg-gray-800 rounded-full transform -translate-x-1/2"
                             style={{ left: `${(pause / demos[selectedDemo].duration) * 100}%` }}
                             title={`Pause at ${Math.floor(pause / 60)}:${(pause % 60).toString().padStart(2, '0')}`}
                           >
-                            <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-red-500 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                            <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
                               Pause ({Math.floor(pause / 60)}:{(pause % 60).toString().padStart(2, '0')})
                             </div>
                           </div>
@@ -775,11 +775,11 @@ export function DemoBuilderDashboard() {
                         {mockAnalytics.heatmapData[selectedDemo].rewinds.map((rewind, idx) => (
                           <div
                             key={`rewind-${idx}`}
-                            className="absolute top-0 bottom-0 w-1 bg-blue-500 rounded-full transform -translate-x-1/2"
+                            className="absolute top-0 bottom-0 w-1 bg-gray-500 rounded-full transform -translate-x-1/2"
                             style={{ left: `${(rewind / demos[selectedDemo].duration) * 100}%` }}
                             title={`Rewind at ${Math.floor(rewind / 60)}:${(rewind % 60).toString().padStart(2, '0')}`}
                           >
-                            <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                            <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-700 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
                               Rewind ({Math.floor(rewind / 60)}:{(rewind % 60).toString().padStart(2, '0')})
                             </div>
                           </div>
@@ -790,11 +790,11 @@ export function DemoBuilderDashboard() {
                     {/* Legend */}
                     <div className="absolute bottom-4 left-6 flex gap-4">
                       <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 bg-red-500 rounded"></div>
+                        <div className="w-4 h-4 bg-gray-900 rounded"></div>
                         <span className="text-sm text-white">Pause Points</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 bg-blue-500 rounded"></div>
+                        <div className="w-4 h-4 bg-gray-500 rounded"></div>
                         <span className="text-sm text-white">Rewind Points</span>
                       </div>
                     </div>
@@ -980,9 +980,113 @@ export function DemoBuilderDashboard() {
             {/* Chat Logs View */}
             {selectedMetric === 'chat' && (
               <div className="space-y-6">
+                {/* Chatbot Funnel & Quick Stats */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                  <div className="bg-white border border-gray-200 rounded-lg p-6">
+                    <h3 className="text-sm font-semibold text-gray-900 mb-3">Chat Funnel Conversion</h3>
+                    <div className="space-y-3">
+                      {mockAnalytics.chatFunnel.map((stage, idx) => (
+                        <div key={idx}>
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-xs font-medium text-gray-700">{stage.stage}</span>
+                            <span className="text-xs text-gray-500">
+                              {stage.count.toLocaleString()} · {stage.percentage}%
+                            </span>
+                          </div>
+                          <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              animate={{ width: `${stage.percentage}%` }}
+                              transition={{ duration: 0.6, delay: idx * 0.05 }}
+                              className="h-2 rounded-full bg-gray-700"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="bg-white border border-gray-200 rounded-lg p-6 space-y-4">
+                    <h3 className="text-sm font-semibold text-gray-900 mb-1">Quick Reply Performance</h3>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="p-3 rounded-lg bg-gray-50 border border-gray-200">
+                        <p className="text-[11px] font-medium text-gray-800 uppercase tracking-wide mb-1">
+                          "Tell me more about Lattice"
+                        </p>
+                        <p className="text-2xl font-bold text-gray-900">
+                          {mockAnalytics.quickReplyMetrics.tellMeMoreClicks}
+                        </p>
+                        <p className="text-[11px] text-gray-600 mt-1">clicks on quick reply</p>
+                      </div>
+                      <div className="p-3 rounded-lg bg-gray-50 border border-gray-200">
+                        <p className="text-[11px] font-medium text-gray-800 uppercase tracking-wide mb-1">
+                          "I want to see demos"
+                        </p>
+                        <p className="text-2xl font-bold text-gray-900">
+                          {mockAnalytics.quickReplyMetrics.iWantDemosClicks}
+                        </p>
+                        <p className="text-[11px] text-gray-600 mt-1">clicks on quick reply</p>
+                      </div>
+                    </div>
+
+                    <div className="pt-2 border-t border-gray-100">
+                      <p className="text-xs font-semibold text-gray-800 mb-2">Post-video intents</p>
+                      <div className="flex items-center justify-between text-xs">
+                        <div className="flex items-center gap-2">
+                          <span className="inline-flex h-2 w-2 rounded-full bg-gray-700" />
+                          <span className="text-gray-600">"Yes i will love that"</span>
+                        </div>
+                        <span className="font-semibold text-gray-800">{mockAnalytics.postVideoIntents.yesLoveThat}</span>
+                      </div>
+                      <div className="flex items-center justify-between text-xs mt-1.5">
+                        <div className="flex items-center gap-2">
+                          <span className="inline-flex h-2 w-2 rounded-full bg-gray-500" />
+                          <span className="text-gray-600">"I still have some questions"</span>
+                        </div>
+                        <span className="font-semibold text-gray-800">
+                          {mockAnalytics.postVideoIntents.stillHaveQuestions}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white border border-gray-200 rounded-lg p-6">
+                    <h3 className="text-sm font-semibold text-gray-900 mb-3">Demos Selected from Chat</h3>
+                    <div className="space-y-3 max-h-64 overflow-y-auto pr-1">
+                      {mockAnalytics.demoSelectionStats.map((demo) => (
+                        <div key={demo.demo} className="flex items-center justify-between">
+                          <div className="flex-1 mr-3">
+                            <p className="text-xs font-medium text-gray-800 truncate">{demo.demo}</p>
+                            <div className="w-full bg-gray-100 rounded-full h-2 mt-1">
+                              <div
+                                className="h-2 rounded-full bg-gray-700"
+                                style={{
+                                  width: `${Math.min(
+                                    100,
+                                    (demo.completions / Math.max(1, demo.selections)) * 100,
+                                  )}%`,
+                                }}
+                              />
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-xs text-gray-600">
+                              {demo.selections} <span className="text-gray-400">selected</span>
+                            </p>
+                            <p className="text-xs font-semibold text-green-700">
+                              {demo.completions} <span className="text-gray-400">completed</span>
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Chat Logs Table */}
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">Chat Messages Logs</h3>
-                  
+
                   <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
                     <div className="overflow-x-auto">
                       <table className="min-w-full divide-y divide-gray-200">

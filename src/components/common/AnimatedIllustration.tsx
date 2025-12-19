@@ -31,7 +31,7 @@ export function AnimatedIllustration({ className = '', children }: AnimatedIllus
           repeat: Infinity,
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-blue-600/10 rounded-lg blur-xl" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#2016361A] to-[#20163633] rounded-lg blur-xl" />
       </motion.div>
     </motion.div>
   );

@@ -87,7 +87,7 @@ export function ProjectCard({
       {/* Content */}
       <div className="p-6">
         <motion.h3 
-          className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors"
+          className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-[#201636] transition-colors"
           whileHover={{ x: 4 }}
         >
           {title}
@@ -110,7 +110,7 @@ export function ProjectCard({
         {/* Action Area */}
         <div className="flex items-center justify-between">
           <motion.div 
-            className="flex items-center gap-2 text-blue-600 font-medium"
+            className="flex items-center gap-2 text-[#201636] font-medium"
             whileHover={{ x: 4 }}
           >
             <span>Learn more</span>
@@ -132,7 +132,7 @@ export function ProjectCard({
       </div>
 
       {/* Decorative Elements */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full -translate-y-16 translate-x-16 group-hover:scale-110 transition-transform duration-500"></div>
+      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#2016361A] to-purple-500/10 rounded-full -translate-y-16 translate-x-16 group-hover:scale-110 transition-transform duration-500"></div>
       <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-pink-500/10 to-orange-500/10 rounded-full translate-y-12 -translate-x-12 group-hover:scale-110 transition-transform duration-500"></div>
     </motion.div>
   );

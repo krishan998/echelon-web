@@ -30,22 +30,35 @@ interface DemoMetadata {
 const demos: DemoMetadata[] = [
   {
     id: 0,
-    title: 'Platform Overview',
-    description: 'Get a comprehensive introduction to our platform',
-    videoPath: '/assets/demobuilder/demo1.mov',
-    duration: '3:45',
-    keywords: ['overview', 'introduction', 'platform', 'features', 'getting started', 'basics'],
+    title: 'AI agents',
+    description: 'See how AI agents power your workflows',
+    videoPath: '/assets/demobuilder/demo1.mp4',
+    duration: '1:45',
+    keywords: ['ai', 'agents', 'automation', 'workflows', 'smart routing'],
     segments: [
-      { name: 'Introduction', startTime: 0, endTime: 45, askAboutPrompt: 'Tell me more about the platform' },
-      { name: 'Core Features', startTime: 45, endTime: 120, askAboutPrompt: 'What are the key features?' },
-      { name: 'Dashboard Tour', startTime: 120, endTime: 225, askAboutPrompt: 'Show me the dashboard' },
+      { name: 'Agent Overview', startTime: 0, endTime: 45, askAboutPrompt: 'Tell me more about your AI agents' },
+      { name: 'Use Cases', startTime: 45, endTime: 120, askAboutPrompt: 'Show me AI agent use cases' },
+      { name: 'In-Product Experience', startTime: 120, endTime: 225, askAboutPrompt: 'Show me how agents look in the product' },
     ],
   },
   {
     id: 1,
+    title: 'Analytics',
+    description: 'Explore analytics and reporting capabilities',
+    videoPath: '/assets/demobuilder/demo2.mp4',
+    duration: '4:00',
+    keywords: ['analytics', 'reporting', 'insights', 'metrics', 'dashboard', 'data'],
+    segments: [
+      { name: 'Analytics Dashboard', startTime: 0, endTime: 90, askAboutPrompt: 'Show me the analytics' },
+      { name: 'Custom Reports', startTime: 90, endTime: 180, askAboutPrompt: 'How do I create reports?' },
+      { name: 'Data Export', startTime: 180, endTime: 240, askAboutPrompt: 'Can I export data?' },
+    ],
+  },
+  {
+    id: 2,
     title: 'Pricing & Plans',
     description: 'Explore our pricing structure and subscription plans',
-    videoPath: '/assets/demobuilder/demo2.mov',
+    videoPath: '/assets/demobuilder/demo1.mp4',
     duration: '2:30',
     keywords: ['pricing', 'plans', 'subscription', 'cost', 'billing', 'payment', 'tiers'],
     segments: [
@@ -55,10 +68,10 @@ const demos: DemoMetadata[] = [
     ],
   },
   {
-    id: 2,
-    title: 'Integration Setup',
+    id: 3,
+    title: 'Integration',
     description: 'Learn how to integrate with your existing tools',
-    videoPath: '/assets/demobuilder/demo3.mov',
+    videoPath: '/assets/demobuilder/demo2.mov',
     duration: '4:15',
     keywords: ['integration', 'setup', 'connect', 'api', 'webhook', 'crm', 'tools', 'connectivity'],
     segments: [
@@ -68,10 +81,10 @@ const demos: DemoMetadata[] = [
     ],
   },
   {
-    id: 3,
+    id: 4,
     title: 'Advanced Features',
     description: 'Discover advanced capabilities and customization',
-    videoPath: '/assets/demobuilder/demo4.mov',
+    videoPath: '/assets/demobuilder/demo2.mp4',
     duration: '5:00',
     keywords: ['advanced', 'customization', 'automation', 'workflows', 'enterprise', 'power user'],
     segments: [
@@ -81,29 +94,16 @@ const demos: DemoMetadata[] = [
     ],
   },
   {
-    id: 4,
-    title: 'Security & Compliance',
-    description: 'Learn about our security measures and compliance standards',
-    videoPath: '/assets/demobuilder/demo1.mov',
+    id: 5,
+    title: 'Integration Security & Compliance',
+    description: 'See how we keep integrations secure and compliant',
+    videoPath: '/assets/demobuilder/demo1.mp4',
     duration: '3:20',
-    keywords: ['security', 'compliance', 'data protection', 'encryption', 'gdpr', 'soc2'],
+    keywords: ['security', 'compliance', 'integration security', 'data protection', 'encryption', 'gdpr', 'soc2'],
     segments: [
       { name: 'Security Overview', startTime: 0, endTime: 60, askAboutPrompt: 'Tell me about security' },
       { name: 'Compliance Standards', startTime: 60, endTime: 140, askAboutPrompt: 'What compliance standards do you meet?' },
       { name: 'Data Protection', startTime: 140, endTime: 200, askAboutPrompt: 'How is data protected?' },
-    ],
-  },
-  {
-    id: 5,
-    title: 'Analytics & Reporting',
-    description: 'Explore powerful analytics and reporting capabilities',
-    videoPath: '/assets/demobuilder/demo2.mov',
-    duration: '4:00',
-    keywords: ['analytics', 'reporting', 'insights', 'metrics', 'dashboard', 'data'],
-    segments: [
-      { name: 'Analytics Dashboard', startTime: 0, endTime: 90, askAboutPrompt: 'Show me the analytics' },
-      { name: 'Custom Reports', startTime: 90, endTime: 180, askAboutPrompt: 'How do I create reports?' },
-      { name: 'Data Export', startTime: 180, endTime: 240, askAboutPrompt: 'Can I export data?' },
     ],
   },
 ];
@@ -113,9 +113,11 @@ const SystemMessageBubble: React.FC<{
   cta?: ChatCta | null;
   normalizeUrl: (raw: string) => string;
   onTextUpdate?: () => void;
+  onComplete?: () => void;
   suggestedDemo?: number | null;
   onDemoSelect?: (demoId: number) => void;
-}> = ({ text, cta, normalizeUrl, onTextUpdate, suggestedDemo, onDemoSelect }) => {
+  onCtaClick?: () => void;
+}> = ({ text, cta, normalizeUrl, onTextUpdate, onComplete, suggestedDemo, onDemoSelect, onCtaClick }) => {
   const [displayedText, setDisplayedText] = useState('');
   const [isComplete, setIsComplete] = useState(false);
 
@@ -140,15 +142,12 @@ const SystemMessageBubble: React.FC<{
     const intervalId = window.setInterval(() => {
       index += 1;
       setDisplayedText(text.slice(0, index));
-      if (onTextUpdate) {
-        onTextUpdate();
-      }
+      onTextUpdate?.();
       if (index >= text.length) {
         window.clearInterval(intervalId);
         setIsComplete(true);
-        if (onTextUpdate) {
-          onTextUpdate();
-        }
+        onTextUpdate?.();
+        onComplete?.();
       }
     }, step);
 
@@ -182,25 +181,22 @@ const SystemMessageBubble: React.FC<{
         </ReactMarkdown>
       </div>
       {isComplete && suggestedDemo !== null && suggestedDemo !== undefined && onDemoSelect && (
-        <div className="mt-3 rounded-2xl border border-blue-200 bg-blue-50 p-4 text-left">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-700 mb-2">
+        <div className="mt-3 rounded-2xl border border-[#20163633] bg-[#2016360D] p-4 text-left">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#201636] mb-2">
             💡 Suggested Demo
           </p>
           <p className="text-sm font-semibold text-gray-900 mb-1">
             {demos[suggestedDemo]?.title}
           </p>
-          <p className="text-xs text-gray-600 mb-3">
-            {demos[suggestedDemo]?.description}
-          </p>
           <button
             onClick={() => onDemoSelect(suggestedDemo)}
-            className="w-full px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+            className="w-full px-4 py-2 text-sm font-semibold text-white bg-[#201636] rounded-lg hover:bg-[#140f24] transition-colors"
           >
             Watch This Demo →
           </button>
         </div>
       )}
-      {isComplete && cta && ctaHref && (
+      {isComplete && cta && (ctaHref || onCtaClick) && (
         <div className="mt-3 rounded-2xl border border-[#e4dcd2] bg-[#f7f3ee] p-4 text-left shadow-[0_12px_35px_rgba(26,73,35,0.08)]">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#1A4923]">{"Let's Connect"}</p>
           <p className="mt-2 text-base font-semibold text-gray-900">
@@ -211,22 +207,40 @@ const SystemMessageBubble: React.FC<{
               {cta.description}
             </p>
           )}
-          <a
-            href={ctaHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-[#1A4923] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#123217] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1A4923]"
-          >
-            Book a Demo
-            <svg
-              className="h-3.5 w-3.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+          {onCtaClick ? (
+            <button
+              type="button"
+              onClick={onCtaClick}
+              className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-[#1A4923] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#123217] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1A4923]"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m0 0-6-6m6 6-6 6" />
-            </svg>
-          </a>
+              Book a Demo
+              <svg
+                className="h-3.5 w-3.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m0 0-6-6m6 6-6 6" />
+              </svg>
+            </button>
+          ) : (
+            <a
+              href={ctaHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-[#1A4923] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#123217] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1A4923]"
+            >
+              Book a Demo
+              <svg
+                className="h-3.5 w-3.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m0 0-6-6m6 6-6 6" />
+              </svg>
+            </a>
+          )}
         </div>
       )}
     </>
@@ -267,6 +281,29 @@ export function DemoBuilderPage() {
     return saved === 'true';
   });
   const musicRef = useRef<HTMLAudioElement>(null);
+  const [showTilesOnly, setShowTilesOnly] = useState(true);
+  const chatInputRef = useRef<HTMLInputElement>(null);
+  const [unlockedDemoIndex, setUnlockedDemoIndex] = useState<number | null>(null);
+  const [showSuggestedQuestions, setShowSuggestedQuestions] = useState(false);
+  const [suggestedOptions, setSuggestedOptions] = useState<string[]>([]);
+  const [pendingSuggestionType, setPendingSuggestionType] = useState<'welcome' | 'demo-list' | 'post-video' | null>(null);
+  const [pendingDemoToPlay, setPendingDemoToPlay] = useState<number | null>(null);
+  const [loadingDemoIndex, setLoadingDemoIndex] = useState<number | null>(null);
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
+  const [showBookingOverlay, setShowBookingOverlay] = useState(false);
+  // Seed an initial system message to simulate backend welcome
+  useEffect(() => {
+    if (chatMessages.length === 0) {
+      setChatMessages([
+        {
+          id: createMessageId(),
+          type: 'system',
+          message: `Welcome to your personalized demo of Lattice!\n\nLattice is a leading HR platform where People + AI succeed together.\n\nWould you like to learn more about the platform, or jump straight into the demos?`,
+        },
+      ]);
+      setPendingSuggestionType('welcome');
+    }
+  }, []);
   
   // Progress tracking
   const [watchedDemos, setWatchedDemos] = useState<Set<number>>(new Set());
@@ -413,6 +450,7 @@ export function DemoBuilderPage() {
     
     const userMessage = message.trim();
     const suggestedDemo = suggestDemoFromMessage(userMessage);
+    const lower = userMessage.toLowerCase();
     
     setChatMessages(prev => [...prev, { 
       id: createMessageId(), 
@@ -422,7 +460,84 @@ export function DemoBuilderPage() {
     setSearchInput('');
     setIsLoadingMessage(true);
     setHasInteractedWithChat(true);
-    
+
+    // Handle hard-coded "I want to see demos" flow
+    if (lower === 'i want to see demos') {
+      setShowSuggestedQuestions(false);
+      setChatMessages(prev => [
+        ...prev,
+        {
+          id: createMessageId(),
+          type: 'system',
+          message: 'cool, which demo you want to watch first',
+        },
+      ]);
+      setPendingSuggestionType('demo-list');
+      setIsLoadingMessage(false);
+      return;
+    }
+
+    // Handle post-video confirmation: "Yes i will love that"
+    if (lower === 'yes i will love that') {
+      setShowSuggestedQuestions(false);
+      setChatMessages((prev) => [
+        ...prev,
+        {
+          id: createMessageId(),
+          type: 'system',
+          message: 'Book your slot as per your convenience here',
+          cta: {
+            type: 'book_demo',
+            title: 'Book a full demo',
+            description: 'Pick a time that works for you.',
+            url: '/book-a-demo',
+          },
+        },
+      ]);
+      setIsLoadingMessage(false);
+      return;
+    }
+
+    // Handle selecting a demo title from suggestion list
+    const directDemoIndex = demos.findIndex(
+      (d) => d.title.toLowerCase() === lower
+    );
+    if (directDemoIndex !== -1) {
+      setShowSuggestedQuestions(false);
+      setChatMessages((prev) => [
+        ...prev,
+        {
+          id: createMessageId(),
+          type: 'system',
+          message: `showing demo of ${demos[directDemoIndex].title}`,
+        },
+      ]);
+      setPendingDemoToPlay(directDemoIndex);
+      setIsLoadingMessage(false);
+      return;
+    }
+
+    // Handle hard-coded demo load flow
+    const loadPrefix = 'show a demo for ';
+    if (lower.startsWith(loadPrefix)) {
+      const titleQuery = userMessage.slice(loadPrefix.length).trim().toLowerCase();
+      const matchedIndex = demos.findIndex(d => d.title.toLowerCase() === titleQuery || d.title.toLowerCase().includes(titleQuery));
+      if (matchedIndex !== -1) {
+        handleVideoSelect(matchedIndex);
+        setUnlockedDemoIndex(matchedIndex);
+        setChatMessages(prev => [
+          ...prev,
+          {
+            id: createMessageId(),
+            type: 'system',
+            message: `ok loading demo of ${demos[matchedIndex].title}`,
+          },
+        ]);
+        setIsLoadingMessage(false);
+        return;
+      }
+    }
+
     try {
       const response = await sendChatMessage(userMessage, sessionId || undefined);
       
@@ -494,6 +609,17 @@ export function DemoBuilderPage() {
     setIsPlaying(false);
     // Mark demo as watched when video ends
     setWatchedDemos(prev => new Set([...prev, currentVideoIndex]));
+    // After demo completes, ask about full demo
+    setShowSuggestedQuestions(false);
+    setChatMessages((prev) => [
+      ...prev,
+      {
+        id: createMessageId(),
+        type: 'system',
+        message: 'do you want to watch full demo now?',
+      },
+    ]);
+    setPendingSuggestionType('post-video');
   };
 
   // Track watched demos when video reaches 80% completion
@@ -590,6 +716,18 @@ export function DemoBuilderPage() {
 
   const currentDemo = demos[currentVideoIndex];
   const progress = videoDuration > 0 ? (currentTime / videoDuration) * 100 : 0;
+  const isHeroUnlocked = unlockedDemoIndex !== null && unlockedDemoIndex === currentVideoIndex;
+
+  // Ensure hero video starts playing when unlocked
+  useEffect(() => {
+    if (isHeroUnlocked && heroVideoRef.current) {
+      heroVideoRef.current
+        .play()
+        .catch(() => {
+          // Ignore autoplay errors
+        });
+    }
+  }, [isHeroUnlocked, currentVideoIndex]);
 
   return (
     <>
@@ -600,6 +738,37 @@ export function DemoBuilderPage() {
         preload="auto"
         loop
       />
+
+      {/* Booking calendar overlay */}
+      {showBookingOverlay && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+          <button
+            type="button"
+            onClick={() => setShowBookingOverlay(false)}
+            className="absolute top-6 right-6 z-50 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-gray-700 shadow-md hover:bg-white"
+          >
+            <span className="sr-only">Close</span>
+            <svg
+              className="h-4 w-4"
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 5l10 10M15 5L5 15" />
+            </svg>
+          </button>
+          <div className="relative max-w-3xl w-[90vw]">
+            <div className="overflow-hidden rounded-2xl shadow-2xl border border-white/60 bg-white">
+              <img
+                src="/assets/calender.png"
+                alt="Book a demo calendar"
+                className="w-full h-auto block"
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       <div id="page-root" className="min-h-screen relative overflow-hidden font-sf-pro overscroll-y-contain" data-name="page-root" style={{ backgroundColor: '#F5EEDC', minHeight: '100vh' }}>
         {/* Fixed base background */}
@@ -664,162 +833,284 @@ export function DemoBuilderPage() {
 
           {/* Left Side - Video Player (60%) */}
           <div className="w-full lg:w-[60%] flex flex-col gap-2 lg:gap-3 overflow-hidden">
-            {/* Progress Indicator */}
-            {watchedDemos.size > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-white/80 backdrop-blur-sm rounded-lg p-3 border border-gray-200 flex-shrink-0 shadow-sm"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: '#564F4B' }}>
-                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-gray-900">
-                        You've watched {watchedDemos.size}/{demos.length} demos — keep going! 🚀
-                      </p>
-                      <div className="flex items-center gap-2 mt-1">
-                        <div className="w-32 bg-gray-200 rounded-full h-1.5">
-                          <div
-                            className="h-1.5 rounded-full transition-all"
-                            style={{ width: `${(watchedDemos.size / demos.length) * 100}%`, backgroundColor: '#564F4B' }}
-                          />
-                        </div>
-                        <span className="text-xs text-gray-600">{Math.round((watchedDemos.size / demos.length) * 100)}% complete</span>
+            {showTilesOnly ? (
+              <div className="flex-1 min-h-0 flex flex-col gap-3">
+                {/* Hero Locked/Player Card */}
+                <div className="relative overflow-hidden rounded-xl text-black min-h-[520px] flex-1 flex items-stretch">
+                  {/* Loading overlay for demo selection */}
+                  {loadingDemoIndex !== null && (
+                    <div className="absolute inset-0 z-[2] flex items-center justify-center bg-black/15">
+                      <div className="px-4 py-2 rounded-full bg-white/95 text-sm font-medium text-gray-900 shadow-md">
+                        Loading {demos[loadingDemoIndex].title} demo...
                       </div>
-                    </div>
-                  </div>
-                  {watchedDemos.size === demos.length && (
-                    <div className="px-3 py-1 rounded-full text-xs font-semibold text-white" style={{ backgroundColor: '#564F4B' }}>
-                      All Complete! 🎉
                     </div>
                   )}
+                  <div className="absolute inset-0">
+                    <video
+                      ref={heroVideoRef}
+                      src={currentDemo.videoPath}
+                      className={`w-full h-full object-contain object-right transition-all duration-500 ease-out ${
+                        isHeroUnlocked ? '' : 'opacity-50 blur-md'
+                      }`}
+                      muted
+                      autoPlay={isHeroUnlocked}
+                      playsInline
+                      preload="metadata"
+                      onEnded={handleVideoEnd}
+                    />
+                  </div>
+                  <div className="relative z-10 flex flex-col justify-between p-4 sm:p-6 w-full">
+                    {!isHeroUnlocked && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="flex flex-col justify-between h-full"
+                      >
+                        <div className="flex items-center gap-2 text-xs uppercase tracking-wide text-gray-200" />
+                        <div>
+                          <p className="text-sm text-gray-900">Featured demo</p>
+                          <h2 className="text-xl sm:text-2xl font-bold text-black">{currentDemo.title}</h2>
+                          <p className="text-sm text-gray-900 mt-2 line-clamp-2">{currentDemo.description}</p>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <button
+                            onClick={() => {
+                              const title = currentDemo.title || 'this demo';
+                              handleSendMessage(`Show a demo for ${title}`);
+                              chatInputRef.current?.focus();
+                            }}
+                            className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-white shadow-md"
+                            style={{ backgroundColor: '#564F4B' }}
+                          >
+                            Ask to watch
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                            </svg>
+                          </button>
+                          <div className="flex items-center gap-2 text-xs text-gray-200">
+                            <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+
+                    {isHeroUnlocked && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: -6 }}
+                        transition={{ duration: 0.3 }}
+                        className="absolute bottom-6 left-4 right-4 flex items-end justify-between"
+                      >
+                        <div>
+                          <p className="text-[11px] text-gray-900 uppercase tracking-wide mb-1">Now playing</p>
+                          <h2 className="text-lg sm:text-xl font-bold text-black truncate">{currentDemo.title}</h2>
+                        </div>
+                      </motion.div>
+                    )}
+                  </div>
                 </div>
-              </motion.div>
-            )}
 
-            {/* Video Player */}
-            <div className="relative w-full flex-1 min-h-0 bg-black rounded-xl overflow-hidden shadow-xl">
-              <video
-                ref={videoRef}
-                src={currentDemo.videoPath}
-                className="w-full h-full object-contain"
-                onEnded={handleVideoEnd}
-                onPlay={() => setIsPlaying(true)}
-                onPause={() => setIsPlaying(false)}
-                playsInline
-              />
-              
-              {/* Play/Pause Button (Center) */}
-              <button
-                onClick={handlePlayPause}
-                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-14 h-14 lg:w-16 lg:h-16 rounded-full bg-white/90 hover:bg-white shadow-md flex items-center justify-center transition-all hover:scale-110"
-                aria-label={isPlaying ? "Pause" : "Play"}
-              >
-                {isPlaying ? (
-                  <svg
-                    className="w-5 h-5 lg:w-6 lg:h-6 text-gray-900"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
-                  </svg>
-                ) : (
-                  <svg
-                    className="w-5 h-5 lg:w-6 lg:h-6 text-gray-900 ml-0.5"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                )}
-              </button>
-
-              {/* Video Info */}
-              <div className="absolute bottom-2 left-2 z-20 px-2 py-1 rounded-md bg-black/70 text-white text-[10px] lg:text-xs">
-                <p className="font-semibold">{currentDemo.title}</p>
-                <p className="text-white/70">{currentDemo.duration}</p>
+                {/* Locked Carousel */}
+                <div className="bg-white/90 backdrop-blur-sm rounded-lg border border-gray-200 shadow-sm p-3 mt-auto">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-xs font-semibold text-gray-900">Available demos</p>
+                  </div>
+                  <div className="overflow-x-auto pb-2">
+                    <div className="flex gap-2 min-w-max">
+                      {demos.map((demo, index) => (
+                        <div
+                          key={demo.id}
+                          className="w-48 rounded-lg border border-gray-200 bg-gradient-to-br from-gray-50 to-gray-100 text-left overflow-hidden"
+                        >
+                          <div className="relative h-24 w-full overflow-hidden">
+                            <video
+                              src={demo.videoPath}
+                              className="w-full h-full object-cover blur-md opacity-80"
+                              muted
+                              playsInline
+                              preload="metadata"
+                            />
+                            <div className="absolute inset-0 bg-gray-900/20" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/10 to-transparent" />
+                          </div>
+                          <div className="p-2 space-y-1">
+                            <p className="text-sm font-semibold text-gray-900 truncate">{demo.title}</p>
+                            <div className="flex items-center justify-end text-[11px] text-gray-600">
+                              <button
+                                type="button"
+                                onClick={() => handleSendMessage(`Show a demo for ${demo.title}`)}
+                                className="px-2 py-0.5 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors"
+                              >
+                                Ask to watch
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
-
-              {/* "Ask about this" Floating Buttons */}
-              <AnimatePresence>
-                {(() => {
-                  // Find the current active segment
-                  const activeSegment = currentDemo.segments.find(
-                    segment => currentTime >= segment.startTime && currentTime < segment.endTime
-                  );
-                  
-                  if (!activeSegment || !activeSegment.askAboutPrompt || !isPlaying) return null;
-                  
-                  // Show button after 3 seconds in segment
-                  const timeInSegment = currentTime - activeSegment.startTime;
-                  if (timeInSegment < 3) return null;
-                  
-                  return (
-                    <motion.button
-                      key={`ask-about-${activeSegment.name}`}
-                      initial={{ opacity: 0, scale: 0.8, y: 10 }}
-                      animate={{ opacity: 1, scale: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => {
-                        handleSendMessage(activeSegment.askAboutPrompt!);
-                      }}
-                      className="absolute right-4 top-1/4 z-30 px-4 py-2 text-white rounded-lg shadow-lg flex items-center gap-2 text-sm font-medium transition-all"
-                      style={{ backgroundColor: '#564F4B' }}
-                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#4a433f'}
-                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#564F4B'}
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                      </svg>
-                      Ask about this
-                    </motion.button>
-                  );
-                })()}
-              </AnimatePresence>
-            </div>
-
-            {/* Demo Preview Cards */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-lg p-1.5 border border-gray-200 flex-shrink-0 shadow-sm">
-              <h3 className="text-[10px] lg:text-xs font-semibold text-gray-900 mb-1">Available Demos</h3>
-              <div className="grid grid-cols-3 md:grid-cols-6 gap-1.5">
-                {demos.map((demo, index) => (
-                  <button
-                    key={demo.id}
-                    onClick={() => handleVideoSelect(index)}
-                    className={`relative aspect-[4/3] rounded-md overflow-hidden transition-all ${
-                      currentVideoIndex === index
-                        ? 'ring-1.5 scale-105 border-1.5'
-                        : 'opacity-70 hover:opacity-100 hover:scale-102'
-                    }`}
-                    style={currentVideoIndex === index ? { borderColor: '#564F4B', boxShadow: '0 0 0 1.5px #564F4B' } : {}}
+            ) : (
+              <>
+                {/* Progress Indicator */}
+                {watchedDemos.size > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-white/80 backdrop-blur-sm rounded-lg p-3 border border-gray-200 flex-shrink-0 shadow-sm"
                   >
-                    <div className="absolute inset-0 bg-gray-100 flex items-center justify-center border border-gray-200">
-                      <div className="text-center p-1">
-                        <div className="w-5 h-5 mx-auto mb-0.5 rounded-full flex items-center justify-center" style={{ backgroundColor: '#564F4B' }}>
-                          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z" />
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: '#564F4B' }}>
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>
                         </div>
-                        <p className="text-[9px] font-semibold text-gray-900 leading-tight">{demo.title}</p>
-                        <p className="text-[8px] text-gray-600 mt-0.5">{demo.duration}</p>
+                        <div>
+                          <p className="text-sm font-semibold text-gray-900">
+                            You've watched {watchedDemos.size}/{demos.length} demos keep going! 
+                          </p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <div className="w-32 bg-gray-200 rounded-full h-1.5">
+                              <div
+                                className="h-1.5 rounded-full transition-all"
+                                style={{ width: `${(watchedDemos.size / demos.length) * 100}%`, backgroundColor: '#564F4B' }}
+                              />
+                            </div>
+                            <span className="text-xs text-gray-600">{Math.round((watchedDemos.size / demos.length) * 100)}% complete</span>
+                          </div>
+                        </div>
                       </div>
+                      {watchedDemos.size === demos.length && (
+                        <div className="px-3 py-1 rounded-full text-xs font-semibold text-white" style={{ backgroundColor: '#564F4B' }}>
+                          All Complete! 🎉
+                        </div>
+                      )}
                     </div>
-                    {currentVideoIndex === index && (
-                      <div className="absolute inset-0 flex items-center justify-center" style={{ backgroundColor: 'rgba(86, 79, 75, 0.1)' }}>
-                        <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: '#564F4B' }} />
-                      </div>
+                  </motion.div>
+                )}
+
+                {/* Video Player */}
+                <div className="relative w-full flex-1 min-h-0 bg-black rounded-xl overflow-hidden shadow-xl">
+                  <video
+                    ref={videoRef}
+                    src={currentDemo.videoPath}
+                    className="w-full h-full object-contain"
+                    onEnded={handleVideoEnd}
+                    onPlay={() => setIsPlaying(true)}
+                    onPause={() => setIsPlaying(false)}
+                    playsInline
+                  />
+                  
+                  {/* Play/Pause Button (Center) */}
+                  <button
+                    onClick={handlePlayPause}
+                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-14 h-14 lg:w-16 lg:h-16 rounded-full bg-white/90 hover:bg-white shadow-md flex items-center justify-center transition-all hover:scale-110"
+                    aria-label={isPlaying ? "Pause" : "Play"}
+                  >
+                    {isPlaying ? (
+                      <svg
+                        className="w-5 h-5 lg:w-6 lg:h-6 text-gray-900"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+                      </svg>
+                    ) : (
+                      <svg
+                        className="w-5 h-5 lg:w-6 lg:h-6 text-gray-900 ml-0.5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
                     )}
                   </button>
-                ))}
-              </div>
-            </div>
+
+                  {/* Video Info */}
+                  <div className="absolute bottom-2 left-2 z-20 px-2 py-1 rounded-md bg-black/70 text-black text-[10px] lg:text-xs">
+                    <p className="font-semibold">{currentDemo.title}</p>
+                  </div>
+
+                  {/* "Ask about this" Floating Buttons */}
+                  <AnimatePresence>
+                    {(() => {
+                      // Find the current active segment
+                      const activeSegment = currentDemo.segments.find(
+                        segment => currentTime >= segment.startTime && currentTime < segment.endTime
+                      );
+                      
+                      if (!activeSegment || !activeSegment.askAboutPrompt || !isPlaying) return null;
+                      
+                      // Show button after 3 seconds in segment
+                      const timeInSegment = currentTime - activeSegment.startTime;
+                      if (timeInSegment < 3) return null;
+                      
+                      return (
+                        <motion.button
+                          key={`ask-about-${activeSegment.name}`}
+                          initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                          animate={{ opacity: 1, scale: 1, y: 0 }}
+                          exit={{ opacity: 0, scale: 0.8 }}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => {
+                            handleSendMessage(activeSegment.askAboutPrompt!);
+                          }}
+                          className="absolute right-4 top-1/4 z-30 px-4 py-2 text-white rounded-lg shadow-lg flex items-center gap-2 text-sm font-medium transition-all"
+                          style={{ backgroundColor: '#564F4B' }}
+                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#4a433f'}
+                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#564F4B'}
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                          </svg>
+                          Ask about this
+                        </motion.button>
+                      );
+                    })()}
+                  </AnimatePresence>
+                </div>
+
+                {/* Demo Preview Cards */}
+                <div className="bg-white/80 backdrop-blur-sm rounded-lg p-1.5 border border-gray-200 flex-shrink-0 shadow-sm">
+                  <h3 className="text-[10px] lg:text-xs font-semibold text-gray-900 mb-1">Available Demos</h3>
+                  <div className="grid grid-cols-3 md:grid-cols-6 gap-1.5">
+                    {demos.map((demo, index) => (
+                      <button
+                        key={demo.id}
+                        onClick={() => handleVideoSelect(index)}
+                        className={`relative aspect-[4/3] rounded-md overflow-hidden transition-all ${
+                          currentVideoIndex === index
+                            ? 'ring-1.5 scale-105 border-1.5'
+                            : 'opacity-70 hover:opacity-100 hover:scale-102'
+                        }`}
+                        style={currentVideoIndex === index ? { borderColor: '#564F4B', boxShadow: '0 0 0 1.5px #564F4B' } : {}}
+                      >
+                        <div className="absolute inset-0 bg-gray-100 flex items-center justify-center border border-gray-200">
+                          <div className="text-center p-1">
+                            <div className="w-5 h-5 mx-auto mb-0.5 rounded-full flex items-center justify-center" style={{ backgroundColor: '#564F4B' }}>
+                              <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                              </svg>
+                            </div>
+                            <p className="text-[9px] font-semibold text-gray-900 leading-tight">{demo.title}</p>
+                            <p className="text-[8px] text-gray-600 mt-0.5">{demo.duration}</p>
+                          </div>
+                        </div>
+                        {currentVideoIndex === index && (
+                          <div className="absolute inset-0 flex items-center justify-center" style={{ backgroundColor: 'rgba(86, 79, 75, 0.1)' }}>
+                            <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: '#564F4B' }} />
+                          </div>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
 
           {/* Right Side - Chat (40%) */}
@@ -875,8 +1166,7 @@ export function DemoBuilderPage() {
                         className="max-w-[85%] rounded-2xl px-4 py-4 text-sm text-black bg-white shadow-sm border-2"
                         style={{ borderColor: '#564F4B' }}
                       >
-                        <p className="font-semibold mb-3">👋 Welcome! Let's personalize your experience</p>
-                        <p className="text-xs text-gray-600 mb-3">Are you comfortable with technical tools?</p>
+                        <p className="font-semibold mb-3">Let's personalize your demo</p>
                         <div className="flex gap-2">
                           <button
                             onClick={() => {
@@ -888,7 +1178,7 @@ export function DemoBuilderPage() {
                             onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#4a433f'}
                             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#564F4B'}
                           >
-                            I'm in tech
+                            I'm technical
                           </button>
                           <button
                             onClick={() => {
@@ -897,7 +1187,7 @@ export function DemoBuilderPage() {
                             }}
                             className="flex-1 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-900 rounded-lg text-sm font-medium transition-colors"
                           >
-                            I'm not in tech
+                            I'm non-technical
                           </button>
                         </div>
                       </motion.div>
@@ -951,8 +1241,8 @@ export function DemoBuilderPage() {
                     className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
                     <div
-                      className={`max-w-[85%] px-4 py-2.5 text-sm ${
-                        msg.type === 'user' ? 'text-gray-900 rounded-xl bg-blue-50' : 'text-black rounded-2xl bg-white shadow-sm'
+                      className={`max-w-[85%] px-4 py-3 text-[15px] leading-relaxed ${
+                        msg.type === 'user' ? 'text-gray-900 rounded-2xl bg-[#2016360D]' : 'text-black rounded-2xl bg-white shadow-sm'
                       }`}
                       style={{
                         fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
@@ -965,8 +1255,47 @@ export function DemoBuilderPage() {
                           cta={msg.cta} 
                           normalizeUrl={normalizeUrl} 
                           onTextUpdate={scrollToBottom}
+                          onComplete={() => {
+                            scrollToBottom();
+                            if (pendingSuggestionType === 'welcome') {
+                              setSuggestedOptions([
+                                'Tell me more about Lattice',
+                                'I want to see demos',
+                              ]);
+                              setShowSuggestedQuestions(true);
+                              setPendingSuggestionType(null);
+                            } else if (pendingSuggestionType === 'demo-list') {
+                              setSuggestedOptions(demos.map(d => d.title));
+                              setShowSuggestedQuestions(true);
+                              setPendingSuggestionType(null);
+                            } else if (pendingSuggestionType === 'post-video') {
+                              setSuggestedOptions([
+                                'Yes i will love that',
+                                'I still have some questions',
+                              ]);
+                              setShowSuggestedQuestions(true);
+                              setPendingSuggestionType(null);
+                            }
+
+                            if (pendingDemoToPlay !== null) {
+                              const indexToPlay = pendingDemoToPlay;
+                              setPendingDemoToPlay(null);
+                              setLoadingDemoIndex(indexToPlay);
+                              
+                              setTimeout(() => {
+                                setLoadingDemoIndex(null);
+                                handleVideoSelect(indexToPlay);
+                                setUnlockedDemoIndex(indexToPlay);
+                              }, 1000);
+                            }
+                          }}
                           suggestedDemo={msg.suggestedDemo ?? null}
                           onDemoSelect={handleDemoSelectFromChat}
+                          onCtaClick={
+                            msg.cta?.type === 'book_demo'
+                              ? () => setShowBookingOverlay(true)
+                              : undefined
+                          }
                         />
                       ) : (
                         msg.message
@@ -1009,7 +1338,7 @@ export function DemoBuilderPage() {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex justify-start"
                   >
-                    <div className="max-w-[85%] rounded-2xl px-4 py-2.5 text-sm text-gray-700 bg-blue-50 border border-blue-200">
+                    <div className="max-w-[85%] rounded-2xl px-4 py-2.5 text-sm text-gray-700 bg-[#2016360D] border border-[#20163633]">
                       <p className="text-xs font-medium mb-1">Voice conversation:</p>
                       <p>{voiceConversationText}</p>
                     </div>
@@ -1018,8 +1347,30 @@ export function DemoBuilderPage() {
                 <div ref={messagesEndRef} />
               </div>
 
-              {/* Chat Input */}
-              <div className="px-3 py-2 border-t border-gray-100 bg-white flex-shrink-0">
+          {/* Suggested Questions */}
+          {showSuggestedQuestions && (
+            <div className="px-3 pt-1 pb-2 bg-gray-50/50 flex-shrink-0 flex justify-end">
+              <div className="flex flex-col gap-1.5 items-end">
+                {suggestedOptions.map((q, idx) => (
+                  <motion.button
+                    key={q}
+                    type="button"
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2, delay: 0.15 * idx, ease: 'easeOut' }}
+                    onClick={() => handleSendMessage(q)}
+                    className="inline-flex items-center justify-center px-4 py-2 rounded-full text-[12px] font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 transition-colors shadow-sm max-w-full"
+                    style={{ minWidth: '220px' }}
+                  >
+                    {q}
+                  </motion.button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Chat Input */}
+          <div className="px-3 py-2 bg-white flex-shrink-0 border-t border-gray-100">
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
@@ -1068,10 +1419,10 @@ export function DemoBuilderPage() {
                         {voiceAgentState === 'playing' && (
                           <div className="absolute inset-0 flex items-center justify-center z-10">
                             <div className="relative flex items-end justify-center gap-0.5 h-6">
-                              <div className="w-1 bg-blue-500 rounded-full" style={{ height: '40%', animation: 'soundWave 0.8s ease-in-out infinite', animationDelay: '0s' }} />
-                              <div className="w-1 bg-blue-500 rounded-full" style={{ height: '70%', animation: 'soundWave 0.8s ease-in-out infinite', animationDelay: '0.2s' }} />
-                              <div className="w-1 bg-blue-500 rounded-full" style={{ height: '100%', animation: 'soundWave 0.8s ease-in-out infinite', animationDelay: '0.4s' }} />
-                              <div className="w-1 bg-blue-500 rounded-full" style={{ height: '70%', animation: 'soundWave 0.8s ease-in-out infinite', animationDelay: '0.6s' }} />
+                              <div className="w-1 bg-[#201636] rounded-full" style={{ height: '40%', animation: 'soundWave 0.8s ease-in-out infinite', animationDelay: '0s' }} />
+                              <div className="w-1 bg-[#201636] rounded-full" style={{ height: '70%', animation: 'soundWave 0.8s ease-in-out infinite', animationDelay: '0.2s' }} />
+                              <div className="w-1 bg-[#201636] rounded-full" style={{ height: '100%', animation: 'soundWave 0.8s ease-in-out infinite', animationDelay: '0.4s' }} />
+                              <div className="w-1 bg-[#201636] rounded-full" style={{ height: '70%', animation: 'soundWave 0.8s ease-in-out infinite', animationDelay: '0.6s' }} />
                             </div>
                           </div>
                         )}
@@ -1093,6 +1444,7 @@ export function DemoBuilderPage() {
                       <div className="relative bg-gray-50 rounded-lg flex items-center min-h-[2.5rem] border border-gray-200">
                         <input
                           type="text"
+                          ref={chatInputRef}
                           value={searchInput}
                           onChange={(e) => setSearchInput(e.target.value)}
                           placeholder="Ask about pricing, integrations, features..."
@@ -1123,28 +1475,10 @@ export function DemoBuilderPage() {
                           type="button"
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          onClick={() => handleSendMessage("Tell me about pricing")}
+                          onClick={() => handleSendMessage("Book full demo")}
                           className="px-2 py-1 text-[10px] sm:text-xs rounded-full transition-colors text-gray-700 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
                         >
-                          💰 Pricing
-                        </motion.button>
-                        <motion.button
-                          type="button"
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                          onClick={() => handleSendMessage("How do integrations work?")}
-                          className="px-2 py-1 text-[10px] sm:text-xs rounded-full transition-colors text-gray-700 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
-                        >
-                          🔌 Integrations
-                        </motion.button>
-                        <motion.button
-                          type="button"
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                          onClick={() => handleSendMessage("What are the advanced features?")}
-                          className="px-2 py-1 text-[10px] sm:text-xs rounded-full transition-colors text-gray-700 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
-                        >
-                          ⚡ Advanced
+                          Book full demo
                         </motion.button>
                       </div>
                     </div>

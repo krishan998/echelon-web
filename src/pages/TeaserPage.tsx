@@ -1419,7 +1419,7 @@ export function TeaserPage() {
                         animate={{ opacity: 1, y: 0 }}
                         className="flex justify-start"
                       >
-                        <div className="max-w-[80%] rounded-2xl px-4 py-2.5 text-sm text-gray-700 bg-blue-50 border border-blue-200">
+                        <div className="max-w-[80%] rounded-2xl px-4 py-2.5 text-sm text-gray-700 bg-[#2016360D] border border-[#20163633]">
                           <p className="text-xs font-medium mb-1">Voice conversation:</p>
                           <p>{voiceConversationText}</p>
                         </div>
@@ -1512,27 +1512,27 @@ export function TeaserPage() {
                               <div className="absolute inset-0 flex items-center justify-center z-10">
                                 {/* Computer speaking effect - Blue animated sound waves */}
                                 <div className="relative flex items-end justify-center gap-1 h-10">
-                                  <div className="w-1.5 bg-blue-500 rounded-full shadow-sm shadow-blue-500/50" style={{ 
+                                  <div className="w-1.5 bg-[#201636] rounded-full shadow-sm shadow-[#201636]/50" style={{
                                     height: '35%',
                                     animation: 'soundWave 0.8s ease-in-out infinite',
                                     animationDelay: '0s'
                                   }} />
-                                  <div className="w-1.5 bg-blue-500 rounded-full shadow-sm shadow-blue-500/50" style={{ 
+                                  <div className="w-1.5 bg-[#201636] rounded-full shadow-sm shadow-[#201636]/50" style={{
                                     height: '60%',
                                     animation: 'soundWave 0.8s ease-in-out infinite',
                                     animationDelay: '0.2s'
                                   }} />
-                                  <div className="w-1.5 bg-blue-500 rounded-full shadow-sm shadow-blue-500/50" style={{ 
+                                  <div className="w-1.5 bg-[#201636] rounded-full shadow-sm shadow-[#201636]/50" style={{
                                     height: '100%',
                                     animation: 'soundWave 0.8s ease-in-out infinite',
                                     animationDelay: '0.4s'
                                   }} />
-                                  <div className="w-1.5 bg-blue-500 rounded-full shadow-sm shadow-blue-500/50" style={{ 
+                                  <div className="w-1.5 bg-[#201636] rounded-full shadow-sm shadow-[#201636]/50" style={{
                                     height: '60%',
                                     animation: 'soundWave 0.8s ease-in-out infinite',
                                     animationDelay: '0.6s'
                                   }} />
-                                  <div className="w-1.5 bg-blue-500 rounded-full shadow-sm shadow-blue-500/50" style={{ 
+                                  <div className="w-1.5 bg-[#201636] rounded-full shadow-sm shadow-[#201636]/50" style={{
                                     height: '35%',
                                     animation: 'soundWave 0.8s ease-in-out infinite',
                                     animationDelay: '0.8s'
@@ -1794,22 +1794,22 @@ export function TeaserPage() {
                               <div className="absolute inset-0 flex items-center justify-center z-10">
                                 {/* Computer speaking effect - Blue animated sound waves */}
                                 <div className="relative flex items-end justify-center gap-1 h-10">
-                                  <div className="w-1.5 bg-blue-500 rounded-full shadow-sm shadow-blue-500/50" style={{ 
+                                  <div className="w-1.5 bg-[#201636] rounded-full shadow-sm shadow-[#201636]/50" style={{
                                     height: '35%',
                                     animation: 'soundWave 0.8s ease-in-out infinite',
                                     animationDelay: '0s'
                                   }} />
-                                  <div className="w-1.5 bg-blue-500 rounded-full shadow-sm shadow-blue-500/50" style={{ 
+                                  <div className="w-1.5 bg-[#201636] rounded-full shadow-sm shadow-[#201636]/50" style={{
                                     height: '60%',
                                     animation: 'soundWave 0.8s ease-in-out infinite',
                                     animationDelay: '0.2s'
                                   }} />
-                                  <div className="w-1.5 bg-blue-500 rounded-full shadow-sm shadow-blue-500/50" style={{ 
+                                  <div className="w-1.5 bg-[#201636] rounded-full shadow-sm shadow-[#201636]/50" style={{
                                     height: '100%',
                                     animation: 'soundWave 0.8s ease-in-out infinite',
                                     animationDelay: '0.4s'
                                   }} />
-                                  <div className="w-1.5 bg-blue-500 rounded-full shadow-sm shadow-blue-500/50" style={{ 
+                                  <div className="w-1.5 bg-[#201636] rounded-full shadow-sm shadow-[#201636]/50" style={{
                                     height: '60%',
                                     animation: 'soundWave 0.8s ease-in-out infinite',
                                     animationDelay: '0.6s'

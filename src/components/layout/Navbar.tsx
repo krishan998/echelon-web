@@ -32,7 +32,7 @@ export function Navbar() {
         <div className="flex justify-between items-center h-14">
           <div className="flex items-center">
             <Link to="/" className="flex items-center group relative">
-              <div className="absolute -inset-2 bg-gradient-to-r from-violet-100 to-blue-100 rounded-full blur-xl opacity-0 group-hover:opacity-40 transition-opacity duration-500" />
+              <div className="absolute -inset-2 bg-gradient-to-r from-violet-100 to-[#2016361A] rounded-full blur-xl opacity-0 group-hover:opacity-40 transition-opacity duration-500" />
               <img 
                 src={logo} 
                 alt="Nexbit Logo" 
@@ -69,7 +69,7 @@ export function Navbar() {
                 >
                   {item.label}
                   {isActive(item.to) && (
-                    <span className="absolute inset-0 rounded-lg bg-gradient-to-r from-violet-500/10 to-blue-500/10 animate-pulse" />
+                    <span className="absolute inset-0 rounded-lg bg-gradient-to-r from-violet-500/10 to-[#2016361A] animate-pulse" />
                   )}
                 </Link>
               ))}
@@ -128,7 +128,7 @@ export function Navbar() {
                 {item.label}
                 {isActive(item.to) && (
                   <>
-                    <span className="absolute inset-y-0 left-0 w-0.5 bg-gradient-to-b from-violet-500 to-blue-500" />
+                    <span className="absolute inset-y-0 left-0 w-0.5 bg-gradient-to-b from-violet-500 to-[#201636]" />
                     <span className="ml-auto text-violet-500">
                       <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                         <path d="M3.33337 8H12.6667" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
