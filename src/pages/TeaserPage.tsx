@@ -795,7 +795,7 @@ export function TeaserPage() {
             {/* Main Heading - Left Aligned */}
             <div className="mb-4">
                 <div className="text-white text-3xl sm:text-4xl md:text-6xl lg:text-[4.5rem] font-[3500] tracking-tight leading-tight font-clash-grotesk">
-                The fastest path from website visits to qualified leads
+                Let your product do the talking 
               </div>
             </div>
 
@@ -803,10 +803,10 @@ export function TeaserPage() {
             <div
                   className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 font-light leading-relaxed text-gray-300 max-w-2xl"
               >
-                Engage inbound buyers with AI Revenue Agents and 5x your demo conversions.
+                Interactive demos built to engage, impress, and convert up to 5× more demo conversions
               </div>
 
-              {/* See it in action Button with gradient strip effect */}
+              {/* Primary CTA Button with gradient strip effect */}
               <div className="relative inline-block">
                 <div
                   className="absolute inset-0 rounded-xl opacity-20 blur-xl"
@@ -823,10 +823,36 @@ export function TeaserPage() {
                 }}
                 />
             <button
-              onClick={() => handleSendMessage("Hey Nex, what can you do?")}
-                  className="relative inline-flex items-center justify-center rounded-lg bg-white text-gray-900 px-6 py-3 text-base font-medium shadow-sm hover:shadow z-10"
+              onClick={(e) => {
+                const rect = (e.currentTarget as HTMLButtonElement).getBoundingClientRect();
+                const popupWidth = Math.min(448, window.innerWidth * 0.9);
+                const popupHeight = 400;
+                const spacing = 12;
+
+                // Calculate position directly below button, aligned to left edge
+                let top = rect.bottom + spacing;
+                let left = rect.left;
+
+                // Ensure popup stays within viewport horizontally
+                if (left + popupWidth > window.innerWidth - 20) {
+                  left = window.innerWidth - popupWidth - 20;
+                }
+
+                if (left < 20) {
+                  left = 20;
+                }
+
+                // If popup would go below viewport, adjust top position
+                if (top + popupHeight > window.innerHeight - 20) {
+                  top = window.innerHeight - popupHeight - 20;
+                }
+
+                setPopupPosition({ top, left });
+                setShowJoinPopup(true);
+              }}
+              className="relative inline-flex items-center justify-center rounded-lg bg-white text-gray-900 px-6 py-3 text-base font-medium shadow-sm hover:shadow z-10"
             >
-              See it in action
+              Join Early Access
             </button>
               </div>
             </div>
@@ -1256,15 +1282,15 @@ export function TeaserPage() {
 
       {/* End of Page - NEXBIT */}
       <div
-        className="relative z-0 w-full"
+        className="relative z-0 w-full mt-[-2rem] md:mt-[-3rem]"
         style={{
           backgroundColor: '#1A4923'
         }}
       >
-        <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16 pt-4 md:pt-6 pb-20 md:pb-32">
-          <div className="text-center">
+        <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16 pt-0 md:pt-0 pb-0 md:pb-0">
+          <div className="text-center overflow-hidden">
             <h1 
-              className="text-8xl sm:text-9xl md:text-[10rem] lg:text-[16rem] xl:text-[20rem] 2xl:text-[24rem] font-clash-grotesk font-bold italic tracking-tight leading-none"
+              className="text-8xl sm:text-9xl md:text-[10rem] lg:text-[16rem] xl:text-[20rem] 2xl:text-[24rem] font-clash-grotesk font-bold italic tracking-tight leading-none transform translate-y-[25%] md:translate-y-[35%]"
               style={{
                 fontFamily: '\'Clash Grotesk\', sans-serif',
                 background: 'linear-gradient(to bottom, rgba(245,238,220,0.2) 0%, rgba(245,238,220,0.4) 20%, rgba(245,238,220,0.7) 50%, rgba(245,238,220,0.9) 80%, rgba(245,238,220,1) 100%)',
@@ -1279,9 +1305,9 @@ export function TeaserPage() {
         </div>
       </div>
 
-      {/* Docked Chat overlay */}
+      {/* Docked Chat overlay (disabled) */}
       <AnimatePresence>
-        {showChatBox && (
+        {false && showChatBox && (
           <motion.div
             key="chat-backdrop"
             className="fixed inset-0 z-40"
@@ -1294,8 +1320,8 @@ export function TeaserPage() {
         )}
       </AnimatePresence>
 
-      {/* Docked Chat Bar */}
-      <div className="fixed inset-0 md:inset-x-0 md:bottom-0 md:top-auto bottom-4 md:bottom-10 z-50 px-0 md:px-6 pointer-events-none">
+      {/* Docked Chat Bar (hidden) */}
+      <div className="hidden fixed inset-0 md:inset-x-0 md:bottom-0 md:top-auto bottom-4 md:bottom-10 z-50 px-0 md:px-6 pointer-events-none">
         <AnimatePresence initial={false}>
           {showChatBox ? (
             <motion.div
