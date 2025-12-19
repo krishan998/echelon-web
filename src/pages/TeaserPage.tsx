@@ -1290,7 +1290,7 @@ export function TeaserPage() {
         <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16 pt-0 md:pt-0 pb-0 md:pb-0">
           <div className="text-center overflow-hidden">
             <h1 
-              className="text-8xl sm:text-9xl md:text-[10rem] lg:text-[16rem] xl:text-[20rem] 2xl:text-[24rem] font-clash-grotesk font-bold italic tracking-tight leading-none transform translate-y-[25%] md:translate-y-[35%]"
+              className="text-8xl sm:text-9xl md:text-[10rem] lg:text-[16rem] xl:text-[20rem] 2xl:text-[24rem] font-clash-grotesk font-bold italic tracking-tight leading-none transform translate-y-[10%] md:translate-y-[31%]"
               style={{
                 fontFamily: '\'Clash Grotesk\', sans-serif',
                 background: 'linear-gradient(to bottom, rgba(245,238,220,0.2) 0%, rgba(245,238,220,0.4) 20%, rgba(245,238,220,0.7) 50%, rgba(245,238,220,0.9) 80%, rgba(245,238,220,1) 100%)',
