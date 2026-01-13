@@ -461,15 +461,15 @@ export function DemoBuilderPage() {
     setIsLoadingMessage(true);
     setHasInteractedWithChat(true);
 
-    // Handle hard-coded "I want to see demos" flow
-    if (lower === 'i want to see demos') {
+    // Handle hard-coded "I want to watch demos" flow
+    if (lower === 'i want to watch demos') {
       setShowSuggestedQuestions(false);
       setChatMessages(prev => [
         ...prev,
         {
           id: createMessageId(),
           type: 'system',
-          message: 'cool, which demo you want to watch first',
+          message: 'Cool, which feature would you like to see first?',
         },
       ]);
       setPendingSuggestionType('demo-list');
@@ -518,9 +518,17 @@ export function DemoBuilderPage() {
     }
 
     // Handle hard-coded demo load flow
-    const loadPrefix = 'show a demo for ';
+    const loadPrefix = 'show me how ';
     if (lower.startsWith(loadPrefix)) {
-      const titleQuery = userMessage.slice(loadPrefix.length).trim().toLowerCase();
+      // Extract title between "show me how " and " works"
+      const suffix = ' works';
+      let titleQuery = '';
+      if (lower.endsWith(suffix)) {
+        titleQuery = userMessage.slice(loadPrefix.length, -suffix.length).trim().toLowerCase();
+      } else {
+        // Fallback: if "works" is missing, take everything after prefix
+        titleQuery = userMessage.slice(loadPrefix.length).trim().toLowerCase();
+      }
       const matchedIndex = demos.findIndex(d => d.title.toLowerCase() === titleQuery || d.title.toLowerCase().includes(titleQuery));
       if (matchedIndex !== -1) {
         handleVideoSelect(matchedIndex);
@@ -530,7 +538,7 @@ export function DemoBuilderPage() {
           {
             id: createMessageId(),
             type: 'system',
-            message: `ok loading demo of ${demos[matchedIndex].title}`,
+            message: `Sure, loading demo of ${demos[matchedIndex].title}`,
           },
         ]);
         setIsLoadingMessage(false);
@@ -616,7 +624,7 @@ export function DemoBuilderPage() {
       {
         id: createMessageId(),
         type: 'system',
-        message: 'do you want to watch full demo now?',
+        message: 'Would you like to book a full demo now?',
       },
     ]);
     setPendingSuggestionType('post-video');
@@ -877,7 +885,7 @@ export function DemoBuilderPage() {
                           <button
                             onClick={() => {
                               const title = currentDemo.title || 'this demo';
-                              handleSendMessage(`Show a demo for ${title}`);
+                              handleSendMessage(`Show me how ${title} works`);
                               chatInputRef.current?.focus();
                             }}
                             className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-white shadow-md"
@@ -903,7 +911,7 @@ export function DemoBuilderPage() {
                         className="absolute bottom-6 left-4 right-4 flex items-end justify-between"
                       >
                         <div>
-                          <p className="text-[11px] text-gray-900 uppercase tracking-wide mb-1">Now playing</p>
+                          {/* <p className="text-[11px] text-gray-900 uppercase tracking-wide mb-1">Now playing</p> */}
                           <h2 className="text-lg sm:text-xl font-bold text-black truncate">{currentDemo.title}</h2>
                         </div>
                       </motion.div>
@@ -914,7 +922,7 @@ export function DemoBuilderPage() {
                 {/* Locked Carousel */}
                 <div className="bg-white/90 backdrop-blur-sm rounded-lg border border-gray-200 shadow-sm p-3 mt-auto">
                   <div className="flex items-center justify-between mb-2">
-                    <p className="text-xs font-semibold text-gray-900">Available demos</p>
+                    <p className="text-xs font-semibold text-gray-900">Watch it in action</p>
                   </div>
                   <div className="overflow-x-auto pb-2">
                     <div className="flex gap-2 min-w-max">
@@ -939,7 +947,7 @@ export function DemoBuilderPage() {
                             <div className="flex items-center justify-end text-[11px] text-gray-600">
                               <button
                                 type="button"
-                                onClick={() => handleSendMessage(`Show a demo for ${demo.title}`)}
+                                onClick={() => handleSendMessage(`Show me how ${demo.title} works`)}
                                 className="px-2 py-0.5 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors"
                               >
                                 Ask to watch
@@ -1260,7 +1268,7 @@ export function DemoBuilderPage() {
                             if (pendingSuggestionType === 'welcome') {
                               setSuggestedOptions([
                                 'Tell me more about Lattice',
-                                'I want to see demos',
+                                'I want to watch demos',
                               ]);
                               setShowSuggestedQuestions(true);
                               setPendingSuggestionType(null);
@@ -1270,8 +1278,8 @@ export function DemoBuilderPage() {
                               setPendingSuggestionType(null);
                             } else if (pendingSuggestionType === 'post-video') {
                               setSuggestedOptions([
-                                'Yes i will love that',
-                                'I still have some questions',
+                                'Yes, I would love that',
+                                'No, I have few questions before that',
                               ]);
                               setShowSuggestedQuestions(true);
                               setPendingSuggestionType(null);
