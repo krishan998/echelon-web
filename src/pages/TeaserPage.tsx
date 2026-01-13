@@ -803,7 +803,7 @@ export function TeaserPage() {
             <div
                   className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 font-light leading-relaxed text-gray-300 max-w-2xl"
               >
-                Interactive demos built to engage, impress, and convert up to 5× more demo conversions
+                Interactive demos built to engage, impress, and convert up to 3× more demo conversions
               </div>
 
               {/* Primary CTA Button with gradient strip effect */}
