@@ -9,14 +9,14 @@ export function ExtensionPrivacyPage() {
             <main className="py-20">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <h1 className="text-4xl font-bold text-black mb-4">Privacy Policy for Nexbit Demo Builder</h1>
-                    <p className="text-gray-600 mb-8">Last Updated: January 22, 2026</p>
+                    <p className="text-gray-600 mb-8">Last Updated: January 24, 2026</p>
 
                     <div className="prose prose-lg max-w-none">
                         {/* Introduction */}
                         <div className="bg-light-50 rounded-lg p-8 border border-light-200 mb-8">
                             <h2 className="text-2xl font-bold text-black mb-4">Introduction</h2>
                             <p className="text-black">
-                                Nexbit Demo Builder ("we," "our," or "the extension") is a Chrome extension that allows users to record and capture DOM interactions on web pages to create interactive product demonstrations. We are committed to protecting your privacy and being transparent about how we collect, use, and protect your data.
+                                Nexbit Demo Builder ("we," "our," or "the extension"), developed by Logikeon Labs Private Limited, is a Chrome extension that allows users to record and capture DOM interactions on web pages to create interactive product demonstrations. We are committed to protecting your privacy and being transparent about how we collect, use, and protect your data.
                             </p>
                             <p className="text-black mt-4">
                                 This privacy policy explains what data we collect, how we use it, and your rights regarding your information.
@@ -28,7 +28,7 @@ export function ExtensionPrivacyPage() {
                             <h2 className="text-2xl font-bold text-black mb-4">Information We Collect</h2>
 
                             <h3 className="text-xl font-semibold text-black mb-3 mt-6">Data Collected During Recording</h3>
-                            <p className="text-black mb-3">When you actively start a recording session, we collect:</p>
+                            <p className="text-black mb-3">We only collect data when you explicitly initiate a recording session. During an active recording, we collect:</p>
                             <ul className="space-y-2 text-black">
                                 <li>• DOM Snapshots: Complete HTML structure of the web pages you are recording, including visible content, styles, and layout information</li>
                                 <li>• User Interactions: Click coordinates, scroll positions, and viewport dimensions during your recording session</li>
