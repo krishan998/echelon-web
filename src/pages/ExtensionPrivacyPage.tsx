@@ -66,11 +66,11 @@ export function ExtensionPrivacyPage() {
 
                             <h3 className="text-xl font-semibold text-black mb-3 mt-6">What We DO NOT Do</h3>
                             <ul className="space-y-2 text-black">
-                                <li>❌ We DO NOT collect data when the extension is not actively recording</li>
-                                <li>❌ We DO NOT use your data for advertising or marketing purposes</li>
-                                <li>❌ We DO NOT sell, rent, or share your data with third parties for their commercial purposes</li>
-                                <li>❌ We DO NOT track your browsing activity outside of active recording sessions</li>
-                                <li>❌ We DO NOT access or read your data for any purpose other than providing the service</li>
+                                <li>We DO NOT collect data when the extension is not actively recording</li>
+                                <li>We DO NOT use your data for advertising or marketing purposes</li>
+                                <li>We DO NOT sell, rent, or share your data with third parties for their commercial purposes</li>
+                                <li>We DO NOT track your browsing activity outside of active recording sessions</li>
+                                <li>We DO NOT access or read your data for any purpose other than providing the service</li>
                             </ul>
                         </div>
 
