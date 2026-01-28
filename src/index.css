@@ -10,9 +10,9 @@
 @font-face {
   font-family: 'Nohemi';
   src: url('./assets/fonts/Nohemi-ExtraLight.woff2') format('woff2'),
-       url('./assets/fonts/Nohemi-ExtraLight.woff') format('woff'),
-       url('./assets/fonts/Nohemi-ExtraLight.otf') format('opentype'),
-       url('./assets/fonts/Nohemi-ExtraLight.ttf') format('truetype');
+    url('./assets/fonts/Nohemi-ExtraLight.woff') format('woff'),
+    url('./assets/fonts/Nohemi-ExtraLight.otf') format('opentype'),
+    url('./assets/fonts/Nohemi-ExtraLight.ttf') format('truetype');
   font-weight: 200;
   font-style: normal;
   font-display: swap;
@@ -22,9 +22,9 @@
 @font-face {
   font-family: 'Nohemi';
   src: url('./assets/fonts/Nohemi-Light.woff2') format('woff2'),
-       url('./assets/fonts/Nohemi-Light.woff') format('woff'),
-       url('./assets/fonts/Nohemi-Light.otf') format('opentype'),
-       url('./assets/fonts/Nohemi-Light.ttf') format('truetype');
+    url('./assets/fonts/Nohemi-Light.woff') format('woff'),
+    url('./assets/fonts/Nohemi-Light.otf') format('opentype'),
+    url('./assets/fonts/Nohemi-Light.ttf') format('truetype');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -34,9 +34,9 @@
 @font-face {
   font-family: 'Nohemi';
   src: url('./assets/fonts/Nohemi-Regular.woff2') format('woff2'),
-       url('./assets/fonts/Nohemi-Regular.woff') format('woff'),
-       url('./assets/fonts/Nohemi-Regular.otf') format('opentype'),
-       url('./assets/fonts/Nohemi-Regular.ttf') format('truetype');
+    url('./assets/fonts/Nohemi-Regular.woff') format('woff'),
+    url('./assets/fonts/Nohemi-Regular.otf') format('opentype'),
+    url('./assets/fonts/Nohemi-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -46,9 +46,9 @@
 @font-face {
   font-family: 'Nohemi';
   src: url('./assets/fonts/Nohemi-Medium.woff2') format('woff2'),
-       url('./assets/fonts/Nohemi-Medium.woff') format('woff'),
-       url('./assets/fonts/Nohemi-Medium.otf') format('opentype'),
-       url('./assets/fonts/Nohemi-Medium.ttf') format('truetype');
+    url('./assets/fonts/Nohemi-Medium.woff') format('woff'),
+    url('./assets/fonts/Nohemi-Medium.otf') format('opentype'),
+    url('./assets/fonts/Nohemi-Medium.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -58,9 +58,9 @@
 @font-face {
   font-family: 'Nohemi';
   src: url('./assets/fonts/Nohemi-SemiBold.woff2') format('woff2'),
-       url('./assets/fonts/Nohemi-SemiBold.woff') format('woff'),
-       url('./assets/fonts/Nohemi-SemiBold.otf') format('opentype'),
-       url('./assets/fonts/Nohemi-SemiBold.ttf') format('truetype');
+    url('./assets/fonts/Nohemi-SemiBold.woff') format('woff'),
+    url('./assets/fonts/Nohemi-SemiBold.otf') format('opentype'),
+    url('./assets/fonts/Nohemi-SemiBold.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -70,9 +70,9 @@
 @font-face {
   font-family: 'Nohemi';
   src: url('./assets/fonts/Nohemi-Bold.woff2') format('woff2'),
-       url('./assets/fonts/Nohemi-Bold.woff') format('woff'),
-       url('./assets/fonts/Nohemi-Bold.otf') format('opentype'),
-       url('./assets/fonts/Nohemi-Bold.ttf') format('truetype');
+    url('./assets/fonts/Nohemi-Bold.woff') format('woff'),
+    url('./assets/fonts/Nohemi-Bold.otf') format('opentype'),
+    url('./assets/fonts/Nohemi-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -82,9 +82,9 @@
 @font-face {
   font-family: 'Nohemi';
   src: url('./assets/fonts/Nohemi-ExtraBold.woff2') format('woff2'),
-       url('./assets/fonts/Nohemi-ExtraBold.woff') format('woff'),
-       url('./assets/fonts/Nohemi-ExtraBold.otf') format('opentype'),
-       url('./assets/fonts/Nohemi-ExtraBold.ttf') format('truetype');
+    url('./assets/fonts/Nohemi-ExtraBold.woff') format('woff'),
+    url('./assets/fonts/Nohemi-ExtraBold.otf') format('opentype'),
+    url('./assets/fonts/Nohemi-ExtraBold.ttf') format('truetype');
   font-weight: 800;
   font-style: normal;
   font-display: swap;
@@ -140,6 +140,14 @@
 }
 
 /* Global modern font and rendering */
+html,
+body {
+  height: auto !important;
+  min-height: 100% !important;
+  overflow-y: auto !important;
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: system-ui, -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Montserrat', 'Helvetica', 'Arial', "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -164,12 +172,10 @@ body {
   position: absolute;
   width: 2px;
   height: 100%;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    #2b58ff 50%,
-    transparent 100%
-  );
+  background: linear-gradient(180deg,
+      transparent 0%,
+      #2b58ff 50%,
+      transparent 100%);
   animation: scan 3s linear infinite;
   top: 0;
   left: 0;
@@ -180,6 +186,7 @@ body {
   0% {
     left: 0;
   }
+
   100% {
     left: 100%;
   }
@@ -190,6 +197,7 @@ body {
     opacity: 0;
     transform: translateY(20px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -201,13 +209,13 @@ body {
   width: 100%;
   position: relative;
   background: #0E0E13;
-  overscroll-behavior-y: contain; /* prevent browser overscroll flash */
+  overflow: visible !important;
 }
 
 /* Make the lines slightly more visible */
 .checkered-bg {
   background-image: linear-gradient(rgba(229, 231, 235, 0.7) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(229, 231, 235, 0.7) 1px, transparent 1px);
+    linear-gradient(90deg, rgba(229, 231, 235, 0.7) 1px, transparent 1px);
   background-size: 128px 128px;
   background-color: white;
   position: relative;
@@ -223,41 +231,38 @@ body {
   bottom: 0;
   pointer-events: none;
   z-index: 1;
-  background: 
+  background:
     /* Top fade */
-    linear-gradient(
-      to bottom,
+    linear-gradient(to bottom,
       white 0%,
       rgba(255, 255, 255, 0.95) 64px,
-      rgba(255, 255, 255, 0) 128px
-    ),
+      rgba(255, 255, 255, 0) 128px),
     /* Left fade */
-    linear-gradient(
-      to right,
+    linear-gradient(to right,
       white 0%,
       rgba(255, 255, 255, 0.95) 190px,
-      rgba(255, 255, 255, 0) 254px
-    ),
+      rgba(255, 255, 255, 0) 254px),
     /* Right fade */
-    linear-gradient(
-      to left,
+    linear-gradient(to left,
       white 0%,
       rgba(255, 255, 255, 0.95) 190px,
-      rgba(255, 255, 255, 0) 254px
-    );
-  background-position: 
+      rgba(255, 255, 255, 0) 254px);
+  background-position:
     top center,
     left center,
     right center;
   background-repeat: no-repeat;
-  background-size: 
-    100% 128px,  /* Top fade size */
-    254px 100%,  /* Left fade size */
-    254px 100%;  /* Right fade size */
+  background-size:
+    100% 128px,
+    /* Top fade size */
+    254px 100%,
+    /* Left fade size */
+    254px 100%;
+  /* Right fade size */
 }
 
 /* Ensure content stays above the vignette */
-.checkered-bg > * {
+.checkered-bg>* {
   position: relative;
   z-index: 2;
 }
