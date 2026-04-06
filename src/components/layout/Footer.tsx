@@ -6,8 +6,8 @@ export function Footer() {
       {/* Large background text */}
       <div className="flex items-center justify-center py-2 md:py-8 mt-[20px] md:mt-[30px]">
         <div 
-          className="text-[26vw] md:text-[26vw] text-[20vw] font-bold text-gray-400/20 whitespace-nowrap"
-          style={{ fontFamily: 'Share Tech Mono, monospace' }}
+          className="text-[28vw] md:text-[26vw] text-[22vw] font-bold text-gray-400/20 whitespace-nowrap"
+          style={{ fontFamily: '\'Clash Grotesk\', sans-serif' }}
         >
           NEXBIT
         </div>
@@ -16,7 +16,7 @@ export function Footer() {
       {/* Bottom section with copyright and social icons */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-4 md:pb-8 md:-mt-40 mt-0">
         <div className="flex flex-col md:flex-row justify-between items-center md:space-y-0">
-          <p className="text-gray-600 order-1 md:order-1 mb-2 md:mb-0">© 2025 Nexbit. All rights reserved.</p>
+          <p className="text-gray-600 order-1 md:order-1 mb-2 md:mb-0">© 2025 Logikeon Labs Private Limited. All rights reserved.</p>
           <div className="flex space-x-6 order-2 md:order-1 mt-1 md:mt-0">
             <a href="#" className="text-gray-600 hover:text-black transition-colors">
               <span className="sr-only">Twitter</span>

@@ -3,7 +3,15 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        'sf-pro': ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        'space-grotesk': ['Space Grotesk', 'sans-serif'],
+        'montserrat': ['Montserrat', 'sans-serif'],
+        'ibm-plex-serif': ['IBM Plex Serif', 'serif'],
+        'clash-grotesk': ['Clash Grotesk', 'sans-serif'],
+      },
       colors: {
+        background: '#FFFDF6',
         primary: {
           50: '#f5f7ff',
           100: '#ebf0ff',

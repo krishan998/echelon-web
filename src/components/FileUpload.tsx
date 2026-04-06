@@ -1,5 +1,5 @@
 import React from 'react';
-import { Upload } from 'lucide-react';
+import Upload from 'lucide-react/dist/esm/icons/upload';
 
 interface FileUploadProps {
   onFileSelect: (file: File) => void;

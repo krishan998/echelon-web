@@ -1,0 +1,175 @@
+{
+  "nykaa.com": {
+    "overallScore": 78,
+    "category": "beauty",
+    "metrics": {
+      "customerJourneyComplexity": {
+        "findProductActionsCurrent": "5-7 actions",
+        "findProductActionsAI": "1 conversation",
+        "compareProductsActionsCurrent": "3-5 actions",
+        "compareProductsActionsAI": "1-2 prompts",
+        "staticQuizAvailable": true
+      },
+      "productDetailsGrade": {
+        "grade": "C+",
+        "analysis": "Product descriptions are present but lack the structured attributes (e.g., 'Skin Type', 'Best For', 'Material') needed for your customers' advanced, specific queries."
+      },
+      "personalizationIndex": {
+        "currentStatus": "Static Catalogue, Basic Personalization",
+        "analysis": "Your website provides the same experience to every visitor, regardless of their individual needs or intent. This is the 2020 standard."
+      },
+      "competitorBenchmark": {
+        "averageScore": 84,
+        "note": "Top competitors in your category average mid-80s on readiness."
+      }
+    }
+  },
+  "myntra.com": {
+    "overallScore": 82,
+    "category": "fashion",
+    "metrics": {
+      "customerJourneyComplexity": {
+        "findProductActionsCurrent": "4-6 actions",
+        "findProductActionsAI": "1 conversation",
+        "compareProductsActionsCurrent": "2-4 actions",
+        "compareProductsActionsAI": "1-2 prompts",
+        "staticQuizAvailable": false
+      },
+      "productDetailsGrade": {
+        "grade": "B-",
+        "analysis": "Good fashion metadata with size guides and style attributes, but missing detailed fabric composition and styling advice data for comprehensive AI assistance."
+      },
+      "personalizationIndex": {
+        "currentStatus": "Basic Personalization",
+        "analysis": "Shows personalized recommendations based on browsing history, but lacks real-time preference learning and contextual styling advice."
+      },
+      "competitorBenchmark": {
+        "averageScore": 86,
+        "note": "Category leaders are pushing above 85 with conversational guidance."
+      }
+    }
+  },
+  "amazon.in": {
+    "overallScore": 95,
+    "category": "marketplace",
+    "metrics": {
+      "customerJourneyComplexity": {
+        "findProductActionsCurrent": "2-4 actions",
+        "findProductActionsAI": "1 conversation",
+        "compareProductsActionsCurrent": "2-3 actions",
+        "compareProductsActionsAI": "1 prompt",
+        "staticQuizAvailable": true
+      },
+      "productDetailsGrade": {
+        "grade": "A",
+        "analysis": "Comprehensive product data with detailed specifications, customer reviews, and Q&A sections. Well-structured for AI processing with rich metadata."
+      },
+      "personalizationIndex": {
+        "currentStatus": "Advanced Personalization",
+        "analysis": "Sophisticated recommendation engine with purchase history, browsing behavior, and cross-category suggestions. Leading e-commerce personalization."
+      },
+      "competitorBenchmark": {
+        "averageScore": 90,
+        "note": "Global marketplaces set a high bar around 90+."
+      }
+    }
+  },
+  "flipkart.com": {
+    "overallScore": 45,
+    "category": "marketplace",
+    "metrics": {
+      "customerJourneyComplexity": {
+        "findProductActionsCurrent": "4 actions",
+        "findProductActionsAI": "1-2 conversations",
+        "compareProductsActionsCurrent": "2-3 actions",
+        "compareProductsActionsAI": "1 prompt",
+        "staticQuizAvailable": true
+      },
+      "productDetailsGrade": {
+        "grade": "B+",
+        "analysis": "Rich product specifications with video content and 360° views, but could benefit from more structured attribute data for complex customer queries."
+      },
+      "personalizationIndex": {
+        "currentStatus": "Smart Recommendations",
+        "analysis": "Good personalization with browsing-based suggestions and location awareness, but lacks conversational preference learning capabilities."
+      },
+      "competitorBenchmark": {
+        "averageScore": 87
+      }
+    }
+  },
+  "zara.com": {
+    "overallScore": 72,
+    "category": "fashion",
+    "metrics": {
+      "customerJourneyComplexity": {
+        "findProductActionsCurrent": "6-8 actions",
+        "findProductActionsAI": "1 conversation",
+        "compareProductsActionsCurrent": "3-5 actions",
+        "compareProductsActionsAI": "1-2 prompts",
+        "staticQuizAvailable": false
+      },
+      "productDetailsGrade": {
+        "grade": "C",
+        "analysis": "Beautiful imagery and basic product info, but lacks detailed fabric descriptions, styling suggestions, and structured attributes needed for intelligent assistance."
+      },
+      "personalizationIndex": {
+        "currentStatus": "Minimal Personalization",
+        "analysis": "Limited personalization with basic size recommendations. Focuses more on editorial content than individual customer preferences."
+      },
+      "competitorBenchmark": {
+        "averageScore": 80
+      }
+    }
+  },
+  "shopify.com": {
+    "overallScore": 88,
+    "category": "platform",
+    "metrics": {
+      "customerJourneyComplexity": {
+        "findProductActionsCurrent": "3-4 actions",
+        "findProductActionsAI": "1 conversation",
+        "compareProductsActionsCurrent": "2-3 actions",
+        "compareProductsActionsAI": "1 prompt",
+        "staticQuizAvailable": true
+      },
+      "productDetailsGrade": {
+        "grade": "B",
+        "analysis": "Flexible product catalog with good customization options, but data structure quality depends on individual store setup and product information completeness."
+      },
+      "personalizationIndex": {
+        "currentStatus": "Platform-Dependent",
+        "analysis": "Personalization capabilities vary by store implementation. Platform provides tools for segmentation and tracking, but individual stores must configure and optimize."
+      },
+      "competitorBenchmark": {
+        "averageScore": 83
+      }
+    }
+  }
+  ,
+  "manmatters.com": {
+    "overallScore": 68,
+    "category": "men's beauty and wellness",
+    "metrics": {
+      "customerJourneyComplexity": {
+        "findProductActionsCurrent": "4-5 actions",
+        "findProductActionsAI": "1 conversation",
+        "compareProductsActionsCurrent": "3-5 actions",
+        "compareProductsActionsAI": "1-2 prompts",
+        "staticQuizAvailable": false
+      },
+      "productDetailsGrade": {
+        "grade": "B-",
+        "analysis": "Good merchandising with best sellers and category highlights. Product cards show price, discount and short cues, but detailed structured attributes (e.g., goals, ingredients, dosage guidance) are inconsistent across SKUs, limiting precise AI answers."
+      },
+      "personalizationIndex": {
+        "currentStatus": "Static Catalogue, Basic Personalization",
+        "analysis": "Homepage emphasizes best sellers and categories. Personalization appears limited to generic sections rather than preference‑driven guidance; conversational intake could map user goals to nutrition, hair, beard or performance products dynamically."
+      },
+      "competitorBenchmark": {
+        "averageScore": 89,
+        "note": "Peers in nutrition and D2C wellness average low‑80s with richer structured data and guided discovery."
+      }
+    }
+  }
+}

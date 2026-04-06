@@ -2,16 +2,180 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Nohemi Font Face Declarations */
+/* Font files should be named: Nohemi-Weight.extension (e.g., Nohemi-Bold.woff) */
+/* Use the rename-fonts.js script to automatically remove hash suffixes from filenames */
+
+/* ExtraLight weight */
+@font-face {
+  font-family: 'Nohemi';
+  src: url('./assets/fonts/Nohemi-ExtraLight.woff2') format('woff2'),
+    url('./assets/fonts/Nohemi-ExtraLight.woff') format('woff'),
+    url('./assets/fonts/Nohemi-ExtraLight.otf') format('opentype'),
+    url('./assets/fonts/Nohemi-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Light weight */
+@font-face {
+  font-family: 'Nohemi';
+  src: url('./assets/fonts/Nohemi-Light.woff2') format('woff2'),
+    url('./assets/fonts/Nohemi-Light.woff') format('woff'),
+    url('./assets/fonts/Nohemi-Light.otf') format('opentype'),
+    url('./assets/fonts/Nohemi-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Regular weight */
+@font-face {
+  font-family: 'Nohemi';
+  src: url('./assets/fonts/Nohemi-Regular.woff2') format('woff2'),
+    url('./assets/fonts/Nohemi-Regular.woff') format('woff'),
+    url('./assets/fonts/Nohemi-Regular.otf') format('opentype'),
+    url('./assets/fonts/Nohemi-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Medium weight */
+@font-face {
+  font-family: 'Nohemi';
+  src: url('./assets/fonts/Nohemi-Medium.woff2') format('woff2'),
+    url('./assets/fonts/Nohemi-Medium.woff') format('woff'),
+    url('./assets/fonts/Nohemi-Medium.otf') format('opentype'),
+    url('./assets/fonts/Nohemi-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Semi-bold weight */
+@font-face {
+  font-family: 'Nohemi';
+  src: url('./assets/fonts/Nohemi-SemiBold.woff2') format('woff2'),
+    url('./assets/fonts/Nohemi-SemiBold.woff') format('woff'),
+    url('./assets/fonts/Nohemi-SemiBold.otf') format('opentype'),
+    url('./assets/fonts/Nohemi-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Bold weight */
+@font-face {
+  font-family: 'Nohemi';
+  src: url('./assets/fonts/Nohemi-Bold.woff2') format('woff2'),
+    url('./assets/fonts/Nohemi-Bold.woff') format('woff'),
+    url('./assets/fonts/Nohemi-Bold.otf') format('opentype'),
+    url('./assets/fonts/Nohemi-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ExtraBold weight */
+@font-face {
+  font-family: 'Nohemi';
+  src: url('./assets/fonts/Nohemi-ExtraBold.woff2') format('woff2'),
+    url('./assets/fonts/Nohemi-ExtraBold.woff') format('woff'),
+    url('./assets/fonts/Nohemi-ExtraBold.otf') format('opentype'),
+    url('./assets/fonts/Nohemi-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Clash Grotesk Font Face Declarations */
+@font-face {
+  font-family: 'Clash Grotesk';
+  src: url('./assets/fonts/ClashGrotesk-Extralight.otf') format('opentype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clash Grotesk';
+  src: url('./assets/fonts/ClashGrotesk-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clash Grotesk';
+  src: url('./assets/fonts/ClashGrotesk-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clash Grotesk';
+  src: url('./assets/fonts/ClashGrotesk-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clash Grotesk';
+  src: url('./assets/fonts/ClashGrotesk-Semibold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clash Grotesk';
+  src: url('./assets/fonts/ClashGrotesk-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Global modern font and rendering */
+html,
+body {
+  height: auto !important;
+  min-height: 100% !important;
+  overflow-y: auto !important;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: system-ui, -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Montserrat', 'Helvetica', 'Arial', "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  background: #0E0E13;
+}
+
+/* Font loading verification - Montserrat should be distinctly different from default fonts */
+.font-montserrat {
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif !important;
+  /* Temporary debugging - Montserrat has distinctive letter spacing and weight */
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+.font-ibm-plex-serif {
+  font-family: 'IBM Plex Serif', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif !important;
+}
+
 .scanner-line {
   position: absolute;
   width: 2px;
   height: 100%;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    #2b58ff 50%,
-    transparent 100%
-  );
+  background: linear-gradient(180deg,
+      transparent 0%,
+      #2b58ff 50%,
+      transparent 100%);
   animation: scan 3s linear infinite;
   top: 0;
   left: 0;
@@ -22,6 +186,7 @@
   0% {
     left: 0;
   }
+
   100% {
     left: 100%;
   }
@@ -32,6 +197,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -42,13 +208,14 @@
   min-height: 100vh;
   width: 100%;
   position: relative;
-  background-color: white;
+  background: #0E0E13;
+  overflow: visible !important;
 }
 
 /* Make the lines slightly more visible */
 .checkered-bg {
   background-image: linear-gradient(rgba(229, 231, 235, 0.7) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(229, 231, 235, 0.7) 1px, transparent 1px);
+    linear-gradient(90deg, rgba(229, 231, 235, 0.7) 1px, transparent 1px);
   background-size: 128px 128px;
   background-color: white;
   position: relative;
@@ -64,41 +231,38 @@
   bottom: 0;
   pointer-events: none;
   z-index: 1;
-  background: 
+  background:
     /* Top fade */
-    linear-gradient(
-      to bottom,
+    linear-gradient(to bottom,
       white 0%,
       rgba(255, 255, 255, 0.95) 64px,
-      rgba(255, 255, 255, 0) 128px
-    ),
+      rgba(255, 255, 255, 0) 128px),
     /* Left fade */
-    linear-gradient(
-      to right,
+    linear-gradient(to right,
       white 0%,
       rgba(255, 255, 255, 0.95) 190px,
-      rgba(255, 255, 255, 0) 254px
-    ),
+      rgba(255, 255, 255, 0) 254px),
     /* Right fade */
-    linear-gradient(
-      to left,
+    linear-gradient(to left,
       white 0%,
       rgba(255, 255, 255, 0.95) 190px,
-      rgba(255, 255, 255, 0) 254px
-    );
-  background-position: 
+      rgba(255, 255, 255, 0) 254px);
+  background-position:
     top center,
     left center,
     right center;
   background-repeat: no-repeat;
-  background-size: 
-    100% 128px,  /* Top fade size */
-    254px 100%,  /* Left fade size */
-    254px 100%;  /* Right fade size */
+  background-size:
+    100% 128px,
+    /* Top fade size */
+    254px 100%,
+    /* Left fade size */
+    254px 100%;
+  /* Right fade size */
 }
 
 /* Ensure content stays above the vignette */
-.checkered-bg > * {
+.checkered-bg>* {
   position: relative;
   z-index: 2;
 }

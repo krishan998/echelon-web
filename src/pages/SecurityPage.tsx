@@ -1,7 +1,10 @@
 import React from 'react';
 import { Navbar } from '../components/layout/Navbar';
 import { Footer } from '../components/layout/Footer';
-import { Shield, Lock, Key, FileCheck } from 'lucide-react';
+import Shield from 'lucide-react/dist/esm/icons/shield';
+import Lock from 'lucide-react/dist/esm/icons/lock';
+import Key from 'lucide-react/dist/esm/icons/key';
+import FileCheck from 'lucide-react/dist/esm/icons/file-check';
 
 export function SecurityPage() {
   const securityFeatures = [

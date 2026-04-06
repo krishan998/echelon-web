@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import logo from '../../assets/logo.png';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import Menu from 'lucide-react/dist/esm/icons/menu';
+import X from 'lucide-react/dist/esm/icons/x';
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,6 +18,8 @@ export function Navbar() {
   }, []);
 
   const isActive = (path: string) => location.pathname === path;
+
+  const navItems: { to: string; label: string }[] = [];
 
   return (
     <nav className={`fixed top-0 w-full z-[100] transition-all duration-300 ${scrolled ? 'py-2' : 'py-4'}`}>
@@ -37,9 +40,9 @@ export function Navbar() {
                 alt="Nexbit Logo" 
                 className="h-8 w-8 md:h-8 md:w-8 h-7 w-7 relative group-hover:scale-105 group-hover:rotate-3 transition-all duration-300" 
               />
-              <span className="ml-3 text-xl md:text-xl text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-600 relative" 
+              <span className="ml-3 text-2xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-600 relative" 
                 style={{ 
-                  fontFamily: 'Montserrat, sans-serif',
+                  fontFamily: '\'Clash Grotesk\', \'Nohemi\', \'Montserrat\', sans-serif',
                   letterSpacing: '-0.01em',
                 }}>
                 Nexbit
@@ -50,10 +53,7 @@ export function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             <div className="flex items-center gap-1 bg-gray-50/50 p-1 rounded-xl border border-gray-100/50" style={{ fontFamily: 'rubrik, sans-serif' }}>
-              {[
-                { to: '/features', label: 'Features' },
-                { to: '/about', label: 'About' }
-              ].map((item) => (
+              {navItems.map((item) => (
                 <Link
                   key={item.label}
                   to={item.to}
@@ -107,10 +107,7 @@ export function Navbar() {
       `}>
         <div className="container mx-auto" style={{ maxWidth: '1152px' }}>
           <div className="flex flex-col bg-white/95 backdrop-blur-xl rounded-xl shadow-lg border border-gray-200/20 overflow-hidden divide-y divide-gray-100/50" style={{ fontFamily: 'rubrik, sans-serif' }}>
-            {[
-              { to: '/features', label: 'Features' },
-              { to: '/about', label: 'About' }
-            ].map((item, index) => (
+            {navItems.map((item) => (
               <Link 
                 key={item.label}
                 to={item.to} 

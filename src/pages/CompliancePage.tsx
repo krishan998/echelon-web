@@ -1,7 +1,10 @@
 import React from 'react';
 import { Navbar } from '../components/layout/Navbar';
 import { Footer } from '../components/layout/Footer';
-import { Shield, Lock, FileCheck, AlertCircle } from 'lucide-react';
+import Shield from 'lucide-react/dist/esm/icons/shield';
+import Lock from 'lucide-react/dist/esm/icons/lock';
+import FileCheck from 'lucide-react/dist/esm/icons/file-check';
+import AlertCircle from 'lucide-react/dist/esm/icons/alert-circle';
 
 export function CompliancePage() {
   const certifications = [

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Zap } from 'lucide-react';
+import Zap from 'lucide-react/dist/esm/icons/zap';
 import { ParticleBackground } from '../common/ParticleBackground';
 import { AnimatedIllustration } from '../common/AnimatedIllustration';
 import { ScrollAnimation } from '../common/ScrollAnimation';
