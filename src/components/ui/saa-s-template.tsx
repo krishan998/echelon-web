@@ -14,7 +14,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ variant = 'default', size = 'default', className = '', children, ...props }, ref) => {
     const baseStyles =
-      'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded font-medium uppercase tracking-[0.18em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-black disabled:pointer-events-none disabled:opacity-50';
+      'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-black disabled:pointer-events-none disabled:opacity-50';
 
     const variants = {
       default: 'bg-[#F0EDE8] text-[#0A0A0A] hover:bg-white',
@@ -49,6 +49,11 @@ const NAV_ITEMS = [
   { href: '#funnel', label: 'Funnel' },
 ];
 
+const teaserNavTextStyle = {
+  fontFamily: "'Clash Grotesk', sans-serif",
+  textTransform: 'none' as const,
+};
+
 const SaaSTemplateNavigation = React.memo(() => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
@@ -67,8 +72,8 @@ const SaaSTemplateNavigation = React.memo(() => {
             </div>
             <div className="leading-none">
               <div
-                className="text-[1.55rem] tracking-tight text-[#F0EDE8]"
-                style={{ fontFamily: "'Instrument Serif', serif" }}
+                className="text-[1.55rem] tracking-tight text-[#8A8580]"
+                style={{ fontFamily: "'Clash Grotesk', sans-serif" }}
               >
                 Nexbit
               </div>
@@ -80,8 +85,8 @@ const SaaSTemplateNavigation = React.memo(() => {
               <a
                 key={item.href}
                 href={item.href}
-                className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#8A8580] transition-colors hover:text-[#F0EDE8]"
-                style={{ fontFamily: "'Inter', sans-serif" }}
+                className="text-[15px] font-medium tracking-[0.04em] text-[#8A8580] transition-colors hover:text-[#F0EDE8]"
+                style={teaserNavTextStyle}
               >
                 {item.label}
               </a>
@@ -91,8 +96,8 @@ const SaaSTemplateNavigation = React.memo(() => {
           <div className="hidden md:flex items-center gap-4">
             <a
               href="#integrations"
-              className="inline-flex items-center justify-center rounded px-4 py-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#8A8580] transition-colors hover:text-[#F0EDE8]"
-              style={{ fontFamily: "'Inter', sans-serif" }}
+              className="inline-flex items-center justify-center rounded px-4 py-2 text-[15px] font-medium tracking-[0.04em] text-[#8A8580] transition-colors hover:text-[#F0EDE8]"
+              style={teaserNavTextStyle}
             >
               Explore
             </a>
@@ -101,7 +106,13 @@ const SaaSTemplateNavigation = React.memo(() => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Button type="button" variant="default" size="sm">
+              <Button
+                type="button"
+                variant="default"
+                size="sm"
+                className="text-[15px] tracking-[0.04em]"
+                style={teaserNavTextStyle}
+              >
                 Book a demo
               </Button>
             </a>
@@ -125,8 +136,8 @@ const SaaSTemplateNavigation = React.memo(() => {
               <a
                 key={item.href}
                 href={item.href}
-                className="py-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#8A8580] transition-colors hover:text-[#F0EDE8]"
-                style={{ fontFamily: "'Inter', sans-serif" }}
+                className="py-2 text-[15px] font-medium tracking-[0.04em] text-[#8A8580] transition-colors hover:text-[#F0EDE8]"
+                style={teaserNavTextStyle}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {item.label}
@@ -135,8 +146,8 @@ const SaaSTemplateNavigation = React.memo(() => {
             <div className="flex flex-col gap-2 pt-4 border-t border-[#1A1A1A]">
               <a
                 href="#integrations"
-                className="inline-flex items-center justify-center rounded px-4 py-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#8A8580] transition-colors hover:text-[#F0EDE8]"
-                style={{ fontFamily: "'Inter', sans-serif" }}
+                className="inline-flex items-center justify-center rounded px-4 py-2 text-[15px] font-medium tracking-[0.04em] text-[#8A8580] transition-colors hover:text-[#F0EDE8]"
+                style={teaserNavTextStyle}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Explore
@@ -147,7 +158,13 @@ const SaaSTemplateNavigation = React.memo(() => {
                 rel="noopener noreferrer"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <Button type="button" variant="default" size="sm" className="w-full">
+                <Button
+                  type="button"
+                  variant="default"
+                  size="sm"
+                  className="w-full text-[15px] tracking-[0.04em]"
+                  style={teaserNavTextStyle}
+                >
                   Book a demo
                 </Button>
               </a>
@@ -229,15 +246,15 @@ const SaaSTemplateHero = React.memo(() => {
           <div className="mx-auto flex w-full flex-col items-center text-center">
             <aside className="mb-6 inline-flex max-w-full flex-wrap items-center justify-center gap-2 rounded border border-[#222222] bg-[#111111] px-3 py-2">
               <span
-                className="text-[10px] text-center whitespace-nowrap font-medium uppercase tracking-[0.12em] text-[#555050]"
-                style={{ fontFamily: "'Inter', sans-serif" }}
+                className="text-[15px] text-center whitespace-nowrap font-medium tracking-[0.04em] text-[#555050]"
+                style={teaserNavTextStyle}
               >
-                AI CMO Stack is live.
+                AI CMO stack is live.
               </span>
               <a
                 href="#integrations"
-                className="flex items-center gap-1 whitespace-nowrap text-[10px] font-medium uppercase tracking-[0.12em] text-[#5B8CFF] transition-colors hover:text-[#88A8FF]"
-                style={{ fontFamily: "'Inter', sans-serif" }}
+                className="flex items-center gap-1 whitespace-nowrap text-[15px] font-medium tracking-[0.04em] text-[#9d7958] transition-colors hover:text-[#b6916f]"
+                style={teaserNavTextStyle}
                 aria-label="Jump to integrations"
               >
                 See integrations

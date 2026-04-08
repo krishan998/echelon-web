@@ -709,8 +709,17 @@ export function TeaserPage() {
         <SaaSTemplateHeroSection />
 
         {/* Integrations Section (second page, just below hero) */}
-        <section id="integrations" className="relative z-10 mt-16 sm:mt-20 lg:mt-24 mb-16 lg:mb-20">
-          <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16">
+        <section
+          id="integrations"
+          className="relative z-10"
+          style={{
+            backgroundColor: '#F5EEDC',
+            backgroundImage:
+              'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.12) 1px, transparent 0)',
+            backgroundSize: '22px 22px',
+          }}
+        >
+          <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16 py-6 sm:py-8 lg:py-10">
             <div className="relative flex flex-col lg:flex-row gap-10 lg:gap-16 items-center">
               {/* Static integration illustration image */}
               <div className="relative w-full max-w-md">
@@ -724,10 +733,13 @@ export function TeaserPage() {
 
               <div className="flex-1 max-w-2xl w-full space-y-5 text-center lg:text-left lg:ml-4">
                 <div className="space-y-3">
-                  <p className="text-xs uppercase tracking-[0.4em] text-[#A386FF]">
+                  <p
+                    className="text-[15px] tracking-[0.08em] text-[#A386FF]"
+                    style={{ fontFamily: "'Clash Grotesk', sans-serif", textTransform: 'none' }}
+                  >
                     Integrations
                   </p>
-                  <h2 className="text-3xl sm:text-[2.3rem] lg:text-[3.1rem] font-clash-grotesk text-white leading-tight">
+                  <h2 className="text-3xl sm:text-[2.3rem] lg:text-[3.1rem] font-clash-grotesk text-[#14110F] leading-tight">
                     Integrate with 20+ apps in a snap.
                   </h2>
                 </div>
@@ -755,7 +767,7 @@ export function TeaserPage() {
                             key={`${logo.id}-${loopIndex}`}
                             className="flex shrink-0 items-center justify-center"
                           >
-                            <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-center shadow-[0_0_25px_rgba(0,0,0,0.45)]">
+                            <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-2xl bg-white/70 border border-black/10 flex items-center justify-center shadow-[0_16px_30px_rgba(20,17,15,0.08)] backdrop-blur-sm">
                               <img
                                 src={logo.src}
                                 alt="Integration logo"
@@ -777,7 +789,7 @@ export function TeaserPage() {
         </section>
 
         {/* Why Nexbit Section - Reliable. Scalable. Secure. */}
-        <section id="why-nexbit" className="relative overflow-visible z-10 mt-32 sm:mt-40 lg:mt-48 mb-0 pb-16 sm:pb-24 lg:pb-28 min-h-screen">
+        <section id="why-nexbit" className="relative overflow-visible z-10 mb-0 pb-6 sm:pb-8 lg:pb-10">
           <div
             className="absolute inset-0"
             style={{
@@ -787,7 +799,7 @@ export function TeaserPage() {
               backgroundSize: '22px 22px',
             }}
           />
-          <div className="relative w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16">
+          <div className="relative w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16 pt-6 sm:pt-8 lg:pt-10">
             <div className="rounded-[32px] p-6 sm:p-10 lg:p-14">
               <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
                 {/* Left: headline + feature rows */}
