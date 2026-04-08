@@ -6,7 +6,7 @@ import { ContainerScroll } from '@/components/ui/container-scroll-animation';
 import { isValidEmail, submitWebsiteLandingPageEmail } from '@/utils/urlUtils';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'default' | 'secondary' | 'ghost';
+  variant?: 'default' | 'secondary' | 'ghost' | 'dark';
   size?: 'default' | 'sm' | 'lg';
   children: React.ReactNode;
 }
@@ -20,6 +20,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       default: 'bg-[#F0EDE8] text-[#0A0A0A] hover:bg-white',
       secondary: 'border border-[#222222] text-[#8A8580] hover:text-[#F0EDE8] hover:border-[#444444]',
       ghost: 'text-[#8A8580] hover:text-[#F0EDE8]',
+      dark: 'border border-[#222222] bg-[#1f1f23] text-[#F0EDE8] hover:bg-[#2a2a2f]',
     };
 
     const sizes = {
@@ -266,9 +267,9 @@ const SaaSTemplateHero = React.memo(() => {
 
             <form
               onSubmit={handleWaitlistSubmit}
-              className="mb-8 flex w-full max-w-[320px] flex-col items-center px-4 sm:flex-row sm:items-stretch"
+              className="mb-8 flex w-full max-w-[320px] items-stretch px-4"
             >
-              <div className="relative w-full sm:flex-[1_1_220px]">
+              <div className="relative min-w-0 flex-[1_1_220px]">
                 <input
                   type="email"
                   value={email}
@@ -295,9 +296,9 @@ const SaaSTemplateHero = React.memo(() => {
               </div>
               <Button
                 type="submit"
-                variant="default"
+                variant="dark"
                 size="lg"
-                className="h-[48px] w-full shrink-0 rounded-r-[24px] rounded-l-none bg-[#1f1f23] px-2 text-[#F0EDE8] shadow-none hover:bg-[#2a2a2f] sm:w-[68px] sm:min-w-[68px]"
+                className="h-[48px] w-[68px] min-w-[68px] shrink-0 rounded-r-[24px] rounded-l-none border-l-0 px-2 shadow-none"
                 aria-label="Join waitlist"
                 disabled={isSubmitting || isSubmitted}
               >
