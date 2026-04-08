@@ -17,12 +17,12 @@ import integrationTile from '../assets/integrationTile.png';
 import reliableIcon from '../assets/reliable.svg';
 import scalableIcon from '../assets/scalable.svg';
 import reliableSectionImage from '../assets/reliablesection.png';
-import heroBgVideo from '../assets/herobg.webm';
 import increasedemoIcon from '../assets/selling_points/increasedemo.png';
 import fdeIcon from '../assets/selling_points/fde.png';
 import uptimeIcon from '../assets/selling_points/uptime.png';
 import latencyIcon from '../assets/selling_points/latency.png';
 import securityIcon from '../assets/selling_points/security.png';
+import { SaaSTemplateHeroSection } from '../components/ui/saa-s-template';
 
 const createMessageId = () => `msg-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
@@ -155,6 +155,8 @@ export function TeaserPage() {
   const scrollPositionRef = useRef<number>(0);
   const earlyAccessButtonRef = useRef<HTMLButtonElement>(null);
   const botReplyTimeoutRef = useRef<number | null>(null);
+  const integrationTrackRef = useRef<HTMLDivElement>(null);
+  const [integrationLoopWidth, setIntegrationLoopWidth] = useState(0);
 
   // Voice Agent Hook
   const {
@@ -213,28 +215,47 @@ export function TeaserPage() {
 
   const suggestedQuestions: string[] = [];
 
-  // Load all integration logos from assets/integrations
+  // Load the marketing integration logos in filename order.
   const integrationLogos = React.useMemo(() => {
-    const modules = import.meta.glob('../assets/integrations/*.{png,jpg,jpeg,svg}', {
+    const modules = import.meta.glob('../assets/integrations/marketing/*.{png,jpg,jpeg,svg}', {
       eager: true,
       import: 'default',
     }) as Record<string, string>;
-    return Object.values(modules);
+    return Object.entries(modules)
+      .sort(([leftPath], [rightPath]) => leftPath.localeCompare(rightPath))
+      .map(([path, src]) => ({
+        id: path.split('/').pop()?.replace(/\.[^.]+$/, '') ?? path,
+        src,
+      }));
   }, []);
+
+  useEffect(() => {
+    const measureIntegrationLoop = () => {
+      if (!integrationTrackRef.current) return;
+      setIntegrationLoopWidth(integrationTrackRef.current.offsetWidth);
+    };
+
+    measureIntegrationLoop();
+
+    if (typeof window === 'undefined') return;
+
+    window.addEventListener('resize', measureIntegrationLoop);
+    return () => window.removeEventListener('resize', measureIntegrationLoop);
+  }, [integrationLogos]);
 
   const whyNexbitRows = [
     {
-      label: '5x Demo Requests',
+      label: '3.5x Ad ROI',
       color: '#E9B3FF',
-      title: 'Increase demo requests',
-      body: '5x increase in demo requests from chat first discovery on search and catalogue.',
+      title: 'Ads & Campaign Optimization',
+      body: 'Plan campaigns with precision, optimize budgets, and target the right audience from the start.',
       icon: increasedemoIcon,
     },
     {
-      label: 'Forward-deployed team',
+      label: 'Audience Intelligence',
       color: '#FFB27B',
-      title: 'Hands-on deployment support',
-      body: 'Partner with a forward-deployed engineer to go live quickly and keep your playbooks evolving.',
+      title: 'Build a complete 360° customer profile',
+      body: 'Leverage AI to analyze behaviors, interests, and demographics for hyper-personalized targeting.',
       icon: fdeIcon,
     },
     {
@@ -248,42 +269,42 @@ export function TeaserPage() {
     {
       label: 'Sub-500ms latency',
       color: '#7BD8FF',
-      title: 'Instant, human-like experiences',
-      body: 'Low-latency infra ensures every interaction feels natural, even at peak traffic.',
+      title: 'Instant, human-like interactions',
+      body: 'Low-latency infra measures every interaction in real-time, even at peak traffic.',
       icon: latencyIcon,
     },
     {
       label: 'AI guardrails',
       color: '#7BFFD6',
-      title: 'Controlled, compliant conversations',
-      body: 'Guardrails and policies keep every response on brand, on topic, and safe for your users.',
+      title: 'Controlled, compliant environment',
+      body: 'Guardrails and policies keep every strategy on brand voice, and safe for your business.',
       icon: securityIcon,
     },
   ];
 
   const featureCards = [
-    {
-      label: 'Turn website visitors into informed buyers',
-      color: '#FFB27B',
-      title: 'Turn website visitors into informed buyers',
-      body: 'Instantly explain your product, pricing, and value to every visitor, no matter where they land in the funnel.',
-      image: feature1Image,
-    },
-    {
-      label: 'Personalize every conversation',
-      color: '#7BD8FF',
-      title: 'Personalize every conversation with Persona Intelligence',
-      body: 'Nex adapts to buyer persona, intent, and funnel stage so every touchpoint feels 1:1 and on-message.',
-      image: feature2Image,
-    },
-    {
-      label: 'Give sales teams superhuman context',
-      color: '#7BFFD6',
-      title: 'Give your sales team superhuman context',
-      body: 'Enrich your CRM with qualification signals, intent, and call-ready notes from every conversation.',
-      image: feature3Image,
-    },
-  ];
+  {
+    label: 'Unify fragmented customer signals',
+    color: '#FFB27B',
+    title: 'Unify fragmented customer signals into a single intelligence layer',
+    body: 'Aggregate behavioral, transactional, and intent data across channels in real time.',
+    image: feature1Image,
+  },
+  {
+    label: 'Activate precision targeting at scale',
+    color: '#7BD8FF',
+    title: 'Activate precision targeting with adaptive decisioning',
+    body: 'Leverage real-time inference to deliver relevant messaging across campaigns and audiences.',
+    image: feature2Image,
+  },
+  {
+    label: 'Continuously optimize performance loops',
+    color: '#7BFFD6',
+    title: 'Continuously optimize performance with closed-loop feedback systems',
+    body: 'Conversion signals, attribution data, and engagement metrics are fed into your models to refine targeting.',
+    image: feature3Image,
+  },
+];
 
   const isIntroActive = showChatBox && chatMessages.length === 0;
   const isCollapsedTipActive = !showChatBox;
@@ -519,7 +540,7 @@ export function TeaserPage() {
           className="fixed inset-0 -z-10 pointer-events-none"
           data-name="global-background"
           style={{
-            backgroundColor: '#0E0E13',
+            backgroundColor: '#0e0e12',
           }}
         >
           {/* Grain texture overlay - Animated */}
@@ -685,181 +706,10 @@ export function TeaserPage() {
         </AnimatePresence>
 
         {/* Hero Section */}
-        <section className="relative z-10 min-h-screen flex items-start justify-start w-full pt-0 pb-0 overflow-visible" data-section="hero">
-          {/* Hero Background Video */}
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover z-0"
-            style={{
-              objectFit: 'cover',
-              objectPosition: 'center',
-            }}
-          >
-            <source src={heroBgVideo} type="video/webm" />
-          </video>
-          {/* Overlay for better text readability */}
-          <div className="absolute inset-0 bg-black/20 z-[1]" />
-
-          <div className="relative z-10 w-full">
-            <div className="w-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 pt-6 sm:pt-8 lg:pt-10 pb-10 flex flex-col gap-8">
-              {/* Header inside hero so it shares video background */}
-              <header
-                className="relative z-20 flex items-center justify-between gap-2"
-              >
-                {/* Logo and Name */}
-                <div className="flex items-center gap-2 min-w-0">
-                  <img
-                    src={logoSrc}
-                    alt="Nexbit Logo"
-                    className="w-10 h-10 rounded-[2px] object-cover"
-                  />
-                  <span className="text-xl sm:text-2xl md:text-3xl font-clash-grotesk font-medium text-white truncate">
-                    Nexbit
-                  </span>
-                </div>
-
-                {/* Actions */}
-                <div className="flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0">
-                  <div className="relative inline-block">
-                    <div
-                      className="absolute inset-0 rounded-full opacity-30 blur-md"
-                      style={{
-                        background: 'linear-gradient(118.05deg, rgba(10, 10, 13, 0), rgba(29, 62, 37, 0.8) 25%, rgba(49, 79, 29, 0.9) 54%, rgba(8, 40, 34, 0.8) 80%, rgba(10, 10, 13, 0))',
-                        transform: 'scale(1.1)',
-                        zIndex: 0,
-                        pointerEvents: 'none',
-                        top: '-4px',
-                        left: '-4px',
-                        right: '-4px',
-                        bottom: '-4px',
-                      }}
-                    />
-                    <button
-                      ref={earlyAccessButtonRef}
-                      onClick={() => {
-                        if (earlyAccessButtonRef.current) {
-                          const rect = earlyAccessButtonRef.current.getBoundingClientRect();
-                          const popupWidth = Math.min(448, window.innerWidth * 0.9);
-                          const popupHeight = 400;
-                          const spacing = 12;
-
-                          // Calculate position directly below button, aligned to left edge
-                          let top = rect.bottom + spacing;
-                          let left = rect.left;
-
-                          // Ensure popup stays within viewport horizontally
-                          if (left + popupWidth > window.innerWidth - 20) {
-                            left = window.innerWidth - popupWidth - 20;
-                          }
-
-                          if (left < 20) {
-                            left = 20;
-                          }
-
-                          // If popup would go below viewport, adjust top position
-                          if (top + popupHeight > window.innerHeight - 20) {
-                            top = window.innerHeight - popupHeight - 20;
-                          }
-
-                          setPopupPosition({ top, left });
-                        }
-                        setShowJoinPopup(true);
-                      }}
-                      className="relative inline-flex items-center justify-center rounded-lg bg-white text-gray-900 px-2.5 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm md:px-6 md:py-2.5 md:text-base font-normal shadow-sm hover:shadow md:shadow whitespace-nowrap z-10"
-                    >
-                      Join Early Access
-                    </button>
-                  </div>
-                  <a
-                    href="https://calendly.com/kp-nexbit/30min"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-lg text-white px-2.5 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm md:px-6 md:py-2.5 md:text-base font-normal shadow-sm hover:shadow md:shadow whitespace-nowrap"
-                    style={{ backgroundColor: '#564F4B' }}
-                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#4a433f'}
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#564F4B'}
-                  >
-                    Contact
-                  </a>
-                </div>
-              </header>
-
-              {/* Left Aligned Text Content - Centered Container */}
-              <div className="text-left flex flex-col justify-center items-start gap-6 py-10 mt-16 md:mt-20 lg:mt-24 max-w-6xl mx-auto ml-8 md:ml-12 lg:ml-16">
-
-                {/* Main Heading - Left Aligned */}
-                <div className="mb-4">
-                  <div className="text-white text-3xl sm:text-4xl md:text-6xl lg:text-[4.5rem] font-[3500] tracking-tight leading-tight font-clash-grotesk">
-                    Let your product do the talking
-                  </div>
-                </div>
-
-                {/* Tagline */}
-                <div
-                  className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 font-light leading-relaxed text-gray-300 max-w-2xl"
-                >
-                  Interactive demos built to engage, qualify, and convert up to 3× more prospects than your current funnel.
-                </div>
-
-                {/* Primary CTA Button with gradient strip effect */}
-                <div className="relative inline-block">
-                  <div
-                    className="absolute inset-0 rounded-xl opacity-20 blur-xl"
-                    style={{
-                      background: 'linear-gradient(118.05deg, rgba(10, 10, 13, 0), rgba(29, 62, 37, 0.8) 25%, rgba(49, 79, 29, 0.9) 54%, rgba(8, 40, 34, 0.8) 80%, rgba(10, 10, 13, 0))',
-                      transform: 'scale(1.2)',
-                      zIndex: 0,
-                      pointerEvents: 'none',
-                      top: '-10px',
-                      left: '-10px',
-                      right: '-10px',
-                      bottom: '-10px',
-                      borderRadius: '12px',
-                    }}
-                  />
-                  <button
-                    onClick={(e) => {
-                      const rect = (e.currentTarget as HTMLButtonElement).getBoundingClientRect();
-                      const popupWidth = Math.min(448, window.innerWidth * 0.9);
-                      const popupHeight = 400;
-                      const spacing = 12;
-
-                      // Calculate position directly below button, aligned to left edge
-                      let top = rect.bottom + spacing;
-                      let left = rect.left;
-
-                      // Ensure popup stays within viewport horizontally
-                      if (left + popupWidth > window.innerWidth - 20) {
-                        left = window.innerWidth - popupWidth - 20;
-                      }
-
-                      if (left < 20) {
-                        left = 20;
-                      }
-
-                      // If popup would go below viewport, adjust top position
-                      if (top + popupHeight > window.innerHeight - 20) {
-                        top = window.innerHeight - popupHeight - 20;
-                      }
-
-                      setPopupPosition({ top, left });
-                      setShowJoinPopup(true);
-                    }}
-                    className="relative inline-flex items-center justify-center rounded-lg bg-white text-gray-900 px-6 py-3 text-base font-medium shadow-sm hover:shadow z-10"
-                  >
-                    Join Early Access
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <SaaSTemplateHeroSection />
 
         {/* Integrations Section (second page, just below hero) */}
-        <section className="relative z-10 mt-16 sm:mt-20 lg:mt-24 mb-16 lg:mb-20">
+        <section id="integrations" className="relative z-10 mt-16 sm:mt-20 lg:mt-24 mb-16 lg:mb-20">
           <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16">
             <div className="relative flex flex-col lg:flex-row gap-10 lg:gap-16 items-center">
               {/* Static integration illustration image */}
@@ -878,34 +728,45 @@ export function TeaserPage() {
                     Integrations
                   </p>
                   <h2 className="text-3xl sm:text-[2.3rem] lg:text-[3.1rem] font-clash-grotesk text-white leading-tight">
-                    Integrate with more than 20+ apps in a snap.
+                    Integrate with 20+ apps in a snap.
                   </h2>
                 </div>
 
                 {/* Horizontal marquee row that stays within this box */}
                 <div className="relative overflow-hidden mt-2 sm:mt-3">
                   <motion.div
-                    className="flex gap-4 sm:gap-5"
-                    animate={{ x: ['0%', '-50%'] }}
+                    className="flex w-max"
+                    animate={integrationLoopWidth > 0 ? { x: [0, -integrationLoopWidth] } : undefined}
                     transition={{
-                      duration: 25,
+                      duration: Math.max(26, integrationLogos.length * 2.6),
                       ease: 'linear',
                       repeat: Infinity,
                     }}
                   >
-                    {[...integrationLogos, ...integrationLogos].map((logoSrc, idx) => (
+                    {[0, 1].map((loopIndex) => (
                       <div
-                        key={`${logoSrc}-${idx}`}
-                        className="flex items-center justify-center"
+                        key={loopIndex}
+                        ref={loopIndex === 0 ? integrationTrackRef : undefined}
+                        aria-hidden={loopIndex === 1}
+                        className="flex shrink-0 gap-4 pr-4 sm:gap-5 sm:pr-5"
                       >
-                        <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-center shadow-[0_0_25px_rgba(0,0,0,0.45)]">
-                          <img
-                            src={logoSrc}
-                            alt="Integration logo"
-                            className="max-h-10 sm:max-h-12 md:max-h-14 w-auto object-contain"
-                            loading="lazy"
-                          />
-                        </div>
+                        {integrationLogos.map((logo) => (
+                          <div
+                            key={`${logo.id}-${loopIndex}`}
+                            className="flex shrink-0 items-center justify-center"
+                          >
+                            <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-center shadow-[0_0_25px_rgba(0,0,0,0.45)]">
+                              <img
+                                src={logo.src}
+                                alt="Integration logo"
+                                className={logo.id.includes('linkedin')
+                                  ? 'max-h-12 sm:max-h-[3.5rem] md:max-h-16 max-w-[80%] w-auto object-contain'
+                                  : 'max-h-10 sm:max-h-12 md:max-h-14 max-w-[72%] w-auto object-contain'}
+                                loading="lazy"
+                              />
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     ))}
                   </motion.div>
@@ -916,7 +777,7 @@ export function TeaserPage() {
         </section>
 
         {/* Why Nexbit Section - Reliable. Scalable. Secure. */}
-        <section className="relative overflow-visible z-10 mt-32 sm:mt-40 lg:mt-48 mb-0 pb-16 sm:pb-24 lg:pb-28 min-h-screen">
+        <section id="why-nexbit" className="relative overflow-visible z-10 mt-32 sm:mt-40 lg:mt-48 mb-0 pb-16 sm:pb-24 lg:pb-28 min-h-screen">
           <div
             className="absolute inset-0"
             style={{
@@ -986,6 +847,7 @@ export function TeaserPage() {
 
         {/* Feature Cards - 4 Quadrant Grid Design */}
         <section
+          id="funnel"
           className="relative z-10 mb-0 lg:py-16 lg:py-24"
           style={{
             backgroundColor: '#F5EEDC',
@@ -1000,7 +862,7 @@ export function TeaserPage() {
               {/* Headline */}
               <div className="w-full px-1">
                 <h2 className="text-xl sm:text-2xl font-clash-grotesk text-black leading-tight break-words">
-                  A funnel that converts
+                  The brain behind your marketing
                 </h2>
               </div>
 
@@ -1091,7 +953,7 @@ export function TeaserPage() {
                   >
 
                     <h2 className="text-2xl sm:text-3xl lg:text-[2.4rem] xl:text-[3rem] font-clash-grotesk text-black leading-tight">
-                      A funnel that converts
+                     The brain behind your marketing
                     </h2>
                   </div>
 
@@ -1249,7 +1111,7 @@ export function TeaserPage() {
           className="relative z-0 w-full"
           data-section="footer"
           style={{
-            backgroundColor: '#1A4923'
+            backgroundColor: '#0e0e12'
           }}
         >
           {/* Main Footer Content */}
@@ -1281,7 +1143,7 @@ export function TeaserPage() {
         <div
           className="relative z-0 w-full mt-[-2rem] md:mt-[-3rem]"
           style={{
-            backgroundColor: '#1A4923'
+            backgroundColor: '#0e0e12'
           }}
         >
           <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16 pt-0 md:pt-0 pb-0 md:pb-0">

@@ -9,7 +9,7 @@ import { SecuritySection } from '../components/home/SecuritySection';
 
 export function HomePage() {
   return (
-    <div className="relative min-h-screen bg-white">
+    <div className="relative min-h-screen bg-[#0e0e12]">
       <GradientWaveCanvas />
       <div className="relative z-10">
         <Navbar />

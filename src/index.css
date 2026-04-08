@@ -153,7 +153,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  background: #0E0E13;
+  background: #0e0e12;
 }
 
 /* Font loading verification - Montserrat should be distinctly different from default fonts */
@@ -208,7 +208,7 @@ body {
   min-height: 100vh;
   width: 100%;
   position: relative;
-  background: #0E0E13;
+  background: #0e0e12;
   overflow: visible !important;
 }
 
@@ -277,3 +277,127 @@ body {
   opacity: 1 !important;
   transform: translateY(0) scale(1);
 }
+
+/* 3D Poem Animation Hero Section (Final Refinement) */
+.perspective-480 {
+  perspective: 480px !important;
+  perspective-origin: 51% 70% !important;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d !important;
+}
+
+.cube {
+  position: relative;
+  width: 1000px;
+  height: 562px;
+  transform-style: preserve-3d !important;
+  animation: rotate-cube 60s infinite linear;
+}
+
+.face {
+  position: absolute;
+  width: 1000px;
+  height: 562px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: visible !important;
+  overflow: hidden;
+}
+
+/* Faces Positioning for a Large Room */
+.face.top { 
+  transform: rotateX(90deg) translateZ(281px) !important; 
+  background: black;
+  /* Glowing Ceiling Rectangles */
+  background-image: 
+    linear-gradient(white, white), 
+    linear-gradient(white, white),
+    linear-gradient(white, white),
+    linear-gradient(white, white);
+  background-repeat: no-repeat;
+  background-size: 80% 2px, 80% 2px, 2px 80%, 2px 80%;
+  background-position: center 20%, center 80%, 20% center, 80% center;
+  box-shadow: inset 0 0 100px rgba(255,255,255,0.2);
+}
+
+.face.bottom { 
+  transform: rotateX(-90deg) translateZ(281px) !important; 
+  background: #000;
+  /* Cyan Grid Floor */
+  background-image: 
+    linear-gradient(rgba(0, 255, 255, 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.2) 1px, transparent 1px);
+  background-size: 50px 50px;
+  box-shadow: inset 0 0 150px rgba(0, 255, 255, 0.1);
+}
+
+.face.left { transform: rotateY(-90deg) translateZ(500px) !important; }
+.face.right { transform: rotateY(90deg) translateZ(500px) !important; }
+.face.front { transform: translateZ(500px) !important; }
+.face.back { transform: rotateY(180deg) translateZ(500px) !important; }
+
+.face.text {
+  background: rgba(14, 14, 19, 0.8) !important;
+  color: #fff !important;
+  white-space: nowrap !important;
+  font-family: 'Nohemi', sans-serif;
+}
+
+.face.text p {
+  font-size: calc(8em + 13.3px) !important;
+  font-weight: 800 !important;
+  margin: 0 !important;
+  text-transform: uppercase !important;
+  letter-spacing: -0.05em !important;
+  display: inline-block !important;
+  /* Glowing Text */
+  text-shadow: 0 0 30px rgba(255,255,255,0.4), 0 0 60px rgba(0,255,255,0.2);
+}
+
+.face.text span {
+  color: #ebf855 !important;
+  text-shadow: 0 0 20px rgba(235, 248, 85, 0.8) !important;
+}
+
+.hue {
+  background: radial-gradient(circle at center, #1e5799 0%, #7db9e8 100%) !important;
+  animation: hue-rotate-animation 15s infinite linear !important;
+}
+
+.filter-blur-10 {
+  filter: blur(10px) !important;
+}
+
+@keyframes left-scroll {
+  from { transform: translateX(1000px); }
+  to { transform: translateX(-54000px); }
+}
+
+@keyframes back-scroll {
+  from { transform: translateX(1000px); }
+  to { transform: translateX(-54870px); }
+}
+
+@keyframes right-scroll {
+  from { transform: translateX(1000px); }
+  to { transform: translateX(-55740px); }
+}
+
+@keyframes hue-rotate-animation {
+  0% { filter: hue-rotate(0deg) brightness(1.2); }
+  50% { filter: hue-rotate(180deg) brightness(1.5); }
+  100% { filter: hue-rotate(360deg) brightness(1.2); }
+}
+
+@keyframes rotate-cube {
+  0% { transform: scale(3) rotateX(0deg) rotateY(0deg); }
+  50% { transform: scale(3) rotateX(5deg) rotateY(180deg); }
+  100% { transform: scale(3) rotateX(0deg) rotateY(360deg); }
+}
+
+.face.left.text p { animation: left-scroll 200s linear infinite !important; }
+.face.back.text p { animation: back-scroll 210s linear infinite !important; }
+.face.right.text p { animation: right-scroll 220s linear infinite !important; }

@@ -8,7 +8,7 @@ import './Hero.css';
 
 export function Hero() {
   return (
-    <div className="relative min-h-screen pt-24 overflow-hidden">
+    <div className="relative min-h-screen pt-24 overflow-hidden bg-[#0e0e12]">
       <ParticleBackground />
       
       {/* Content */}
