@@ -845,7 +845,7 @@ export function TeaserPage() {
               <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
                 {/* Left: headline + feature rows */}
                 <div className="flex-1 space-y-10 text-[#14110F]">
-                  <h2 className="text-2xl sm:text-[2.3rem] lg:text-[2.8rem] font-clash-grotesk leading-tight flex flex-wrap md:flex-nowrap gap-3 items-center">
+                  <h2 className="text-xl sm:text-[2.3rem] lg:text-[2.8rem] font-clash-grotesk leading-tight flex flex-wrap md:flex-nowrap gap-3 items-center">
                     <span className="font-medium whitespace-nowrap">Reliable.</span>
                     <img src={reliableIcon} alt="Reliable icon" className="h-7 w-7 sm:h-8 sm:w-8 flex-shrink-0" />
                     <span className="font-medium whitespace-nowrap">Scalable.</span>

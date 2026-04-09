@@ -1131,7 +1131,7 @@ export const FlickeringFooter = ({ logoSrc }: { logoSrc?: string }) => {
       </div>
       <div className="w-full h-48 md:h-64 relative mt-8 z-0">
         <div className="absolute inset-0 bg-gradient-to-t from-transparent to-[#0e0e12] z-10 from-40%" />
-        <div className="absolute inset-0 mx-6">
+        <div className="absolute inset-0">
           <FlickeringGrid
             text="NEXBIT"
             fontSize={tablet ? 70 : 140}
