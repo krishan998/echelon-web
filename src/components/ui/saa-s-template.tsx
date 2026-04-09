@@ -46,7 +46,7 @@ Button.displayName = 'Button';
 const NAV_ITEMS = [
   { href: '#integrations', label: 'Integrations' },
   { href: '#why-nexbit', label: 'Why Nexbit' },
-  { href: '#funnel', label: 'Funnel' },
+  { href: '#overview', label: 'Overview' },
 ];
 
 const teaserNavTextStyle = {

@@ -35,10 +35,24 @@ export const ContainerScroll = ({
   const boxShadow: MotionValue<string> | string =
     "0 0 #0000004d, 0 9px 20px #0000004a, 0 37px 37px #00000042";
 
+  if (isMobile) {
+    return (
+      <div className="relative">
+        <div className="mx-auto w-full">
+          <div>{titleComponent}</div>
+          <div className="mt-4 rounded-2xl border border-neutral-800 bg-neutral-900 p-2 mx-2"
+            style={{ boxShadow }}>
+            <div className="overflow-hidden rounded-xl">{children}</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       ref={containerRef}
-      className="relative flex items-center justify-center md:h-[80rem]"
+      className="relative flex items-center justify-center h-[80rem]"
     >
       <div className="mx-auto w-full max-w-6xl" style={{ perspective: "1000px" }}>
         <motion.div style={{ translateY: translate }}>{titleComponent}</motion.div>
@@ -49,7 +63,7 @@ export const ContainerScroll = ({
             scale,
             boxShadow,
           }}
-          className="mt-4 md:mt-10 rounded-2xl border border-neutral-800 bg-neutral-900 p-2 md:p-3"
+          className="mt-10 rounded-2xl border border-neutral-800 bg-neutral-900 p-3"
         >
           <div className="overflow-hidden rounded-xl">{children}</div>
         </motion.div>
