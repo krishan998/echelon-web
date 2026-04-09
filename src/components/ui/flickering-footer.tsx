@@ -1115,7 +1115,7 @@ export const FlickeringFooter = ({ logoSrc }: { logoSrc?: string }) => {
               <img src={logoSrc} alt="Nexbit Logo" className="w-12 h-12 rounded-[2px] object-cover" />
             )}
             <div className="font-medium text-xl text-white" style={{ fontFamily: "'Clash Grotesk', sans-serif" }}>Nexbit</div>
-            <p className="text-white/60 text-sm mt-2">&copy; 2025 Logikeon Labs Private Limited. All rights reserved.</p>
+            <p className="text-white/60 text-sm mt-2">&copy; 2026 Logikeon Labs Private Limited. All rights reserved.</p>
           </div>
 
           {/* Right Column - Links */}
