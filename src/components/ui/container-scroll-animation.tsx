@@ -38,7 +38,7 @@ export const ContainerScroll = ({
   return (
     <div
       ref={containerRef}
-      className="relative flex h-[60rem] items-center justify-center md:h-[80rem]"
+      className="relative flex items-center justify-center md:h-[80rem]"
     >
       <div className="mx-auto w-full max-w-6xl" style={{ perspective: "1000px" }}>
         <motion.div style={{ translateY: translate }}>{titleComponent}</motion.div>
@@ -49,7 +49,7 @@ export const ContainerScroll = ({
             scale,
             boxShadow,
           }}
-          className="mt-10 rounded-2xl border border-neutral-800 bg-neutral-900 p-3"
+          className="mt-4 md:mt-10 rounded-2xl border border-neutral-800 bg-neutral-900 p-2 md:p-3"
         >
           <div className="overflow-hidden rounded-xl">{children}</div>
         </motion.div>
