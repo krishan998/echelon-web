@@ -156,8 +156,8 @@ export function TeaserPage() {
   const scrollPositionRef = useRef<number>(0);
   const earlyAccessButtonRef = useRef<HTMLButtonElement>(null);
   const botReplyTimeoutRef = useRef<number | null>(null);
-  const integrationTrackRef = useRef<HTMLDivElement>(null);
-  const [integrationLoopWidth, setIntegrationLoopWidth] = useState(0);
+  // Integration logos measurement removed in favor of percentage-based animation
+
 
   // Voice Agent Hook
   const {
@@ -230,19 +230,7 @@ export function TeaserPage() {
       }));
   }, []);
 
-  useEffect(() => {
-    const measureIntegrationLoop = () => {
-      if (!integrationTrackRef.current) return;
-      setIntegrationLoopWidth(integrationTrackRef.current.offsetWidth);
-    };
 
-    measureIntegrationLoop();
-
-    if (typeof window === 'undefined') return;
-
-    window.addEventListener('resize', measureIntegrationLoop);
-    return () => window.removeEventListener('resize', measureIntegrationLoop);
-  }, [integrationLogos]);
 
   const whyNexbitRows = [
     {
@@ -749,7 +737,7 @@ export function TeaserPage() {
                 <div className="relative overflow-hidden mt-2 sm:mt-3 hidden lg:block">
                   <motion.div
                     className="flex w-max"
-                    animate={integrationLoopWidth > 0 ? { x: [0, -integrationLoopWidth] } : undefined}
+                    animate={{ x: ["0%", "-50%"] }}
                     transition={{
                       duration: Math.max(26, integrationLogos.length * 2.6),
                       ease: 'linear',
@@ -759,7 +747,6 @@ export function TeaserPage() {
                     {[0, 1].map((loopIndex) => (
                       <div
                         key={loopIndex}
-                        ref={loopIndex === 0 ? integrationTrackRef : undefined}
                         aria-hidden={loopIndex === 1}
                         className="flex shrink-0 gap-4 pr-4 sm:gap-5 sm:pr-5"
                       >
@@ -791,7 +778,7 @@ export function TeaserPage() {
             <div className="relative overflow-hidden mt-4 lg:hidden">
               <motion.div
                 className="flex w-max"
-                animate={integrationLoopWidth > 0 ? { x: [0, -integrationLoopWidth] } : undefined}
+                animate={{ x: ["0%", "-50%"] }}
                 transition={{
                   duration: Math.max(26, integrationLogos.length * 2.6),
                   ease: 'linear',
@@ -801,7 +788,6 @@ export function TeaserPage() {
                 {[0, 1].map((loopIndex) => (
                   <div
                     key={loopIndex}
-                    ref={loopIndex === 0 ? integrationTrackRef : undefined}
                     aria-hidden={loopIndex === 1}
                     className="flex shrink-0 gap-4 pr-4 sm:gap-5 sm:pr-5"
                   >
@@ -900,7 +886,7 @@ export function TeaserPage() {
 
         {/* Feature Cards - 4 Quadrant Grid Design */}
         <section
-          id="funnel"
+          id="overview"
           className="relative z-10 mb-0 lg:py-16 lg:py-24"
           style={{
             backgroundColor: '#F5EEDC',
