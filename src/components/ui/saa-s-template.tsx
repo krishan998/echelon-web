@@ -243,7 +243,7 @@ const SaaSTemplateHero = React.memo(() => {
 
       <ContainerScroll
         titleComponent={
-          <div className="mx-auto flex w-full flex-col items-center text-center">
+          <div className="mx-auto flex w-full flex-col items-center text-center pt-20 md:pt-0">
             <aside className="mb-6 inline-flex max-w-full flex-wrap items-center justify-center gap-2 rounded border border-[#222222] bg-[#111111] px-3 py-2">
               <span
                 className="text-[15px] text-center whitespace-nowrap font-medium tracking-[0.04em] text-[#555050]"
@@ -276,7 +276,7 @@ const SaaSTemplateHero = React.memo(() => {
             </h1>
 
             <p
-              className="mb-10 max-w-3xl px-4 text-center text-[14px] leading-relaxed md:text-[15px]"
+              className="mb-4 md:mb-10 max-w-3xl px-4 text-center text-[14px] leading-relaxed md:text-[15px]"
               style={{ color: '#8A8580', fontFamily: "'Inter', sans-serif" }}
             >
               Stop babysitting your ad spend and start letting AI handle the hard part.
@@ -284,7 +284,7 @@ const SaaSTemplateHero = React.memo(() => {
 
             <form
               onSubmit={handleWaitlistSubmit}
-              className="mb-8 flex w-full max-w-[320px] items-stretch px-4"
+              className="mb-2 md:mb-8 flex w-full max-w-[320px] items-stretch px-4"
             >
               <div className="relative min-w-0 flex-[1_1_220px]">
                 <input
