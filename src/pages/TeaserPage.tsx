@@ -23,6 +23,7 @@ import uptimeIcon from '../assets/selling_points/uptime.png';
 import latencyIcon from '../assets/selling_points/latency.png';
 import securityIcon from '../assets/selling_points/security.png';
 import { SaaSTemplateHeroSection } from '../components/ui/saa-s-template';
+import { FlickeringFooter } from '../components/ui/flickering-footer';
 
 const createMessageId = () => `msg-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
@@ -1119,61 +1120,8 @@ export function TeaserPage() {
         </section>
 
         {/* Footer */}
-        <footer
-          className="relative z-0 w-full"
-          data-section="footer"
-          style={{
-            backgroundColor: '#0e0e12'
-          }}
-        >
-          {/* Main Footer Content */}
-          <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16 py-14 md:py-18">
-            <div className="w-full">
-              <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-8 md:gap-12">
-                {/* Left Column - Brand Information */}
-                <div className="text-center md:text-left flex flex-col items-center md:items-start gap-3">
-                  <img src={logoSrc} alt="Nexbit Logo" className="w-12 h-12 rounded-[2px] object-cover" />
-                  <div className="font-clash-grotesk font-medium text-xl text-white">Nexbit</div>
-                  <p className="text-white/60 text-sm mt-2">© 2025 Logikeon Labs Private Limited. All rights reserved.</p>
-                </div>
-
-                {/* Right Column - Back to Top & Links */}
-                <div className="text-center md:text-right space-y-3">
-                  <a href="#page-root" onClick={scrollToTop} className="text-white/80 hover:text-white inline-flex items-center gap-1 justify-center md:justify-end cursor-pointer">
-                    Back to top
-                    <span>↑</span>
-                  </a>
-                  <a href="https://www.linkedin.com/company/nexbit-ai/" target="_blank" rel="noopener noreferrer" className="block text-white/80 hover:text-white">LinkedIn</a>
-                  <a href="https://x.com/NexbitAi" className="block text-white/80 hover:text-white">X</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </footer>
-
-        {/* End of Page - NEXBIT */}
-        <div
-          className="relative z-0 w-full mt-[-2rem] md:mt-[-3rem]"
-          style={{
-            backgroundColor: '#0e0e12'
-          }}
-        >
-          <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16 pt-0 md:pt-0 pb-0 md:pb-0">
-            <div className="text-center overflow-hidden">
-              <h1
-                className="text-8xl sm:text-9xl md:text-[10rem] lg:text-[16rem] xl:text-[20rem] 2xl:text-[24rem] font-clash-grotesk font-bold italic tracking-tight leading-none transform translate-y-[10%] md:translate-y-[32%]"
-                style={{
-                  fontFamily: '\'Clash Grotesk\', sans-serif',
-                  background: 'linear-gradient(to bottom, rgba(245,238,220,0.2) 0%, rgba(245,238,220,0.4) 20%, rgba(245,238,220,0.7) 50%, rgba(245,238,220,0.9) 80%, rgba(245,238,220,1) 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
-                NEXBIT
-              </h1>
-            </div>
-          </div>
+        <div className="relative z-0 w-full" data-section="footer" style={{ backgroundColor: '#0e0e12' }}>
+          <FlickeringFooter logoSrc={logoSrc} />
         </div>
 
         {/* Docked Chat overlay (disabled) */}
