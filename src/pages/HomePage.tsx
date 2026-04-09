@@ -3,13 +3,13 @@ import { Navbar } from '../components/layout/Navbar';
 import { Hero } from '../components/home/Hero';
 import { Features } from '../components/home/Features';
 import { CallToAction } from '../components/home/CallToAction';
-import { Footer } from '../components/layout/Footer';
+import { FlickeringFooter } from '../components/ui/flickering-footer';
 import { GradientWaveCanvas } from '../components/backgrounds/GradientWaveCanvas';
 import { SecuritySection } from '../components/home/SecuritySection';
 
 export function HomePage() {
   return (
-    <div className="relative min-h-screen bg-white">
+    <div className="relative min-h-screen bg-[#0e0e12]">
       <GradientWaveCanvas />
       <div className="relative z-10">
         <Navbar />
@@ -17,7 +17,7 @@ export function HomePage() {
         <Features />
         <SecuritySection />
         <CallToAction />
-        <Footer />
+        <FlickeringFooter />
       </div>
     </div>
   );
