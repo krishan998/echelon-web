@@ -35,6 +35,20 @@ export const ContainerScroll = ({
   const boxShadow: MotionValue<string> | string =
     "0 0 #0000004d, 0 9px 20px #0000004a, 0 37px 37px #00000042";
 
+  if (isMobile) {
+    return (
+      <div className="relative">
+        <div className="mx-auto w-full">
+          <div>{titleComponent}</div>
+          <div className="mt-4 rounded-2xl border border-neutral-800 bg-neutral-900 p-2 mx-2"
+            style={{ boxShadow }}>
+            <div className="overflow-hidden rounded-xl">{children}</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       ref={containerRef}

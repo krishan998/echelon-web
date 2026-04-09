@@ -721,9 +721,9 @@ export function TeaserPage() {
           }}
         >
           <div className="w-full max-w-[1440px] mx-auto px-4 md:px-12 lg:px-16 py-6 sm:py-8 lg:py-10">
-            <div className="relative flex flex-col lg:flex-row gap-10 lg:gap-16 items-center">
+            <div className="relative flex flex-row gap-4 sm:gap-6 lg:gap-16 items-center">
               {/* Static integration illustration image */}
-              <div className="relative w-full max-w-md">
+              <div className="relative w-[40%] max-w-[10rem] shrink-0 lg:w-full lg:max-w-md">
                 <img
                   src={integrationTile}
                   alt="Integrations visualization"
@@ -732,7 +732,7 @@ export function TeaserPage() {
                 />
               </div>
 
-              <div className="flex-1 max-w-2xl w-full space-y-5 text-center lg:text-left lg:ml-4">
+              <div className="flex-1 max-w-2xl w-full space-y-5 text-left lg:ml-4">
                 <div className="space-y-3">
                   <p
                     className="text-[15px] tracking-[0.08em] text-[#A386FF]"
@@ -740,13 +740,13 @@ export function TeaserPage() {
                   >
                     Integrations
                   </p>
-                  <h2 className="text-3xl sm:text-[2.3rem] lg:text-[3.1rem] font-clash-grotesk text-[#14110F] leading-tight">
+                  <h2 className="text-xl sm:text-[2.3rem] lg:text-[3.1rem] font-clash-grotesk text-[#14110F] leading-tight">
                     Integrate with 20+ apps in a snap.
                   </h2>
                 </div>
 
-                {/* Horizontal marquee row that stays within this box */}
-                <div className="relative overflow-hidden mt-2 sm:mt-3">
+                {/* Horizontal marquee - visible only on lg+ (inside text column) */}
+                <div className="relative overflow-hidden mt-2 sm:mt-3 hidden lg:block">
                   <motion.div
                     className="flex w-max"
                     animate={integrationLoopWidth > 0 ? { x: [0, -integrationLoopWidth] } : undefined}
@@ -785,6 +785,46 @@ export function TeaserPage() {
                   </motion.div>
                 </div>
               </div>
+            </div>
+
+            {/* Horizontal marquee - visible only on mobile/tablet (below the row) */}
+            <div className="relative overflow-hidden mt-4 lg:hidden">
+              <motion.div
+                className="flex w-max"
+                animate={integrationLoopWidth > 0 ? { x: [0, -integrationLoopWidth] } : undefined}
+                transition={{
+                  duration: Math.max(26, integrationLogos.length * 2.6),
+                  ease: 'linear',
+                  repeat: Infinity,
+                }}
+              >
+                {[0, 1].map((loopIndex) => (
+                  <div
+                    key={loopIndex}
+                    ref={loopIndex === 0 ? integrationTrackRef : undefined}
+                    aria-hidden={loopIndex === 1}
+                    className="flex shrink-0 gap-4 pr-4 sm:gap-5 sm:pr-5"
+                  >
+                    {integrationLogos.map((logo) => (
+                      <div
+                        key={`${logo.id}-${loopIndex}`}
+                        className="flex shrink-0 items-center justify-center"
+                      >
+                        <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-2xl bg-white/70 border border-black/10 flex items-center justify-center shadow-[0_16px_30px_rgba(20,17,15,0.08)] backdrop-blur-sm">
+                          <img
+                            src={logo.src}
+                            alt="Integration logo"
+                            className={logo.id.includes('linkedin')
+                              ? 'max-h-12 sm:max-h-[3.5rem] md:max-h-16 max-w-[80%] w-auto object-contain'
+                              : 'max-h-10 sm:max-h-12 md:max-h-14 max-w-[72%] w-auto object-contain'}
+                            loading="lazy"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </motion.div>
             </div>
           </div>
         </section>
