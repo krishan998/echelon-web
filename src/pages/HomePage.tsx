@@ -3,7 +3,7 @@ import { Navbar } from '../components/layout/Navbar';
 import { Hero } from '../components/home/Hero';
 import { Features } from '../components/home/Features';
 import { CallToAction } from '../components/home/CallToAction';
-import { Footer } from '../components/layout/Footer';
+import { FlickeringFooter } from '../components/ui/flickering-footer';
 import { GradientWaveCanvas } from '../components/backgrounds/GradientWaveCanvas';
 import { SecuritySection } from '../components/home/SecuritySection';
 
@@ -17,7 +17,7 @@ export function HomePage() {
         <Features />
         <SecuritySection />
         <CallToAction />
-        <Footer />
+        <FlickeringFooter />
       </div>
     </div>
   );
