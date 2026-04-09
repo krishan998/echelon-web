@@ -1138,7 +1138,7 @@ export const FlickeringFooter = ({ logoSrc }: { logoSrc?: string }) => {
             className="h-full w-full"
             squareSize={2}
             gridGap={tablet ? 2 : 3}
-            color="#6B7280"
+            color="#fefefe"
             maxOpacity={0.3}
             flickerChance={0.1}
           />
