@@ -270,14 +270,14 @@ const SaaSTemplateHero = React.memo(() => {
                 letterSpacing: '-0.03em',
               }}
             >
-              Stop guessing what <span style={{ color: '#8A8580'}}>Campaign</span> to run next
+              Stop guessing which <span style={{ color: '#8A8580'}}>campaign</span> to run next
             </h1>
 
             <p
-              className="mb-4 md:mb-10 max-w-3xl px-4 text-center text-[14px] leading-relaxed md:text-[15px]"
+              className="mb-4 md:mb-10 max-w-3xl px-4 text-center text-[13px] leading-relaxed md:text-[14px]"
               style={{ color: '#8A8580', fontFamily: "'Inter', sans-serif" }}
             >
-              Nexbit finds the highest-ROI actions and launches them automatically.
+              Growing LTV is the only scalable path to profitability. Nexbit finds and runs the highest-ROI actions for it.
             </p>
 
             <form
