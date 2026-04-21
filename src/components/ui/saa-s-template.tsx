@@ -249,7 +249,7 @@ const SaaSTemplateHero = React.memo(() => {
                 className="text-[15px] text-center whitespace-nowrap font-medium tracking-[0.04em] text-[#555050]"
                 style={teaserNavTextStyle}
               >
-                AI CMO stack is live.
+                AI Growth stack is live.
               </span>
               <a
                 href="#integrations"
@@ -270,16 +270,14 @@ const SaaSTemplateHero = React.memo(() => {
                 letterSpacing: '-0.03em',
               }}
             >
-              Give your idea
-              <br />
-              the <span style={{ color: '#8A8580'}}>Marketing</span> it deserves
+              Stop guessing what <span style={{ color: '#8A8580'}}>Campaign</span> to run next
             </h1>
 
             <p
               className="mb-4 md:mb-10 max-w-3xl px-4 text-center text-[14px] leading-relaxed md:text-[15px]"
               style={{ color: '#8A8580', fontFamily: "'Inter', sans-serif" }}
             >
-              Stop babysitting your ad spend and start letting AI handle the hard part.
+              Nexbit finds the highest-ROI actions and launches them automatically.
             </p>
 
             <form
