@@ -83,7 +83,7 @@ export function CareersPage() {
                       </div>
                     </div>
                     <a
-                      href="https://cal.com/shubh.r/discuss"
+                      href="https://cal.com/shubh.r/nexbit-intro"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="mt-4 md:mt-0 inline-flex items-center px-6 py-2 border border-transparent text-base font-medium rounded-md text-dark-900 bg-primary-400 hover:bg-primary-500 transition-colors"
@@ -102,7 +102,7 @@ export function CareersPage() {
               We're always looking for talented people to join our team. Send us your resume and we'll keep you in mind for future opportunities.
             </p>
             <a
-              href="https://cal.com/shubh.r/discuss"
+              href="https://cal.com/shubh.r/nexbit-intro"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center px-8 py-3 border border-primary-400 text-base font-medium rounded-md text-primary-400 hover:bg-dark-800 transition-colors"

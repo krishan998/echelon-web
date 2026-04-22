@@ -102,7 +102,7 @@ const SaaSTemplateNavigation = React.memo(() => {
               Explore
             </a>
             <a
-              href="https://cal.com/shubh.r/discuss"
+              href="https://cal.com/shubh.r/nexbit-intro"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -153,7 +153,7 @@ const SaaSTemplateNavigation = React.memo(() => {
                 Explore
               </a>
               <a
-                href="https://cal.com/shubh.r/discuss"
+                href="https://cal.com/shubh.r/nexbit-intro"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMobileMenuOpen(false)}

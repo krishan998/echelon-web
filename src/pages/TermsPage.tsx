@@ -56,7 +56,7 @@ export function TermsPage() {
                 For any questions about these Terms of Service, please contact us:
               </p>
               <a
-                href="https://cal.com/shubh.r/discuss"
+                href="https://cal.com/shubh.r/nexbit-intro"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block px-6 py-2 border border-transparent text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 transition-colors"

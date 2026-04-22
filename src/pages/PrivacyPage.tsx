@@ -53,7 +53,7 @@ export function PrivacyPage() {
                 If you have any questions about this Privacy Policy, please contact us at:
               </p>
               <a
-                href="https://cal.com/shubh.r/discuss"
+                href="https://cal.com/shubh.r/nexbit-intro"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block mt-4 px-6 py-2 border border-transparent text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 transition-colors"
