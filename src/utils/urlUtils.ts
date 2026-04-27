@@ -149,7 +149,7 @@ export function submitWebsiteLandingPageEmail(email: string): void {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: new URLSearchParams({
-      websitelandingpage: (email || '').toLowerCase()
+      pulpmarketingai: (email || '').toLowerCase()
     })
   })
   .then(response => {

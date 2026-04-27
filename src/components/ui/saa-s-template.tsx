@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowRight, Menu, X } from 'lucide-react';
 import heroDashboard from '@/assets/hero-dashboard.jpg';
-import logoFresh from '@/assets/logo.svg';
+import logoFresh from '@/assets/logo_pulp.png';
 import { ContainerScroll } from '@/components/ui/container-scroll-animation';
 import { isValidEmail, submitWebsiteLandingPageEmail } from '@/utils/urlUtils';
 
@@ -102,7 +102,7 @@ const SaaSTemplateNavigation = React.memo(() => {
               Explore
             </a>
             <a
-              href="https://cal.com/shubh.r/nexbit-intro"
+              href="https://cal.com/shubh.r/pulp-intro"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -153,7 +153,7 @@ const SaaSTemplateNavigation = React.memo(() => {
                 Explore
               </a>
               <a
-                href="https://cal.com/shubh.r/nexbit-intro"
+                href="https://cal.com/shubh.r/pulp-intro"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMobileMenuOpen(false)}
