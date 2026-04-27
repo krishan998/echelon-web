@@ -15,7 +15,7 @@ export function PrivacyPage() {
             <div className="bg-light-50 rounded-lg p-8 border border-light-200 mb-8">
               <h2 className="text-2xl font-bold text-black mb-4">Introduction</h2>
               <p className="text-black">
-                At Nexbit, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our document processing services.
+                At Pulp, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our document processing services.
               </p>
             </div>
 

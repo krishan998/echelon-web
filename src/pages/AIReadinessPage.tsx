@@ -4,7 +4,7 @@ import ArrowRight from 'lucide-react/dist/esm/icons/arrow-right';
 import AlertCircle from 'lucide-react/dist/esm/icons/alert-circle';
 import { normalizeUrl, isValidUrl, isValidEmail, isEmailDomainAuthorized, submitEmailToSheet, getEmailDomain } from '../utils/urlUtils';
 import aiReadinessData from '../data/aiReadinessData.json';
-import logoSrc from '../assets/logo.png';
+import logoSrc from '../assets/logo.svg';
 import manmattersSearch from '../assets/manmattersSearch.png';
 
 interface AssessmentData {
@@ -219,13 +219,12 @@ export function AIReadinessPage() {
         className="relative z-20 flex items-center justify-between px-6 sm:px-12 lg:px-20 py-6"
       >
         <div className="flex items-center gap-3">
-          <img 
-            src={logoSrc} 
-            alt="Nexbit Logo" 
+          <img
+            src={logoSrc}
+            alt="Pulp"
             className="w-8 h-8"
-            style={{ filter: 'brightness(0) saturate(100%) invert(8%) sepia(3%) saturate(0%) hue-rotate(0deg) brightness(95%) contrast(90%)' }}
           />
-          <span className="text-xl font-semibold tracking-tight text-stone-900 font-sf-pro">Nexbit</span>
+          <span className="text-xl font-semibold tracking-tight text-[#2D1F14]" style={{ fontFamily: '\'IBM Plex Serif\', \'Fraunces\', Georgia, serif', letterSpacing: '-0.025em' }}>pulp</span>
         </div>
         <motion.button
           whileHover={{ scale: 1.05 }}
@@ -778,7 +777,7 @@ export function AIReadinessPage() {
                     </div>
                   </motion.div>
 
-                  {/* What Nexbit Can Deliver */}
+                  {/* What Pulp Can Deliver */}
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -787,7 +786,7 @@ export function AIReadinessPage() {
                     style={{ background: '#D5A27F' }}
                   >
                     <h3 className="text-xl font-semibold tracking-tight text-stone-900 mb-2 font-ibm-plex-serif">
-                      What Nexbit Can Deliver
+                      What Pulp Can Deliver
                     </h3>
                     <p className="text-sm text-stone-600 mb-3">Fastest way to get to AI‑native shopping.</p>
                     <ul className="list-disc pl-5 space-y-1.5 text-sm text-stone-800">

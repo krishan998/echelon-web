@@ -25,7 +25,7 @@ export function SecuritySection() {
                 SOC 2 Type 2 compliant
               </p>
               <p className="text-gray-600 text-lg">
-                Nexbit meets the highest industry standards for data security, confidentiality, and integrity, giving you confidence in every audit engagement
+                Pulp meets the highest industry standards for data security, confidentiality, and integrity, giving you confidence in every audit engagement
               </p>
             </motion.div>
 
@@ -45,7 +45,7 @@ export function SecuritySection() {
                     Choose where data is stored
                   </h3>
                   <p className="text-gray-600">
-                    Use Nexbit's cloud or bring your own storage solution for full control over data residency
+                    Use Pulp's cloud or bring your own storage solution for full control over data residency
                   </p>
                 </div>
               </motion.div>
