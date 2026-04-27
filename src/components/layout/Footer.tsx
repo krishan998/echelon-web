@@ -9,7 +9,7 @@ export function Footer() {
           className="text-[28vw] md:text-[26vw] text-[22vw] font-bold text-white/10 whitespace-nowrap"
           style={{ fontFamily: '\'Clash Grotesk\', sans-serif' }}
         >
-          NEXBIT
+          PULP
         </div>
       </div>
 

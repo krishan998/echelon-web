@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logo.svg';
 import { Link, useLocation } from 'react-router-dom';
 import Menu from 'lucide-react/dist/esm/icons/menu';
 import X from 'lucide-react/dist/esm/icons/x';
@@ -35,17 +35,17 @@ export function Navbar() {
           <div className="flex items-center">
             <Link to="/" className="flex items-center group relative">
               <div className="absolute -inset-2 bg-gradient-to-r from-violet-100 to-blue-100 rounded-full blur-xl opacity-0 group-hover:opacity-40 transition-opacity duration-500" />
-              <img 
-                src={logo} 
-                alt="Nexbit Logo" 
-                className="h-8 w-8 md:h-8 md:w-8 h-7 w-7 relative group-hover:scale-105 group-hover:rotate-3 transition-all duration-300" 
+              <img
+                src={logo}
+                alt="Pulp"
+                className="h-8 w-8 md:h-8 md:w-8 h-7 w-7 relative group-hover:scale-105 group-hover:rotate-3 transition-all duration-300"
               />
-              <span className="ml-3 text-2xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-600 relative" 
-                style={{ 
-                  fontFamily: '\'Clash Grotesk\', \'Nohemi\', \'Montserrat\', sans-serif',
-                  letterSpacing: '-0.01em',
+              <span className="ml-3 text-2xl md:text-2xl font-semibold text-[#2D1F14] relative"
+                style={{
+                  fontFamily: '\'IBM Plex Serif\', \'Fraunces\', Georgia, serif',
+                  letterSpacing: '-0.025em',
                 }}>
-                Nexbit
+                pulp
               </span>
             </Link>
           </div>

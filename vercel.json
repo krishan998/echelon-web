@@ -1,9 +1,12 @@
 {
     "rewrites": [
       {
+        "source": "/honasa-pitch-deck",
+        "destination": "/honasa-pitch-deck.html"
+      },
+      {
         "source": "/(.*)",
         "destination": "/index.html"
       }
     ]
   }
-  

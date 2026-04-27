@@ -8,7 +8,7 @@ import { sampleInvoiceResponse } from '../mocks/sampleInvoiceResponse';
 import type { ApiResponse } from '../types';
 import { Link } from 'react-router-dom';
 import { Footer } from '../components/layout/Footer';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo.svg';
 
 export function DemoPage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -55,8 +55,8 @@ export function DemoPage() {
           <div className="flex justify-between h-16">
             <div className="flex items-center">
               <Link to="/" className="flex items-center">
-                <img src={logo} alt="Nexbit Logo" className="h-8 w-8" />
-                <span className="ml-2 text-xl font-bold text-black">Nexbit AI</span>
+                <img src={logo} alt="Pulp" className="h-8 w-8" />
+                <span className="ml-2 text-xl font-semibold text-[#2D1F14]" style={{ fontFamily: '\'IBM Plex Serif\', \'Fraunces\', Georgia, serif', letterSpacing: '-0.025em' }}>pulp AI</span>
               </Link>
             </div>
           </div>

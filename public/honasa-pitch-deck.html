@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Honasa x Pulp Pitch Deck</title>
+<meta name="description" content="An AI-native marketing intelligence platform for D2C brands. A note for Madhav Chawla, Honasa." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --bg: #0A0A0A;
+    --bg-raised: #101010;
+    --ink: #EDE5D3;
+    --ink-dim: #A8A196;
+    --ink-faint: #5B564C;
+    --hairline: rgba(237, 229, 211, 0.10);
+    --hairline-strong: rgba(237, 229, 211, 0.22);
+    --accent: #E8B778;
+
+    --display: "Instrument Serif", "Times New Roman", serif;
+    --body: "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    --section-px: clamp(24px, 6vw, 96px);
+    --section-py: clamp(80px, 12vh, 160px);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-weight: 300;
+    font-size: clamp(16px, 1.1vw, 18px);
+    line-height: 1.55;
+    letter-spacing: -0.005em;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--ink); color: var(--bg); }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* Subtle page grain so the dark surface doesn't feel flat */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    background-image:
+      radial-gradient(rgba(255,255,255,0.9) 1px, transparent 1px),
+      radial-gradient(rgba(255,255,255,0.7) 1px, transparent 1px);
+    background-size: 3px 3px, 7px 7px;
+    background-position: 0 0, 1px 2px;
+  }
+
+  /* ---------- Frame ---------- */
+  .frame {
+    position: fixed;
+    top: 24px; left: 24px; right: 24px; bottom: 24px;
+    pointer-events: none;
+    z-index: 50;
+    border: 1px solid var(--hairline);
+  }
+  .frame-label {
+    position: fixed;
+    top: 40px;
+    left: 40px;
+    z-index: 60;
+    font-family: var(--body);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .frame-label .dot {
+    display: inline-block;
+    width: 5px; height: 5px;
+    background: var(--accent);
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+    transform: translateY(-1px);
+  }
+  .frame-counter {
+    position: fixed;
+    top: 40px;
+    right: 40px;
+    z-index: 60;
+    font-family: var(--body);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+
+  @media (max-width: 720px) {
+    .frame { top: 12px; left: 12px; right: 12px; bottom: 12px; }
+    .frame-label, .frame-counter { top: 24px; font-size: 10px; letter-spacing: 0.18em; }
+    .frame-label { left: 24px; }
+    .frame-counter { right: 24px; }
+  }
+
+  /* ---------- Section shell ---------- */
+  section {
+    position: relative;
+    min-height: 100vh;
+    padding: var(--section-py) var(--section-px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-bottom: 1px solid var(--hairline);
+  }
+  section:last-of-type { border-bottom: none; }
+
+  .eyebrow {
+    font-family: var(--body);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin: 0 0 clamp(32px, 6vh, 64px) 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 40px;
+    height: 1px;
+    background: var(--ink-dim);
+    display: inline-block;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: -0.02em;
+    line-height: 0.98;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  h1 {
+    font-size: clamp(48px, 8.5vw, 128px);
+    letter-spacing: -0.035em;
+  }
+  h2 {
+    font-size: clamp(40px, 6.5vw, 96px);
+    letter-spacing: -0.03em;
+    line-height: 1.0;
+  }
+
+  .lede {
+    font-family: var(--display);
+    font-size: clamp(22px, 2.2vw, 32px);
+    line-height: 1.35;
+    color: var(--ink);
+    font-style: italic;
+    max-width: 22ch;
+  }
+
+  .body-lg {
+    font-size: clamp(17px, 1.3vw, 21px);
+    line-height: 1.55;
+    color: var(--ink);
+    max-width: 52ch;
+  }
+  .body-lg + .body-lg { margin-top: 1.1em; }
+
+  .dim { color: var(--ink-dim); }
+  .em  { font-family: var(--display); font-style: italic; font-weight: 400; }
+
+  /* ---------- Reveal (CSS-only, scroll-driven) ---------- */
+  .reveal > * { /* default state: fully visible (fallback) */ }
+
+  @supports (animation-timeline: view()) {
+    .reveal > .rv {
+      opacity: 0;
+      transform: translateY(28px);
+      animation: rv linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 25%;
+    }
+    .reveal > .rv:nth-child(2) { animation-range: entry 10% cover 30%; }
+    .reveal > .rv:nth-child(3) { animation-range: entry 15% cover 35%; }
+    .reveal > .rv:nth-child(4) { animation-range: entry 20% cover 40%; }
+    .reveal > .rv:nth-child(5) { animation-range: entry 25% cover 45%; }
+
+    @keyframes rv {
+      to { opacity: 1; transform: translateY(0); }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal > .rv {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+    }
+    html { scroll-behavior: auto; }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    min-height: 100vh;
+  }
+  .hero .addressed {
+    font-family: var(--body);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin: 0 0 clamp(40px, 10vh, 96px) 0;
+  }
+  .hero .addressed .pipe {
+    display: inline-block;
+    margin: 0 10px;
+    color: var(--ink-faint);
+  }
+  .hero h1 .slash {
+    color: var(--accent);
+    font-style: italic;
+    font-weight: 400;
+  }
+  .hero .subline {
+    margin-top: clamp(28px, 4vh, 40px);
+    font-family: var(--display);
+    font-style: italic;
+    font-size: clamp(22px, 2.4vw, 34px);
+    color: var(--ink-dim);
+    max-width: 28ch;
+    line-height: 1.3;
+  }
+  .hero .scroll-hint {
+    position: absolute;
+    left: var(--section-px);
+    bottom: clamp(48px, 6vh, 72px);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero .scroll-hint .line {
+    display: inline-block;
+    width: 28px;
+    height: 1px;
+    background: var(--ink-faint);
+    animation: scroll-hint 2.4s ease-in-out infinite;
+    transform-origin: left;
+  }
+  @keyframes scroll-hint {
+    0%, 100% { transform: scaleX(0.6); opacity: 0.5; }
+    50%      { transform: scaleX(1);   opacity: 1;   }
+  }
+
+  /* ---------- Problem ---------- */
+  .problem h2 { max-width: 18ch; }
+  .problem .columns {
+    margin-top: clamp(48px, 8vh, 88px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(32px, 6vw, 88px);
+    align-items: start;
+  }
+  .problem .kicker {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: clamp(20px, 1.8vw, 28px);
+    color: var(--accent);
+    margin: 0 0 24px 0;
+    line-height: 1.3;
+  }
+  @media (max-width: 900px) {
+    .problem .columns { grid-template-columns: 1fr; gap: 32px; }
+  }
+
+  /* ---------- What we do ---------- */
+  .what h2 {
+    max-width: 14ch;
+  }
+  .what h2 .em { color: var(--accent); }
+  .what .below {
+    margin-top: clamp(48px, 8vh, 88px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(32px, 6vw, 88px);
+    align-items: start;
+  }
+  .what .callout {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: clamp(24px, 2.4vw, 36px);
+    color: var(--ink);
+    line-height: 1.3;
+    max-width: 20ch;
+    padding-left: 24px;
+    border-left: 1px solid var(--hairline-strong);
+  }
+  .what .negations {
+    list-style: none;
+    padding: 0;
+    margin: clamp(24px, 5vh, 48px) 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: clamp(20px, 1.8vw, 26px);
+    color: var(--ink-dim);
+  }
+  .what .negations li::before {
+    content: "/  ";
+    color: var(--ink-faint);
+    font-style: normal;
+    margin-right: 2px;
+    letter-spacing: 0.02em;
+  }
+  @media (max-width: 900px) {
+    .what .below { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Why now ---------- */
+  .why { position: relative; }
+  .why h2 { max-width: 14ch; }
+  .why .window {
+    margin-top: clamp(48px, 8vh, 88px);
+    display: flex;
+    align-items: baseline;
+    gap: clamp(16px, 3vw, 40px);
+    flex-wrap: wrap;
+    padding-top: 24px;
+    border-top: 1px solid var(--hairline);
+  }
+  .why .window .big {
+    font-family: var(--display);
+    font-size: clamp(56px, 7vw, 96px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--accent);
+  }
+  .why .window .label {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    max-width: 22ch;
+    line-height: 1.5;
+  }
+
+  /* ---------- Onboarding ---------- */
+  .onboard h2 { max-width: 16ch; }
+  .onboard h2 .em { color: var(--accent); }
+  .onboard .intro {
+    margin-top: clamp(24px, 4vh, 40px);
+    font-family: var(--display);
+    font-style: italic;
+    font-size: clamp(20px, 1.7vw, 26px);
+    color: var(--ink-dim);
+    max-width: 42ch;
+    line-height: 1.4;
+  }
+  .steps {
+    margin-top: clamp(56px, 9vh, 96px);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--hairline-strong);
+    border-bottom: 1px solid var(--hairline-strong);
+  }
+  .step {
+    padding: clamp(28px, 4vh, 44px) clamp(20px, 2.5vw, 36px);
+    border-right: 1px solid var(--hairline);
+    position: relative;
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+  }
+  .step:last-child { border-right: none; }
+  .step .num {
+    font-family: var(--body);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    color: var(--accent);
+    margin-bottom: clamp(24px, 5vh, 48px);
+  }
+  .step h3 {
+    font-size: clamp(26px, 2.2vw, 32px);
+    letter-spacing: -0.02em;
+    margin-bottom: 14px;
+    color: var(--ink);
+  }
+  .step p {
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink-dim);
+    margin: 0;
+  }
+  .engineering-note {
+    margin-top: clamp(36px, 6vh, 56px);
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .engineering-note .tick {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: clamp(22px, 2.2vw, 32px);
+    color: var(--accent);
+    line-height: 1;
+  }
+  .engineering-note .text {
+    font-size: clamp(15px, 1.1vw, 17px);
+    color: var(--ink-dim);
+    max-width: 60ch;
+    line-height: 1.55;
+  }
+  .engineering-note .text strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  @media (max-width: 900px) {
+    .steps { grid-template-columns: 1fr 1fr; }
+    .step:nth-child(2) { border-right: none; }
+    .step:nth-child(1), .step:nth-child(2) { border-bottom: 1px solid var(--hairline); }
+    .step { min-height: auto; }
+  }
+  @media (max-width: 560px) {
+    .steps { grid-template-columns: 1fr; }
+    .step { border-right: none; border-bottom: 1px solid var(--hairline); }
+    .step:last-child { border-bottom: none; }
+  }
+
+  /* ---------- CTA ---------- */
+  .cta {
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .cta h2 {
+    font-size: clamp(80px, 14vw, 220px);
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+  }
+  .cta h2 .em {
+    color: var(--accent);
+  }
+  .cta .book {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: clamp(56px, 8vh, 80px);
+    padding: 22px 40px;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 999px;
+    font-family: var(--body);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+    transition: border-color 280ms ease, background 280ms ease, transform 280ms ease;
+  }
+  .cta .book:hover {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--bg);
+    transform: translateY(-1px);
+  }
+  .cta .book .arrow {
+    width: 14px; height: 14px;
+    transition: transform 280ms ease;
+  }
+  .cta .book:hover .arrow { transform: translateX(4px); }
+
+  .cta .fine {
+    margin-top: 28px;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: var(--ink-faint);
+  }
+
+  .signoff {
+    position: absolute;
+    bottom: clamp(48px, 6vh, 72px);
+    left: var(--section-px);
+    right: var(--section-px);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* ---------- Small helpers ---------- */
+  .rule {
+    display: block;
+    width: 56px;
+    height: 1px;
+    background: var(--accent);
+    margin-bottom: clamp(24px, 4vh, 36px);
+  }
+
+  @media (max-width: 560px) {
+    h1 { font-size: 48px; line-height: 1.02; }
+    h2 { font-size: 40px; line-height: 1.05; }
+    .cta h2 { font-size: 72px; }
+    .hero .subline, .problem .kicker, .what .callout,
+    .what .negations, .onboard .intro, .lede { font-size: 19px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="frame" aria-hidden="true"></div>
+<div class="frame-label"><span class="dot"></span>A note for Madhav</div>
+<div class="frame-counter">2026 / Private</div>
+
+<!-- ═══════════════════════════════════════════════ HERO -->
+<section class="hero reveal" id="hero">
+  <p class="addressed rv">
+    Prepared for Madhav Chawla
+    <span class="pipe">·</span>
+    DGM, D2C Growth, Honasa
+  </p>
+
+  <h1 class="rv">
+    The marketing brain,<br />
+    rebuilt <span class="slash">from scratch.</span>
+  </h1>
+
+  <p class="subline rv">
+    For post AI-era D2C brands.
+  </p>
+
+  <div class="scroll-hint" aria-hidden="true">
+    <span class="line"></span>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ PROBLEM -->
+<section class="problem reveal" id="problem">
+  <p class="eyebrow rv">01 &nbsp;/&nbsp; The problem</p>
+
+  <h2 class="rv">
+    Your stack was built a decade ago.
+  </h2>
+
+  <div class="columns rv">
+    <div>
+      <p class="kicker">Campaign execution tools in a retention era.</p>
+      <p class="body-lg">
+        Every major D2C brand in India runs WebEngage, MoEngage, or CleverTap.
+        These platforms were built as campaign execution tools. They hand you a
+        journey builder and wish you luck.
+      </p>
+    </div>
+    <div>
+      <p class="body-lg dim">
+        The result is predictable. Bloated flows nobody updates. Segmentation
+        that needs a data analyst. Campaigns that go stale in ninety days. A
+        retention team that spends seventy percent of its time maintaining
+        infrastructure, not thinking about strategy.
+      </p>
+      <p class="body-lg">
+        They charge by MAU and event volume. They have no reason to get smarter
+        on your behalf.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ WHAT WE DO -->
+<section class="what reveal" id="what">
+  <p class="eyebrow rv">02 &nbsp;/&nbsp; What we do</p>
+
+  <h2 class="rv">
+    Retention, run as a <span class="em">revenue function.</span>
+  </h2>
+
+  <div class="below rv">
+    <div>
+      <p class="body-lg">
+        We work with your existing data. We identify the highest-value
+        retention opportunities specific to your category, your cohorts, your
+        margin structure. We run them.
+      </p>
+      <p class="body-lg dim">
+        Your team sets the goals and the guardrails. Consider the rest on
+        <span class="em">autopilot.</span>
+      </p>
+    </div>
+    <div>
+      <p class="callout">
+        Not a campaign tool with AI bolted on. A platform built, from first
+        principles, for how retention actually compounds.
+      </p>
+      <ul class="negations">
+        <li>No new dashboards to learn.</li>
+        <li>No new flows to build.</li>
+        <li>No engineering tickets.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ WHY NOW -->
+<section class="why reveal" id="why">
+  <p class="eyebrow rv">03 &nbsp;/&nbsp; Why now</p>
+
+  <h2 class="rv">
+    The CAC playbook is finished.
+  </h2>
+
+  <div class="rv" style="margin-top: clamp(40px, 7vh, 72px);">
+    <p class="body-lg">
+      Paid acquisition costs across Indian D2C have roughly doubled in three
+      years. Meta and Google inventory is saturated. The playbook that built
+      the last decade of Indian D2C has run its course. Retention is the only
+      lever left that compounds.
+    </p>
+    <p class="body-lg dim">
+      But the tools that power retention today were designed for a world where
+      attention was cheap and first-party data was thin. That world is over.
+      The brands that rebuild retention in the next eighteen months will own
+      the next decade.
+    </p>
+  </div>
+
+  <div class="window rv">
+    <span class="big">18 mo.</span>
+    <span class="label">The window in which category leadership gets re-drawn.</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ ONBOARDING -->
+<section class="onboard reveal" id="onboard">
+  <p class="eyebrow rv">04 &nbsp;/&nbsp; Getting started</p>
+
+  <h2 class="rv">
+    Four steps. One week. <span class="em">Zero engineering.</span>
+  </h2>
+
+  <p class="intro rv">
+    From first call to a live retention engine in seven days. Your engineering
+    team is not on this critical path. This is by design, not a feature.
+  </p>
+
+  <div class="steps rv">
+    <div class="step">
+      <div class="num">Step 01</div>
+      <h3>Discovery call</h3>
+      <p>
+        We map your current stack, your retention metrics, and what winning
+        looks like for you this quarter.
+      </p>
+    </div>
+    <div class="step">
+      <div class="num">Step 02</div>
+      <h3>Implementation</h3>
+      <p>
+        One week. End to end. We handle the data pipes, the integrations, the
+        plumbing. Your team stays on their quarterly goals.
+      </p>
+    </div>
+    <div class="step">
+      <div class="num">Step 03</div>
+      <h3>Configuration</h3>
+      <p>
+        We tune the system around your category, your cohorts, your margin
+        structure. Not a generic playbook. A brand-specific one.
+      </p>
+    </div>
+    <div class="step">
+      <div class="num">Step 04</div>
+      <h3>Go live</h3>
+      <p>
+        Day one, a working retention engine. Not a blank canvas. Not a
+        workshop. Revenue moves from week two.
+      </p>
+    </div>
+  </div>
+
+  <div class="engineering-note rv">
+    <span class="tick">※</span>
+    <span class="text">
+      <strong>Zero bandwidth from your engineering team.</strong> No data
+      warehouse migration, no reverse ETL to wire up, no tracking to
+      re-instrument. If this costs your engineers a standup, we have done
+      something wrong.
+    </span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ CTA -->
+<section class="cta reveal" id="cta">
+  <p class="eyebrow rv" style="justify-content: center;">05 &nbsp;/&nbsp; Closing</p>
+
+  <h2 class="rv">
+    Let's <span class="em">talk.</span>
+  </h2>
+
+  <a class="book rv" href="https://cal.com/shubh.r/nexbit-intro" target="_blank" rel="noopener" aria-label="Book a call on Cal.com">
+    <span>Book a call</span>
+    <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M5 12h14" />
+      <path d="M13 6l6 6-6 6" />
+    </svg>
+  </a>
+
+  <p class="fine rv">Thirty minutes. Bring your numbers.</p>
+
+  <div class="signoff" aria-hidden="true">
+    <span>Prepared for Madhav Chawla</span>
+    <span>Private &nbsp;/&nbsp;  Not for circulation</span>
+  </div>
+</section>
+
+</body>
+</html>

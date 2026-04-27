@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowRight, Menu, X } from 'lucide-react';
 import heroDashboard from '@/assets/hero-dashboard.jpg';
-import logoFresh from '@/assets/logo_fresh.jpg';
+import logoFresh from '@/assets/logo.svg';
 import { ContainerScroll } from '@/components/ui/container-scroll-animation';
 import { isValidEmail, submitWebsiteLandingPageEmail } from '@/utils/urlUtils';
 
@@ -45,7 +45,7 @@ Button.displayName = 'Button';
 
 const NAV_ITEMS = [
   { href: '#integrations', label: 'Integrations' },
-  { href: '#why-nexbit', label: 'Why Nexbit' },
+  { href: '#why-pulp', label: 'Why Pulp' },
   { href: '#overview', label: 'Overview' },
 ];
 
@@ -62,20 +62,20 @@ const SaaSTemplateNavigation = React.memo(() => {
       <nav className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <a href="#page-root" className="inline-flex items-center gap-3 text-[#F0EDE8]">
-            <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded border border-[#222222] bg-[#111111]">
+            <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded border border-[#222222] bg-[#F5EBE0]">
               <img
                 src={logoFresh}
-                alt="Nexbit logo"
-                className="h-full w-full object-cover"
+                alt="Pulp"
+                className="h-full w-full object-contain p-0.5"
                 loading="eager"
               />
             </div>
             <div className="leading-none">
               <div
-                className="text-[1.55rem] tracking-tight text-[#8A8580]"
-                style={{ fontFamily: "'Clash Grotesk', sans-serif" }}
+                className="text-[1.55rem] tracking-tight text-[#E8D5B7]"
+                style={{ fontFamily: "'IBM Plex Serif', 'Fraunces', Georgia, serif", letterSpacing: '-0.025em' }}
               >
-                Nexbit
+                pulp
               </div>
             </div>
           </a>
@@ -102,7 +102,7 @@ const SaaSTemplateNavigation = React.memo(() => {
               Explore
             </a>
             <a
-              href="https://cal.com/shubh.r/discuss"
+              href="https://cal.com/shubh.r/nexbit-intro"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -153,7 +153,7 @@ const SaaSTemplateNavigation = React.memo(() => {
                 Explore
               </a>
               <a
-                href="https://cal.com/shubh.r/discuss"
+                href="https://cal.com/shubh.r/nexbit-intro"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMobileMenuOpen(false)}
@@ -277,7 +277,7 @@ const SaaSTemplateHero = React.memo(() => {
               className="mb-4 md:mb-10 max-w-3xl px-4 text-center text-[13px] leading-relaxed md:text-[14px]"
               style={{ color: '#8A8580', fontFamily: "'Inter', sans-serif" }}
             >
-              Growing LTV is the only scalable path to profitability. Nexbit finds and runs the highest-ROI actions for it.
+              Growing LTV is the only scalable path to profitability. Pulp finds and runs the highest-ROI actions for it.
             </p>
 
             <form
@@ -353,7 +353,7 @@ const SaaSTemplateHero = React.memo(() => {
         <div className="relative z-10 overflow-hidden rounded-xl">
           <img
             src={heroDashboard}
-            alt="Nexbit dashboard preview"
+            alt="Pulp dashboard preview"
             className="h-full w-full object-cover"
             loading="eager"
           />

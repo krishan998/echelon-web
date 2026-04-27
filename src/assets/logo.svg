@@ -1,0 +1,22 @@
+<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <title>Pulp</title>
+  <circle cx="50" cy="50" r="44" fill="#8B5A2B"/>
+  <circle cx="50" cy="50" r="36" fill="#F5EBE0"/>
+  <g stroke="#8B5A2B" stroke-width="2.4" stroke-linecap="round">
+    <line x1="50" y1="16" x2="50" y2="84"/>
+    <line x1="16" y1="50" x2="84" y2="50"/>
+    <line x1="26" y1="26" x2="74" y2="74"/>
+    <line x1="74" y1="26" x2="26" y2="74"/>
+  </g>
+  <g fill="#C49B73">
+    <circle cx="50" cy="27" r="2.2"/>
+    <circle cx="73" cy="50" r="2.2"/>
+    <circle cx="50" cy="73" r="2.2"/>
+    <circle cx="27" cy="50" r="2.2"/>
+    <circle cx="66" cy="34" r="2"/>
+    <circle cx="66" cy="66" r="2"/>
+    <circle cx="34" cy="66" r="2"/>
+    <circle cx="34" cy="34" r="2"/>
+  </g>
+  <circle cx="50" cy="50" r="4.5" fill="#8B5A2B"/>
+</svg>

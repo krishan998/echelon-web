@@ -8,8 +8,8 @@ import remarkGfm from 'remark-gfm';
 import { useVoiceAgent } from '../hooks/useVoiceAgent';
 
 type ChatMessage = { id: string; type: 'user' | 'system'; message: string; cta?: ChatCta | null };
-import logoSrc from '../assets/logo_fresh.jpg';
-import chatbotAvatar from '../assets/logo_fresh.jpg';
+import logoSrc from '../assets/logo.svg';
+import chatbotAvatar from '../assets/logo.svg';
 import feature1Image from '../assets/presales-features/First_Funnel.png';
 import feature2Image from '../assets/presales-features/Second-personalization.png';
 import feature3Image from '../assets/presales-features/Third_CRM_enrichment.png';
@@ -232,7 +232,7 @@ export function TeaserPage() {
 
 
 
-  const whyNexbitRows = [
+  const whyPulpRows = [
     {
       label: '3.5x Ad ROI',
       color: '#E9B3FF',
@@ -815,8 +815,8 @@ export function TeaserPage() {
           </div>
         </section>
 
-        {/* Why Nexbit Section - Reliable. Scalable. Secure. */}
-        <section id="why-nexbit" className="relative overflow-visible z-10 mb-0 pb-6 sm:pb-8 lg:pb-10">
+        {/* Why Pulp Section - Reliable. Scalable. Secure. */}
+        <section id="why-pulp" className="relative overflow-visible z-10 mb-0 pb-6 sm:pb-8 lg:pb-10">
           <div
             className="absolute inset-0"
             style={{
@@ -840,7 +840,7 @@ export function TeaserPage() {
                   </h2>
 
                   <div className="space-y-6">
-                    {whyNexbitRows.map((row, idx) => (
+                    {whyPulpRows.map((row, idx) => (
                       <div
                         key={row.label}
                         className={`flex flex-col sm:flex-row items-start gap-4 pt-6 ${idx === 0 ? 'border-t-0' : 'border-t border-[#E3D8C4]'
@@ -1225,7 +1225,7 @@ export function TeaserPage() {
                               animate={{ opacity: 1, y: 0 }}
                               className="max-w-[85%] rounded-2xl px-4 py-3 text-sm text-black"
                             >
-                              Hi there! I'm Nexbit the AI SDR Agent. I'm here to help answer any questions you may have. How can I help you today?
+                              Hi there! I'm Pulp the AI SDR Agent. I'm here to help answer any questions you may have. How can I help you today?
                             </motion.div>
                           </div>
                         )}
@@ -1475,7 +1475,7 @@ export function TeaserPage() {
                                   type="text"
                                   value={searchInput}
                                   onChange={(e) => setSearchInput(e.target.value)}
-                                  placeholder="Ask me anything about Nexbit..."
+                                  placeholder="Ask me anything about Pulp..."
                                   disabled={isLoadingMessage}
                                   className="w-full rounded-lg pl-2.5 pr-12 py-2 text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed bg-transparent border-0"
                                 />
@@ -1513,10 +1513,10 @@ export function TeaserPage() {
                                   layout={false}
                                   whileHover={{ scale: 1.02 }}
                                   whileTap={{ scale: 0.98 }}
-                                  onClick={() => handleSendMessage("Why Nexbit?")}
+                                  onClick={() => handleSendMessage("Why Pulp?")}
                                   className="px-2 py-1 text-[10px] sm:text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
                                 >
-                                  Why Nexbit?
+                                  Why Pulp?
                                 </motion.button>
                                 <motion.button
                                   type="button"
@@ -1764,7 +1764,7 @@ export function TeaserPage() {
                                     handleStartChat();
                                   }
                                 }}
-                                placeholder="Ask me anything about Nexbit..."
+                                placeholder="Ask me anything about Pulp..."
                                 className="w-full rounded-lg pl-2.5 pr-[5%] py-0 text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none bg-transparent border-0"
                               />
                             </div>
@@ -1776,10 +1776,10 @@ export function TeaserPage() {
                               <motion.button
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
-                                onClick={() => handleSendMessage("Why Nexbit?")}
+                                onClick={() => handleSendMessage("Why Pulp?")}
                                 className="px-2 py-1 text-[10px] sm:text-xs rounded-full transition-colors text-gray-800 bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
                               >
-                                Why Nexbit?
+                                Why Pulp?
                               </motion.button>
                               {/* <motion.button
                         whileHover={{ scale: 1.02 }}

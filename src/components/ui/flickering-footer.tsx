@@ -1112,9 +1112,9 @@ export const FlickeringFooter = ({ logoSrc }: { logoSrc?: string }) => {
           {/* Left Column - Brand */}
           <div className="text-center md:text-left flex flex-col items-center md:items-start gap-3">
             {logoSrc && (
-              <img src={logoSrc} alt="Nexbit Logo" className="w-12 h-12 rounded-[2px] object-cover" />
+              <img src={logoSrc} alt="Pulp" className="w-12 h-12 rounded-[2px] object-contain bg-[#F5EBE0] p-1" />
             )}
-            <div className="font-medium text-xl text-white" style={{ fontFamily: "'Clash Grotesk', sans-serif" }}>Nexbit</div>
+            <div className="font-medium text-2xl text-[#F5EBE0]" style={{ fontFamily: "'IBM Plex Serif', 'Fraunces', Georgia, serif", letterSpacing: '-0.025em' }}>pulp</div>
             <p className="text-white/60 text-sm mt-2">&copy; 2026 Logikeon Labs Private Limited. All rights reserved.</p>
           </div>
 
@@ -1133,7 +1133,7 @@ export const FlickeringFooter = ({ logoSrc }: { logoSrc?: string }) => {
         <div className="absolute inset-0 bg-gradient-to-t from-transparent to-[#0e0e12] z-10 from-40%" />
         <div className="absolute inset-0">
           <FlickeringGrid
-            text="NEXBIT"
+            text="PULP"
             fontSize={tablet ? 70 : 140}
             className="h-full w-full"
             squareSize={2}

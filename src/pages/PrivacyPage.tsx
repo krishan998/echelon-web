@@ -15,7 +15,7 @@ export function PrivacyPage() {
             <div className="bg-light-50 rounded-lg p-8 border border-light-200 mb-8">
               <h2 className="text-2xl font-bold text-black mb-4">Introduction</h2>
               <p className="text-black">
-                At Nexbit, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our document processing services.
+                At Pulp, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our document processing services.
               </p>
             </div>
 
@@ -53,7 +53,7 @@ export function PrivacyPage() {
                 If you have any questions about this Privacy Policy, please contact us at:
               </p>
               <a
-                href="https://cal.com/shubh.r/discuss"
+                href="https://cal.com/shubh.r/nexbit-intro"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block mt-4 px-6 py-2 border border-transparent text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 transition-colors"

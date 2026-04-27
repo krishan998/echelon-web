@@ -30,7 +30,7 @@ export function CallToAction() {
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             <a
-              href="https://cal.com/shubh.r/discuss"
+              href="https://cal.com/shubh.r/nexbit-intro"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center px-6 py-3 text-base font-medium rounded-full text-white bg-black hover:bg-gray-800 transition-all duration-300 hover:scale-105"

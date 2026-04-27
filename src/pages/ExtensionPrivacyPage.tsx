@@ -8,7 +8,7 @@ export function ExtensionPrivacyPage() {
 
             <main className="py-20">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <h1 className="text-4xl font-bold text-black mb-4">Privacy Policy for Nexbit Demo Builder</h1>
+                    <h1 className="text-4xl font-bold text-black mb-4">Privacy Policy for Pulp Demo Builder</h1>
                     <p className="text-gray-600 mb-8">Last Updated: January 24, 2026</p>
 
                     <div className="prose prose-lg max-w-none">
@@ -16,7 +16,7 @@ export function ExtensionPrivacyPage() {
                         <div className="bg-light-50 rounded-lg p-8 border border-light-200 mb-8">
                             <h2 className="text-2xl font-bold text-black mb-4">Introduction</h2>
                             <p className="text-black">
-                                Nexbit Demo Builder ("we," "our," or "the extension"), developed by Logikeon Labs Private Limited, is a Chrome extension that allows users to record and capture DOM interactions on web pages to create interactive product demonstrations. We are committed to protecting your privacy and being transparent about how we collect, use, and protect your data.
+                                Pulp Demo Builder ("we," "our," or "the extension"), developed by Logikeon Labs Private Limited, is a Chrome extension that allows users to record and capture DOM interactions on web pages to create interactive product demonstrations. We are committed to protecting your privacy and being transparent about how we collect, use, and protect your data.
                             </p>
                             <p className="text-black mt-4">
                                 This privacy policy explains what data we collect, how we use it, and your rights regarding your information.
@@ -59,7 +59,7 @@ export function ExtensionPrivacyPage() {
                             <ul className="space-y-2 text-black">
                                 <li>• Creating Demo Recordings: Processing and storing your recorded sessions to create playable demonstrations</li>
                                 <li>• User Authentication: Verifying your identity and maintaining your login session</li>
-                                <li>• Service Delivery: Saving recordings to your Nexbit account and enabling playback in the editor</li>
+                                <li>• Service Delivery: Saving recordings to your Pulp account and enabling playback in the editor</li>
                                 <li>• Service Improvement: Analyzing usage patterns to improve extension functionality (aggregated and anonymized data only)</li>
                                 <li>• Technical Support: Diagnosing and resolving technical issues when you contact support</li>
                             </ul>
@@ -80,7 +80,7 @@ export function ExtensionPrivacyPage() {
 
                             <h3 className="text-xl font-semibold text-black mb-3">Where Your Data is Stored</h3>
                             <ul className="space-y-2 text-black">
-                                <li>• Recording Data: Stored on Nexbit backend servers at api-studio.nexbit.ai</li>
+                                <li>• Recording Data: Stored on Pulp backend servers at api-studio.nexbit.ai</li>
                                 <li>• Authentication Tokens: Stored locally in your browser using Chrome's storage API</li>
                                 <li>• Location: Data is processed and stored on secure cloud servers</li>
                             </ul>
@@ -127,19 +127,19 @@ export function ExtensionPrivacyPage() {
 
                             <h3 className="text-xl font-semibold text-black mb-3 mt-6">Access and Portability</h3>
                             <ul className="space-y-2 text-black">
-                                <li>• View all your recordings through the Nexbit dashboard</li>
+                                <li>• View all your recordings through the Pulp dashboard</li>
                                 <li>• Export your recordings in standard formats</li>
                             </ul>
 
                             <h3 className="text-xl font-semibold text-black mb-3 mt-6">Deletion</h3>
                             <ul className="space-y-2 text-black">
-                                <li>• Delete individual recordings at any time through the Nexbit interface</li>
+                                <li>• Delete individual recordings at any time through the Pulp interface</li>
                                 <li>• Request complete account deletion by contacting us</li>
                             </ul>
 
                             <h3 className="text-xl font-semibold text-black mb-3 mt-6">Correction</h3>
                             <ul className="space-y-2 text-black">
-                                <li>• Update your account information through your Nexbit account settings</li>
+                                <li>• Update your account information through your Pulp account settings</li>
                             </ul>
 
                             <h3 className="text-xl font-semibold text-black mb-3 mt-6">Withdrawal of Consent</h3>
@@ -177,7 +177,7 @@ export function ExtensionPrivacyPage() {
                                 </div>
 
                                 <div>
-                                    <h3 className="text-xl font-semibold text-black mb-2">Content Scripts on Nexbit Domains</h3>
+                                    <h3 className="text-xl font-semibold text-black mb-2">Content Scripts on Pulp Domains</h3>
                                     <p className="text-black"><strong>Why we need it:</strong> To sync your login session between the web app and extension.</p>
                                     <p className="text-black mt-2"><strong>What we do:</strong> Read authentication cookies from studio.nexbit.ai to keep you logged in.</p>
                                     <p className="text-black mt-2"><strong>What we don't do:</strong> Access cookies from other websites or share your credentials.</p>
@@ -264,8 +264,8 @@ export function ExtensionPrivacyPage() {
                         {/* Footer Info */}
                         <div className="mt-8 pt-8 border-t border-light-200">
                             <p className="text-gray-600 text-sm">
-                                <strong>Developer:</strong> Nexbit Team<br />
-                                <strong>Extension Name:</strong> Nexbit Demo Builder<br />
+                                <strong>Developer:</strong> Pulp Team<br />
+                                <strong>Extension Name:</strong> Pulp Demo Builder<br />
                                 <strong>Version:</strong> 0.0.1<br />
                                 <strong>Privacy Policy Version:</strong> 1.0
                             </p>

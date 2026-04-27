@@ -15,14 +15,14 @@ export function TermsPage() {
             <div className="bg-light-50 rounded-lg p-8 border border-light-200">
               <h2 className="text-2xl font-bold text-black mb-4">1. Agreement to Terms</h2>
               <p className="text-black">
-                By accessing or using Nexbit's services, you agree to be bound by these Terms of Service and all applicable laws and regulations.
+                By accessing or using Pulp's services, you agree to be bound by these Terms of Service and all applicable laws and regulations.
               </p>
             </div>
 
             <div className="bg-light-50 rounded-lg p-8 border border-light-200">
               <h2 className="text-2xl font-bold text-black mb-4">2. Description of Service</h2>
               <p className="text-black mb-4">
-                Nexbit provides an AI-powered document processing platform that includes:
+                Pulp provides an AI-powered document processing platform that includes:
               </p>
               <ul className="list-disc pl-6 space-y-2 text-black">
                 <li>Document data extraction</li>
@@ -46,7 +46,7 @@ export function TermsPage() {
             <div className="bg-light-50 rounded-lg p-8 border border-light-200">
               <h2 className="text-2xl font-bold text-black mb-4">4. Intellectual Property</h2>
               <p className="text-black">
-                All content and technology provided by Nexbit is protected by intellectual property laws. Users retain ownership of their data and documents.
+                All content and technology provided by Pulp is protected by intellectual property laws. Users retain ownership of their data and documents.
               </p>
             </div>
 
@@ -56,7 +56,7 @@ export function TermsPage() {
                 For any questions about these Terms of Service, please contact us:
               </p>
               <a
-                href="https://cal.com/shubh.r/discuss"
+                href="https://cal.com/shubh.r/nexbit-intro"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block px-6 py-2 border border-transparent text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 transition-colors"
