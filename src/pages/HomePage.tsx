@@ -8,8 +8,8 @@ import remarkGfm from 'remark-gfm';
 import { useVoiceAgent } from '../hooks/useVoiceAgent';
 
 type ChatMessage = { id: string; type: 'user' | 'system'; message: string; cta?: ChatCta | null };
-import logoSrc from '../assets/logo.svg';
-import chatbotAvatar from '../assets/logo.svg';
+import logoSrc from '../assets/logo_pulp.png';
+import chatbotAvatar from '../assets/logo_pulp.png';
 import feature1Image from '../assets/presales-features/First_Funnel.png';
 import feature2Image from '../assets/presales-features/Second-personalization.png';
 import feature3Image from '../assets/presales-features/Third_CRM_enrichment.png';
